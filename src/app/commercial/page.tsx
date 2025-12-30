@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 function Card({ title, desc }: { title: string; desc: string }) {
   return (
     <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+      {/* brand accent */}
+      <div className="mb-4 h-1 w-10 rounded-full bg-brand/80" />
       <h3 className="text-sm font-semibold tracking-tight text-stone-900">
         {title}
       </h3>
@@ -45,8 +47,6 @@ export default function CommercialPage() {
                 className="block"
               />
             </div>
-
-
           </div>
 
           {/* Right: nav + CTA */}
@@ -59,7 +59,7 @@ export default function CommercialPage() {
             </Link>
             <a
               href="#request-quote"
-              className="rounded-2xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+              className="rounded-2xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70"
             >
               Request a quote
             </a>
@@ -69,7 +69,11 @@ export default function CommercialPage() {
         {/* Hero */}
         <header className="mt-5 max-w-3xl">
           <h1 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
-            Commercial cleaning for calm, well-run spaces
+            Commercial cleaning for{" "}
+            <span className="relative inline-block">
+              calm, well-run spaces
+              <span className="pointer-events-none absolute -bottom-1 left-0 h-[7px] w-full rounded-full bg-brand/60" />
+            </span>
           </h1>
 
           <p className="mt-4 text-base leading-relaxed text-stone-600">
@@ -81,7 +85,7 @@ export default function CommercialPage() {
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <a
               href="#request-quote"
-              className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+              className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70"
             >
               Request a commercial quote
             </a>
@@ -94,8 +98,32 @@ export default function CommercialPage() {
           </div>
         </header>
 
+        {/* Brand background section (subtle, premium) */}
+        <section className="mt-12 rounded-[32px] border border-brand/30 bg-brand/20 p-6 sm:p-8">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-2xl">
+              <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-brand" />
+                A premium, consistency-first approach
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-stone-700">
+                We’re built for long-term partnerships. Clear checklists, reliable
+                cadence, and steady results—so your team walks into a space that
+                feels calm and cared for.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 lg:w-[420px]">
+              <MiniPill>Recurring schedules</MiniPill>
+              <MiniPill>Clear scope & checklists</MiniPill>
+              <MiniPill>Eco-minded products</MiniPill>
+              <MiniPill>Pro communication</MiniPill>
+            </div>
+          </div>
+        </section>
+
         {/* Trust / clarity cards */}
-        <section className="mt-12 grid gap-4 sm:grid-cols-3">
+        <section className="mt-10 grid gap-4 sm:grid-cols-3">
           <Card
             title="Consistency-first"
             desc="A reliable team, clear expectations, and repeatable results—so your space stays steady week after week."
@@ -113,7 +141,8 @@ export default function CommercialPage() {
         {/* Fit section */}
         <section className="mt-12 grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-stone-200 bg-white p-7 shadow-sm">
-            <h2 className="text-lg font-semibold tracking-tight text-stone-900">
+            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-brand" />
               We’re a great fit for
             </h2>
             <ul className="mt-4 space-y-3 text-sm leading-relaxed text-stone-600">
@@ -125,7 +154,8 @@ export default function CommercialPage() {
           </div>
 
           <div className="rounded-3xl border border-stone-200 bg-white p-7 shadow-sm">
-            <h2 className="text-lg font-semibold tracking-tight text-stone-900">
+            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-brand" />
               We may not be the best fit if
             </h2>
             <ul className="mt-4 space-y-3 text-sm leading-relaxed text-stone-600">
@@ -139,7 +169,8 @@ export default function CommercialPage() {
 
         {/* What we clean */}
         <section className="mt-12">
-          <h2 className="text-lg font-semibold tracking-tight text-stone-900">
+          <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-brand" />
             What we typically handle
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-stone-600">
@@ -168,31 +199,16 @@ export default function CommercialPage() {
           id="how-it-works"
           className="mt-12 rounded-3xl border border-stone-200 bg-white p-7 shadow-sm"
         >
-          <h2 className="text-lg font-semibold tracking-tight text-stone-900">
+          <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-brand" />
             How it works
           </h2>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Step
-              n="1"
-              title="Submit details"
-              desc="Tell us about your space and what you need."
-            />
-            <Step
-              n="2"
-              title="Confirm fit"
-              desc="We review scope, access, and cadence."
-            />
-            <Step
-              n="3"
-              title="Walkthrough (if needed)"
-              desc="Quick onsite to finalize scope and pricing."
-            />
-            <Step
-              n="4"
-              title="Start with consistency"
-              desc="A reliable team + clear checklist."
-            />
+            <Step n="1" title="Submit details" desc="Tell us about your space and what you need." />
+            <Step n="2" title="Confirm fit" desc="We review scope, access, and cadence." />
+            <Step n="3" title="Walkthrough (if needed)" desc="Quick onsite to finalize scope and pricing." />
+            <Step n="4" title="Start with consistency" desc="A reliable team + clear checklist." />
           </div>
         </section>
 
@@ -201,8 +217,9 @@ export default function CommercialPage() {
           <CommercialLeadForm />
         </section>
 
-        <div className="mt-12 h-4 w-full bg-brand" />
-        <footer className="mt-12 text-xs text-stone-500">
+        {/* Subtle footer divider using brand */}
+        <div className="mt-12 h-px w-full bg-brand opacity-40" />
+        <footer className="mt-6 text-xs text-stone-500">
           Serving the Portland metro area • Commercial service availability varies
           by location and schedule
         </footer>
@@ -223,12 +240,20 @@ function Step({
   return (
     <div className="rounded-3xl border border-stone-200 bg-stone-50 p-5">
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-sm font-semibold text-stone-900 shadow-sm">
+        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-sm font-semibold text-stone-900 shadow-sm ring-1 ring-brand/30">
           {n}
         </div>
         <div className="text-sm font-semibold text-stone-900">{title}</div>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-stone-600">{desc}</p>
+    </div>
+  );
+}
+
+function MiniPill({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-brand/30 bg-white/70 px-4 py-3 text-sm font-semibold text-stone-800 shadow-sm">
+      {children}
     </div>
   );
 }
