@@ -100,27 +100,50 @@ export default function CommercialPage() {
 
         {/* Brand background section (subtle, premium) */}
         <section className="mt-12 rounded-[32px] border border-brand/30 bg-brand/20 p-6 sm:p-8">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-            <div className="max-w-2xl">
-              <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-brand" />
-                A premium, consistency-first approach
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-stone-700">
-                We’re built for long-term partnerships. Clear checklists, reliable
-                cadence, and steady results—so your team walks into a space that
-                feels calm and cared for.
-              </p>
-            </div>
+          <div className="max-w-3xl">
+            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-brand" />
+              Premium, consistency-first commercial cleaning
+            </h2>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:w-[420px]">
-              <MiniPill>Recurring schedules</MiniPill>
-              <MiniPill>Clear scope & checklists</MiniPill>
-              <MiniPill>Eco-minded products</MiniPill>
-              <MiniPill>Pro communication</MiniPill>
+            <p className="mt-3 text-sm leading-relaxed text-stone-700">
+              We’re built for long-term partnerships—clear scope, repeatable checklists,
+              and a reliable cadence. Your team walks into a space that feels calm,
+              professional, and cared for.
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-stone-700">
+              Best for teams that value{" "}
+              <span className="font-semibold text-stone-900">quality, communication,</span>{" "}
+              and{" "}
+              <span className="font-semibold text-stone-900">steady standards</span>
+            </p>
+
+            {/* Divider */}
+            <div className="mt-6 h-px w-full bg-brand/30" />
+
+            {/* Ideal spaces */}
+            <div className="mt-6">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-stone-600">
+                Ideal for spaces like
+              </p>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <MiniPill>Professional offices</MiniPill>
+                <MiniPill>Wellness studios</MiniPill>
+                <MiniPill>Therapy & counseling offices</MiniPill>
+                <MiniPill>Medical-adjacent clinics</MiniPill>
+                <MiniPill>Boutique coworking spaces</MiniPill>
+                <MiniPill>Creative studios</MiniPill>
+                <MiniPill>Retail boutiques</MiniPill>
+                <MiniPill>Showrooms & galleries</MiniPill>
+                <MiniPill>Property-managed common areas</MiniPill>
+                <MiniPill>Boutique fitness studios</MiniPill>
+              </div>
             </div>
           </div>
         </section>
+
 
         {/* Trust / clarity cards */}
         <section className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -136,62 +159,6 @@ export default function CommercialPage() {
             title="Professional communication"
             desc="Simple scheduling, fast response times, and proactive updates when anything needs attention."
           />
-        </section>
-
-        {/* Fit section */}
-        <section className="mt-12 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-3xl border border-stone-200 bg-white p-7 shadow-sm">
-            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-brand" />
-              We’re a great fit for
-            </h2>
-            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-stone-600">
-              <li>• Small to mid-size offices (5–50 people)</li>
-              <li>• Wellness studios & creative spaces that value presentation</li>
-              <li>• Retail spaces that need front-of-house polish</li>
-              <li>• Property managers seeking consistent common-area cleaning</li>
-            </ul>
-          </div>
-
-          <div className="rounded-3xl border border-stone-200 bg-white p-7 shadow-sm">
-            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-brand" />
-              We may not be the best fit if
-            </h2>
-            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-stone-600">
-              <li>• You’re shopping purely on lowest price</li>
-              <li>• You need same-day emergency cleaning as the norm</li>
-              <li>• You want a rotating cast of cleaners every visit</li>
-              <li>• Your space requires specialized industrial remediation</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* What we clean */}
-        <section className="mt-12">
-          <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-brand" />
-            What we typically handle
-          </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-stone-600">
-            Scope varies by space. Common priorities include restrooms, kitchens,
-            floors, touchpoints, trash, and overall reset so your team can focus.
-          </p>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Card
-              title="Offices & coworking"
-              desc="Restrooms, kitchens, desks (clear surfaces), floors, trash, conference rooms."
-            />
-            <Card
-              title="Wellness studios"
-              desc="Studios, treatment rooms, reception, restrooms, break areas, mirrors, floors."
-            />
-            <Card
-              title="Retail"
-              desc="Front-of-house presentation, high-touch points, fitting rooms, back-of-house support."
-            />
-          </div>
         </section>
 
         {/* How it works */}

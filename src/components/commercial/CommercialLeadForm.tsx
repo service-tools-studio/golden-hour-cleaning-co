@@ -219,8 +219,7 @@ export default function CommercialLeadForm() {
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-relaxed text-stone-500">
-          We’re a premium, consistency-first service. If you’re mainly shopping on
-          price, we may not be the best fit.
+          We’ll get back to you within hours, not days.
         </p>
 
         <button
