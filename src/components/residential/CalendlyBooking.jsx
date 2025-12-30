@@ -1,3 +1,4 @@
+"use client";
 import { PopupModal } from "react-calendly";
 
 export default function CalendlyBooking({ url, isOpen, setOpen }) {

@@ -1,3 +1,5 @@
+"use client";
+
 export function scrollToId(id, extraOffset = 0) {
   const target = document.querySelector(id);
   const header = document.querySelector('header');

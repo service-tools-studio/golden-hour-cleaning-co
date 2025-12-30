@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
 import CalendlyBooking from "./CalendlyBooking";

@@ -1,3 +1,5 @@
+"use client";
+
 export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-4 pt-14 pb-20">

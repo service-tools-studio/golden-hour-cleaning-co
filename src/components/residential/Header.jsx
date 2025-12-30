@@ -1,6 +1,6 @@
+"use client";
+
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-// import Image from 'next/image'
-// import logo from '@/assets/Golden Hour - rectangle.svg'
 
 export default function Header() {
   const [compact, setCompact] = useState(false)
