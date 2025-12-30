@@ -17,16 +17,32 @@ export default function SegmentButton({ href, title, description }: Props) {
           <h2 className="text-2xl font-semibold tracking-tight text-stone-900">
             {title}
           </h2>
+
           <p className="mt-2 text-sm leading-relaxed text-stone-600">
             {description}
           </p>
+
           <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-stone-900">
             Enter {title}
             <span className="transition group-hover:translate-x-0.5">→</span>
           </div>
         </div>
 
-        <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-stone-200 bg-stone-50 text-stone-700 sm:flex">
+        {/* Arrow accent */}
+        <div
+          className="
+            hidden sm:flex
+            h-12 w-12 shrink-0 items-center justify-center
+            rounded-2xl border
+            border-brand/40
+            bg-brand/15
+            text-stone-900
+            transition
+            group-hover:bg-brand/30
+            group-hover:border-brand
+            group-hover:scale-105
+          "
+        >
           ↗
         </div>
       </div>
