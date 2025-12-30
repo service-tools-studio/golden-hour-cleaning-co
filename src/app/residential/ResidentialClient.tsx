@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Header from '../../components/shared/Header.jsx'
+import Header from '../../components/residential/Header.jsx'
 import Hero from '../../components/residential/Hero.jsx'
 import Services from '../../components/residential/Services.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'

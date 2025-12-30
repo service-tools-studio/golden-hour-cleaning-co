@@ -1,10 +1,10 @@
+import HomeHeader from '@/components/HomeHeader';
 import SegmentButton from "@/components/SegmentButton";
-import Header from "../components/shared/Header";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-stone-50">
-      <Header />
+      <HomeHeader />
       <div className="mx-auto max-w-5xl px-6 py-14 sm:py-20">
         <div className="max-w-2xl">
 
