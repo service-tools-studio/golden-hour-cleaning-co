@@ -35,7 +35,7 @@ export default function ResidentialClient() {
 
         <Trust />
 
-        <div className="pt-10">
+        <div className="pt-10" id="quote">
           <QuoteCalculator
             showCalendly={showCalendly}
             setShowCalendly={setShowCalendly}

@@ -51,6 +51,7 @@ export default function Trust() {
             </div>
             <p className="mt-3 text-xs text-stone-600">Benchmarking based on public websites of local competitors.</p>
           </div>
+          <div id="quote"></div>
         </div>
       </div>
     </section>
