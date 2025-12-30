@@ -37,14 +37,15 @@ export default function CommercialPage() {
               ← Back
             </Link>
 
-            <div className="hidden sm:flex items-center h-[100px]">
+            <div className="flex items-center">
               <Image
                 src="/assets/Golden Hour - commercial.png"
                 alt="Golden Hour Cleaning Co."
-                width={200}
-                height={100}
+                width={400}
+                height={200}
                 priority
-                className="block"
+                className="h-[180px] sm:h-[200px] w-auto"
+                sizes="(max-width: 640px) 260px, 360px"
               />
             </div>
           </div>
@@ -69,7 +70,7 @@ export default function CommercialPage() {
         {/* Hero */}
         <header className="mt-5 max-w-3xl">
           <h1 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
-            Commercial cleaning for{" "}
+            Commercial cleaning for&nbsp;
             <span className="relative inline-block">
               calm, well-run spaces
               <span className="pointer-events-none absolute -bottom-1 left-0 h-[7px] w-full rounded-full bg-brand/60" />
