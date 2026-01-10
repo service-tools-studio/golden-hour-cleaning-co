@@ -1,12 +1,15 @@
 import { scrollToId } from '../../helpers/scrollToId';
 import ContactButton from './ContactButton';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
     <section id="hero" className="relative overflow-hidden pt-14">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-100 via-amber-50 to-transparent" />
+
       <div className="relative mx-auto max-w-6xl px-4 pt-4 md:pt-6 pb-16 md:pb-24">
         <div className="grid md:grid-cols-2 gap-10 items-center">
+          {/* LEFT: COPY + CTA */}
           <div>
             <h1 className="font-lora text-3xl md:text-4xl leading-snug">
               Professional cleaning for busy, discerning homes.
@@ -18,8 +21,10 @@ export default function Hero() {
               instant online booking, and a team that treats your space like a sanctuary.
             </p>
 
+            {/* Primary CTAs */}
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <ContactButton />
+
               <button
                 type="button"
                 onClick={(e) => {
@@ -30,10 +35,20 @@ export default function Hero() {
               >
                 See Services &amp; Get Quote
               </button>
+            </div>
 
+            {/* Secondary cross-link */}
+            <div className="mt-3">
+              <Link
+                href="/commercial"
+                className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-4"
+              >
+                Looking for office or studio cleaning? → Commercial cleaning
+              </Link>
             </div>
           </div>
 
+          {/* RIGHT: IMAGE */}
           <div className="relative">
             <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-amber-200">
               <img
@@ -42,6 +57,7 @@ export default function Hero() {
                 className="h-full w-full object-cover"
               />
             </div>
+
             <div
               aria-hidden
               className="absolute -bottom-6 -left-6 hidden md:block h-28 w-28 rounded-3xl bg-amber-200/50 blur-2xl"
