@@ -1,9 +1,15 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+
 export default function SimpleHeader() {
   const HEADER_H = 180;
   const BANNER_H = 36;
   const innerHeight = HEADER_H - BANNER_H;
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const bannerItems = [
     "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin",
@@ -14,6 +20,15 @@ export default function SimpleHeader() {
     "Locally owned & operated",
     "Call or text: (503) 893-4795",
   ];
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <header
@@ -80,11 +95,18 @@ export default function SimpleHeader() {
         className="flex w-full items-center justify-center"
         style={{ height: innerHeight }}
       >
-        <img
-          src="/assets/Golden%20Hour%20-%20rectangle.svg"
-          alt="Golden Hour Cleaning Co."
-          className="h-[120px] w-auto object-contain"
-        />
+        <Link
+          href="/"
+          onClick={handleLogoClick}
+          aria-label="Go to homepage"
+          className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-lg"
+        >
+          <img
+            src="/assets/Golden%20Hour%20-%20rectangle.svg"
+            alt="Golden Hour Cleaning Co."
+            className="h-[120px] w-auto object-contain"
+          />
+        </Link>
       </div>
     </header>
   );
