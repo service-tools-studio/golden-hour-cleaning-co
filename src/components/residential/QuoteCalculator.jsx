@@ -8,6 +8,7 @@ import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT } from "../../constants.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
+import { useRouter } from "next/navigation";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator (Hybrid Sq Ft + Time)
@@ -108,6 +109,7 @@ export default function QuoteCalculator({
   subtitle = '',
   initialLevel = "deep",
 }) {
+  const router = useRouter();
   const [bedrooms, setBedrooms] = useState(3);
   const [bathrooms, setBathrooms] = useState(2);
   const [sqft, setSqft] = useState(1800);
@@ -376,17 +378,18 @@ export default function QuoteCalculator({
   const hasSqftRange = result.sqftLow !== result.sqftHigh;
   const hasHourRange = result.billableHoursLow !== result.billableHours;
 
-  async function onScheduleClick(e) {
+  function onScheduleClick(e) {
     e.preventDefault();
+
     const base = result.calendlyUrl || CONTACT.bookingUrl;
-    const url = buildCalendlyUrlWithUtm(base, result, {
+    const calendlyUrl = buildCalendlyUrlWithUtm(base, result, {
       applied: promoValid,
       code: promoCode.trim().toUpperCase(),
       amount: promoValid ? 50 : 0,
     });
-    setCalendlyUrl(url);
-    // open on next tick so url is definitely in state
-    requestAnimationFrame(() => setShowCalendly(true));
+
+    sessionStorage.setItem("calendlyUrl", calendlyUrl);
+    router.push("/book");
   }
 
   return (
