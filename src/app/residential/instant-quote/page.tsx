@@ -92,7 +92,7 @@ export default function InstantBookLanding() {
       {/* HOW IT WORKS */}
       <section id="how-it-works" className="mx-auto max-w-7xl px-6 pt-4 pb-14">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">From Estimate to Booking in 60 Seconds</h2>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Quote and Book in One Flow</h2>
           <p className="mt-3 text-stone-700">A calm, seamless flow designed for busy, discerning homeowners.</p>
         </div>
 
