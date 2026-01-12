@@ -1,13 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-4 pt-14 pb-20">
       <h2 className="font-serif text-3xl mt-0">Services</h2>
       <p className="mt-1 text-stone-700">
-        We bill by the square foot, using your home’s size
-        and service type to estimate a time range. Eco-friendly products are our default—
-        conventional options are available on request.
+        We bill by the square foot, using your home’s size and service type to
+        estimate a time range. Eco-friendly products are our default—conventional
+        options are available on request.
       </p>
 
       <div className="mt-6 md:mt-8 grid md:grid-cols-3 gap-6">
@@ -19,7 +21,7 @@ export default function Services() {
             "Kitchen & bath surfaces",
             "Dusting & high-touch areas",
             "Floors vacuum & mop",
-            "Light general tidy"
+            "Light general tidy",
           ]}
           price="~$0.26/sq ft • lighter upkeep"
           cta="Calculate My Quote"
@@ -37,7 +39,7 @@ export default function Services() {
             "Doors & door frames",
             "Light switches & outlets",
             "Fan dusting",
-            "Spot wall wipe"
+            "Spot wall wipe",
           ]}
           price="~$0.35/sq ft • full-home reset"
           cta="Calculate My Quote"
@@ -59,14 +61,13 @@ export default function Services() {
             "Fan dusting",
             "Full bathroom sanitation",
             "Floor detail",
-            "Light fixture dusting"
+            "Light fixture dusting",
           ]}
           price="~$0.46/sq ft • most intensive"
           cta="Calculate My Quote"
           levelKey="move_out"
         />
       </div>
-
     </section>
   );
 }
@@ -80,23 +81,14 @@ function ServiceCard({
   featured = false,
   levelKey,
 }) {
+  const router = useRouter();
+
   function handleSelectLevel(e) {
     e.preventDefault();
 
-    // Update URL (keeps the selection shareable & refresh-safe)
-    try {
-      const url = new URL(window.location.href);
-      url.hash = "quote";
-      url.searchParams.set("level", levelKey);
-      window.history.replaceState({}, "", url);
-    } catch { }
-
-    // Notify the calculator
-    window.dispatchEvent(new CustomEvent("setQuoteLevel", { detail: levelKey }));
-
-    // Smooth scroll to the calculator
-    const el = document.getElementById("quote-calculator");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Route to the services page with a shareable, refresh-safe query param
+    // Optionally add #quote if your services page has a quote section.
+    router.push(`/residential/services?level=${encodeURIComponent(levelKey)}#quote`);
   }
 
   return (
@@ -117,9 +109,8 @@ function ServiceCard({
         ))}
       </ul>
 
-      {/* Button that selects the level in the calculator */}
       <a
-        href="#quote"
+        href={`/residential/services?level=${encodeURIComponent(levelKey)}#quote`}
         onClick={handleSelectLevel}
         aria-label={`Calculate my quote for ${title}`}
         className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800"
@@ -128,7 +119,8 @@ function ServiceCard({
       </a>
 
       <p className="mt-2 text-xs text-stone-500">
-        Quotes are based on estimated square footage, service level, and add-ons. Final price is confirmed after a quick walkthrough.
+        Quotes are based on estimated square footage, service level, and add-ons.
+        Final price is confirmed after a quick walkthrough.
       </p>
     </div>
   );

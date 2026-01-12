@@ -105,13 +105,20 @@ export default function QuoteCalculator({
   showCalendly,
   setShowCalendly,
   title,
-  subtitle,
+  subtitle = '',
+  initialLevel = "deep",
 }) {
   const [bedrooms, setBedrooms] = useState(3);
   const [bathrooms, setBathrooms] = useState(2);
   const [sqft, setSqft] = useState(1800);
-  const [cleanType, setCleanType] = useState("deep");
   const [frequency, setFrequency] = useState("one_time");
+
+  const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
+
+  const [cleanType, setCleanType] = useState(() =>
+    VALID_LEVELS.has(initialLevel) ? initialLevel : "deep"
+  );
+
   const [ecoProducts, setEcoProducts] = useState(true);
   const [isLevelTipOpen, setIsLevelTipOpen] = useState(false);
   const [calendlyUrl, setCalendlyUrl] = useState(null);
@@ -126,35 +133,12 @@ export default function QuoteCalculator({
   const [promoValid, setPromoValid] = useState(false);
   const [promoError, setPromoError] = useState(null);
 
-  // Read ?level= from URL and listen for external "setQuoteLevel"
   useEffect(() => {
-    try {
-      const url = new URL(window.location.href);
-      const lv = url.searchParams.get("level");
-      if (lv && ["standard", "deep", "move_out"].includes(lv)) {
-        setCleanType(lv);
-      }
-    } catch {
-      // ignore
+    if (VALID_LEVELS.has(initialLevel) && initialLevel !== cleanType) {
+      setCleanType(initialLevel);
     }
-
-    function onSetQuoteLevel(e) {
-      const next = e?.detail;
-      if (
-        typeof next === "string" &&
-        ["standard", "deep", "move_out"].includes(next)
-      ) {
-        setCleanType(next);
-        setIsLevelTipOpen(false);
-        const el = document.getElementById("quote");
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-
-    window.addEventListener("setQuoteLevel", onSetQuoteLevel);
-    return () =>
-      window.removeEventListener("setQuoteLevel", onSetQuoteLevel);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialLevel]);
 
   // Promo validation (client-side UX)
   useEffect(() => {
@@ -401,7 +385,8 @@ export default function QuoteCalculator({
       amount: promoValid ? 50 : 0,
     });
     setCalendlyUrl(url);
-    setShowCalendly(true);
+    // open on next tick so url is definitely in state
+    requestAnimationFrame(() => setShowCalendly(true));
   }
 
   return (
