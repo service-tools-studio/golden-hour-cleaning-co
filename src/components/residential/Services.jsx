@@ -86,10 +86,31 @@ function ServiceCard({
   function handleSelectLevel(e) {
     e.preventDefault();
 
-    // Route to the services page with a shareable, refresh-safe query param
-    // Optionally add #quote if your services page has a quote section.
-    router.push(`/residential/services?level=${encodeURIComponent(levelKey)}#quote`);
+    const targetUrl = `/residential/services?level=${encodeURIComponent(levelKey)}#quote`;
+
+    const currentPath = window.location.pathname;
+    const currentLevel = new URLSearchParams(window.location.search).get("level");
+
+    // If already on the page, update URL and scroll
+    if (currentPath === "/residential/services") {
+      if (currentLevel !== levelKey) {
+        // Update the query param without a full reload
+        const url = new URL(window.location.href);
+        url.searchParams.set("level", levelKey);
+        window.history.replaceState({}, "", url.toString());
+      }
+
+      // Scroll to the quote section
+      const quoteSection = document.querySelector("#quote");
+      if (quoteSection) {
+        quoteSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate normally
+      router.push(targetUrl);
+    }
   }
+
 
   return (
     <div
