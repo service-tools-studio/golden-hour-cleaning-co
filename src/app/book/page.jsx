@@ -10,9 +10,10 @@ export default function BookPage() {
     if (storedUrl) {
       setCalendlyUrl(storedUrl);
 
-      // Redirect after a short delay so user can see the message
+      // Open in new tab after a short delay so user can see the message
       const timer = setTimeout(() => {
-        window.location.href = storedUrl;
+        window.open(storedUrl, '_blank', 'noopener,noreferrer');
+        window.location.href = '/residential';
       }, 1500); // 1.5 seconds delay
 
       return () => clearTimeout(timer);
