@@ -10,11 +10,10 @@ export default function BookPage() {
     if (storedUrl) {
       setCalendlyUrl(storedUrl);
 
-      // Open in new tab after a short delay so user can see the message
+      // Tab already opened from button click; redirect back after brief message
       const timer = setTimeout(() => {
-        window.open(storedUrl, '_blank', 'noopener,noreferrer');
-        window.location.href = '/residential';
-      }, 1500); // 1.5 seconds delay
+        window.location.href = "/residential";
+      }, 1500);
 
       return () => clearTimeout(timer);
     }
@@ -30,9 +29,9 @@ export default function BookPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[100vh] bg-white p-6 text-center">
-      <h1 className="text-xl font-semibold mb-4">Opening Calendly...</h1>
+      <h1 className="text-xl font-semibold mb-4">Calendly opened in a new tab</h1>
       <p className="mb-4 text-gray-700">
-        You will be redirected to Calendly in a new tab shortly.
+        Taking you back to residential in a moment.
       </p>
       <p className="text-gray-500 text-sm">
         If it doesn't open automatically, <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">click here</a>.

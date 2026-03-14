@@ -389,6 +389,8 @@ export default function QuoteCalculator({
     });
 
     sessionStorage.setItem("calendlyUrl", calendlyUrl);
+    // Open in same click so mobile popup blockers allow it
+    window.open(calendlyUrl, "_blank", "noopener,noreferrer");
     router.push("/book");
   }
 
