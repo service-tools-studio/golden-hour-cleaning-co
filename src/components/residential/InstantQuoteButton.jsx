@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { scrollToId } from '../../helpers/scrollToId';
+import ContactButton from './ContactButton';
 
 export default function InstantQuoteButton() {
   const [hidden, setHidden] = useState(false);
@@ -35,7 +36,7 @@ export default function InstantQuoteButton() {
     <div
       ref={wrapperRef}
       className={`
-        fixed right-4 md:right-8
+        fixed right-4 md:right-8 flex flex-row flex-wrap items-center gap-2
         transition-opacity duration-300
         ${hidden ? 'opacity-0 pointer-events-none' : 'opacity-100'}
       `}
@@ -46,6 +47,9 @@ export default function InstantQuoteButton() {
       }}
       onClick={(e) => e.stopPropagation()}
     >
+      <div className="min-w-0 shrink">
+        <ContactButton />
+      </div>
       <button
         type="button"
         aria-label="Get an instant quote and see real-time availability"
@@ -53,7 +57,7 @@ export default function InstantQuoteButton() {
           e.preventDefault();
           scrollToId('#quote-calculator', 8);
         }}
-        className="px-5 md:px-6 h-11 md:h-12 rounded-full bg-amber-400 text-slate-900 font-semibold shadow-lg border border-amber-300 hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="shrink-0 px-5 md:px-6 h-11 md:h-12 rounded-full bg-amber-400 text-slate-900 font-semibold shadow-lg border border-amber-300 hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300"
       >
         Get Instant Quote + Booking
       </button>

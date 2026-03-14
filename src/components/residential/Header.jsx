@@ -12,8 +12,8 @@ export default function Header() {
   compactRef.current = compact;
 
   // --- Size & timing ---
-  const EXPANDED_H = 222;
-  const COMPACT_H = 120;
+  const EXPANDED_H = 140;
+  const COMPACT_H = 96;
   const BANNER_H = 36;
   const TRANS_MS = 420;
   const HYSTERESIS = 40;
