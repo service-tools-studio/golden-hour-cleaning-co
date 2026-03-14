@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import HeaderCTAButtons from "./HeaderCTAButtons.jsx";
 
 export default function Header() {
   const router = useRouter();
@@ -10,11 +11,13 @@ export default function Header() {
   const [compact, setCompact] = useState(false);
   const compactRef = useRef(compact);
   compactRef.current = compact;
+  const [isMobile, setIsMobile] = useState(false);
 
   // --- Size & timing ---
   const EXPANDED_H = 140;
   const COMPACT_H = 96;
   const BANNER_H = 36;
+  const CTA_ROW_H = 64; // mobile: sticky row below logo when hero text not overlaid
   const TRANS_MS = 420;
   const HYSTERESIS = 40;
   const TOP_EXPAND_Y = 2;
@@ -48,6 +51,14 @@ export default function Header() {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${COMPACT_H}px`);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsMobile(!mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
   useEffect(() => {
@@ -123,8 +134,9 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const height = compact ? COMPACT_H : EXPANDED_H;
-  const innerHeight = Math.max(0, height - BANNER_H);
+  const baseHeight = compact ? COMPACT_H : EXPANDED_H;
+  const height = baseHeight + (isMobile ? CTA_ROW_H : 0);
+  const innerHeight = Math.max(0, baseHeight - BANNER_H);
   const logoHeight = Math.min(innerHeight * 0.97, 260);
   const logoScale = compact ? 0.98 : 1;
 
@@ -236,13 +248,13 @@ export default function Header() {
         `}</style>
       </div>
 
-      {/* --- Logo area --- */}
-      <div className="relative w-full flex items-center justify-center" style={{ height: innerHeight }}>
+      {/* --- Logo: centered on mobile, left + CTAs right on desktop --- */}
+      <div className="relative w-full flex items-center justify-center md:justify-between gap-3 px-4" style={{ height: innerHeight }}>
         <button
           type="button"
           onClick={handleLogoClick}
           aria-label="Go to top (or home)"
-          className="cursor-pointer"
+          className="cursor-pointer shrink-0"
           style={{ background: "transparent", border: "none", padding: 0, lineHeight: 0 }}
         >
           <img
@@ -260,6 +272,14 @@ export default function Header() {
             }}
           />
         </button>
+        {/* Buttons in header on desktop (overlay state) */}
+        <div className="hidden md:flex flex-row flex-wrap items-center justify-end gap-2 min-w-0">
+          <HeaderCTAButtons />
+        </div>
+      </div>
+      {/* Mobile (hero text not overlaid): sticky CTA row below header; compact so both buttons stay side by side */}
+      <div className="flex md:hidden flex-nowrap items-center justify-center gap-2 border-t border-amber-200/60 bg-amber-50/95 px-3 py-3">
+        <HeaderCTAButtons compact />
       </div>
     </header>
   );

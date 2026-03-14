@@ -1,8 +1,8 @@
 export function Badge({ icon, label }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2">
-      <span className="grid h-5 w-5 place-items-center rounded-md bg-amber-100/80">{icon}</span>
-      <span className="text-[13px] font-medium text-stone-800">{label}</span>
+    <div className="flex h-16 w-full min-w-0 items-center gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2">
+      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-amber-100/80">{icon}</span>
+      <span className="min-w-0 break-words text-[13px] font-medium leading-snug text-stone-800">{label}</span>
     </div>
   );
 }
