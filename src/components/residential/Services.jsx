@@ -91,22 +91,16 @@ function ServiceCard({
     const currentPath = window.location.pathname;
     const currentLevel = new URLSearchParams(window.location.search).get("level");
 
-    // If already on the page, update URL and scroll
+    // If already on the page, update URL (so calculator prefills) and scroll
     if (currentPath === "/residential/services") {
       if (currentLevel !== levelKey) {
-        // Update the query param without a full reload
-        const url = new URL(window.location.href);
-        url.searchParams.set("level", levelKey);
-        window.history.replaceState({}, "", url.toString());
+        router.replace(targetUrl);
       }
-
-      // Scroll to the quote section
       const quoteSection = document.querySelector("#quote");
       if (quoteSection) {
         quoteSection.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // Navigate normally
       router.push(targetUrl);
     }
   }

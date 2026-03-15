@@ -186,14 +186,12 @@ export default function GoogleReviews() {
   return (
     <section className="bg-amber-50/50" aria-label="Google reviews">
       <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:items-end">
+        <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
           <div>
             <h2 className="font-lora text-2xl font-semibold text-stone-800">
               What our clients say
             </h2>
-            {placeName && (
-              <p className="mt-1 text-sm text-stone-600">{placeName}</p>
-            )}
+            <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
           </div>
           <div className="mt-4 flex items-center gap-2 sm:mt-0">
             {rating != null && (
@@ -251,11 +249,10 @@ export default function GoogleReviews() {
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
                           key={star}
-                          className={`h-4 w-4 shrink-0 ${
-                            star <= (review.rating ?? 0)
-                              ? 'fill-amber-400 text-amber-400'
-                              : 'text-stone-200'
-                          }`}
+                          className={`h-4 w-4 shrink-0 ${star <= (review.rating ?? 0)
+                            ? 'fill-amber-400 text-amber-400'
+                            : 'text-stone-200'
+                            }`}
                         />
                       ))}
                       {review.relative_time_description && (
