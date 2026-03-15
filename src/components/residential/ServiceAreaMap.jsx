@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap } from '@react-google-maps/api';
+import { useGoogleMaps } from './GoogleMapsProvider.jsx';
 
 // Exact CITYNAME values from Portland Metro City Boundaries (PDX::city-boundaries).
 // Bethany and Garden Home are unincorporated and not in this dataset.
@@ -39,10 +40,7 @@ const FALLBACK_SERVICE_AREA = [
 export default function ServiceAreaMap() {
   const [map, setMap] = useState(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
-
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: apiKey,
-  });
+  const { isLoaded, loadError } = useGoogleMaps();
 
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);
@@ -136,7 +134,7 @@ export default function ServiceAreaMap() {
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
           Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
         </p>
-        <div className="overflow-hidden rounded-2xl border border-amber-200 shadow-md">
+        <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
           <GoogleMap
             mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
             center={DEFAULT_CENTER}

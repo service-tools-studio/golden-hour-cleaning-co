@@ -6,7 +6,9 @@ import Services from '../../components/residential/Services.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'
 import Footer from '../../components/residential/Footer.jsx'
 import Trust from '../../components/residential/Trust.jsx'
+import GoogleMapsProvider from '../../components/residential/GoogleMapsProvider.jsx'
 import ServiceAreaMap from '../../components/residential/ServiceAreaMap.jsx'
+import GoogleReviews from '../../components/residential/GoogleReviews.jsx'
 import { BadgeCheck, CalendarCheck2, Leaf, ShieldCheck, Stars } from 'lucide-react'
 import { Badge } from '../../helpers/ui-elements.jsx'
 export default function ResidentialClient() {
@@ -31,7 +33,10 @@ export default function ResidentialClient() {
           </div>
         </div>
 
-        <ServiceAreaMap />
+        <GoogleMapsProvider>
+          <ServiceAreaMap />
+          <GoogleReviews />
+        </GoogleMapsProvider>
 
         <Trust />
 
