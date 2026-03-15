@@ -34,11 +34,11 @@ export default function ResidentialClient() {
         </div>
 
         <GoogleMapsProvider>
-          <ServiceAreaMap />
           <GoogleReviews />
+          <Trust />
+          <ServiceAreaMap />
         </GoogleMapsProvider>
 
-        <Trust />
 
         <div className="pt-10" id="quote">
           <QuoteCalculator
