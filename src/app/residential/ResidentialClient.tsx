@@ -6,6 +6,7 @@ import Services from '../../components/residential/Services.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'
 import Footer from '../../components/residential/Footer.jsx'
 import Trust from '../../components/residential/Trust.jsx'
+import ServiceAreaMap from '../../components/residential/ServiceAreaMap.jsx'
 import { BadgeCheck, CalendarCheck2, Leaf, ShieldCheck, Stars } from 'lucide-react'
 import { Badge } from '../../helpers/ui-elements.jsx'
 export default function ResidentialClient() {
@@ -29,6 +30,8 @@ export default function ResidentialClient() {
             <Badge icon={<Stars />} label="5-Star Experience" />
           </div>
         </div>
+
+        <ServiceAreaMap />
 
         <Trust />
 
