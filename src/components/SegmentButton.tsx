@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 type Props = {
@@ -7,9 +9,20 @@ type Props = {
 };
 
 export default function SegmentButton({ href, title, description }: Props) {
+  const handleClick = () => {
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", "segment_click", {
+        event_category: "homepage",
+        event_label: title,
+        destination_path: href,
+      });
+    }
+  };
+
   return (
     <Link
       href={href}
+      onClick={handleClick}
       className="group w-full rounded-3xl border border-stone-200 bg-white p-8 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-stone-400"
     >
       <div className="flex items-start justify-between gap-6">
