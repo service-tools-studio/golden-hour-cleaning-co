@@ -419,12 +419,15 @@ export default function QuoteCalculator({
               value={bedrooms}
               setValue={setBedrooms}
               min={0}
+              showStepper
             />
             <NumberField
               label="Bathrooms"
               value={bathrooms}
               setValue={setBathrooms}
               min={0}
+              step={0.5}
+              showStepper
             />
           </div>
           <p className="mt-2 text-xs text-stone-500">
