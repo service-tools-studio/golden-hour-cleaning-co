@@ -1,4 +1,5 @@
 import { scrollToId } from '../../helpers/scrollToId';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -7,11 +8,14 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-100 via-amber-50 to-transparent pointer-events-none" />
 
       {/* Full viewport width image on all screen sizes */}
-      <div className="w-screen relative left-1/2 -translate-x-1/2 aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-        <img
+      <div className="relative w-screen left-1/2 -translate-x-1/2 aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+        <Image
           src="/assets/gh-cleaning-hero.PNG"
           alt="Sunlit, tidy living room with natural textures"
-          className="h-full w-full object-cover"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
         />
         {/* Dark overlay on desktop so overlaid text pops */}
         <div className="absolute inset-0 bg-black/40 pointer-events-none hidden md:block" aria-hidden />
