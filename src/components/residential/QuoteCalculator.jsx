@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
  *
  * Hybrid model:
  * - We estimate TWO square footages:
- *    1) Heuristic from bedrooms + bathrooms
+ *    1) Heuristic from bedrooms (bath count uses 0.5 steps; half = 50% of full time/price)
  *    2) The value you enter in the "Total Sq Ft" field
  * - We use these to create a LOW–HIGH range:
  *    sqftLow  = smaller of (heuristic, entered)
@@ -66,6 +66,19 @@ const ADDON_OVEN_HOURS_HIGH = 1.25; // 75 min
 const ADDON_SECOND_KITCHEN_SQFT = 300;
 const ADDON_SECOND_KITCHEN_HOURS_LOW = 1.0;  // 60 min
 const ADDON_SECOND_KITCHEN_HOURS_HIGH = 1.5; // 90 min
+
+const FULL_BATH_SQFT = CFG.roomsToSqft.perBathroom;
+
+/** Snap to 0.5 increments (e.g. 2.5 = two full + one half). */
+function snapBathroomUnits(bathrooms) {
+  const n = Number.isFinite(Number(bathrooms)) ? Number(bathrooms) : 0;
+  return Math.max(0, Math.round(n * 2) / 2);
+}
+
+/** Person-hours one full bath adds at the given clean type (half = 50% of this). */
+function fullBathPersonHours(cleanMult) {
+  return (FULL_BATH_SQFT * cleanMult) / SQFT_PER_HOUR_BASE;
+}
 
 function clampCurrency(n) {
   return Math.max(0, Math.round(n));
@@ -177,11 +190,14 @@ export default function QuoteCalculator({
       Number.isFinite(Number(sqft)) ? Number(sqft) : 0
     );
 
-    // Heuristic sqft from rooms
+    const bathroomUnits = snapBathroomUnits(bathrooms);
+
+    // Heuristic sqft from beds only; bath time/price applied explicitly below
     const estSqft =
-      CFG.roomsToSqft.base +
-      bedrooms * CFG.roomsToSqft.perBedroom +
-      bathrooms * CFG.roomsToSqft.perBathroom;
+      CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom;
+
+    const cleanMult = CLEAN_TYPE_MULTIPLIER[cleanType] ?? 1.0;
+    const bathPersonHours = bathroomUnits * fullBathPersonHours(cleanMult);
 
     // Hybrid range from heuristic + entered
     let sqftLow;
@@ -202,12 +218,9 @@ export default function QuoteCalculator({
       sqftHigh += ADDON_SECOND_KITCHEN_SQFT;
     }
 
-    // Clean type multiplier (deep/move-out take more time)
-    const cleanMult = CLEAN_TYPE_MULTIPLIER[cleanType] ?? 1.0;
-
     // Add-ons: extra time + flat prices
-    let addonHoursLow = 0;
-    let addonHoursHigh = 0;
+    let addonHoursLow = bathPersonHours;
+    let addonHoursHigh = bathPersonHours;
     let addonFlat = 0;
 
     if (includeFridge) {
@@ -307,7 +320,7 @@ export default function QuoteCalculator({
 
     return {
       bedrooms,
-      bathrooms,
+      bathrooms: bathroomUnits,
       sqftInput: Math.round(safeSqftInput),
       estSqft: Math.round(estSqft),
       sqftLow: Math.round(sqftLow),
