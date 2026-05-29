@@ -15,7 +15,7 @@ export default function Services() {
       <div className="mt-6 md:mt-8 grid md:grid-cols-3 gap-6">
         {/* Standard */}
         <ServiceCard
-          title="Standard Refresh"
+          title="Standard Clean"
           desc="Weekly or bi-weekly upkeep for homes that already feel pretty tidy."
           items={[
             "Kitchen & bath surfaces",
@@ -30,7 +30,7 @@ export default function Services() {
 
         {/* Deep */}
         <ServiceCard
-          title="Deep Glow"
+          title="Deep Clean"
           desc="A full-home reset — perfect if it’s been 2+ months since last clean or things feel built up."
           items={[
             "Baseboards & edges",
@@ -47,12 +47,12 @@ export default function Services() {
           levelKey="deep"
         />
 
-        {/* Move-In / Move-Out */}
+        {/* Move-Out */}
         <ServiceCard
-          title="Move-In Serenity"
+          title="Move-Out"
           desc="Empty-home detail clean so you can move in (or hand over keys) feeling completely clear."
           items={[
-            "Everything in Deep Glow, plus:",
+            "Everything in Deep Clean, plus:",
             "Inside cabinets & drawers",
             "Closet shelves",
             "Baseboards (full detail)",

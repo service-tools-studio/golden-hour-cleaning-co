@@ -7,18 +7,14 @@ import {
   buildSmsLink,
   formatPhone,
 } from "../../helpers/contactHelpers";
+import { LEVEL_COPY } from "../../constants.js";
 
 export default function ContactSheet({ phone, sms, email, context }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const firstActionRef = useRef(null);
 
-  const levelLabel =
-    context.level === "standard"
-      ? "Standard Refresh"
-      : context.level === "move_out"
-        ? "Move-In / Move-Out"
-        : "Deep Glow";
+  const levelLabel = LEVEL_COPY[context.level]?.name ?? String(context.level);
 
   const humanFreq =
     context.frequency === "weekly"
