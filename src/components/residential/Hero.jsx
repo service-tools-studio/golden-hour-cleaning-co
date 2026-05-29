@@ -24,7 +24,7 @@ export default function Hero() {
       {/* Copy: block below image on mobile, overlayed on image on desktop */}
       <div className="relative px-4 pt-4 pb-16 md:absolute md:inset-0 md:flex md:items-center md:px-8 md:pt-0 md:pb-0 lg:px-12">
         <div className="mx-auto max-w-6xl w-full md:max-w-xl">
-          <h1 className="font-lora text-3xl md:text-4xl md:text-white md:drop-shadow-md leading-snug">
+          <h1 className="text-3xl md:text-4xl md:text-white md:drop-shadow-md leading-snug">
             Professional cleaning for busy, discerning homes.
           </h1>
 

@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid md:grid-cols-3 gap-8">
         {/* Left — Branding */}
         <div>
-          <h3 className="font-lora text-xl font-semibold">Golden Hour Cleaning Co.</h3>
+          <h3 className="text-xl font-semibold">Golden Hour Cleaning Co.</h3>
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
             Meticulous care, mindful presence, and eco-friendly products —
             restoring harmony in your home, one clean at a time.

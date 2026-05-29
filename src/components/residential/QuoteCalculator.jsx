@@ -399,7 +399,7 @@ export default function QuoteCalculator({
       id="quote-calculator"
       className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8 pt-14"
     >
-      <h2 className="font-serif text-2xl md:text-3xl">{title}</h2>
+      <h2 className="text-2xl md:text-3xl">{title}</h2>
 
       {/* Updated copy under header */}
       <p className="mt-1 text-stone-600">

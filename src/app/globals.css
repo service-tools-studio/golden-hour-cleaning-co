@@ -2,4 +2,21 @@
 
 @theme {
   --color-brand: #a7eff1;
+  --font-sans: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-lora), ui-serif, Georgia, serif;
+  }
 }

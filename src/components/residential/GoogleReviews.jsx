@@ -120,7 +120,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className="text-center text-2xl font-semibold text-stone-800">
             What our clients say
           </h2>
           <p className="mt-2 text-center text-sm text-stone-600">
@@ -146,7 +146,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className="text-center text-2xl font-semibold text-stone-800">
             What our clients say
           </h2>
           <div className="mt-8 flex justify-center py-12">
@@ -161,7 +161,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className="text-center text-2xl font-semibold text-stone-800">
             What our clients say
           </h2>
           <p className="mt-2 text-center text-sm text-stone-600">
@@ -188,7 +188,7 @@ export default function GoogleReviews() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
           <div>
-            <h2 className="font-lora text-2xl font-semibold text-stone-800">
+            <h2 className="text-2xl font-semibold text-stone-800">
               What our clients say
             </h2>
             <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
