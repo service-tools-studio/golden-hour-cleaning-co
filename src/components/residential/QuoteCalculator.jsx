@@ -59,9 +59,9 @@ const ADDON_FRIDGE_PRICE = 55;
 const ADDON_FRIDGE_HOURS_LOW = 0.5;   // 30 min
 const ADDON_FRIDGE_HOURS_HIGH = 1.25; // 75 min
 
-const ADDON_OVEN_PRICE = 35;
-const ADDON_OVEN_HOURS_LOW = 20 / 60;  // ~0.33 hours (20 min)
-const ADDON_OVEN_HOURS_HIGH = 45 / 60; // 0.75 hours (45 min)
+const ADDON_OVEN_PRICE = 55;
+const ADDON_OVEN_HOURS_LOW = 0.5;   // 30 min
+const ADDON_OVEN_HOURS_HIGH = 1.25; // 75 min
 
 const ADDON_SECOND_KITCHEN_SQFT = 300;
 const ADDON_SECOND_KITCHEN_HOURS_LOW = 1.0;  // 60 min
@@ -622,7 +622,7 @@ export default function QuoteCalculator({
               <span>
                 <span className="font-medium">Inside oven</span>{" "}
                 <span className="text-stone-500">
-                  (+$35, adds ~20–45 min)
+                  (+$55, adds ~30–75 min)
                 </span>
               </span>
             </label>
