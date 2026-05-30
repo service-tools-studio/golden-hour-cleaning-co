@@ -1,4 +1,7 @@
-import { HEADING_UPPER } from "../../helpers/typography.js";
+import { BTN_UPPER, HEADING_UPPER } from "../../helpers/typography.js";
+
+const COI_URL =
+  "https://portal.nextinsurance.com/public/certificates/live-certificate/4689e08f2c04efe155c98e6d5588048d";
 
 export default function Footer() {
   return (
@@ -14,8 +17,15 @@ export default function Footer() {
             restoring harmony in your home, one clean at a time.
             Golden Hour Cleaning Co is licensed in the State of Oregon and carries
             general liability coverage up to $1 million.
-            Certificates of insurance available upon request.
           </p>
+          <a
+            href={COI_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`mt-4 inline-flex rounded-full border border-amber-300 bg-white px-4 py-2 text-xs font-semibold text-amber-900 shadow-sm transition hover:bg-amber-100 ${BTN_UPPER}`}
+          >
+            View Certificate of Insurance
+          </a>
         </div>
 
         {/* Center — Contact Info */}
