@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import {
+  checkRateLimit,
+  getClientIp,
+  isSubmitTimingValid,
+} from "@/lib/commercial-quote-guard";
+import {
   createGmailTransporter,
   formatSmtpError,
   getGmailCredentials,
@@ -20,7 +25,7 @@ type CommercialQuotePayload = {
   startTiming: string;
   notes?: string;
   referral?: string;
-  _hp?: string;
+  formLoadedAt?: number;
 };
 
 function buildEmailBody(data: CommercialQuotePayload) {
@@ -63,8 +68,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  if (data._hp?.trim()) {
+  if (!isSubmitTimingValid(data.formLoadedAt)) {
     return NextResponse.json({ ok: true });
+  }
+
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(clientIp).allowed) {
+    return NextResponse.json(
+      {
+        error:
+          "Too many requests. Please wait a while and try again, or call us at (503) 893-4795.",
+      },
+      { status: 429 }
+    );
   }
 
   const businessName = data.businessName?.trim();

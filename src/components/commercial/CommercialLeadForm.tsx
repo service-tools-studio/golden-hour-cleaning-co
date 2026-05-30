@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { BTN_UPPER } from "@/helpers/typography.js";
 
 type FormState = {
@@ -33,7 +33,7 @@ const initialState: FormState = {
 
 export default function CommercialLeadForm() {
   const [form, setForm] = useState<FormState>(initialState);
-  const [honeypot, setHoneypot] = useState("");
+  const formLoadedAtRef = useRef(Date.now());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -61,19 +61,14 @@ export default function CommercialLeadForm() {
     setSubmitError(null);
     setSubmitSuccess(false);
 
-    if (honeypot.trim()) {
-      setSubmitSuccess(true);
-      setForm(initialState);
-      setHoneypot("");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
       const response = await fetch("/api/commercial-quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, _hp: honeypot }),
+        body: JSON.stringify({
+          ...form,
+          formLoadedAt: formLoadedAtRef.current,
+        }),
       });
 
       const data = (await response.json()) as { error?: string };
@@ -84,7 +79,6 @@ export default function CommercialLeadForm() {
 
       setSubmitSuccess(true);
       setForm(initialState);
-      setHoneypot("");
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -99,24 +93,8 @@ export default function CommercialLeadForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
+      className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[-9999px] h-0 w-0 overflow-hidden opacity-0"
-      >
-        <label htmlFor="company-website">Company website</label>
-        <input
-          id="company-website"
-          type="text"
-          name="website"
-          value={honeypot}
-          onChange={(e) => setHoneypot(e.target.value)}
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
-
       <div className="flex items-start justify-between gap-6">
         <div>
           <h3 className="text-base font-semibold tracking-tight text-stone-900">
