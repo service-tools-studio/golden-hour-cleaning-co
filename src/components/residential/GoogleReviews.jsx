@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { HEADING_UPPER } from '../../helpers/typography.js';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
@@ -120,7 +121,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
           </h2>
           <p className="mt-2 text-center text-sm text-stone-600">
@@ -131,7 +132,7 @@ export default function GoogleReviews() {
               href={GOOGLE_MAPS_REVIEWS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
+              className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
             >
               <Star className="h-5 w-5 fill-current" />
               See reviews on Google
@@ -146,7 +147,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
           </h2>
           <div className="mt-8 flex justify-center py-12">
@@ -161,7 +162,7 @@ export default function GoogleReviews() {
     return (
       <section className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className="text-center font-lora text-2xl font-semibold text-stone-800">
+          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
           </h2>
           <p className="mt-2 text-center text-sm text-stone-600">
@@ -172,7 +173,7 @@ export default function GoogleReviews() {
               href={GOOGLE_MAPS_REVIEWS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
+              className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
             >
               <Star className="h-5 w-5 fill-current" />
               See reviews on Google
@@ -188,7 +189,7 @@ export default function GoogleReviews() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
           <div>
-            <h2 className="font-lora text-2xl font-semibold text-stone-800">
+            <h2 className={`text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
               What our clients say
             </h2>
             <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
@@ -296,7 +297,7 @@ export default function GoogleReviews() {
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 shadow-sm hover:bg-amber-50"
+            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 shadow-sm hover:bg-amber-50"
           >
             View all reviews on Google
           </a>

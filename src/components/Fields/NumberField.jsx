@@ -1,3 +1,5 @@
+import { QUOTE_FIELD_LABEL } from "../../helpers/typography.js";
+
 export default function NumberField({
   label,
   value,
@@ -113,7 +115,7 @@ export default function NumberField({
 
   return (
     <label className="block text-sm">
-      <span className="text-stone-700">{label}</span>
+      <span className={QUOTE_FIELD_LABEL}>{label}</span>
       {inner}
     </label>
   );

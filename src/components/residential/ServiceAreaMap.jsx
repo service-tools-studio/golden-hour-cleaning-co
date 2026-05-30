@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import { useGoogleMaps } from './GoogleMapsProvider.jsx';
+import { HEADING_UPPER } from '../../helpers/typography.js';
 
 // Exact CITYNAME values from Portland Metro City Boundaries (PDX::city-boundaries).
 // Bethany and Garden Home are unincorporated and not in this dataset.
@@ -93,7 +94,7 @@ export default function ServiceAreaMap() {
     return (
       <section className="w-full bg-amber-50/50" aria-label="Service area map">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className="mb-4 text-center font-lora text-xl font-semibold text-stone-800 sm:text-2xl">
+          <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
             Our service area
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
@@ -111,7 +112,7 @@ export default function ServiceAreaMap() {
     return (
       <section className="w-full bg-amber-50/50" aria-label="Service area map">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className="mb-4 text-center font-lora text-xl font-semibold text-stone-800 sm:text-2xl">
+          <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
             Our service area
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
@@ -128,7 +129,7 @@ export default function ServiceAreaMap() {
   return (
     <section className="w-full bg-amber-50/50" aria-label="Service area map">
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <h2 className="mb-4 text-center font-lora text-xl font-semibold text-stone-800 sm:text-2xl">
+        <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
           Our service area
         </h2>
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">

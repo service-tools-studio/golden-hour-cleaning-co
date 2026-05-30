@@ -7,18 +7,14 @@ import {
   buildSmsLink,
   formatPhone,
 } from "../../helpers/contactHelpers";
+import { LEVEL_COPY } from "../../constants.js";
 
 export default function ContactSheet({ phone, sms, email, context }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const firstActionRef = useRef(null);
 
-  const levelLabel =
-    context.level === "standard"
-      ? "Standard Refresh"
-      : context.level === "move_out"
-        ? "Move-In / Move-Out"
-        : "Deep Glow";
+  const levelLabel = LEVEL_COPY[context.level]?.name ?? String(context.level);
 
   const humanFreq =
     context.frequency === "weekly"
@@ -127,7 +123,7 @@ export default function ContactSheet({ phone, sms, email, context }) {
         onClick={() => setOpen((s) => !s)}
         aria-expanded={open}
         aria-controls="contact-sheet"
-        className="inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50"
+        className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50"
       >
         Questions? Call / Text / Email
       </button>

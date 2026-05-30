@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function SimpleHeader() {
-  const HEADER_H = 180;
+  const HEADER_H = 190;
   const BANNER_H = 36;
   const innerHeight = HEADER_H - BANNER_H;
 
@@ -104,7 +104,7 @@ export default function SimpleHeader() {
           <img
             src="/assets/Golden%20Hour%20-%20rectangle.svg"
             alt="Golden Hour Cleaning Co."
-            className="h-[120px] w-auto object-contain"
+            className="h-[135px] w-auto object-contain"
           />
         </Link>
       </div>

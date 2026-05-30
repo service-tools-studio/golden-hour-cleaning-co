@@ -8,6 +8,7 @@ import { Step, Badge } from '@/helpers/ui-elements.jsx'
 import Footer from '@/components/residential/Footer.jsx';
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const QuoteCalculator = dynamic(
@@ -16,13 +17,23 @@ const QuoteCalculator = dynamic(
 );
 
 export default function QuotePage() {
+  const router = useRouter();
   const [showCalendly, setShowCalendly] = useState(false);
+
+  function handleBack() {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/residential");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
-          <Link href="/" aria-label="Go to homepage">
+          <Link href="/residential" aria-label="Go to residential home">
             <Image
               src="/assets/Golden Hour - commercial.png"
               alt="Golden Hour Cleaning Co."
@@ -33,7 +44,14 @@ export default function QuotePage() {
               sizes="(max-width: 640px) 260px, 360px"
             />
           </Link>
-
+          <button
+            type="button"
+            onClick={handleBack}
+            className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
+          >
+            <span aria-hidden>←</span>
+            Go back
+          </button>
         </div>
       </section>
 

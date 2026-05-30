@@ -1,4 +1,5 @@
 import { scrollToQuote } from '../../helpers/scrollToQuote';
+import { HEADING_UPPER } from '../../helpers/typography.js';
 
 
 export default function Trust() {
@@ -8,7 +9,7 @@ export default function Trust() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">Luxury Service Meets Effortless Technology</h3>
+            <h3 className={`text-3xl font-semibold tracking-tight sm:text-4xl ${HEADING_UPPER}`}>Luxury Service Meets Effortless Technology</h3>
             <p className="mt-4 text-stone-700">
               You deserve a cleaning experience that feels as good as it looks. We blend meticulous care, non-toxic products,
               and a beautiful, real-time online booking flow to restore harmony to your home — and your schedule.
@@ -22,7 +23,7 @@ export default function Trust() {
             <div className="mt-8">
               <button
                 onClick={scrollToQuote}
-                className="inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-base font-semibold text-stone-900 transition hover:bg-stone-50"
+                className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-base font-semibold text-stone-900 transition hover:bg-stone-50"
               >
                 Get Instant Quote & See Availability
               </button>
@@ -31,7 +32,7 @@ export default function Trust() {
 
           {/* Comparison Card */}
           <div className="rounded-3xl border border-stone-200 bg-amber-50 p-6 shadow-sm">
-            <h4 className="text-lg font-semibold">Why clients choose Golden Hour</h4>
+            <h4 className={`text-lg font-semibold ${HEADING_UPPER}`}>Why clients choose Golden Hour</h4>
             <div className="mt-4 overflow-hidden rounded-2xl border border-amber-200 bg-white">
               <table className="w-full text-left text-sm">
                 <thead className="bg-amber-100/60 text-stone-800">

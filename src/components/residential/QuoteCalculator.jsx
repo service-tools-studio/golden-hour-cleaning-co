@@ -9,13 +9,14 @@ import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT } from "../../constants.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
+import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator (Hybrid Sq Ft + Time)
  *
  * Hybrid model:
  * - We estimate TWO square footages:
- *    1) Heuristic from bedrooms + bathrooms
+ *    1) Heuristic from bedrooms (bath count uses 0.5 steps; half = 50% of full time/price)
  *    2) The value you enter in the "Total Sq Ft" field
  * - We use these to create a LOW–HIGH range:
  *    sqftLow  = smaller of (heuristic, entered)
@@ -59,13 +60,26 @@ const ADDON_FRIDGE_PRICE = 55;
 const ADDON_FRIDGE_HOURS_LOW = 0.5;   // 30 min
 const ADDON_FRIDGE_HOURS_HIGH = 1.25; // 75 min
 
-const ADDON_OVEN_PRICE = 35;
-const ADDON_OVEN_HOURS_LOW = 20 / 60;  // ~0.33 hours (20 min)
-const ADDON_OVEN_HOURS_HIGH = 45 / 60; // 0.75 hours (45 min)
+const ADDON_OVEN_PRICE = 55;
+const ADDON_OVEN_HOURS_LOW = 0.5;   // 30 min
+const ADDON_OVEN_HOURS_HIGH = 1.25; // 75 min
 
 const ADDON_SECOND_KITCHEN_SQFT = 300;
 const ADDON_SECOND_KITCHEN_HOURS_LOW = 1.0;  // 60 min
 const ADDON_SECOND_KITCHEN_HOURS_HIGH = 1.5; // 90 min
+
+const FULL_BATH_SQFT = CFG.roomsToSqft.perBathroom;
+
+/** Snap to 0.5 increments (e.g. 2.5 = two full + one half). */
+function snapBathroomUnits(bathrooms) {
+  const n = Number.isFinite(Number(bathrooms)) ? Number(bathrooms) : 0;
+  return Math.max(0, Math.round(n * 2) / 2);
+}
+
+/** Person-hours one full bath adds at the given clean type (half = 50% of this). */
+function fullBathPersonHours(cleanMult) {
+  return (FULL_BATH_SQFT * cleanMult) / SQFT_PER_HOUR_BASE;
+}
 
 function clampCurrency(n) {
   return Math.max(0, Math.round(n));
@@ -177,11 +191,14 @@ export default function QuoteCalculator({
       Number.isFinite(Number(sqft)) ? Number(sqft) : 0
     );
 
-    // Heuristic sqft from rooms
+    const bathroomUnits = snapBathroomUnits(bathrooms);
+
+    // Heuristic sqft from beds only; bath time/price applied explicitly below
     const estSqft =
-      CFG.roomsToSqft.base +
-      bedrooms * CFG.roomsToSqft.perBedroom +
-      bathrooms * CFG.roomsToSqft.perBathroom;
+      CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom;
+
+    const cleanMult = CLEAN_TYPE_MULTIPLIER[cleanType] ?? 1.0;
+    const bathPersonHours = bathroomUnits * fullBathPersonHours(cleanMult);
 
     // Hybrid range from heuristic + entered
     let sqftLow;
@@ -202,12 +219,9 @@ export default function QuoteCalculator({
       sqftHigh += ADDON_SECOND_KITCHEN_SQFT;
     }
 
-    // Clean type multiplier (deep/move-out take more time)
-    const cleanMult = CLEAN_TYPE_MULTIPLIER[cleanType] ?? 1.0;
-
     // Add-ons: extra time + flat prices
-    let addonHoursLow = 0;
-    let addonHoursHigh = 0;
+    let addonHoursLow = bathPersonHours;
+    let addonHoursHigh = bathPersonHours;
     let addonFlat = 0;
 
     if (includeFridge) {
@@ -307,7 +321,7 @@ export default function QuoteCalculator({
 
     return {
       bedrooms,
-      bathrooms,
+      bathrooms: bathroomUnits,
       sqftInput: Math.round(safeSqftInput),
       estSqft: Math.round(estSqft),
       sqftLow: Math.round(sqftLow),
@@ -397,9 +411,9 @@ export default function QuoteCalculator({
   return (
     <div
       id="quote-calculator"
-      className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8 pt-14"
+      className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8"
     >
-      <h2 className="font-serif text-2xl md:text-3xl">{title}</h2>
+      <h2 className={`text-2xl md:text-3xl ${HEADING_UPPER}`}>{title}</h2>
 
       {/* Updated copy under header */}
       <p className="mt-1 text-stone-600">
@@ -410,9 +424,6 @@ export default function QuoteCalculator({
       {/* Inputs */}
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">
-            Bedrooms &amp; Bathrooms
-          </label>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <NumberField
               label="Bedrooms"
@@ -438,7 +449,6 @@ export default function QuoteCalculator({
         </div>
 
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">Square Feet</label>
           <div className="mt-4">
             <NumberField
               label="Total Sq Ft"
@@ -476,7 +486,7 @@ export default function QuoteCalculator({
         <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
           {/* Clean Type */}
           <div className="relative group">
-            <label className="text-stone-700 flex items-center gap-2">
+            <label className={`${QUOTE_FIELD_LABEL} flex items-center gap-2`}>
               Clean Type
               <button
                 type="button"
@@ -540,7 +550,7 @@ export default function QuoteCalculator({
 
           {/* Eco Products */}
           <div>
-            <label className="block text-stone-700">Products</label>
+            <label className={`${QUOTE_FIELD_LABEL} block`}>Products</label>
             <div className="mt-2 flex items-center gap-2">
               <input
                 id="eco-products"
@@ -564,7 +574,7 @@ export default function QuoteCalculator({
 
           {/* Promo Code */}
           <div>
-            <label className="block text-stone-700">Promo code</label>
+            <label className={`${QUOTE_FIELD_LABEL} block`}>Promo code</label>
             <div className="mt-1 flex gap-2">
               <input
                 type="text"
@@ -593,7 +603,7 @@ export default function QuoteCalculator({
 
         {/* Add-ons */}
         <div className="mt-4 pt-3 border-t text-sm">
-          <div className="text-stone-700 font-medium mb-2">
+          <div className={`${QUOTE_FIELD_LABEL} font-medium mb-2`}>
             Optional add-ons
           </div>
           <div className="space-y-2 text-xs text-stone-700">
@@ -622,7 +632,7 @@ export default function QuoteCalculator({
               <span>
                 <span className="font-medium">Inside oven</span>{" "}
                 <span className="text-stone-500">
-                  (+$35, adds ~20–45 min)
+                  (+$55, adds ~30–75 min)
                 </span>
               </span>
             </label>
@@ -649,7 +659,7 @@ export default function QuoteCalculator({
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {/* Breakdown (high-end, simplified, no hourly wording) */}
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">Breakdown</label>
+          <label className={QUOTE_SECTION_LABEL}>Breakdown</label>
           <ul className="mt-3 space-y-1 text-sm text-stone-700">
             {/* Home size used for estimate */}
             <li className="flex justify-between">
@@ -726,7 +736,7 @@ export default function QuoteCalculator({
 
         {/* Total & Time */}
         <div className="rounded-2xl border p-4 bg-amber-50/60">
-          <label className="font-medium text-stone-800">Your quote</label>
+          <label className={QUOTE_SECTION_LABEL}>Your quote</label>
           <div className="mt-3 flex items-end justify-between">
             <div>
               {/* PRICE: solid vs range */}
@@ -822,7 +832,7 @@ export default function QuoteCalculator({
                 <button
                   type="button"
                   onClick={onScheduleClick}
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800"
+                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800`}
                   aria-label="Book online now"
                 >
                   Schedule &amp; Pay Deposit
@@ -865,7 +875,7 @@ export default function QuoteCalculator({
               <>
                 <a
                   href={`tel:${CONTACT.phone}`}
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800"
+                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800`}
                 >
                   Call to Book This Clean
                 </a>

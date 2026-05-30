@@ -1,22 +1,36 @@
+import { BTN_UPPER, HEADING_UPPER } from "../../helpers/typography.js";
+
+const COI_URL =
+  "https://portal.nextinsurance.com/public/certificates/live-certificate/4689e08f2c04efe155c98e6d5588048d";
+
 export default function Footer() {
   return (
     <footer className="bg-amber-50 border-t border-amber-200 text-amber-900">
       <div className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid md:grid-cols-3 gap-8">
         {/* Left — Branding */}
         <div>
-          <h3 className="font-lora text-xl font-semibold">Golden Hour Cleaning Co.</h3>
+          <h3 className={`text-xl font-semibold ${HEADING_UPPER}`}>
+            Golden Hour Cleaning Co.
+          </h3>
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
             Meticulous care, mindful presence, and eco-friendly products —
-            restoring harmony in your home, one clean at a time.
+            restoring harmony in your space, one clean at a time.
             Golden Hour Cleaning Co is licensed in the State of Oregon and carries
             general liability coverage up to $1 million.
-            Certificates of insurance available upon request.
           </p>
+          <a
+            href={COI_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`mt-4 inline-flex rounded-full border border-amber-300 bg-white px-4 py-2 text-xs font-semibold text-amber-900 shadow-sm transition hover:bg-amber-100 ${BTN_UPPER}`}
+          >
+            View Certificate of Insurance
+          </a>
         </div>
 
         {/* Center — Contact Info */}
         <div>
-          <h4 className="font-semibold mb-2">Contact</h4>
+          <h4 className={`mb-2 font-semibold ${HEADING_UPPER}`}>Contact</h4>
           <p className="text-sm">
             5441 S MACADAM AVE #4907<br />
             PORTLAND, OR, 97239, USA<br />
@@ -34,11 +48,11 @@ export default function Footer() {
 
         {/* Right — Quick Links */}
         <div>
-          <h4 className="font-semibold mb-2">Explore</h4>
+          <h4 className={`mb-2 font-semibold ${HEADING_UPPER}`}>Explore</h4>
           <ul className="space-y-1 text-sm">
             <li><a href="/residential/services" className="hover:text-amber-700">Residential Services</a></li>
-            <li><a href="/commercial" className="hover:text-amber-700">Commercial Services</a></li>
-            <li><a href="/residential/quote" className="hover:text-amber-700">Get a Quote</a></li>
+            <li><a href="/residential/quote" className="hover:text-amber-700">Get a residential quote</a></li>
+            <li><a href="/commercial" className="hover:text-amber-700">Commercial Cleaning</a></li>
             <li><a href="/" className="hover:text-amber-700">About Us</a></li>
             {/* <li><a href="#contact" className="hover:text-amber-700">Contact</a></li> */}
           </ul>

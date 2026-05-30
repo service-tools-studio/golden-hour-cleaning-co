@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
+import { BTN_UPPER } from "../../helpers/typography.js";
 
 function buildInlineUrl(rawUrl) {
   const u = new URL(rawUrl);
@@ -100,7 +101,7 @@ export default function CalendlyBooking({ url, isOpen, setOpen }) {
                 href={url}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-xl bg-stone-900 px-3 py-2 text-xs font-medium text-white hover:bg-stone-800"
+                className={`rounded-xl bg-stone-900 px-3 py-2 text-xs font-medium text-white hover:bg-stone-800 ${BTN_UPPER}`}
               >
                 Open in new tab →
               </a>

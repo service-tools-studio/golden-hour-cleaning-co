@@ -1,11 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { HEADING_UPPER } from "../../helpers/typography.js";
 
 export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-4 pt-14 pb-20">
-      <h2 className="font-serif text-3xl mt-0">Services</h2>
+      <h2 className={`text-3xl mt-0 ${HEADING_UPPER}`}>Residential Services</h2>
       <p className="mt-1 text-stone-700">
         We bill by the square foot, using your home’s size and service type to
         estimate a time range. Eco-friendly products are our default—conventional
@@ -15,7 +16,7 @@ export default function Services() {
       <div className="mt-6 md:mt-8 grid md:grid-cols-3 gap-6">
         {/* Standard */}
         <ServiceCard
-          title="Standard Refresh"
+          title="Standard Clean"
           desc="Weekly or bi-weekly upkeep for homes that already feel pretty tidy."
           items={[
             "Kitchen & bath surfaces",
@@ -30,7 +31,7 @@ export default function Services() {
 
         {/* Deep */}
         <ServiceCard
-          title="Deep Glow"
+          title="Deep Clean"
           desc="A full-home reset — perfect if it’s been 2+ months since last clean or things feel built up."
           items={[
             "Baseboards & edges",
@@ -47,12 +48,12 @@ export default function Services() {
           levelKey="deep"
         />
 
-        {/* Move-In / Move-Out */}
+        {/* Move-Out */}
         <ServiceCard
-          title="Move-In Serenity"
+          title="Move-Out"
           desc="Empty-home detail clean so you can move in (or hand over keys) feeling completely clear."
           items={[
-            "Everything in Deep Glow, plus:",
+            "Everything in Deep Clean, plus:",
             "Inside cabinets & drawers",
             "Closet shelves",
             "Baseboards (full detail)",
@@ -112,7 +113,7 @@ function ServiceCard({
         }`}
     >
       <div className="flex items-center justify-between">
-        <h3 className="font-medium">{title}</h3>
+        <h3 className={`font-medium ${HEADING_UPPER}`}>{title}</h3>
         <span className="text-sm text-stone-500">{price}</span>
       </div>
 
@@ -128,7 +129,7 @@ function ServiceCard({
         href={`/residential/services?level=${encodeURIComponent(levelKey)}#quote`}
         onClick={handleSelectLevel}
         aria-label={`Calculate my quote for ${title}`}
-        className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800"
+        className="uppercase tracking-wide mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800"
       >
         {cta}
       </a>

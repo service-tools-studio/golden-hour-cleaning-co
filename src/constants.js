@@ -19,9 +19,9 @@ export const CFG = {
 };
 
 export const LEVEL_COPY = {
-  standard: { name: "Standard Refresh", rateLabel: "Standard rate" },
-  deep: { name: "Deep Glow (Deep Clean)", rateLabel: "Deep Clean rate" },
-  move_out: { name: "Move-In / Move-Out", rateLabel: "Move-In/Out rate" },
+  standard: { name: "Standard Clean", rateLabel: "Standard rate" },
+  deep: { name: "Deep Clean", rateLabel: "Deep Clean rate" },
+  move_out: { name: "Move-Out", rateLabel: "Move-Out rate" },
 };
 
 export const CONTACT = {

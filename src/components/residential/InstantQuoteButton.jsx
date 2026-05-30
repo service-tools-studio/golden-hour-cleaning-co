@@ -57,9 +57,9 @@ export default function InstantQuoteButton() {
           e.preventDefault();
           scrollToId('#quote-calculator', 8);
         }}
-        className="shrink-0 px-5 md:px-6 h-11 md:h-12 rounded-full bg-amber-400 text-slate-900 font-semibold shadow-lg border border-amber-300 hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="uppercase tracking-wide shrink-0 px-5 md:px-6 h-11 md:h-12 rounded-full bg-amber-400 text-slate-900 font-semibold shadow-lg border border-amber-300 hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300"
       >
-        Get Instant Quote + Booking
+        Get Instant Quote + Book
       </button>
     </div>
   );

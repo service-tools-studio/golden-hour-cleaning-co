@@ -1,227 +1,246 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  CalendarCheck2,
+  Handshake,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import CommercialLeadForm from "@/components/commercial/CommercialLeadForm";
+import Footer from "@/components/residential/Footer";
+import { BTN_UPPER } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
   title: "Commercial Cleaning | Golden Hour Cleaning Co.",
   description:
-    "Premium, eco-minded cleaning for offices, studios, and small commercial spaces in the Portland metro area.",
+    "Reliable, high-quality commercial cleaning for offices, studios, and boutique businesses in Portland.",
 };
 
-function Card({ title, desc }: { title: string; desc: string }) {
+const spaces = [
+  "Office buildings & suites",
+  "Retail boutiques",
+  "Wellness studios",
+  "Salons & spas",
+  "Showrooms & galleries",
+  "Therapy & counseling offices",
+  "Medical-adjacent clinics",
+  "Creative studios",
+  "Property-managed common areas",
+  "Boutique fitness studios",
+];
+
+function Feature({
+  title,
+  desc,
+  icon,
+}: {
+  title: string;
+  desc: string;
+  icon: ReactNode;
+}) {
   return (
-    <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
-      {/* brand accent */}
-      <div className="mb-4 h-1 w-10 rounded-full bg-brand/80" />
-      <h3 className="text-sm font-semibold tracking-tight text-stone-900">
+    <div className="rounded-[32px] border border-black/5 bg-[#a7eff1]/20 p-6 backdrop-blur-sm shadow-sm hover:-translate-y-1 transition">
+      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#a7eff1]/50 text-stone-900">
+        {icon}
+      </div>
+      <h3 className="text-lg font-semibold tracking-tight text-stone-900">
         {title}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-stone-600">{desc}</p>
+      <p className="mt-2 text-stone-700 leading-relaxed">{desc}</p>
     </div>
   );
 }
 
 export default function CommercialPage() {
   return (
-    <main className="min-h-screen bg-stone-50">
-      <div className="mx-auto max-w-6xl px-6 pt-4 pb-12 sm:pt-6 sm:pb-16">
-        {/* Top bar */}
-        <div className="flex items-start justify-between gap-6">
-          {/* Left: back + logo */}
-          <div className="flex items-center gap-4 leading-none">
-            <Link
-              href="/"
-              className="text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
-            >
-              ← Back
-            </Link>
+    <>
+      <main className="min-h-screen bg-[#fffbea] text-stone-900 overflow-hidden">
+        <header className="w-full border-b border-amber-200 bg-brand">
+          <div className="mx-auto max-w-7xl px-6 pt-10 pb-6 sm:pt-6">
+            <div className="flex items-center justify-between gap-4">
+              <Link href="/" aria-label="Go to homepage" className="shrink-0">
+                <Image
+                  src="/assets/Golden Hour - commercial.png"
+                  alt="Golden Hour Cleaning Co."
+                  width={200}
+                  height={100}
+                  priority
+                  className="h-[100px] sm:h-[100px] w-auto cursor-pointer"
+                  sizes="(max-width: 640px) 260px, 360px"
+                />
+              </Link>
 
-            <div className="flex items-center">
-              <Image
-                src="/assets/Golden Hour - commercial.png"
-                alt="Golden Hour Cleaning Co."
-                width={400}
-                height={200}
-                priority
-                className="h-[180px] sm:h-[200px] w-auto"
-                sizes="(max-width: 640px) 260px, 360px"
-              />
+              <div className="flex shrink-0 items-center gap-3">
+                <a
+                  href="tel:+15038934795"
+                  className={`rounded-2xl border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 shadow-sm transition hover:bg-stone-50 ${BTN_UPPER}`}
+                >
+                  Call now
+                </a>
+                <a
+                  href="#request-quote"
+                  className={`rounded-2xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70 ${BTN_UPPER}`}
+                >
+                  Request a quote
+                </a>
+              </div>
             </div>
-          </div>
-
-          {/* Right: nav + CTA */}
-          <div className="hidden sm:flex items-center gap-3 pt-1">
-            <Link
-              href="/residential"
-              className="text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
-            >
-              Residential
-            </Link>
-            <a
-              href="#request-quote"
-              className="rounded-2xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70"
-            >
-              Request a quote
-            </a>
-          </div>
-        </div>
-
-        {/* Hero */}
-        <header className="mt-5 max-w-3xl">
-          <h1 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
-            Commercial cleaning for&nbsp;
-            <span className="relative inline-block">
-              calm, well-run spaces
-              <span className="pointer-events-none absolute -bottom-1 left-0 h-[7px] w-full rounded-full bg-brand/60" />
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base leading-relaxed text-stone-600">
-            Premium, eco-minded cleaning for offices, studios, and small commercial
-            spaces in the Portland metro area. Consistency-first service with clear
-            communication and dependable results.
-          </p>
-
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#request-quote"
-              className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70"
-            >
-              Request a commercial quote
-            </a>
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-6 py-3 text-sm font-semibold text-stone-900 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              How it works
-            </a>
           </div>
         </header>
 
-        {/* Brand background section (subtle, premium) */}
-        <section className="mt-12 rounded-[32px] border border-brand/30 bg-brand/20 p-6 sm:p-8">
-          <div className="max-w-3xl">
-            <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-brand" />
-              Premium, consistency-first commercial cleaning
-            </h2>
+        <section className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#dcbb52]/15 via-[#fffbea] to-[#a7eff1]/20" />
 
-            <p className="mt-3 text-sm leading-relaxed text-stone-700">
-              We’re built for long-term partnerships—clear scope, repeatable checklists,
-              and a reliable cadence. Your team walks into a space that feels calm,
-              professional, and cared for.
-            </p>
+          <div className="relative mx-auto max-w-7xl px-6 py-10">
+            <div className="grid gap-12 lg:grid-cols-2 items-center">
+              <div>
+                <div className="inline-flex rounded-full bg-[#dcbb52]/20 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-stone-800">
+                  Locally owned • Loving • Reliable
+                </div>
 
-            <p className="mt-3 text-sm leading-relaxed text-stone-700">
-              Best for teams that value{" "}
-              <span className="font-semibold text-stone-900">quality, communication,</span>{" "}
-              and{" "}
-              <span className="font-semibold text-stone-900">steady standards</span>
-            </p>
+                <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[0.95] tracking-tight">
+                  Commercial cleaning that feels{" "}
+                  <span className="text-[#dcbb52]">warm, polished,</span>{" "}
+                  and dependable.
+                </h1>
 
-            {/* Divider */}
-            <div className="mt-6 h-px w-full bg-brand/30" />
+                <p className="mt-6 text-lg text-stone-700 max-w-xl leading-relaxed">
+                  Professional commercial cleaning that reflects the love and care
+                  you put into your business. Consistent, trustworthy, and
+                  detail-oriented service for spaces that deserve to shine.
+                </p>
 
-            {/* Ideal spaces */}
-            <div className="mt-6">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-stone-600">
-                Ideal for spaces like
-              </p>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <a
+                    href="#request-quote"
+                    className={`rounded-full bg-stone-900 px-8 py-4 text-white font-semibold shadow-lg ${BTN_UPPER}`}
+                  >
+                    Request a Free Quote
+                  </a>
 
-              <div className="grid gap-3 sm:grid-cols-2">
-                <MiniPill>Professional offices</MiniPill>
-                <MiniPill>Wellness studios</MiniPill>
-                <MiniPill>Therapy & counseling offices</MiniPill>
-                <MiniPill>Medical-adjacent clinics</MiniPill>
-                <MiniPill>Boutique coworking spaces</MiniPill>
-                <MiniPill>Creative studios</MiniPill>
-                <MiniPill>Retail boutiques</MiniPill>
-                <MiniPill>Showrooms & galleries</MiniPill>
-                <MiniPill>Property-managed common areas</MiniPill>
-                <MiniPill>Boutique fitness studios</MiniPill>
+                  <a
+                    href="#spaces"
+                    className={`rounded-full border border-stone-300 bg-white px-8 py-4 font-semibold ${BTN_UPPER}`}
+                  >
+                    Spaces We Serve
+                  </a>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute -inset-5 rounded-[3rem] bg-[#dcbb52]/20 blur-3xl" />
+
+                <div className="relative overflow-hidden rounded-[3rem] border border-black/5 shadow-2xl">
+                  <Image
+                    src="/assets/commercial-cleaning-office.png"
+                    alt="Commercial office cleaning"
+                    width={1200}
+                    height={800}
+                    className="h-[560px] w-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-
-        {/* Trust / clarity cards */}
-        <section className="mt-10 grid gap-4 sm:grid-cols-3">
-          <Card
-            title="Consistency-first"
-            desc="A reliable team, clear expectations, and repeatable results—so your space stays steady week after week."
-          />
-          <Card
-            title="Eco-minded"
-            desc="Thoughtful products and methods that support a clean space without harsh residue or overwhelming scent."
-          />
-          <Card
-            title="Professional communication"
-            desc="Simple scheduling, fast response times, and proactive updates when anything needs attention."
-          />
-        </section>
-
-        {/* How it works */}
-        <section
-          id="how-it-works"
-          className="mt-12 rounded-3xl border border-stone-200 bg-white p-7 shadow-sm"
-        >
-          <h2 className="text-lg font-semibold tracking-tight text-stone-900 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-brand" />
-            How it works
-          </h2>
-
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Step n="1" title="Submit details" desc="Tell us about your space and what you need." />
-            <Step n="2" title="Confirm fit" desc="We review scope, access, and cadence." />
-            <Step n="3" title="Walkthrough (if needed)" desc="Quick onsite to finalize scope and pricing." />
-            <Step n="4" title="Start with consistency" desc="A reliable team + clear checklist." />
+        <section className="bg-[#a7eff1]/40 py-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              <Feature
+                icon={<ShieldCheck className="h-6 w-6" strokeWidth={1.75} />}
+                title="Reliable & Consistent"
+                desc="You can count on us to show up, follow through, and deliver every time."
+              />
+              <Feature
+                icon={<Sparkles className="h-6 w-6" strokeWidth={1.75} />}
+                title="High‑Quality Cleaning"
+                desc="Detailed, thorough cleaning that creates a fresh and welcoming environment."
+              />
+              <Feature
+                icon={<Handshake className="h-6 w-6" strokeWidth={1.75} />}
+                title="Trusted Professionals"
+                desc="Respectful, dependable team members who care for your business like their own."
+              />
+              <Feature
+                icon={<CalendarCheck2 className="h-6 w-6" strokeWidth={1.75} />}
+                title="Flexible Solutions"
+                desc="Customized cleaning schedules designed around your business needs."
+              />
+            </div>
           </div>
         </section>
 
-        {/* Form */}
-        <section id="request-quote" className="mt-12">
-          <CommercialLeadForm />
+        <section id="spaces" className="py-24">
+          <div className="mx-auto max-w-7xl px-6 grid gap-8 lg:grid-cols-2">
+            <div className="rounded-[40px] bg-white p-10 shadow-xl border border-black/5">
+              <p className="uppercase tracking-[0.25em] text-[#dcbb52] font-bold text-sm">
+                Spaces we serve
+              </p>
+
+              <h2 className="mt-4 text-3xl font-semibold">
+                Commercial spaces that value quality.
+              </h2>
+
+              <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                {spaces.map((space) => (
+                  <div
+                    key={space}
+                    className="rounded-2xl bg-[#fffbea] border border-[#dcbb52]/20 px-4 py-4 font-medium"
+                  >
+                    ✓ {space}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[40px] bg-[#dcbb52] p-10 text-stone-900 shadow-xl">
+              <p className="uppercase tracking-[0.25em] font-bold text-sm">
+                Local & Professional
+              </p>
+
+              <h3 className="mt-4 text-4xl font-semibold leading-tight">
+                We care about the businesses that make Portland thrive.
+              </h3>
+
+              <p className="mt-6 text-lg leading-relaxed">
+                Golden Hour Cleaning Co. is locally owned and deeply committed to
+                creating spaces that feel calm, polished, and welcoming.
+              </p>
+
+              <div className="mt-10 rounded-[32px] bg-white/70 p-6">
+                <div className="font-semibold text-xl">
+                  Let’s create a clean space for your business.
+                </div>
+                <p className="mt-2">
+                  Request a free quote and we’ll tailor a plan for your space.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
-        {/* Subtle footer divider using brand */}
-        <div className="mt-12 h-px w-full bg-brand opacity-40" />
-        <footer className="mt-6 text-xs text-stone-500">
-          Serving the Portland metro area • Commercial service availability varies
-          by location and schedule
-        </footer>
-      </div>
-    </main>
-  );
-}
+        <section
+          id="request-quote"
+          className="mx-auto max-w-6xl px-6 pb-24"
+        >
+          <div className="rounded-[48px] bg-white border border-black/5 shadow-2xl p-8 sm:p-12">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-semibold">
+                Ready for a cleaner, calmer business?
+              </h2>
+              <p className="mt-3 text-stone-600">
+                Tell us about your space and we’ll send a custom quote.
+              </p>
+            </div>
 
-function Step({
-  n,
-  title,
-  desc,
-}: {
-  n: string;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="rounded-3xl border border-stone-200 bg-stone-50 p-5">
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-sm font-semibold text-stone-900 shadow-sm ring-1 ring-brand/30">
-          {n}
-        </div>
-        <div className="text-sm font-semibold text-stone-900">{title}</div>
-      </div>
-      <p className="mt-3 text-sm leading-relaxed text-stone-600">{desc}</p>
-    </div>
-  );
-}
-
-function MiniPill({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-brand/30 bg-white/70 px-4 py-3 text-sm font-semibold text-stone-800 shadow-sm">
-      {children}
-    </div>
+            <CommercialLeadForm />
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

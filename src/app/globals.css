@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+@source "../helpers/typography.js";
+
 @theme {
   --color-brand: #a7eff1;
+  --font-sans: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Unlayered so it always ships — all buttons + link CTAs */
+button {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+a.inline-flex.items-center.justify-center,
+a.rounded-full {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
