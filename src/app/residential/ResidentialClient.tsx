@@ -44,7 +44,7 @@ export default function ResidentialClient() {
           <QuoteCalculator
             showCalendly={showCalendly}
             setShowCalendly={setShowCalendly}
-            title="Get a Quote"
+            title="Get a Quote & Book Instantly"
             subtitle="Transparent, size-based pricing with thoughtful attention to your unique home."
           />
         </div>

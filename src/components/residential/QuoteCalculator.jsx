@@ -9,6 +9,7 @@ import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT } from "../../constants.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
+import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator (Hybrid Sq Ft + Time)
@@ -410,9 +411,9 @@ export default function QuoteCalculator({
   return (
     <div
       id="quote-calculator"
-      className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8 pt-14"
+      className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8"
     >
-      <h2 className="text-2xl md:text-3xl">{title}</h2>
+      <h2 className={`text-2xl md:text-3xl ${HEADING_UPPER}`}>{title}</h2>
 
       {/* Updated copy under header */}
       <p className="mt-1 text-stone-600">
@@ -423,9 +424,6 @@ export default function QuoteCalculator({
       {/* Inputs */}
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">
-            Bedrooms &amp; Bathrooms
-          </label>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <NumberField
               label="Bedrooms"
@@ -451,7 +449,6 @@ export default function QuoteCalculator({
         </div>
 
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">Square Feet</label>
           <div className="mt-4">
             <NumberField
               label="Total Sq Ft"
@@ -489,7 +486,7 @@ export default function QuoteCalculator({
         <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
           {/* Clean Type */}
           <div className="relative group">
-            <label className="text-stone-700 flex items-center gap-2">
+            <label className={`${QUOTE_FIELD_LABEL} flex items-center gap-2`}>
               Clean Type
               <button
                 type="button"
@@ -553,7 +550,7 @@ export default function QuoteCalculator({
 
           {/* Eco Products */}
           <div>
-            <label className="block text-stone-700">Products</label>
+            <label className={`${QUOTE_FIELD_LABEL} block`}>Products</label>
             <div className="mt-2 flex items-center gap-2">
               <input
                 id="eco-products"
@@ -577,7 +574,7 @@ export default function QuoteCalculator({
 
           {/* Promo Code */}
           <div>
-            <label className="block text-stone-700">Promo code</label>
+            <label className={`${QUOTE_FIELD_LABEL} block`}>Promo code</label>
             <div className="mt-1 flex gap-2">
               <input
                 type="text"
@@ -606,7 +603,7 @@ export default function QuoteCalculator({
 
         {/* Add-ons */}
         <div className="mt-4 pt-3 border-t text-sm">
-          <div className="text-stone-700 font-medium mb-2">
+          <div className={`${QUOTE_FIELD_LABEL} font-medium mb-2`}>
             Optional add-ons
           </div>
           <div className="space-y-2 text-xs text-stone-700">
@@ -662,7 +659,7 @@ export default function QuoteCalculator({
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {/* Breakdown (high-end, simplified, no hourly wording) */}
         <div className="rounded-2xl border p-4">
-          <label className="font-medium text-stone-800">Breakdown</label>
+          <label className={QUOTE_SECTION_LABEL}>Breakdown</label>
           <ul className="mt-3 space-y-1 text-sm text-stone-700">
             {/* Home size used for estimate */}
             <li className="flex justify-between">
@@ -739,7 +736,7 @@ export default function QuoteCalculator({
 
         {/* Total & Time */}
         <div className="rounded-2xl border p-4 bg-amber-50/60">
-          <label className="font-medium text-stone-800">Your quote</label>
+          <label className={QUOTE_SECTION_LABEL}>Your quote</label>
           <div className="mt-3 flex items-end justify-between">
             <div>
               {/* PRICE: solid vs range */}
@@ -835,7 +832,7 @@ export default function QuoteCalculator({
                 <button
                   type="button"
                   onClick={onScheduleClick}
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800"
+                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800`}
                   aria-label="Book online now"
                 >
                   Schedule &amp; Pay Deposit
@@ -878,7 +875,7 @@ export default function QuoteCalculator({
               <>
                 <a
                   href={`tel:${CONTACT.phone}`}
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800"
+                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800`}
                 >
                   Call to Book This Clean
                 </a>

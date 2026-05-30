@@ -62,13 +62,13 @@ export default function InstantBookLanding() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <button
                 onClick={scrollToQuote}
-                className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
+                className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
               >
                 <CalendarCheck2 className="mr-2 h-5 w-5" /> Get Instant Quote & Book Now
               </button>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-base font-semibold text-stone-900 transition hover:bg-stone-50"
+                className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-base font-semibold text-stone-900 transition hover:bg-stone-50"
               >
                 See How It Works
               </a>
@@ -105,7 +105,7 @@ export default function InstantBookLanding() {
         <div className="mt-8 text-center">
           <button
             onClick={scrollToQuote}
-            className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
+            className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
           >
             Start Your Instant Quote
           </button>
@@ -135,7 +135,7 @@ export default function InstantBookLanding() {
             <div className="mt-8">
               <button
                 onClick={scrollToQuote}
-                className="inline-flex items-center justify-center rounded-2xl bg-amber-200 px-5 py-3 text-base font-semibold text-stone-900 shadow-md transition hover:bg-amber-100"
+                className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-amber-200 px-5 py-3 text-base font-semibold text-stone-900 shadow-md transition hover:bg-amber-100"
               >
                 Get Instant Quote & Book Now
               </button>

@@ -1,4 +1,5 @@
 import { scrollToId } from '../../helpers/scrollToId';
+import { HEADING_UPPER } from '../../helpers/typography.js';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -24,7 +25,7 @@ export default function Hero() {
       {/* Copy: block below image on mobile, overlayed on image on desktop */}
       <div className="relative px-4 pt-4 pb-16 md:absolute md:inset-0 md:flex md:items-center md:px-8 md:pt-0 md:pb-0 lg:px-12">
         <div className="mx-auto max-w-6xl w-full md:max-w-xl">
-          <h1 className="text-3xl md:text-4xl md:text-white md:drop-shadow-md leading-snug">
+          <h1 className={`text-3xl md:text-4xl md:text-white md:drop-shadow-md leading-snug ${HEADING_UPPER}`}>
             Professional cleaning for busy, discerning homes.
           </h1>
 
@@ -41,7 +42,7 @@ export default function Hero() {
                 e.preventDefault();
                 scrollToId('#services', 8);
               }}
-              className="w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl bg-stone-900 md:bg-white md:text-stone-900 px-5 py-3 text-sm font-medium text-white shadow hover:bg-stone-800 md:hover:bg-amber-50"
+              className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl bg-stone-900 md:bg-white md:text-stone-900 px-5 py-3 text-sm font-medium text-white shadow hover:bg-stone-800 md:hover:bg-amber-50"
             >
               See Services &amp; Get Quote
             </button>

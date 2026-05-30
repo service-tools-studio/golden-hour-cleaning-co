@@ -1,10 +1,14 @@
+import { HEADING_UPPER } from "../../helpers/typography.js";
+
 export default function Footer() {
   return (
     <footer className="bg-amber-50 border-t border-amber-200 text-amber-900">
       <div className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid md:grid-cols-3 gap-8">
         {/* Left — Branding */}
         <div>
-          <h3 className="text-xl font-semibold">Golden Hour Cleaning Co.</h3>
+          <h3 className={`text-xl font-semibold ${HEADING_UPPER}`}>
+            Golden Hour Cleaning Co.
+          </h3>
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
             Meticulous care, mindful presence, and eco-friendly products —
             restoring harmony in your home, one clean at a time.
@@ -16,7 +20,7 @@ export default function Footer() {
 
         {/* Center — Contact Info */}
         <div>
-          <h4 className="font-semibold mb-2">Contact</h4>
+          <h4 className={`mb-2 font-semibold ${HEADING_UPPER}`}>Contact</h4>
           <p className="text-sm">
             5441 S MACADAM AVE #4907<br />
             PORTLAND, OR, 97239, USA<br />
@@ -34,7 +38,7 @@ export default function Footer() {
 
         {/* Right — Quick Links */}
         <div>
-          <h4 className="font-semibold mb-2">Explore</h4>
+          <h4 className={`mb-2 font-semibold ${HEADING_UPPER}`}>Explore</h4>
           <ul className="space-y-1 text-sm">
             <li><a href="/residential/services" className="hover:text-amber-700">Residential Services</a></li>
             <li><a href="/commercial" className="hover:text-amber-700">Commercial Services</a></li>

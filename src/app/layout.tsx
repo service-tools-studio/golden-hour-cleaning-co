@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Josefin_Sans, Lora } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -7,12 +7,6 @@ const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +22,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${josefinSans.variable} ${lora.variable}`}
+      className={josefinSans.variable}
     >
       <head>
         <Script

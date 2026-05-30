@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
+@source "../helpers/typography.js";
+
 @theme {
   --color-brand: #a7eff1;
   --font-sans: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-lora), ui-serif, Georgia, serif;
+  --font-serif: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -17,6 +19,7 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-lora), ui-serif, Georgia, serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 }

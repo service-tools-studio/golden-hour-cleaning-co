@@ -123,7 +123,7 @@ export default function ContactSheet({ phone, sms, email, context }) {
         onClick={() => setOpen((s) => !s)}
         aria-expanded={open}
         aria-controls="contact-sheet"
-        className="inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50"
+        className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50"
       >
         Questions? Call / Text / Email
       </button>

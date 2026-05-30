@@ -1,7 +1,9 @@
+import { QUOTE_FIELD_LABEL } from "../../helpers/typography.js";
+
 export default function SelectField({ label, value, setValue, options }) {
   return (
     <label className="block text-sm">
-      {label && <span className="text-stone-700">{label}</span>}
+      {label && <span className={QUOTE_FIELD_LABEL}>{label}</span>}
       <select
         value={value}
         onChange={(e) => setValue(e.target.value)}

@@ -35,7 +35,7 @@ export default function ResidentialServicesClient({
 
   return (
     <>
-      <header className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
+      <header className="mx-auto max-w-7xl border-b border-amber-200 bg-brand px-6 pt-10 pb-16 sm:pt-6">
         <Link href="/residential" aria-label="Go to residential home">
           <Image
             src="/assets/Golden Hour - commercial.png"
@@ -47,7 +47,13 @@ export default function ResidentialServicesClient({
             sizes="(max-width: 640px) 260px, 360px"
           />
         </Link>
-
+        <Link
+          href="/residential"
+          className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
+        >
+          <span aria-hidden>←</span>
+          Go back
+        </Link>
       </header>
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <Services />
@@ -55,7 +61,7 @@ export default function ResidentialServicesClient({
 
       <section
         id="quote"
-        className="mx-auto max-w-7xl px-6 py-16 translate-y-20"
+        className="mx-auto max-w-7xl px-6 py-10 md:py-12"
       >
         <QuoteCalculator
           showCalendly={showCalendly}

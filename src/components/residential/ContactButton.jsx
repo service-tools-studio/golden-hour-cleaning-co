@@ -89,7 +89,7 @@ export default function ContactButton({ compact = false }) {
           }
           setOpen((v) => !v);
         }}
-        className={`w-full inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50 whitespace-nowrap ${compact ? "px-3 py-2 text-xs font-medium" : "px-5 py-3 text-sm font-medium"}`}
+        className={`uppercase tracking-wide w-full inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50 whitespace-nowrap ${compact ? "px-3 py-2 text-xs font-medium" : "px-5 py-3 text-sm font-medium"}`}
       >
         Call / Text / Email Us Now!
       </button>
