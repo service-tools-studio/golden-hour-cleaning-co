@@ -3,7 +3,7 @@ import SegmentButton from "@/components/SegmentButton";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-stone-50">
+    <main className="min-h-screen bg-[#fffbea]">
       <HomeHeader />
       <div className="mx-auto max-w-5xl px-6 py-14 sm:py-20">
         <div className="max-w-2xl">

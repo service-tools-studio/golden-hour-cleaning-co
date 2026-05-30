@@ -23,3 +23,15 @@
     letter-spacing: 0.02em;
   }
 }
+
+/* Unlayered so it always ships — all buttons + link CTAs */
+button {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+a.inline-flex.items-center.justify-center,
+a.rounded-full {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}

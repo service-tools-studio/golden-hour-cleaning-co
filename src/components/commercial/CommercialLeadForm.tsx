@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { BTN_UPPER } from "@/helpers/typography.js";
 
 type FormState = {
   businessName: string;
@@ -203,7 +204,7 @@ export default function CommercialLeadForm() {
             value={form.referral}
             onChange={(e) => update("referral", e.target.value)}
             className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
-            placeholder="Referral, Google, Instagram, etc."
+            placeholder="Referral, Google, Facebook, etc."
           />
         </Field>
 
@@ -225,7 +226,7 @@ export default function CommercialLeadForm() {
         <button
           type="submit"
           disabled={!canSubmit}
-          className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40"
+          className={`inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40 ${BTN_UPPER}`}
         >
           Submit request
         </button>

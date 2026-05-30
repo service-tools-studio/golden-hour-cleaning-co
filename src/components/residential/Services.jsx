@@ -6,7 +6,7 @@ import { HEADING_UPPER } from "../../helpers/typography.js";
 export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-4 pt-14 pb-20">
-      <h2 className={`text-3xl mt-0 ${HEADING_UPPER}`}>Services</h2>
+      <h2 className={`text-3xl mt-0 ${HEADING_UPPER}`}>Residential Services</h2>
       <p className="mt-1 text-stone-700">
         We bill by the square foot, using your home’s size and service type to
         estimate a time range. Eco-friendly products are our default—conventional

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Footer from "@/components/residential/Footer";
 import Services from "@/components/residential/Services";
 import QuoteCalculator from "@/components/residential/QuoteCalculator";
@@ -21,9 +21,18 @@ export default function ResidentialServicesClient({
 }: {
   initialLevel: Level;
 }) {
+  const router = useRouter();
   const [showCalendly, setShowCalendly] = useState(false);
   const searchParams = useSearchParams();
   const level = levelFromUrl(searchParams.get("level")) || initialLevel;
+
+  function handleBack() {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/residential");
+    }
+  }
 
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -47,13 +56,14 @@ export default function ResidentialServicesClient({
             sizes="(max-width: 640px) 260px, 360px"
           />
         </Link>
-        <Link
-          href="/residential"
+        <button
+          type="button"
+          onClick={handleBack}
           className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
         >
           <span aria-hidden>←</span>
           Go back
-        </Link>
+        </button>
       </header>
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <Services />
