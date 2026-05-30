@@ -73,7 +73,7 @@ export default function CommercialLeadForm() {
       const response = await fetch("/api/commercial-quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, website: honeypot }),
+        body: JSON.stringify({ ...form, _hp: honeypot }),
       });
 
       const data = (await response.json()) as { error?: string };

@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import {
+  createGmailTransporter,
+  formatSmtpError,
+  getGmailCredentials,
+} from "@/lib/gmail-smtp";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 type CommercialQuotePayload = {
   businessName: string;
@@ -13,7 +20,7 @@ type CommercialQuotePayload = {
   startTiming: string;
   notes?: string;
   referral?: string;
-  website?: string;
+  _hp?: string;
 };
 
 function buildEmailBody(data: CommercialQuotePayload) {
@@ -39,12 +46,9 @@ function buildEmailBody(data: CommercialQuotePayload) {
 }
 
 export async function POST(request: Request) {
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
-  const recipient =
-    process.env.COMMERCIAL_QUOTE_TO ?? "golden.hour.cleaning.company@gmail.com";
+  const creds = getGmailCredentials();
 
-  if (!gmailUser || !gmailAppPassword) {
+  if (!creds) {
     console.error("Missing GMAIL_USER or GMAIL_APP_PASSWORD env vars");
     return NextResponse.json(
       { error: "Email service is not configured." },
@@ -59,7 +63,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  if (data.website?.trim()) {
+  if (data._hp?.trim()) {
     return NextResponse.json({ ok: true });
   }
 
@@ -79,18 +83,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: gmailUser,
-      pass: gmailAppPassword,
-    },
-  });
-
   try {
+    const transporter = createGmailTransporter();
+    await transporter.verify();
+
     await transporter.sendMail({
-      from: `"Golden Hour Website" <${gmailUser}>`,
-      to: recipient,
+      from: `"Golden Hour Website" <${creds.user}>`,
+      to: creds.to,
       replyTo: email,
       subject: `Commercial Quote — ${businessName}`,
       text: buildEmailBody({
@@ -105,7 +104,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Failed to send commercial quote email:", error);
+    console.error(
+      "Failed to send commercial quote email:",
+      formatSmtpError(error)
+    );
     return NextResponse.json(
       { error: "Failed to send your request. Please try again." },
       { status: 500 }
