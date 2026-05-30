@@ -14,7 +14,7 @@ export default function Footer() {
           </h3>
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
             Meticulous care, mindful presence, and eco-friendly products —
-            restoring harmony in your home, one clean at a time.
+            restoring harmony in your space, one clean at a time.
             Golden Hour Cleaning Co is licensed in the State of Oregon and carries
             general liability coverage up to $1 million.
           </p>
