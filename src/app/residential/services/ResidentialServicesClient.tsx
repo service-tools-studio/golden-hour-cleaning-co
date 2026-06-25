@@ -67,20 +67,21 @@ export default function ResidentialServicesClient({
       </header>
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <Services />
-      </main>
 
-      <section
-        id="quote"
-        className="mx-auto max-w-7xl px-6 py-10 md:py-12"
-      >
-        <QuoteCalculator
-          showCalendly={showCalendly}
-          setShowCalendly={setShowCalendly}
-          initialLevel={level}
-          title="Get a Quote & Book Instantly"
-        />
-      </section>
-      <Footer />
+        <section
+          id="quote"
+          className="mx-auto max-w-7xl px-6 py-10 md:py-12"
+        >
+          <QuoteCalculator
+            showCalendly={showCalendly}
+            setShowCalendly={setShowCalendly}
+            initialLevel={level}
+            title="Get a Quote & Book Instantly"
+          />
+        </section>
+
+        <Footer />
+      </main>
     </>
   );
 }

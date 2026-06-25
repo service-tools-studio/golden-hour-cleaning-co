@@ -23,7 +23,7 @@ export default function HeaderCTAButtons({ compact = false }) {
         aria-label="Get an instant quote and see real-time availability"
         onClick={(e) => {
           e.preventDefault();
-          scrollToId("#quote-calculator", 8);
+          scrollToId("#quote-calculator-heading", 8, { focus: true });
         }}
         className={buttonClass}
       >

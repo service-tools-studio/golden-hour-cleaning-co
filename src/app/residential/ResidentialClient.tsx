@@ -50,9 +50,9 @@ export default function ResidentialClient() {
         </div>
 
         <Services />
-      </main>
 
-      <Footer />
+        <Footer />
+      </main>
     </div>
   );
 }

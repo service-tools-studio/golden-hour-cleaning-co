@@ -27,6 +27,7 @@ export default function InstantBookLanding() {
   const [showCalendly, setShowCalendly] = useState(false);
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900">
+      <main id="content">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
@@ -151,6 +152,7 @@ export default function InstantBookLanding() {
       </section>
 
       <Footer />
+      </main>
     </div>
   );
 }

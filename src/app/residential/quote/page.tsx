@@ -30,37 +30,38 @@ export default function QuotePage() {
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
-          <Link href="/residential" aria-label="Go to residential home">
-            <Image
-              src="/assets/Golden Hour - commercial.png"
-              alt="Golden Hour Cleaning Co."
-              width={200}
-              height={100}
-              priority
-              className="h-[100px] sm:h-[100px] w-auto cursor-pointer"
-              sizes="(max-width: 640px) 260px, 360px"
-            />
-          </Link>
-          <button
-            type="button"
-            onClick={handleBack}
-            className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
-          >
-            <span aria-hidden>←</span>
-            Go back
-          </button>
-        </div>
-      </section>
+      <main id="content" className="min-h-screen bg-amber-50 text-stone-900">
+        {/* HERO */}
+        <section className="relative overflow-hidden">
+          <div className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
+            <Link href="/residential" aria-label="Go to residential home">
+              <Image
+                src="/assets/Golden Hour - commercial.png"
+                alt="Golden Hour Cleaning Co."
+                width={200}
+                height={100}
+                priority
+                className="h-[100px] sm:h-[100px] w-auto cursor-pointer"
+                sizes="(max-width: 640px) 260px, 360px"
+              />
+            </Link>
+            <button
+              type="button"
+              onClick={handleBack}
+              className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
+            >
+              <span aria-hidden>←</span>
+              Go back
+            </button>
+          </div>
+        </section>
 
-      {/* QUOTE CALCULATOR MOUNT (placeholder) */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-        <QuoteCalculator showCalendly={showCalendly} setShowCalendly={setShowCalendly} title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
-      </section>
+        <section className="mx-auto max-w-7xl px-6 pb-16">
+          <QuoteCalculator showCalendly={showCalendly} setShowCalendly={setShowCalendly} title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
+        </section>
 
-      <Footer />
+        <Footer />
+      </main>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { forwardRef, useState, useRef, useEffect } from "react";
 import {
   formatCurrency,
   buildMailto,
@@ -9,7 +9,10 @@ import {
 } from "../../helpers/contactHelpers";
 import { LEVEL_COPY } from "../../constants.js";
 
-export default function ContactSheet({ phone, sms, email, context }) {
+const ContactSheet = forwardRef(function ContactSheet(
+  { phone, sms, email, context, className = "", onKeyDown },
+  ref
+) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const firstActionRef = useRef(null);
@@ -115,15 +118,17 @@ export default function ContactSheet({ phone, sms, email, context }) {
   return (
     <div
       ref={wrapRef}
-      className="relative w-full"
+      className={`relative w-full ${className}`.trim()}
       onClick={(e) => e.stopPropagation()}
     >
       <button
+        ref={ref}
         type="button"
         onClick={() => setOpen((s) => !s)}
+        onKeyDown={onKeyDown}
         aria-expanded={open}
         aria-controls="contact-sheet"
-        className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50"
+        className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-300"
       >
         Questions? Call / Text / Email
       </button>
@@ -205,4 +210,6 @@ export default function ContactSheet({ phone, sms, email, context }) {
       )}
     </div>
   );
-}
+});
+
+export default ContactSheet;

@@ -239,8 +239,9 @@ export default function CommercialPage() {
             <CommercialLeadForm />
           </div>
         </section>
+
+        <Footer />
       </main>
-      <Footer />
     </>
   );
 }
