@@ -6,7 +6,7 @@ import CalendlyBooking from "./CalendlyBooking";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
-import { CFG, CONTACT } from "../../constants.js";
+import { CFG, CONTACT, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
@@ -36,13 +36,15 @@ import { quoteFieldId } from "../../helpers/fieldIds.js";
  * - one-time: 0%
  *
  * Promo:
- * - GOLDENWELCOME = $50 off Deep Clean only; applied to estimated total (not deposit)
+ * - GOLDENWELCOME = $50 off Deep Clean only; applied to estimated total
  */
 
 const HOURLY_RATE = 75;          // used internally, never shown in UI
 const ECO_MULTIPLIER = 1.15;     // 15% upcharge
 const SQFT_PER_HOUR_BASE = 290;  // average productivity per cleaner (deep baseline)
 const MIN_VISIT_HOURS_ONE_CLEANER = 2;
+/** Above this on-site duration with one cleaner, we schedule two cleaners and halve on-site time */
+const MAX_ON_SITE_HOURS_ONE_CLEANER = 4;
 
 // We treat anything over 16 total person-hours as a "large job"
 const MAX_TOTAL_PERSON_HOURS = 16;
@@ -102,19 +104,6 @@ function trimHours(h) {
 
 function hoursUnit(h) {
   return Math.abs(h - 1) < 1e-9 ? "hour" : "hours";
-}
-
-function getDepositByOnSiteHours(onSiteHours) {
-  if (onSiteHours <= 3) return 50;
-  if (onSiteHours <= 5) return 75;
-  if (onSiteHours <= 6) return 100;
-  return 125;
-}
-
-function pickCalendlySlotAtLeast(minHours) {
-  const sorted = [...CFG.bookingSlots].sort((a, b) => a.hours - b.hours);
-  const found = sorted.find((s) => s.hours >= minHours);
-  return found || sorted[sorted.length - 1];
 }
 
 export default function QuoteCalculator({
@@ -253,8 +242,8 @@ export default function QuoteCalculator({
       (sqftHigh * cleanMult) / SQFT_PER_HOUR_BASE + addonHoursHigh
     );
 
-    // Decide team size based on the HIGH end
-    const cleaners = billableHoursHighRaw > 8 ? 2 : 1;
+    // Use two cleaners when one cleaner would be on site more than 4 hours
+    const cleaners = billableHoursHighRaw > MAX_ON_SITE_HOURS_ONE_CLEANER ? 2 : 1;
 
     // On-site time per cleaner
     const onSiteRangeLowRaw = billableHoursLowRaw / cleaners;
@@ -315,12 +304,6 @@ export default function QuoteCalculator({
       totalBeforePromoHighRaw - promoDiscountHigh
     );
 
-    // Booking / Calendly window: use upper end of on-site time per cleaner
-    const minReservedHoursPerCleaner = Math.ceil(onSiteRangeHigh);
-    const slot = pickCalendlySlotAtLeast(minReservedHoursPerCleaner);
-    const reservedWindowHours = slot.hours;
-    const bookingFeeRaw = getDepositByOnSiteHours(reservedWindowHours);
-
     return {
       bedrooms,
       bathrooms: bathroomUnits,
@@ -353,9 +336,7 @@ export default function QuoteCalculator({
       // Compatibility: "totalAfterPromo" = upper end
       totalAfterPromo: totalAfterPromoHigh,
 
-      bookingFee: clampCurrency(bookingFeeRaw),
-      reservedWindowHours,
-      calendlyUrl: slot?.url || CONTACT.bookingUrl,
+      walkthroughArrivalHours: WALKTHROUGH_ARRIVAL_HOURS,
 
       time: {
         cleaners,
@@ -455,19 +436,13 @@ export default function QuoteCalculator({
     parts.push(
       `Estimated total ${quoteTotalLabel}, based on ${breakdownSqftLabel} and ${quoteHoursLabel}.`
     );
-    parts.push(
-      `Booking deposit ${formatCurrency(result.bookingFee)}, applied to your final total.`
-    );
 
     if (!result.isLargeJob) {
       parts.push(
-        `Estimated time on site ${result.time.displayText} with ${result.time.cleaners} ${result.time.cleaners === 1 ? "cleaner" : "cleaners"}.`
+        `Estimated cleaning time on site ${result.time.displayText} with ${result.time.cleaners} ${result.time.cleaners === 1 ? "cleaner" : "cleaners"}.`
       );
       parts.push(
-        `We will reserve a ${result.reservedWindowHours} ${hoursUnit(result.reservedWindowHours)} arrival window.`
-      );
-      parts.push(
-        "Larger jobs may be completed with two cleaners so your visit finishes sooner. Your price is based on home size, not how many people are on-site."
+        `Schedule a ${WALKTHROUGH_ARRIVAL_HOURS} ${hoursUnit(WALKTHROUGH_ARRIVAL_HOURS)} arrival window for your in-home walkthrough and final quote. No deposit required to book.`
       );
     } else {
       parts.push(
@@ -476,7 +451,7 @@ export default function QuoteCalculator({
     }
 
     parts.push(
-      "Final price is confirmed after a quick in-person walkthrough. Booking deposit is fully applied to your total and refundable up to 24 hours before your appointment."
+      "Final price is confirmed during your in-home walkthrough."
     );
 
     return parts.join(" ");
@@ -523,15 +498,13 @@ export default function QuoteCalculator({
   function onScheduleClick(e) {
     e.preventDefault();
 
-    const base = result.calendlyUrl || CONTACT.bookingUrl;
-    const calendlyUrl = buildCalendlyUrlWithUtm(base, result, {
+    const calendlyUrl = buildCalendlyUrlWithUtm(CONTACT.bookingUrl, result, {
       applied: promoValid,
       code: promoCode.trim().toUpperCase(),
       amount: promoValid ? 50 : 0,
     });
 
     sessionStorage.setItem("calendlyUrl", calendlyUrl);
-    // Open in same click so mobile popup blockers allow it
     window.open(calendlyUrl, "_blank", "noopener,noreferrer");
     router.push("/book");
   }
@@ -733,8 +706,7 @@ export default function QuoteCalculator({
               </p>
             )}
             <p id={promoHintId} className="mt-1 text-[11px] text-stone-500">
-              Applies to Deep Clean only. Discount reduces the estimated total;
-              booking deposit unchanged.
+              Applies to Deep Clean only. Discount reduces the estimated total.
             </p>
           </div>
         </div>
@@ -817,302 +789,287 @@ export default function QuoteCalculator({
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
-        <section
-          aria-labelledby={breakdownHeadingId}
-          aria-describedby={quoteBreakdownA11yId}
-          className="rounded-2xl border p-4"
-        >
-          <h3 id={breakdownHeadingId} className={QUOTE_SECTION_LABEL}>
-            Breakdown
-          </h3>
-          <p id={quoteBreakdownA11yId} className="sr-only">
-            {breakdownA11yText}
-          </p>
-          <ul
-            aria-hidden="true"
-            className="mt-3 space-y-1 text-sm text-stone-700"
+          <section
+            aria-labelledby={breakdownHeadingId}
+            aria-describedby={quoteBreakdownA11yId}
+            className="rounded-2xl border p-4"
           >
-            <li className="flex justify-between">
-              <span>Home size used for estimate</span>
-              <span className="tabular-nums">
-                {hasSqftRange
-                  ? `${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()} sq ft`
-                  : `${result.sqftHigh.toLocaleString()} sq ft`}
-              </span>
-            </li>
+            <h3 id={breakdownHeadingId} className={QUOTE_SECTION_LABEL}>
+              Breakdown
+            </h3>
+            <p id={quoteBreakdownA11yId} className="sr-only">
+              {breakdownA11yText}
+            </p>
+            <ul
+              aria-hidden="true"
+              className="mt-3 space-y-1 text-sm text-stone-700"
+            >
+              <li className="flex justify-between">
+                <span>Home size used for estimate</span>
+                <span className="tabular-nums">
+                  {hasSqftRange
+                    ? `${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()} sq ft`
+                    : `${result.sqftHigh.toLocaleString()} sq ft`}
+                </span>
+              </li>
 
-            <li className="flex justify-between">
-              <span>Cleaning time (upper estimate)</span>
-              <span className="tabular-nums">
-                ${result.baseLaborCore.toLocaleString()}
-              </span>
-            </li>
+              <li className="flex justify-between">
+                <span>Cleaning time (upper estimate)</span>
+                <span className="tabular-nums">
+                  ${result.baseLaborCore.toLocaleString()}
+                </span>
+              </li>
 
-            {result.addonFlatTotal > 0 && (
-              <>
-                {result.addonFridge && (
-                  <li className="flex justify-between">
-                    <span>Inside fridge add-on</span>
-                    <span className="tabular-nums">+${ADDON_FRIDGE_PRICE}</span>
-                  </li>
-                )}
-                {result.addonOven && (
-                  <li className="flex justify-between">
-                    <span>Inside oven add-on</span>
-                    <span className="tabular-nums">+${ADDON_OVEN_PRICE}</span>
-                  </li>
-                )}
-                {result.addonSecondKitchen && (
-                  <li className="flex justify-between">
-                    <span>Second full kitchen</span>
-                    <span className="tabular-nums text-xs text-stone-500">
-                      time-based (~60–90 min)
+              {result.addonFlatTotal > 0 && (
+                <>
+                  {result.addonFridge && (
+                    <li className="flex justify-between">
+                      <span>Inside fridge add-on</span>
+                      <span className="tabular-nums">+${ADDON_FRIDGE_PRICE}</span>
+                    </li>
+                  )}
+                  {result.addonOven && (
+                    <li className="flex justify-between">
+                      <span>Inside oven add-on</span>
+                      <span className="tabular-nums">+${ADDON_OVEN_PRICE}</span>
+                    </li>
+                  )}
+                  {result.addonSecondKitchen && (
+                    <li className="flex justify-between">
+                      <span>Second full kitchen</span>
+                      <span className="tabular-nums text-xs text-stone-500">
+                        time-based (~60–90 min)
+                      </span>
+                    </li>
+                  )}
+                </>
+              )}
+
+              {result.freqDiscount > 0 && (
+                <li className="flex justify-between">
+                  <span>Frequency discount</span>
+                  <span className="tabular-nums">
+                    −${result.freqDiscount.toLocaleString()}
+                  </span>
+                </li>
+              )}
+
+              {result.ecoUpcharge > 0 && (
+                <li className="flex justify-between">
+                  <span>Eco-friendly products (+15%)</span>
+                  <span className="tabular-nums">
+                    {formatSigned(result.ecoUpcharge)}
+                  </span>
+                </li>
+              )}
+
+              {promoValid && (
+                <li className="flex justify-between text-emerald-800">
+                  <span>Promo (GOLDENWELCOME)</span>
+                  <span className="tabular-nums">
+                    −${result.promoDiscount.toLocaleString()}
+                  </span>
+                </li>
+              )}
+            </ul>
+          </section>
+
+          <section
+            aria-labelledby={quoteHeadingId}
+            aria-describedby={quoteSummaryA11yId}
+            className="rounded-2xl border p-4 bg-amber-50/60"
+          >
+            <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
+              Your quote
+            </h3>
+            <p id={quoteSummaryA11yId} className="sr-only">
+              {summaryA11yText}
+            </p>
+
+            <div aria-hidden="true">
+              <div className="mt-3">
+                <div>
+                  <p className="text-3xl md:text-4xl font-semibold tabular-nums">
+                    {result.totalAfterPromoLow === result.totalAfterPromoHigh
+                      ? formatCurrency(result.totalAfterPromoHigh)
+                      : `${formatCurrency(
+                        result.totalAfterPromoLow
+                      )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
+                  </p>
+
+                  <p className="mt-1 text-xs text-stone-600">
+                    {hasSqftRange || hasHourRange ? "Estimated range " : "Estimated "}
+                    based on{" "}
+                    {hasSqftRange ? (
+                      <>
+                        {result.sqftLow.toLocaleString()}–{" "}
+                        {result.sqftHigh.toLocaleString()} sq ft
+                      </>
+                    ) : (
+                      <>{result.sqftHigh.toLocaleString()} sq ft</>
+                    )}{" "}
+                    and{" "}
+                    {hasHourRange ? (
+                      <>
+                        {result.billableHoursLow.toFixed(1)}–{" "}
+                        {result.billableHours.toFixed(1)}{" "}
+                        {hoursUnit(result.billableHours)}
+                      </>
+                    ) : (
+                      <>
+                        {result.billableHours.toFixed(1)}{" "}
+                        {hoursUnit(result.billableHours)}
+                      </>
+                    )}{" "}
+                    of cleaning time.
+                  </p>
+                </div>
+              </div>
+
+              {!result.isLargeJob && (
+                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3">
+                  <div className="text-sm text-stone-800">
+                    Estimated cleaning time on site:{" "}
+                    <span className="font-medium tabular-nums">
+                      {result.time.displayText}
+                    </span>{" "}
+                    with{" "}
+                    <span className="font-medium">
+                      {result.time.cleaners}{" "}
+                      {result.time.cleaners === 1 ? "cleaner" : "cleaners"}
                     </span>
-                  </li>
-                )}
-              </>
-            )}
+                    .
+                  </div>
+                  <div className="mt-1 text-xs text-stone-600">
+                    When you schedule, you&apos;ll pick a{" "}
+                    <span className="font-medium">
+                      {WALKTHROUGH_ARRIVAL_HOURS}{" "}
+                      {hoursUnit(WALKTHROUGH_ARRIVAL_HOURS)}
+                    </span>{" "}
+                    arrival window for your in-home walkthrough and final quote.
+                  </div>
+                </div>
+              )}
 
-            {result.freqDiscount > 0 && (
-              <li className="flex justify-between">
-                <span>Frequency discount</span>
-                <span className="tabular-nums">
-                  −${result.freqDiscount.toLocaleString()}
-                </span>
-              </li>
-            )}
-
-            {result.ecoUpcharge > 0 && (
-              <li className="flex justify-between">
-                <span>Eco-friendly products (+15%)</span>
-                <span className="tabular-nums">
-                  {formatSigned(result.ecoUpcharge)}
-                </span>
-              </li>
-            )}
-
-            {promoValid && (
-              <li className="flex justify-between text-emerald-800">
-                <span>Promo (GOLDENWELCOME)</span>
-                <span className="tabular-nums">
-                  −${result.promoDiscount.toLocaleString()}
-                </span>
-              </li>
-            )}
-          </ul>
-        </section>
-
-        <section
-          aria-labelledby={quoteHeadingId}
-          aria-describedby={quoteSummaryA11yId}
-          className="rounded-2xl border p-4 bg-amber-50/60"
-        >
-          <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-            Your quote
-          </h3>
-          <p id={quoteSummaryA11yId} className="sr-only">
-            {summaryA11yText}
-          </p>
-
-          <div aria-hidden="true">
-            <div className="mt-3 flex items-end justify-between">
-              <div>
-                <p className="text-3xl md:text-4xl font-semibold tabular-nums">
-                  {result.totalAfterPromoLow === result.totalAfterPromoHigh
-                    ? formatCurrency(result.totalAfterPromoHigh)
-                    : `${formatCurrency(
-                      result.totalAfterPromoLow
-                    )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
-                </p>
-
-                <p className="text-xs text-stone-600">
-                  {hasSqftRange || hasHourRange ? "Estimated range " : "Estimated "}
-                  based on{" "}
-                  {hasSqftRange ? (
-                    <>
-                      {result.sqftLow.toLocaleString()}–{" "}
-                      {result.sqftHigh.toLocaleString()} sq ft
-                    </>
-                  ) : (
-                    <>{result.sqftHigh.toLocaleString()} sq ft</>
-                  )}{" "}
-                  and{" "}
-                  {hasHourRange ? (
-                    <>
-                      {result.billableHoursLow.toFixed(1)}–{" "}
-                      {result.billableHours.toFixed(1)}{" "}
-                      {hoursUnit(result.billableHours)}
-                    </>
-                  ) : (
-                    <>
-                      {result.billableHours.toFixed(1)}{" "}
-                      {hoursUnit(result.billableHours)}
-                    </>
-                  )}{" "}
-                  of cleaning time.
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p className="text-sm text-stone-700">
-                  Booking deposit <small>(applied to your final total)</small>
-                </p>
-                <p className="text-lg font-medium tabular-nums">
-                  {formatCurrency(result.bookingFee)}
-                </p>
-              </div>
+              {result.isLargeJob && (
+                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3 text-xs text-stone-700">
+                  This is a larger project. For accurate scheduling, please call us
+                  to book so we can plan enough time and team support.
+                </div>
+              )}
             </div>
 
-            {!result.isLargeJob && (
-              <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3">
-                <div className="text-sm text-stone-800">
-                  Estimated time on site:{" "}
-                  <span className="font-medium tabular-nums">
-                    {result.time.displayText}
-                  </span>{" "}
-                  with{" "}
-                  <span className="font-medium">
-                    {result.time.cleaners}{" "}
-                    {result.time.cleaners === 1 ? "cleaner" : "cleaners"}
-                  </span>
-                  .
-                </div>
-                <div className="mt-1 text-xs text-stone-600">
-                  We’ll reserve an{" "}
-                  <span className="font-medium">
-                    {result.reservedWindowHours}{" "}
-                    {hoursUnit(result.reservedWindowHours)}
-                  </span>{" "}
-                  arrival window to ensure enough time.
-                </div>
-                <div className="mt-1 text-xs text-stone-600">
-                  Larger jobs may be completed with two cleaners so your visit
-                  finishes sooner — your price is based on home size, not how many
-                  people are on-site.
-                </div>
-              </div>
-            )}
+            {/* Dual CTA: Calendly for normal jobs, Call-to-book for large jobs */}
+            <div
+              role="group"
+              aria-label="Book or ask questions about your quote"
+              className="mt-4 flex flex-col gap-2 sm:flex-row"
+            >
+              {!result.isLargeJob ? (
+                <>
+                  <button
+                    ref={quoteScheduleBtnRef}
+                    type="button"
+                    onClick={onScheduleClick}
+                    onKeyDown={focusQuoteContactButton}
+                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                    aria-label="Schedule this cleaning"
+                  >
+                    Schedule This Cleaning
+                  </button>
 
-            {result.isLargeJob && (
-              <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3 text-xs text-stone-700">
-                This is a larger project. For accurate scheduling, please call us
-                to book so we can plan enough time and team support.
-              </div>
-            )}
-          </div>
+                  <ContactSheet
+                    ref={quoteContactBtnRef}
+                    className="min-w-0 flex-1"
+                    phone={CONTACT.phone}
+                    sms={CONTACT.sms}
+                    email={CONTACT.email}
+                    onKeyDown={focusQuoteScheduleButton}
+                    context={{
+                      level: cleanType,
+                      sqftLow: result.sqftLow,
+                      sqftHigh: result.sqftHigh,
+                      sqftInput: result.sqftInput,
+                      bedrooms,
+                      bathrooms,
+                      total: result.totalAfterPromo, // upper end
+                      totalLow: result.totalAfterPromoLow,
+                      frequency,
+                      ecoProducts,
+                      cleaners: result.time.cleaners,
+                      billableHoursLow: result.billableHoursLow,
+                      billableHours: result.billableHours,
+                      hourlyRate: result.hourlyRate,
+                      addons: {
+                        fridge: result.addonFridge,
+                        oven: result.addonOven,
+                        secondKitchen: result.addonSecondKitchen,
+                      },
+                      promo: promoValid
+                        ? {
+                          code: promoCode.trim().toUpperCase(),
+                          amount: result.promoDiscount,
+                        }
+                        : null,
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <a
+                    ref={quoteScheduleBtnRef}
+                    href={`tel:${CONTACT.phone}`}
+                    onKeyDown={focusQuoteContactButton}
+                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                    aria-label={`Call to book this clean at ${CONTACT.phone}`}
+                  >
+                    Call to Book This Clean
+                  </a>
 
-          {/* Dual CTA: Calendly for normal jobs, Call-to-book for large jobs */}
-          <div
-            role="group"
-            aria-label="Book or ask questions about your quote"
-            className="mt-4 flex flex-col gap-2 sm:flex-row"
-          >
-            {!result.isLargeJob ? (
-              <>
-                <button
-                  ref={quoteScheduleBtnRef}
-                  type="button"
-                  onClick={onScheduleClick}
-                  onKeyDown={focusQuoteContactButton}
-                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                  aria-label="Book online now"
-                >
-                  Schedule &amp; Pay Deposit
-                </button>
+                  <ContactSheet
+                    ref={quoteContactBtnRef}
+                    className="min-w-0 flex-1"
+                    phone={CONTACT.phone}
+                    sms={CONTACT.sms}
+                    email={CONTACT.email}
+                    onKeyDown={focusQuoteScheduleButton}
+                    context={{
+                      level: cleanType,
+                      sqftLow: result.sqftLow,
+                      sqftHigh: result.sqftHigh,
+                      sqftInput: result.sqftInput,
+                      bedrooms,
+                      bathrooms,
+                      total: result.totalAfterPromo,
+                      totalLow: result.totalAfterPromoLow,
+                      frequency,
+                      ecoProducts,
+                      cleaners: result.time.cleaners,
+                      billableHoursLow: result.billableHoursLow,
+                      billableHours: result.billableHours,
+                      hourlyRate: result.hourlyRate,
+                      addons: {
+                        fridge: result.addonFridge,
+                        oven: result.addonOven,
+                        secondKitchen: result.addonSecondKitchen,
+                      },
+                      promo: promoValid
+                        ? {
+                          code: promoCode.trim().toUpperCase(),
+                          amount: result.promoDiscount,
+                        }
+                        : null,
+                    }}
+                  />
+                </>
+              )}
+            </div>
 
-                <ContactSheet
-                  ref={quoteContactBtnRef}
-                  className="min-w-0 flex-1"
-                  phone={CONTACT.phone}
-                  sms={CONTACT.sms}
-                  email={CONTACT.email}
-                  onKeyDown={focusQuoteScheduleButton}
-                  context={{
-                    level: cleanType,
-                    sqftLow: result.sqftLow,
-                    sqftHigh: result.sqftHigh,
-                    sqftInput: result.sqftInput,
-                    bedrooms,
-                    bathrooms,
-                    total: result.totalAfterPromo, // upper end
-                    totalLow: result.totalAfterPromoLow,
-                    frequency,
-                    ecoProducts,
-                    cleaners: result.time.cleaners,
-                    billableHoursLow: result.billableHoursLow,
-                    billableHours: result.billableHours,
-                    hourlyRate: result.hourlyRate,
-                    addons: {
-                      fridge: result.addonFridge,
-                      oven: result.addonOven,
-                      secondKitchen: result.addonSecondKitchen,
-                    },
-                    promo: promoValid
-                      ? {
-                        code: promoCode.trim().toUpperCase(),
-                        amount: result.promoDiscount,
-                      }
-                      : null,
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <a
-                  ref={quoteScheduleBtnRef}
-                  href={`tel:${CONTACT.phone}`}
-                  onKeyDown={focusQuoteContactButton}
-                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                  aria-label={`Call to book this clean at ${CONTACT.phone}`}
-                >
-                  Call to Book This Clean
-                </a>
-
-                <ContactSheet
-                  ref={quoteContactBtnRef}
-                  className="min-w-0 flex-1"
-                  phone={CONTACT.phone}
-                  sms={CONTACT.sms}
-                  email={CONTACT.email}
-                  onKeyDown={focusQuoteScheduleButton}
-                  context={{
-                    level: cleanType,
-                    sqftLow: result.sqftLow,
-                    sqftHigh: result.sqftHigh,
-                    sqftInput: result.sqftInput,
-                    bedrooms,
-                    bathrooms,
-                    total: result.totalAfterPromo,
-                    totalLow: result.totalAfterPromoLow,
-                    frequency,
-                    ecoProducts,
-                    cleaners: result.time.cleaners,
-                    billableHoursLow: result.billableHoursLow,
-                    billableHours: result.billableHours,
-                    hourlyRate: result.hourlyRate,
-                    addons: {
-                      fridge: result.addonFridge,
-                      oven: result.addonOven,
-                      secondKitchen: result.addonSecondKitchen,
-                    },
-                    promo: promoValid
-                      ? {
-                        code: promoCode.trim().toUpperCase(),
-                        amount: result.promoDiscount,
-                      }
-                      : null,
-                  }}
-                />
-              </>
-            )}
-          </div>
-
-          <p className="mt-2 text-xs text-stone-600" aria-hidden="true">
-            Final price is confirmed after a quick in-person walkthrough.
-            Booking deposit is fully applied to your total and refundable up to
-            24 hours before your appointment.
-          </p>
-        </section>
+            <p className="mt-2 text-xs text-stone-600" aria-hidden="true">
+              Final price is confirmed during your in-home walkthrough. No deposit
+              required to schedule.
+            </p>
+          </section>
         </div>
       </div>
 
