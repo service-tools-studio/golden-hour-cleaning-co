@@ -1,7 +1,6 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { HEADING_UPPER } from "../../helpers/typography.js";
+import { SERVICE_LIST } from "../../data/residentialServices";
 
 export default function Services() {
   return (
@@ -14,125 +13,43 @@ export default function Services() {
       </p>
 
       <div className="mt-6 md:mt-8 grid md:grid-cols-3 gap-6">
-        {/* Standard */}
-        <ServiceCard
-          title="Standard Clean"
-          desc="Weekly or bi-weekly upkeep for homes that already feel pretty tidy."
-          items={[
-            "Kitchen & bath surfaces",
-            "Dusting & high-touch areas",
-            "Floors vacuum & mop",
-            "Light general tidy",
-          ]}
-          price="~$0.26/sq ft • lighter upkeep"
-          cta="Calculate My Quote"
-          levelKey="standard"
-        />
-
-        {/* Deep */}
-        <ServiceCard
-          title="Deep Clean"
-          desc="A full-home reset — perfect if it’s been 2+ months since last clean or things feel built up."
-          items={[
-            "Baseboards & edges",
-            "Bathroom detailing",
-            "Kitchen detail + appliance exteriors",
-            "Doors & door frames",
-            "Light switches & outlets",
-            "Fan dusting",
-            "Spot wall wipe",
-          ]}
-          price="~$0.35/sq ft • full-home reset"
-          cta="Calculate My Quote"
-          featured
-          levelKey="deep"
-        />
-
-        {/* Move-Out */}
-        <ServiceCard
-          title="Move-Out"
-          desc="Empty-home detail clean so you can move in (or hand over keys) feeling completely clear."
-          items={[
-            "Everything in Deep Clean, plus:",
-            "Inside cabinets & drawers",
-            "Closet shelves",
-            "Baseboards (full detail)",
-            "Doors + door frames",
-            "Light switches / outlets",
-            "Fan dusting",
-            "Full bathroom sanitation",
-            "Floor detail",
-            "Light fixture dusting",
-          ]}
-          price="~$0.46/sq ft • most intensive"
-          cta="Calculate My Quote"
-          levelKey="move_out"
-        />
+        {SERVICE_LIST.map((service) => (
+          <ServiceCard key={service.slug} service={service} />
+        ))}
       </div>
     </section>
   );
 }
 
-function ServiceCard({
-  title,
-  desc,
-  items,
-  price,
-  cta = "Calculate My Quote",
-  featured = false,
-  levelKey,
-}) {
-  const router = useRouter();
-
-  function handleSelectLevel(e) {
-    e.preventDefault();
-
-    const targetUrl = `/residential/services?level=${encodeURIComponent(levelKey)}#quote`;
-
-    const currentPath = window.location.pathname;
-    const currentLevel = new URLSearchParams(window.location.search).get("level");
-
-    // If already on the page, update URL (so calculator prefills) and scroll
-    if (currentPath === "/residential/services") {
-      if (currentLevel !== levelKey) {
-        router.replace(targetUrl);
-      }
-      const quoteSection = document.querySelector("#quote");
-      if (quoteSection) {
-        quoteSection.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      router.push(targetUrl);
-    }
-  }
-
+function ServiceCard({ service }) {
+  const detailHref = `/residential/services/${service.slug}`;
 
   return (
     <div
-      className={`rounded-3xl border p-6 shadow-sm bg-white ${featured ? "border-stone-900 shadow-xl" : "border-amber-200"
-        }`}
+      className={`rounded-3xl border p-6 shadow-sm bg-white ${
+        service.featured ? "border-stone-900 shadow-xl" : "border-amber-200"
+      }`}
     >
       <div className="flex items-center justify-between">
-        <h3 className={`font-medium ${HEADING_UPPER}`}>{title}</h3>
-        <span className="text-sm text-stone-500">{price}</span>
+        <h3 className={`font-medium ${HEADING_UPPER}`}>{service.title}</h3>
+        <span className="text-sm text-stone-500">{service.price}</span>
       </div>
 
-      <p className="mt-2 text-sm text-stone-700">{desc}</p>
+      <p className="mt-2 text-sm text-stone-700">{service.desc}</p>
 
       <ul className="mt-4 space-y-1 text-sm text-stone-700">
-        {items.map((i) => (
+        {service.items.map((i) => (
           <li key={i}>{i}</li>
         ))}
       </ul>
 
-      <a
-        href={`/residential/services?level=${encodeURIComponent(levelKey)}#quote`}
-        onClick={handleSelectLevel}
-        aria-label={`Calculate my quote for ${title}`}
-        className="uppercase tracking-wide mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800"
+      <Link
+        href={detailHref}
+        aria-label={`Learn more about ${service.title}`}
+        className="uppercase tracking-wide mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
       >
-        {cta}
-      </a>
+        Learn more
+      </Link>
 
       <p className="mt-2 text-xs text-stone-500">
         Quotes are based on estimated square footage, service level, and add-ons.

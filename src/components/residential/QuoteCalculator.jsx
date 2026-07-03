@@ -602,21 +602,9 @@ export default function QuoteCalculator({
         <legend className={`${QUOTE_SECTION_LABEL} px-1`}>Cleaning options</legend>
         <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
           <div>
-            <div className={`${QUOTE_FIELD_LABEL} flex items-center gap-2`}>
-              <span id={cleanTypeLabelId}>Clean Type</span>
-              <button
-                type="button"
-                aria-describedby={cleanTypeTipId}
-                aria-label="Help: what each clean type includes"
-                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-stone-200 text-stone-700 text-xs hover:bg-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
-              >
-                <span aria-hidden="true">?</span>
-              </button>
-            </div>
-            <p id={cleanTypeTipId} className="mt-0.5 text-xs text-stone-500">
-              View the Services section below for details on what each clean type
-              includes.
-            </p>
+            <span id={cleanTypeLabelId} className={`${QUOTE_FIELD_LABEL} block`}>
+              Clean Type
+            </span>
 
             <SelectField
               id={quoteFieldId("clean-type")}
@@ -630,6 +618,16 @@ export default function QuoteCalculator({
                 { value: "move_out", label: "Move-In / Move-Out" },
               ]}
             />
+            <p id={cleanTypeTipId} className="mt-1 text-[11px] text-stone-500">
+              View our{" "}
+              <a
+                href="#services"
+                className="font-medium text-stone-700 underline underline-offset-2 hover:text-stone-900"
+              >
+                Residential Services
+              </a>{" "}
+              for details on what each clean type includes.
+            </p>
           </div>
 
           {/* Frequency */}

@@ -13,6 +13,9 @@ const ROUTES: {
   { path: "/residential", changeFrequency: "weekly", priority: 0.9 },
   { path: "/commercial", changeFrequency: "weekly", priority: 0.9 },
   { path: "/residential/services", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/residential/services/standard", changeFrequency: "monthly", priority: 0.75 },
+  { path: "/residential/services/deep", changeFrequency: "monthly", priority: 0.75 },
+  { path: "/residential/services/move-out", changeFrequency: "monthly", priority: 0.75 },
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
   { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
 ];

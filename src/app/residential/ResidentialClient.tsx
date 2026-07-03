@@ -1,8 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Header from '../../components/residential/Header.jsx'
 import Hero from '../../components/residential/Hero.jsx'
 import Services from '../../components/residential/Services.jsx'
+import BeforeAfter from '../../components/residential/BeforeAfter.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'
 import Footer from '../../components/residential/Footer.jsx'
 import Trust from '../../components/residential/Trust.jsx'
@@ -11,8 +13,26 @@ import ServiceAreaMap from '../../components/residential/ServiceAreaMap.jsx'
 import GoogleReviews from '../../components/residential/GoogleReviews.jsx'
 import { BadgeCheck, CalendarCheck2, Leaf, ShieldCheck, Stars } from 'lucide-react'
 import { Badge } from '../../helpers/ui-elements.jsx'
+
+const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
+type Level = "standard" | "deep" | "move_out";
+
+function levelFromUrl(value: string | null): Level {
+  if (value && VALID_LEVELS.has(value as Level)) return value as Level;
+  return "deep";
+}
+
 export default function ResidentialClient() {
+  const searchParams = useSearchParams();
+  const initialLevel = levelFromUrl(searchParams.get("level"));
   const [showCalendly, setShowCalendly] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash === "#quote") {
+      document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [initialLevel]);
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
@@ -44,12 +64,15 @@ export default function ResidentialClient() {
           <QuoteCalculator
             showCalendly={showCalendly}
             setShowCalendly={setShowCalendly}
+            initialLevel={initialLevel}
             title="Get a Quote & Book Instantly"
             subtitle="Transparent, size-based pricing with thoughtful attention to your unique home."
           />
         </div>
 
         <Services />
+
+        <BeforeAfter />
 
         <Footer />
       </main>

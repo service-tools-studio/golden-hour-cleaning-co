@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Footer from "@/components/residential/Footer";
+import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import Services from "@/components/residential/Services";
 import QuoteCalculator from "@/components/residential/QuoteCalculator";
-import Image from "next/image";
-import Link from "next/link";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
@@ -21,18 +20,9 @@ export default function ResidentialServicesClient({
 }: {
   initialLevel: Level;
 }) {
-  const router = useRouter();
   const [showCalendly, setShowCalendly] = useState(false);
   const searchParams = useSearchParams();
   const level = levelFromUrl(searchParams.get("level")) || initialLevel;
-
-  function handleBack() {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      router.back();
-    } else {
-      router.push("/residential");
-    }
-  }
 
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -44,27 +34,8 @@ export default function ResidentialServicesClient({
 
   return (
     <>
-      <header className="mx-auto max-w-7xl border-b border-amber-200 bg-brand px-6 pt-10 pb-16 sm:pt-6">
-        <Link href="/residential" aria-label="Go to residential home">
-          <Image
-            src="/assets/Golden Hour - commercial.png"
-            alt="Golden Hour Cleaning Co."
-            width={200}
-            height={100}
-            priority
-            className="h-[100px] sm:h-[100px] w-auto cursor-pointer"
-            sizes="(max-width: 640px) 260px, 360px"
-          />
-        </Link>
-        <button
-          type="button"
-          onClick={handleBack}
-          className="uppercase tracking-wide mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
-        >
-          <span aria-hidden>←</span>
-          Go back
-        </button>
-      </header>
+      <ServicesPageHeader />
+
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <Services />
 

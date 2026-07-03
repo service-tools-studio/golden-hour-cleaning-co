@@ -48,7 +48,7 @@ export default function Hero() {
               }}
               className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl bg-stone-900 lg:bg-white lg:text-stone-900 px-5 py-3 text-sm font-medium text-white shadow hover:bg-stone-800 lg:hover:bg-amber-50"
             >
-              See Services &amp; Get Quote
+              See Services
             </button>
           </div>
 
