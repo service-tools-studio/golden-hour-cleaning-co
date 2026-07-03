@@ -60,6 +60,8 @@ export default function ResidentialClient() {
         </GoogleMapsProvider>
 
 
+        <Services />
+
         <div className="pt-10" id="quote">
           <QuoteCalculator
             showCalendly={showCalendly}
@@ -69,8 +71,6 @@ export default function ResidentialClient() {
             subtitle="Transparent, size-based pricing with thoughtful attention to your unique home."
           />
         </div>
-
-        <Services />
 
         <BeforeAfter />
 

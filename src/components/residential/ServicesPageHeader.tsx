@@ -25,8 +25,8 @@ export default function ServicesPageHeader({
 
   return (
     <>
-      <header className="mx-auto max-w-7xl border-b border-amber-200 bg-brand px-6 py-5 sm:py-5">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <header className="w-full border-b border-amber-200 bg-brand">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <Link href="/residential" aria-label="Go to residential home">
               <Image
@@ -59,7 +59,7 @@ export default function ServicesPageHeader({
 
       {showStickyMobileCtas ? (
         <div
-          className="lg:hidden sticky top-0 z-[100000] border-b border-amber-200 bg-brand/95 px-6 py-3 shadow-sm backdrop-blur-sm"
+          className="w-full lg:hidden sticky top-0 z-[100000] border-b border-amber-200 bg-brand/95 px-6 py-3 shadow-sm backdrop-blur-sm"
           aria-label="Quick actions"
         >
           <div className="mx-auto flex max-w-7xl items-center justify-center gap-2">
