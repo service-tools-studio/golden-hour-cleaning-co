@@ -8,6 +8,11 @@ const PHOTOS = [
     alt: "Before and after: cluttered linen closet transformed into neatly folded towels and organized shelves",
   },
   {
+    id: "bathroom",
+    title: "Bathroom",
+    alt: "Before and after: dated bathroom with grimy fixtures transformed into a bright, clean space with sparkling white tub, sink, and toilet",
+  },
+  {
     id: "floors",
     title: "Hardwood floors",
     alt: "Before and after: dull hardwood floors restored to a polished, reflective shine",
@@ -39,7 +44,7 @@ export default function BeforeAfter() {
         Before &amp; After
       </h2>
       <p className="mt-1 max-w-2xl text-stone-700">
-        Real results from Golden Hour visits — closets, floors, kitchens, and
+        Real results from Golden Hour visits — closets, bathrooms, floors, kitchens, and
         more. Every photo is a side-by-side from the same home.
       </p>
 
