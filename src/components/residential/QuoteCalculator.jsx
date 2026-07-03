@@ -621,7 +621,7 @@ export default function QuoteCalculator({
             <p id={cleanTypeTipId} className="mt-1 text-[11px] text-stone-500">
               View our{" "}
               <a
-                href="#services"
+                href="/residential/services"
                 className="font-medium text-stone-700 underline underline-offset-2 hover:text-stone-900"
               >
                 Residential Services

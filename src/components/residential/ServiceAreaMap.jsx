@@ -38,7 +38,7 @@ const FALLBACK_SERVICE_AREA = [
   { lat: 45.54, lng: -122.62 },
 ];
 
-export default function ServiceAreaMap() {
+export default function ServiceAreaMap({ title = "Our service area" }) {
   const [map, setMap] = useState(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded, loadError } = useGoogleMaps();
@@ -95,7 +95,7 @@ export default function ServiceAreaMap() {
       <section className="w-full bg-amber-50/50" aria-label="Service area map">
         <div className="mx-auto max-w-7xl px-6 py-8">
           <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
-            Our service area
+            {title}
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
             Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
@@ -113,7 +113,7 @@ export default function ServiceAreaMap() {
       <section className="w-full bg-amber-50/50" aria-label="Service area map">
         <div className="mx-auto max-w-7xl px-6 py-8">
           <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
-            Our service area
+            {title}
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
             Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
@@ -130,7 +130,7 @@ export default function ServiceAreaMap() {
     <section className="w-full bg-amber-50/50" aria-label="Service area map">
       <div className="mx-auto max-w-7xl px-6 py-8">
         <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
-          Our service area
+          {title}
         </h2>
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
           Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin

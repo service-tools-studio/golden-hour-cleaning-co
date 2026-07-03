@@ -1,37 +1,6 @@
 import Image from "next/image";
 import { HEADING_UPPER } from "../../helpers/typography.js";
-
-const PHOTOS = [
-  {
-    id: "closet",
-    title: "Linen closet",
-    alt: "Before and after: cluttered linen closet transformed into neatly folded towels and organized shelves",
-  },
-  {
-    id: "bathroom",
-    title: "Bathroom",
-    alt: "Before and after: dated bathroom with grimy fixtures transformed into a bright, clean space with sparkling white tub, sink, and toilet",
-  },
-  {
-    id: "floors",
-    title: "Hardwood floors",
-    alt: "Before and after: dull hardwood floors restored to a polished, reflective shine",
-  },
-  {
-    id: "oven",
-    title: "Inside oven",
-    alt: "Before and after: greasy oven interior and door glass cleaned to a spotless finish",
-  },
-  {
-    id: "stove",
-    title: "Glass cooktop",
-    alt: "Before and after: burnt-on residue on a glass stovetop removed for a clear, polished surface",
-  },
-];
-
-function beforeAfterSrc(name) {
-  return `/assets/${encodeURIComponent(`before & after - ${name}.png`)}`;
-}
+import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
 
 export default function BeforeAfter() {
   return (
@@ -49,7 +18,7 @@ export default function BeforeAfter() {
       </p>
 
       <ul className="mt-8 grid gap-8 sm:grid-cols-2">
-        {PHOTOS.map(({ id, title, alt }) => (
+        {BEFORE_AFTER_PHOTOS.map(({ id, title, alt }) => (
           <li key={id}>
             <figure className="overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm">
               <div className="relative aspect-[3/2] w-full bg-stone-100">
