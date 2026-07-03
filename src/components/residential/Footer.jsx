@@ -103,6 +103,14 @@ export default function Footer() {
                 About Us
               </a>
             </li>
+            <li>
+              <a
+                href="/careers"
+                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+              >
+                Careers
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
