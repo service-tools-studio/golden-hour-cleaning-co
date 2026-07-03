@@ -9,7 +9,7 @@ type ServicesPageHeaderProps = {
   backHref?: string;
   onBack?: () => void;
   quoteHref?: string;
-  showStickyMobileCtas?: boolean;
+  showCtas?: boolean;
 };
 
 export default function ServicesPageHeader({
@@ -17,7 +17,7 @@ export default function ServicesPageHeader({
   backHref,
   onBack,
   quoteHref,
-  showStickyMobileCtas = true,
+  showCtas = true,
 }: ServicesPageHeaderProps) {
   const backClassName =
     "uppercase tracking-wide mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline";
@@ -51,13 +51,15 @@ export default function ServicesPageHeader({
               </button>
             ) : null}
           </div>
-          <div className="hidden lg:flex shrink-0 items-center gap-2">
-            <HeaderCTAButtons quoteHref={quoteHref} />
-          </div>
+          {showCtas ? (
+            <div className="hidden lg:flex shrink-0 items-center gap-2">
+              <HeaderCTAButtons quoteHref={quoteHref} />
+            </div>
+          ) : null}
         </div>
       </header>
 
-      {showStickyMobileCtas ? (
+      {showCtas ? (
         <div
           className="w-full lg:hidden sticky top-0 z-[100000] border-b border-amber-200 bg-brand/95 px-6 py-3 shadow-sm backdrop-blur-sm"
           aria-label="Quick actions"
