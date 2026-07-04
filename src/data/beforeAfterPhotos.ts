@@ -1,10 +1,5 @@
 export const BEFORE_AFTER_PHOTOS = [
   {
-    id: "closet",
-    title: "Linen closet",
-    alt: "Before and after: cluttered linen closet transformed into neatly folded towels and organized shelves",
-  },
-  {
     id: "bathroom",
     title: "Bathroom",
     alt: "Before and after: dated bathroom with grimy fixtures transformed into a bright, clean space with sparkling white tub, sink, and toilet",
