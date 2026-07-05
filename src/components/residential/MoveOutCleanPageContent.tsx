@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
-import { BulletList, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import { BulletList, BackToServicesLink, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function MoveOutCleanPageContent({
   quoteHref,
@@ -11,6 +11,7 @@ export default function MoveOutCleanPageContent({
 }) {
   return (
     <>
+      <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">
         ~$0.46/sq ft • most intensive
       </p>

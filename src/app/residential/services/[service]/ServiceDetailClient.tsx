@@ -6,12 +6,14 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import StandardCleanPageContent from "@/components/residential/StandardCleanPageContent";
 import DeepCleanPageContent from "@/components/residential/DeepCleanPageContent";
 import MoveOutCleanPageContent from "@/components/residential/MoveOutCleanPageContent";
+import { BackToServicesLink } from "@/components/residential/servicePageParts";
 import type { ResidentialService } from "@/data/residentialServices";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 function GenericServiceContent({ service }: { service: ResidentialService }) {
   return (
     <>
+      <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">{service.price}</p>
       <h1 className={`mt-1 text-3xl md:text-4xl ${HEADING_UPPER}`}>
         {service.title}
@@ -73,11 +75,7 @@ export default function ServiceDetailClient({
 
   return (
     <>
-      <ServicesPageHeader
-        backLabel="Back to services"
-        backHref="/residential/services"
-        quoteHref={quoteHref}
-      />
+      <ServicesPageHeader quoteHref={quoteHref} />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">

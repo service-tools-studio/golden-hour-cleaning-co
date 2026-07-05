@@ -970,7 +970,7 @@ export default function QuoteCalculator({
                     type="button"
                     onClick={onScheduleClick}
                     onKeyDown={focusQuoteContactButton}
-                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-[#333333] px-4 py-3 text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
                     aria-label="Schedule this cleaning"
                   >
                     Schedule This Cleaning

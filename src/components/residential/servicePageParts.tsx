@@ -1,5 +1,18 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { HEADING_UPPER } from "@/helpers/typography.js";
+
+export function BackToServicesLink() {
+  return (
+    <Link
+      href="/residential/services"
+      className="uppercase tracking-wide mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
+    >
+      <span aria-hidden>←</span>
+      Back to services
+    </Link>
+  );
+}
 
 export function BulletList({ items }: { items: string[] }) {
   return (

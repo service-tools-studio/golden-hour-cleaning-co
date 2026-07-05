@@ -79,7 +79,7 @@ export default function ClientExperienceSection() {
           <button
             type="button"
             onClick={() => scrollToId("#services", 8)}
-            className="mt-10 inline-flex items-center justify-center rounded-full bg-[#333333] px-8 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#dcbb52] hover:text-[#333333]"
+            className="mt-10 inline-flex items-center justify-center rounded-xl bg-[#333333] px-8 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[#dcbb52] hover:text-[#333333] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
           >
             Explore Services
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
