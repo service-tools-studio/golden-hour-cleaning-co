@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { scrollToId } from '../../helpers/scrollToId';
 import Header from '../../components/residential/Header.jsx'
 import Hero from '../../components/residential/Hero.jsx'
 import Services from '../../components/residential/Services.jsx'
@@ -30,7 +31,7 @@ export default function ResidentialClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash === "#quote") {
-      document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
+      scrollToId("#quote", 8, { focus: true });
     }
   }, [initialLevel]);
 

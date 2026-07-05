@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { HEADING_UPPER } from "../../helpers/typography.js";
 import { SERVICE_LIST } from "../../data/residentialServices";
+import ServiceCard from "./ServiceCard.jsx";
 
 export default function Services() {
   return (
@@ -18,43 +18,5 @@ export default function Services() {
         ))}
       </div>
     </section>
-  );
-}
-
-function ServiceCard({ service }) {
-  const detailHref = `/residential/services/${service.slug}`;
-
-  return (
-    <div
-      className={`rounded-3xl border p-6 shadow-sm bg-white ${
-        service.featured ? "border-stone-900 shadow-xl" : "border-amber-200"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <h3 className={`font-medium ${HEADING_UPPER}`}>{service.title}</h3>
-        <span className="text-sm text-stone-500">{service.price}</span>
-      </div>
-
-      <p className="mt-2 text-sm text-stone-700">{service.desc}</p>
-
-      <ul className="mt-4 space-y-1 text-sm text-stone-700">
-        {service.items.map((i) => (
-          <li key={i}>{i}</li>
-        ))}
-      </ul>
-
-      <Link
-        href={detailHref}
-        aria-label={`Learn more about ${service.title}`}
-        className="uppercase tracking-wide mt-5 inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-2 text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
-      >
-        Learn more
-      </Link>
-
-      <p className="mt-2 text-xs text-stone-500">
-        Quotes are based on estimated square footage, service level, and add-ons.
-        Final price is confirmed after a quick walkthrough.
-      </p>
-    </div>
   );
 }

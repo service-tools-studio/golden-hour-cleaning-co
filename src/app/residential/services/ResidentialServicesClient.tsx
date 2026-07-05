@@ -6,6 +6,7 @@ import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import Services from "@/components/residential/Services";
 import QuoteCalculator from "@/components/residential/QuoteCalculator";
+import { scrollToId } from "@/helpers/scrollToId";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
@@ -27,8 +28,7 @@ export default function ResidentialServicesClient({
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
     if (hash === "#quote") {
-      const el = document.getElementById("quote");
-      el?.scrollIntoView({ behavior: "smooth" });
+      scrollToId("#quote", 8, { focus: true });
     }
   }, [level]);
 
