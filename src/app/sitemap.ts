@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { BLOG_POSTS } from "@/data/blogPosts";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goldenhourcleaningco.com";
@@ -14,6 +15,12 @@ const ROUTES: {
   { path: "/commercial", changeFrequency: "weekly", priority: 0.9 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/careers", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
+  ...BLOG_POSTS.map((post) => ({
+    path: `/blog/${post.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.65,
+  })),
   { path: "/residential/services", changeFrequency: "monthly", priority: 0.8 },
   { path: "/residential/services/standard", changeFrequency: "monthly", priority: 0.75 },
   { path: "/residential/services/deep", changeFrequency: "monthly", priority: 0.75 },
