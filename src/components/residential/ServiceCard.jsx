@@ -51,7 +51,7 @@ export default function ServiceCard({ service }) {
         <Link
           href={detailHref}
           aria-label={`Learn more about ${service.title}`}
-          className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-900 hover:bg-stone-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+          className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-[#a7eff1]/40 bg-[#a7eff1]/30 px-4 py-2 text-[#333333] hover:bg-[#a7eff1]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
         >
           Learn more
         </Link>
