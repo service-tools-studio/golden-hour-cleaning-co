@@ -5,31 +5,45 @@ import { BulletList, Section } from "./servicePageParts";
 export default function AboutPageContent() {
   return (
     <>
-      <h1 className={`text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-        About Golden Hour Cleaning Co.
-      </h1>
-      <p className={`mt-3 text-lg text-stone-700 ${HEADING_UPPER}`}>
-        A Partnership Built on Care, Quality, and Excellence
-      </p>
+      <div className="sm:overflow-hidden">
+        <figure className="mx-auto mb-6 w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:float-left sm:mb-4 sm:mr-6 sm:w-[220px] md:w-[280px]">
+          <Image
+            src="/assets/golden-hour-couple.JPG"
+            alt="Kelsey Collins and Jasmin Heart, co-founders of Golden Hour Cleaning Co., at golden hour"
+            width={1200}
+            height={1600}
+            sizes="(max-width: 639px) 220px, 280px"
+            className="h-auto w-full"
+            priority
+          />
+        </figure>
 
-      <div className="mt-6 space-y-4 text-base leading-relaxed text-stone-700">
-        <p>
-          Golden Hour Cleaning Co. was founded by Kelsey Collins and Jasmin Heart,
-          two business partners with complementary strengths and a shared
-          commitment to providing exceptional cleaning services throughout the
-          Portland metro area.
+        <h1 className={`text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
+          About Golden Hour Cleaning Co.
+        </h1>
+        <p className={`mt-3 text-lg text-stone-700 ${HEADING_UPPER}`}>
+          A Partnership Built on Care, Quality, and Excellence
         </p>
-        <p>
-          While our backgrounds are very different, we share the same belief:
-          every client deserves dependable service, thoughtful communication, and
-          a home they genuinely enjoy coming back to.
-        </p>
-        <p>
-          Together, we&apos;ve built Golden Hour Cleaning Co. around the values
-          of integrity, professionalism, and attention to detail—because we
-          believe a clean home creates more time and space for what matters
-          most.
-        </p>
+
+        <div className="mt-6 space-y-4 text-base leading-relaxed text-stone-700">
+          <p>
+            Golden Hour Cleaning Co. was founded by Kelsey Collins and Jasmin Heart,
+            two business partners with complementary strengths and a shared
+            commitment to providing exceptional cleaning services throughout the
+            Portland metro area.
+          </p>
+          <p>
+            While our backgrounds are very different, we share the same belief:
+            every client deserves dependable service, thoughtful communication, and
+            a home they genuinely enjoy coming back to.
+          </p>
+          <p>
+            Together, we&apos;ve built Golden Hour Cleaning Co. around the values
+            of integrity, professionalism, and attention to detail—because we
+            believe a clean home creates more time and space for what matters
+            most.
+          </p>
+        </div>
       </div>
 
       <Section title="Meet Kelsey Collins">
