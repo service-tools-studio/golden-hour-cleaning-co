@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AboutBlogCTA from "@/components/residential/AboutBlogCTA";
 import AboutPageContent from "@/components/residential/AboutPageContent";
 import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
@@ -18,6 +19,8 @@ export default function AboutPage() {
         <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
           <AboutPageContent />
         </article>
+
+        <AboutBlogCTA />
 
         <Footer />
       </main>
