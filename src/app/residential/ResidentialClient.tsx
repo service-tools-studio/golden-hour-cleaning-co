@@ -7,7 +7,7 @@ import Services from '../../components/residential/Services.jsx'
 import BeforeAfter from '../../components/residential/BeforeAfter.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'
 import Footer from '../../components/residential/Footer.jsx'
-import Trust from '../../components/residential/Trust.jsx'
+import ClientExperienceSection from '../../components/residential/ClientExperienceSection'
 import GoogleMapsProvider from '../../components/residential/GoogleMapsProvider.jsx'
 import ServiceAreaMap from '../../components/residential/ServiceAreaMap.jsx'
 import GoogleReviews from '../../components/residential/GoogleReviews.jsx'
@@ -55,12 +55,14 @@ export default function ResidentialClient() {
 
         <GoogleMapsProvider>
           <GoogleReviews />
-          <Trust />
+          <ClientExperienceSection />
           <ServiceAreaMap />
         </GoogleMapsProvider>
 
 
         <Services />
+
+        <BeforeAfter />
 
         <div className="pt-10" id="quote">
           <QuoteCalculator
@@ -71,8 +73,6 @@ export default function ResidentialClient() {
             subtitle="Transparent, size-based pricing with thoughtful attention to your unique home."
           />
         </div>
-
-        <BeforeAfter />
 
         <Footer />
       </main>
