@@ -316,6 +316,366 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    slug: "ultimate-portland-move-out-cleaning-checklist",
+    title: "Ultimate Portland Move-Out Cleaning Checklist",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-06-11",
+    excerpt:
+      "A room-by-room move-out cleaning checklist for Portland renters, homeowners, and landlords — plus the details landlords notice most during final walkthroughs.",
+    heroImage: {
+      src: "/assets/move-out-clean.png",
+      alt: "Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Moving is stressful enough without worrying about whether your old home will pass a final inspection. Whether you're a renter hoping to get your security deposit back, a homeowner preparing to sell, or a landlord getting ready for the next tenant, a thorough move-out cleaning can make all the difference.",
+          "At Golden Hour Cleaning Co., we've cleaned countless move-outs throughout the Portland metro area, and we've learned exactly what property managers, landlords, and buyers notice most. Use this comprehensive checklist to make sure nothing gets overlooked.",
+        ],
+      },
+      {
+        heading: "Why Move-Out Cleaning Matters",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A professionally cleaned home can help:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Maximize your chances of receiving your full security deposit",
+              "Make your home more attractive to buyers",
+              "Prepare the property for professional photos",
+              "Leave a positive impression for the next occupants",
+              "Reduce delays during inspections",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Many landlords expect the home to be returned in the same level of cleanliness as when you moved in, aside from normal wear and tear.",
+          },
+        ],
+      },
+      {
+        heading: "Before You Start",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Before you begin cleaning:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Remove all personal belongings.",
+              "Empty every cabinet and drawer.",
+              "Disconnect appliances if necessary.",
+              "Patch small nail holes (if required by your lease).",
+              "Replace burnt-out light bulbs.",
+              "Gather all cleaning supplies and equipment.",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Cleaning is much easier once the home is completely empty.",
+          },
+        ],
+      },
+      {
+        heading: "Kitchen Checklist",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "The kitchen typically requires the most attention during a move-out clean.",
+          },
+          { type: "paragraph", text: "Appliances" },
+          {
+            type: "bullets",
+            items: [
+              "Clean inside and outside of the oven",
+              "Clean stovetop and burner grates",
+              "Wipe range hood",
+              "Degrease backsplash",
+              "Clean microwave inside and out",
+              "Clean refrigerator (inside and outside if included)",
+              "Clean freezer",
+              "Wipe dishwasher inside and outside",
+              "Polish stainless steel surfaces",
+            ],
+          },
+          { type: "paragraph", text: "Cabinets & Drawers" },
+          {
+            type: "bullets",
+            items: [
+              "Empty completely",
+              "Vacuum crumbs",
+              "Wipe shelves",
+              "Clean drawer tracks",
+              "Remove grease buildup from cabinet fronts",
+            ],
+          },
+          { type: "paragraph", text: "Countertops & Sink" },
+          {
+            type: "bullets",
+            items: [
+              "Sanitize countertops",
+              "Clean sink basin",
+              "Polish faucet",
+              "Remove hard water spots",
+              "Clean garbage disposal splash guard",
+              "Wipe windowsill above sink",
+            ],
+          },
+          { type: "paragraph", text: "Floors" },
+          {
+            type: "bullets",
+            items: [
+              "Vacuum thoroughly",
+              "Mop corners and edges",
+              "Remove sticky residue",
+              "Clean underneath movable appliances",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Bathrooms",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Bathrooms are another area that landlords inspect closely.",
+          },
+          { type: "paragraph", text: "Shower & Tub" },
+          {
+            type: "bullets",
+            items: [
+              "Remove soap scum",
+              "Remove hard water buildup",
+              "Clean shower doors",
+              "Scrub grout",
+              "Clean shower fixtures",
+            ],
+          },
+          { type: "paragraph", text: "Toilet" },
+          {
+            type: "bullets",
+            items: [
+              "Clean inside bowl",
+              "Clean under rim",
+              "Wipe tank",
+              "Sanitize exterior",
+              "Clean around base",
+            ],
+          },
+          { type: "paragraph", text: "Vanity" },
+          {
+            type: "bullets",
+            items: [
+              "Wipe cabinets",
+              "Clean drawers",
+              "Sanitize countertops",
+              "Polish faucet",
+              "Clean sink",
+            ],
+          },
+          { type: "paragraph", text: "Mirrors" },
+          {
+            type: "bullets",
+            items: [
+              "Clean streak-free",
+              "Remove toothpaste splatter",
+            ],
+          },
+          { type: "paragraph", text: "Floors" },
+          {
+            type: "bullets",
+            items: [
+              "Vacuum",
+              "Mop thoroughly",
+              "Clean behind toilet",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Bedrooms",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Dust ceiling corners",
+              "Remove cobwebs",
+              "Dust baseboards",
+              "Wipe doors",
+              "Clean door frames",
+              "Clean closet shelves",
+              "Vacuum closets",
+              "Clean window tracks",
+              "Vacuum carpets",
+              "Mop hard floors",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Living Areas",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Dust all surfaces",
+              "Wipe light switches",
+              "Clean outlet covers",
+              "Dust blinds",
+              "Wipe windowsills",
+              "Vacuum vents",
+              "Dust ceiling fans",
+              "Remove cobwebs",
+              "Clean baseboards",
+              "Vacuum or mop floors",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Laundry Room",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Wipe washer exterior",
+              "Wipe dryer exterior",
+              "Remove lint",
+              "Sweep behind appliances if accessible",
+              "Mop floor",
+              "Dust shelves",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Doors & Trim",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Throughout the home:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Wipe doors",
+              "Clean door frames",
+              "Clean handles",
+              "Dust trim",
+              "Remove fingerprints",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Windows",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Unless specifically required by your lease:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Clean interior glass",
+              "Wipe window sills",
+              "Vacuum window tracks",
+              "Dust blinds",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Exterior window cleaning is usually a separate service.",
+          },
+        ],
+      },
+      {
+        heading: "Floors",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Every floor should receive attention.",
+          },
+          { type: "paragraph", text: "Carpet" },
+          {
+            type: "bullets",
+            items: [
+              "Vacuum thoroughly",
+              "Spot clean stains when possible",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Some landlords require professional carpet cleaning, so check your lease.",
+          },
+          { type: "paragraph", text: "Hard Floors" },
+          {
+            type: "bullets",
+            items: [
+              "Sweep",
+              "Vacuum edges",
+              "Mop",
+              "Remove scuff marks",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Don't Forget These Often-Missed Areas",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Many people forget these during a move-out:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Inside closets",
+              "Pantry shelves",
+              "Light fixtures",
+              "Ceiling fan blades",
+              "Air vents",
+              "Baseboards",
+              "Window tracks",
+              "Door frames",
+              "Light switches",
+              "Outlet covers",
+              "Under sinks",
+              "Behind toilets",
+              "Top of refrigerator",
+              "Cabinet tops",
+              "Garage (if applicable)",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "These details can make the difference between an average clean and an exceptional one.",
+          },
+        ],
+      },
+      {
+        heading: "Should You Hire a Professional?",
+        paragraphs: [
+          "Move-out cleaning is one of the most detailed cleaning services because the goal is to leave the home as close to move-in condition as possible.",
+          "Hiring professionals can save hours of work, reduce stress during an already busy move, and help ensure the property is ready for inspection.",
+        ],
+      },
+      {
+        heading: "Serving the Portland Metro Area",
+        paragraphs: [
+          "Golden Hour Cleaning Co. provides detailed move-out cleaning throughout the Portland metro area, including Beaverton, Hillsboro, Tigard, Lake Oswego, West Linn, Sherwood, Tualatin, Oregon City, and surrounding communities.",
+          "If you're preparing for a move, we'd love to help make the process a little easier. Our experienced team focuses on the details that matter most, so you can spend less time scrubbing and more time settling into your next home.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "i-never-thought-id-own-a-cleaning-company",
     title: "I Never Thought I'd Own a Cleaning Company",
     author: "Jasmin Heart",
