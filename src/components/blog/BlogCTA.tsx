@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 
 export default function BlogCTA() {
   return (
@@ -32,12 +33,14 @@ export default function BlogCTA() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
 
-          <Link
+          <TrackedInstantQuoteLink
             href="/residential/services#quote"
+            buttonLocation="blog_cta"
+            buttonLabel="Get an Instant Quote"
             className="inline-flex items-center justify-center rounded-full border border-[#333333]/15 bg-white px-8 py-4 font-medium text-[#333333] transition-all duration-200 hover:bg-[#a7eff1]/20"
           >
             Get an Instant Quote
-          </Link>
+          </TrackedInstantQuoteLink>
         </div>
       </div>
     </section>

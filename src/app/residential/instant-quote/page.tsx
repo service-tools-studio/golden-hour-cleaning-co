@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion } from "framer-motion";
 import { CalendarCheck2, BadgeCheck, ShieldCheck, Leaf, Stars } from "lucide-react";
 import Trust from '@/components/residential/Trust.jsx';
+import { trackInstantQuoteClick } from '@/helpers/instantQuoteAnalytics';
 import { scrollToQuote } from '@/helpers/scrollToQuote.js';
 import { Step, Badge } from '@/helpers/ui-elements.jsx'
 import Footer from '@/components/residential/Footer.jsx';
@@ -62,7 +63,14 @@ export default function InstantBookLanding() {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <button
-                onClick={scrollToQuote}
+                onClick={() => {
+                  trackInstantQuoteClick({
+                    buttonLocation: "landing_hero",
+                    buttonLabel: "Get Instant Quote & Book Now",
+                    destination: "#quote-calculator-heading",
+                  });
+                  scrollToQuote();
+                }}
                 className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
               >
                 <CalendarCheck2 className="mr-2 h-5 w-5" /> Get Instant Quote & Book Now
@@ -105,7 +113,14 @@ export default function InstantBookLanding() {
 
         <div className="mt-8 text-center">
           <button
-            onClick={scrollToQuote}
+            onClick={() => {
+              trackInstantQuoteClick({
+                buttonLocation: "landing_hero",
+                buttonLabel: "Start Your Instant Quote",
+                destination: "#quote-calculator-heading",
+              });
+              scrollToQuote();
+            }}
             className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
           >
             Start Your Instant Quote
@@ -135,7 +150,14 @@ export default function InstantBookLanding() {
             <p className="mt-3 text-amber-100/90">Get your instant quote, choose your appointment, and let us handle the rest.</p>
             <div className="mt-8">
               <button
-                onClick={scrollToQuote}
+                onClick={() => {
+                  trackInstantQuoteClick({
+                    buttonLocation: "landing_final_cta",
+                    buttonLabel: "Get Instant Quote & Book Now",
+                    destination: "#quote-calculator-heading",
+                  });
+                  scrollToQuote();
+                }}
                 className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-amber-200 px-5 py-3 text-base font-semibold text-stone-900 shadow-md transition hover:bg-amber-100"
               >
                 Get Instant Quote & Book Now

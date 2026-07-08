@@ -9,6 +9,7 @@ import BeforeAfter from '../../components/residential/BeforeAfter.jsx'
 import QuoteCalculator from '../../components/residential/QuoteCalculator.jsx'
 import Footer from '../../components/residential/Footer.jsx'
 import ClientExperienceSection from '../../components/residential/ClientExperienceSection'
+import ScrollDepthTracker from '../../components/analytics/ScrollDepthTracker'
 import GoogleMapsProvider from '../../components/residential/GoogleMapsProvider.jsx'
 import ServiceAreaMap from '../../components/residential/ServiceAreaMap.jsx'
 import GoogleReviews from '../../components/residential/GoogleReviews.jsx'
@@ -37,6 +38,7 @@ export default function ResidentialClient() {
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
+      <ScrollDepthTracker pagePath="/residential" />
       {!showCalendly && <Header />}
 
       <main

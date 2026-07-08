@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 export default function LifestyleSection() {
@@ -34,12 +34,14 @@ export default function LifestyleSection() {
             need recurring cleaning, a deep clean, or help preparing for a move,
             we&apos;re here to make life a little easier.
           </p>
-          <Link
+          <TrackedInstantQuoteLink
             href="/residential/services#quote"
+            buttonLocation="home_lifestyle"
+            buttonLabel="Get Instant Quote"
             className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:bg-amber-300 hover:shadow-xl`}
           >
             Get Instant Quote
-          </Link>
+          </TrackedInstantQuoteLink>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { trackInstantQuoteClick } from '../../helpers/instantQuoteAnalytics';
 import { scrollToId } from '../../helpers/scrollToId';
 import ContactButton from './ContactButton';
 
@@ -55,6 +56,11 @@ export default function InstantQuoteButton() {
         aria-label="Get an instant quote and see real-time availability"
         onClick={(e) => {
           e.preventDefault();
+          trackInstantQuoteClick({
+            buttonLocation: "floating_cta",
+            buttonLabel: "Get Instant Quote + Book",
+            destination: "#quote-calculator-heading",
+          });
           scrollToId('#quote-calculator-heading', 8, { focus: true });
         }}
         className="uppercase tracking-wide shrink-0 px-5 md:px-6 h-11 md:h-12 rounded-full bg-amber-400 text-slate-900 font-semibold shadow-lg border border-amber-300 hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300"

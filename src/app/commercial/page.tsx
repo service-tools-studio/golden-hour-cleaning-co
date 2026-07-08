@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import CommercialLeadForm from "@/components/commercial/CommercialLeadForm";
+import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import Footer from "@/components/residential/Footer";
 import { BTN_UPPER } from "@/helpers/typography.js";
 
@@ -57,6 +58,7 @@ export default function CommercialPage() {
   return (
     <>
       <main className="min-h-screen bg-[#fffbea] text-stone-900 overflow-hidden">
+        <ScrollDepthTracker pagePath="/commercial" />
         <header className="w-full border-b border-amber-200 bg-brand">
           <div className="mx-auto max-w-7xl px-6 pt-10 pb-6 sm:pt-6">
             <div className="flex items-center justify-between gap-4">

@@ -1,10 +1,12 @@
 import HomeHeader from "@/components/HomeHeader";
 import HomePageSections from "@/components/home/HomePageSections";
 import SegmentButton from "@/components/SegmentButton";
+import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#fffbea]">
+      <ScrollDepthTracker pagePath="/" />
       <HomeHeader />
 
       <section

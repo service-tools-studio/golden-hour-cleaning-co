@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { trackInstantQuoteClick } from "../../helpers/instantQuoteAnalytics";
 import { HEADING_UPPER } from "../../helpers/typography.js";
 import { scrollToId } from "../../helpers/scrollToId.js";
 
@@ -14,7 +15,14 @@ export default function ServiceCard({ service }) {
   const goToQuote = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("level", service.levelKey);
-    router.replace(`${pathname}?${params.toString()}#quote`, { scroll: false });
+    const destination = `${pathname}?${params.toString()}#quote`;
+    trackInstantQuoteClick({
+      buttonLocation: "service_card",
+      buttonLabel: "Instant Quote + Book",
+      destination,
+      serviceLevel: service.levelKey,
+    });
+    router.replace(destination, { scroll: false });
     window.requestAnimationFrame(() => {
       scrollToId("#quote", 8, { focus: true });
     });
