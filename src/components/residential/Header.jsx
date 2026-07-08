@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { CONTACT } from "../../constants.js";
 import HeaderCTAButtons from "./HeaderCTAButtons.jsx";
 
 export default function Header() {
@@ -157,6 +158,7 @@ export default function Header() {
     "Locally owned & operated",
     "Questions? Call or Text us: (503) 893-4795",
   ];
+  const phoneAnnouncement = "Questions? Call or Text us: (503) 893-4795";
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -232,7 +234,24 @@ export default function Header() {
               className="px-6 text-sm font-medium text-slate-800"
               style={{ lineHeight: `${BANNER_H}px` }}
             >
-              {text}
+              {text === phoneAnnouncement ? (
+                <>
+                  Questions?{" "}
+                  <a href={`tel:${CONTACT.phone}`} className="underline underline-offset-2">
+                    Call
+                  </a>{" "}
+                  or{" "}
+                  <a href={`sms:${CONTACT.sms}`} className="underline underline-offset-2">
+                    Text
+                  </a>{" "}
+                  us:{" "}
+                  <a href={`tel:${CONTACT.phone}`} className="underline underline-offset-2">
+                    (503) 893-4795
+                  </a>
+                </>
+              ) : (
+                text
+              )}
             </span>
           ))}
         </div>
