@@ -12,7 +12,8 @@ type Props = {
     | "home_final_cta"
     | "home_lifestyle"
     | "header_desktop"
-    | "header_mobile_sticky";
+    | "header_mobile_sticky"
+    | "landing_trust_section";
   children: React.ReactNode;
 };
 

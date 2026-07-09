@@ -4,6 +4,11 @@
 
 @theme {
   --color-brand: #a7eff1;
+  --mint: #a7eff1;
+  --soft-yellow: #fffbea;
+  --gold: #dcbb52;
+  --dark-grey: #333333;
+  --white: #ffffff;
   --font-sans: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
 }
