@@ -49,8 +49,8 @@ const SERVICE_CARDS = [
 const PROCESS_STEPS = [
   {
     step: "01",
-    title: "Request your quote",
-    desc: "Tell us about your home, cleaning needs, and preferred timing.",
+    title: "Get an instant quote and book your cleaning",
+    desc: "Tell us about your home, cleaning needs, and book online instantly.",
   },
   {
     step: "02",
@@ -260,16 +260,6 @@ export default function HouseCleaningPortlandContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-16 md:px-6">
-        <Section title="House Cleaning Portland FAQs">
-          <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-            {FAQS.map((faq) => (
-              <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
-            ))}
-          </div>
-        </Section>
-      </section>
-
       <section className="bg-[#333333] px-5 py-16 text-center text-white md:px-10">
         <div className="mx-auto max-w-2xl">
           <h2 className={`text-3xl md:text-4xl ${HEADING_UPPER}`}>
@@ -285,6 +275,16 @@ export default function HouseCleaningPortlandContent() {
             Get Your Quote
           </Link>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 py-16 md:px-6">
+        <Section title="House Cleaning Portland FAQs">
+          <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+            {FAQS.map((faq) => (
+              <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
+            ))}
+          </div>
+        </Section>
       </section>
     </>
   );
