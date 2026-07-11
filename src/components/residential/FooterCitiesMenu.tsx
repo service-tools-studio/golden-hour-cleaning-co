@@ -8,21 +8,22 @@ import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
 export default function FooterCitiesMenu() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
-    const onPointerDown = (event) => {
+    const onPointerDown = (event: PointerEvent) => {
       if (
         containerRef.current &&
+        event.target instanceof Node &&
         !containerRef.current.contains(event.target)
       ) {
         setOpen(false);
       }
     };
 
-    const onKeyDown = (event) => {
+    const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
 

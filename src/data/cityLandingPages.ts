@@ -7,4 +7,8 @@ export const CITY_LANDING_PAGES = [
     label: "Beaverton",
     href: "/cities/house-cleaning-beaverton",
   },
+  {
+    label: "Tigard",
+    href: "/cities/house-cleaning-tigard",
+  },
 ] as const;
