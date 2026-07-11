@@ -1,4 +1,5 @@
 import { BTN_UPPER, HEADING_UPPER } from "../../helpers/typography.js";
+import FooterCitiesMenu from "./FooterCitiesMenu";
 
 const COI_URL =
   "https://portal.nextinsurance.com/public/certificates/live-certificate/4689e08f2c04efe155c98e6d5588048d";
@@ -95,6 +96,7 @@ export default function Footer() {
                 Commercial Cleaning
               </a>
             </li>
+            <FooterCitiesMenu />
             <li>
               <a
                 href="/about"

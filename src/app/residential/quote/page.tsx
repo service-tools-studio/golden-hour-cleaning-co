@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { motion } from "framer-motion";
 import { CalendarCheck2, BadgeCheck, ShieldCheck, Leaf, Stars } from "lucide-react";
 import Trust from '@/components/residential/Trust.jsx';
@@ -18,7 +17,6 @@ const QuoteCalculator = dynamic(
 
 export default function QuotePage() {
   const router = useRouter();
-  const [showCalendly, setShowCalendly] = useState(false);
 
   function handleBack() {
     if (typeof window !== "undefined" && window.history.length > 1) {
@@ -57,7 +55,7 @@ export default function QuotePage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 pb-16">
-          <QuoteCalculator showCalendly={showCalendly} setShowCalendly={setShowCalendly} title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
+          <QuoteCalculator title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
         </section>
 
         <Footer />

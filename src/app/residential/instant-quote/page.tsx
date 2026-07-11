@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { motion } from "framer-motion";
 import { CalendarCheck2, BadgeCheck, ShieldCheck, Leaf, Stars } from "lucide-react";
 import Trust from '@/components/residential/Trust.jsx';
@@ -25,7 +24,6 @@ const QuoteCalculator = dynamic(
  */
 
 export default function InstantBookLanding() {
-  const [showCalendly, setShowCalendly] = useState(false);
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900">
       <main id="content">
@@ -170,7 +168,7 @@ export default function InstantBookLanding() {
 
       {/* QUOTE CALCULATOR MOUNT (placeholder) */}
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <QuoteCalculator showCalendly={showCalendly} setShowCalendly={setShowCalendly} title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
+        <QuoteCalculator title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
       </section>
 
       <Footer />

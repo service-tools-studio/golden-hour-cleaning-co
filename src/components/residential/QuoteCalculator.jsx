@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
-import CalendlyBooking from "./CalendlyBooking";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
@@ -107,8 +106,6 @@ function hoursUnit(h) {
 }
 
 export default function QuoteCalculator({
-  showCalendly,
-  setShowCalendly,
   title,
   subtitle = '',
   initialLevel = "deep",
@@ -128,7 +125,6 @@ export default function QuoteCalculator({
   );
 
   const [ecoProducts, setEcoProducts] = useState(true);
-  const [calendlyUrl, setCalendlyUrl] = useState(null);
 
   // Add-ons
   const [includeFridge, setIncludeFridge] = useState(false);
@@ -1070,12 +1066,6 @@ export default function QuoteCalculator({
           </section>
         </div>
       </div>
-
-      <CalendlyBooking
-        url={calendlyUrl}
-        isOpen={showCalendly}
-        setOpen={setShowCalendly}
-      />
     </section>
   );
 }

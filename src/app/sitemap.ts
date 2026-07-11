@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { BLOG_POSTS } from "@/data/blogPosts";
+import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goldenhourcleaningco.com";
@@ -12,8 +13,11 @@ const ROUTES: {
 }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/residential", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/cities/house-cleaning-portland", changeFrequency: "monthly", priority: 0.85 },
-  { path: "/cities/house-cleaning-beaverton", changeFrequency: "monthly", priority: 0.85 },
+  ...CITY_LANDING_PAGES.map(({ href }) => ({
+    path: href,
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  })),
   { path: "/commercial", changeFrequency: "weekly", priority: 0.9 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/careers", changeFrequency: "monthly", priority: 0.7 },

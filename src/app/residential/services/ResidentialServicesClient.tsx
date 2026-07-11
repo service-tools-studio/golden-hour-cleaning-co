@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
@@ -21,7 +21,6 @@ export default function ResidentialServicesClient({
 }: {
   initialLevel: Level;
 }) {
-  const [showCalendly, setShowCalendly] = useState(false);
   const searchParams = useSearchParams();
   const level = levelFromUrl(searchParams.get("level")) || initialLevel;
 
@@ -44,8 +43,6 @@ export default function ResidentialServicesClient({
           className="mx-auto max-w-7xl px-6 py-10 md:py-12"
         >
           <QuoteCalculator
-            showCalendly={showCalendly}
-            setShowCalendly={setShowCalendly}
             initialLevel={level}
             title="Get a Quote & Book Instantly"
           />
@@ -56,4 +53,3 @@ export default function ResidentialServicesClient({
     </>
   );
 }
-

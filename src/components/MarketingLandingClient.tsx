@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
@@ -33,7 +33,6 @@ type Props = {
 export default function MarketingLandingClient({ pagePath }: Props) {
   const searchParams = useSearchParams();
   const initialLevel = levelFromUrl(searchParams.get("level"));
-  const [showCalendly, setShowCalendly] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -45,7 +44,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
       <ScrollDepthTracker pagePath={pagePath} />
-      {!showCalendly && <Header />}
+      <Header />
 
       <main
         id="content"
@@ -77,8 +76,6 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
         <div className="pt-10 pb-16 md:pb-20" id="quote">
           <QuoteCalculator
-            showCalendly={showCalendly}
-            setShowCalendly={setShowCalendly}
             initialLevel={initialLevel}
             title="Get a Quote & Book Instantly"
             subtitle="Transparent, size-based pricing with thoughtful attention to your unique home."
