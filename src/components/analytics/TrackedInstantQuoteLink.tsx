@@ -9,8 +9,6 @@ type Props = {
   buttonLabel: string;
   buttonLocation:
     | "blog_cta"
-    | "home_final_cta"
-    | "home_lifestyle"
     | "header_desktop"
     | "header_mobile_sticky"
     | "landing_trust_section";

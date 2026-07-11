@@ -3,14 +3,11 @@
 type InstantQuoteLocation =
   | "header_desktop"
   | "header_mobile_sticky"
-  | "floating_cta"
   | "service_card"
   | "landing_hero"
   | "landing_final_cta"
   | "landing_trust_section"
-  | "blog_cta"
-  | "home_final_cta"
-  | "home_lifestyle";
+  | "blog_cta";
 
 type TrackInstantQuoteClickInput = {
   buttonLocation: InstantQuoteLocation;
