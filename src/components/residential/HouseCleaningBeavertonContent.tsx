@@ -112,7 +112,7 @@ export default function HouseCleaningBeavertonContent() {
           />
         </div>
 
-        <div className="relative px-4 pt-4 pb-10 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-between lg:gap-8 lg:px-8 lg:pt-[calc(var(--header-height,120px)+0.75rem)] lg:pb-8 xl:px-12 lg:pointer-events-none">
+        <div className="relative px-4 pt-4 pb-10 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-between lg:gap-8 lg:px-8 lg:pt-[calc(154px+0.75rem)] lg:pb-8 xl:px-12 lg:pointer-events-none">
           <div className="mx-auto w-full max-w-6xl lg:pointer-events-auto">
             <div className="lg:max-w-4xl">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52] lg:text-amber-200">

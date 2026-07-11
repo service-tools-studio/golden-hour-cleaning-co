@@ -8,24 +8,22 @@ import { Badge } from "@/helpers/ui-elements.jsx";
 import { FaqItem, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
-  "Hawthorne",
-  "Sellwood",
-  "Laurelhurst",
-  "Irvington",
-  "Alberta Arts District",
-  "Concordia",
-  "Beaumont-Wilshire",
-  "Mt. Tabor",
-  "Eastmoreland",
-  "Woodstock",
-  "Ladd's Addition",
-  "Pearl District",
-  "Northwest Portland",
-  "Southwest Portland",
-  "St. Johns",
-  "Goose Hollow",
-  "Nob Hill",
-  "Forest Heights",
+  "Willamette",
+  "Bolton",
+  "Robinwood",
+  "Sunset",
+  "Hidden Springs",
+  "Savanna Oaks",
+  "Parker Crest",
+  "Marylhurst",
+  "Tanner Basin",
+  "Barrington Heights",
+  "Skyline Ridge",
+  "Stafford",
+  "Lake Oswego",
+  "Oregon City",
+  "Tualatin",
+  "West Linn",
 ];
 
 const SERVICE_CARDS = [
@@ -66,7 +64,7 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   {
-    question: "How much does house cleaning cost in Portland?",
+    question: "How much does house cleaning cost in West Linn?",
     answer:
       "Pricing depends on the size of your home, condition, frequency, and type of cleaning. Recurring cleaning is typically less than a first-time deep clean.",
   },
@@ -78,16 +76,16 @@ const FAQS = [
   {
     question: "Do you offer recurring cleaning?",
     answer:
-      "Yes. We offer weekly, biweekly, and custom recurring cleaning options for Portland-area homes.",
+      "Yes. We offer weekly, biweekly, and custom recurring cleaning options for West Linn-area homes.",
   },
   {
     question: "Do you clean apartments and condos?",
     answer:
-      "Yes. We clean houses, apartments, condos, townhomes, and residential properties throughout the Portland metro area.",
+      "Yes. We clean houses, apartments, condos, townhomes, and residential properties throughout the West Linn area.",
   },
 ];
 
-export default function HouseCleaningPortlandContent() {
+export default function HouseCleaningWestLinnContent() {
   return (
     <>
       <section
@@ -98,16 +96,16 @@ export default function HouseCleaningPortlandContent() {
 
         <div className="relative w-full bg-amber-50 lg:min-h-[46rem]">
           <Image
-            src="/assets/house-cleaning-portland.png"
-            alt="Bright Portland living room with skyline view after a professional Golden Hour house cleaning"
-            width={1487}
-            height={617}
+            src="/assets/house-cleaning-west-linn.png"
+            alt="Bright West Linn living room after a professional Golden Hour house cleaning"
+            width={1536}
+            height={1024}
             className="block h-auto w-full lg:absolute lg:inset-0 lg:h-full lg:w-full lg:object-cover"
             sizes="100vw"
             priority
           />
           <div
-            className="absolute inset-0 hidden bg-black/55 pointer-events-none lg:block"
+            className="absolute inset-0 hidden bg-black/70 pointer-events-none lg:block"
             aria-hidden
           />
         </div>
@@ -116,27 +114,31 @@ export default function HouseCleaningPortlandContent() {
           <div className="mx-auto w-full max-w-6xl lg:pointer-events-auto">
             <div className="lg:max-w-4xl">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52] lg:text-amber-200">
-                Portland Residential Cleaning Services
+                West Linn Residential Cleaning Services
               </p>
               <h1
                 className={`mt-3 text-3xl leading-tight md:text-4xl lg:text-3xl lg:text-white lg:drop-shadow-md ${HEADING_UPPER}`}
               >
-                House Cleaning in Portland, OR
+                House Cleaning in West Linn, OR
               </h1>
               <p className="mt-4 text-lg leading-8 text-stone-700 lg:text-base lg:leading-7 lg:text-white/95 lg:drop-shadow-md">
-                Golden Hour Cleaning Co. proudly provides professional house cleaning services throughout Portland, Oregon. From the historic Craftsman homes of Hawthorne, Sellwood, and Laurelhurst to the modern condos of the Pearl District, the family homes of Alberta, Irvington, Mt. Tabor, and Eastmoreland, and the neighborhoods of Northwest Portland, Southwest Portland, St. Johns, and Forest Heights, we help homeowners enjoy cleaner, healthier homes without sacrificing their weekends.
-              </p>
-              <p className="mt-4 text-lg leading-8 text-stone-700 lg:text-base lg:leading-7 lg:text-white/95 lg:drop-shadow-md">
-                As a local, women-owned Portland cleaning company, we're committed to delivering a five-star experience from your first quote to your final walkthrough. Whether you need recurring house cleaning, a one-time deep clean, move-out cleaning, or help preparing your home for guests or a new season, our team arrives with professional equipment, meticulous attention to detail, and genuine care for your home. We believe exceptional cleaning isn't just about spotless surfaces—it's about creating a space that feels peaceful, welcoming, and ready to be lived in.
+                From Willamette and Bolton to Robinwood, Hidden Springs, and the hillside neighborhoods overlooking the river, West Linn homes deserve cleaning that feels careful and consistent. Golden Hour Cleaning Co. provides recurring house cleaning, deep cleaning, and move-out cleaning with meticulous attention to detail, clear communication, and genuine respect for your space.
               </p>
               <div className="mt-6">
                 <a
                   href="#services"
-                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-50 sm:w-auto lg:border-white/80 lg:bg-white/10 lg:text-white lg:hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-[#333333] bg-[#333333] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#444444] sm:w-auto lg:border-white/80 lg:bg-white/10 lg:text-white lg:hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
                 >
                   Explore Services
                 </a>
               </div>
+            </div>
+
+            <div className="mt-8 flex w-screen max-w-[100vw] justify-center [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]">
+              <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-center text-sm font-medium text-stone-700 lg:border-white/25 lg:bg-white/10 lg:text-white/95 lg:drop-shadow-md">
+                <BadgeCheck className="h-4 w-4 shrink-0 text-[#dcbb52] lg:text-amber-300" aria-hidden />
+                Trusted by Busy West Linn Professionals and Families.
+              </p>
             </div>
           </div>
 
@@ -163,13 +165,13 @@ export default function HouseCleaningPortlandContent() {
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
-            A more thoughtful cleaning experience
+            Thoughtfully Caring for Homes Across West Linn
           </p>
           <h2 className={`mt-3 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-            Portland house cleaning that feels personal, polished, and easy.
+            Helping West Linn Homes Feel Their Best
           </h2>
           <p className="mt-5 text-base leading-relaxed text-stone-700">
-            We believe house cleaning is an act of care. Every home tells a story, and every client is navigating their own season of life—whether it's raising children, caring for family, building a career, or simply trying to keep up with a busy schedule. That's why we approach every cleaning with compassion, respect, and meticulous attention to detail, creating homes that feel lighter, calmer, and ready to be lived in.
+            Golden Hour Cleaning Co. was founded on the belief that house cleaning is an act of care. Every home reflects the people who live there, and every client is navigating a different season of life. Whether you&apos;re building a career, raising children, welcoming a new baby, preparing for guests, or simply trying to stay ahead of life&apos;s daily demands, we approach every home with compassion, respect, and meticulous attention to detail.
           </p>
         </div>
       </section>
@@ -177,7 +179,7 @@ export default function HouseCleaningPortlandContent() {
       <section id="services" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
         <h2 className={`text-3xl ${HEADING_UPPER}`}>Our House Cleaning Services</h2>
         <p className="mt-2 max-w-2xl text-stone-700">
-          Choose the level of care your Portland home needs — from recurring upkeep to
+          Choose the level of care your West Linn home needs — from recurring upkeep to
           a full reset before a move.
         </p>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -203,16 +205,13 @@ export default function HouseCleaningPortlandContent() {
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
         <div className="rounded-3xl border border-[#dcbb52]/25 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#333333]">
-            Why Portland homeowners choose us
+            Why West Linn homeowners choose us
           </p>
           <h2 className={`mt-3 text-2xl md:text-3xl ${HEADING_UPPER}`}>
             A 5-star experience from booking to final walkthrough.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#333333]/80">
-            We combine professional cleaning systems with a nurturing, human approach.
-            You get the ease of online booking, the comfort of clear communication, and
-            the confidence of knowing your home is being cared for by people who truly
-            care.
+            We combine meticulous cleaning standards with a nurturing, human approach. From your first quote to your final walkthrough, you&apos;ll experience responsive communication, seamless online booking, and a team that treats your home with the same care and respect we&apos;d want for our own.
           </p>
           <TrackedInstantQuoteLink
             href="#quote"
@@ -229,7 +228,7 @@ export default function HouseCleaningPortlandContent() {
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
         <h2 className={`text-3xl ${HEADING_UPPER}`}>
-          Serving Portland and nearby neighborhoods
+          Serving West Linn and nearby neighborhoods
         </h2>
         <div className="mt-6 flex flex-wrap gap-3">
           {NEIGHBORHOODS.map((area) => (
@@ -266,7 +265,7 @@ export default function HouseCleaningPortlandContent() {
             Ready for a cleaner, calmer home?
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-white/85">
-            Book your Portland house cleaning with Golden Hour Cleaning Co. today.
+            Book your West Linn house cleaning with Golden Hour Cleaning Co. today.
           </p>
           <Link
             href="/residential/quote"
@@ -278,7 +277,7 @@ export default function HouseCleaningPortlandContent() {
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-16 md:px-6">
-        <Section title="House Cleaning Portland FAQs">
+        <Section title="House Cleaning West Linn FAQs">
           <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
             {FAQS.map((faq) => (
               <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
