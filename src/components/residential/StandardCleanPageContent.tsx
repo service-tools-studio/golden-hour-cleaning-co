@@ -18,13 +18,13 @@ export default function StandardCleanPageContent({
         Standard House Cleaning Services in Portland, OR
       </h1>
 
-      <figure className="mt-6 overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm">
-        <div className="relative aspect-[3/4] w-full bg-stone-100 sm:aspect-[4/5]">
+      <figure className="mx-auto mt-6 max-w-xs overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm sm:max-w-sm">
+        <div className="relative aspect-[4/5] w-full bg-stone-100">
           <Image
             src="/assets/chateau-cleaning.webp"
             alt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
             fill
-            sizes="(max-width: 768px) 100vw, 672px"
+            sizes="(max-width: 640px) 320px, 384px"
             className="object-cover object-top"
             priority
           />

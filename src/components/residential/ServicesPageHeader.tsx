@@ -28,7 +28,7 @@ export default function ServicesPageHeader({
       <header className="w-full border-b border-amber-200 bg-brand">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            <Link href="/residential" aria-label="Go to residential home">
+            <Link href="/" aria-label="Go to homepage">
               <Image
                 src="/assets/Golden Hour - commercial.png"
                 alt="Golden Hour Cleaning Co."

@@ -15,6 +15,9 @@ const CITY_NAMES = [
   'West Linn',
   'Milwaukie',
   'Tualatin',
+  'Happy Valley',
+  'Clackamas',
+  'Hillsboro',
 ];
 
 const BOUNDARIES_URL =
@@ -98,7 +101,7 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
             {title}
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
+            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro
           </p>
           <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
             Unable to load the map. Check your connection.
@@ -116,7 +119,7 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
             {title}
           </h2>
           <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
+            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro
           </p>
           <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
             {apiKey ? 'Loading map…' : 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'}
@@ -133,7 +136,7 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
           {title}
         </h2>
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-          Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin
+          Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro
         </p>
         <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
           <GoogleMap

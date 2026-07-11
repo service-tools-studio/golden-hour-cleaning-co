@@ -2,13 +2,12 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CONTACT } from "../../constants.js";
 import HeaderCTAButtons from "./HeaderCTAButtons.jsx";
 
 export default function Header() {
   const router = useRouter();
-  const pathname = usePathname();
 
   const [compact, setCompact] = useState(false);
   const compactRef = useRef(compact);
@@ -149,7 +148,7 @@ export default function Header() {
   }, [height]);
 
   const bannerItems = [
-    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin",
+    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro",
     "We use eco-friendly, non-toxic products",
     "Licensed & insured",
     "Flexible weekly • bi-weekly • monthly",
@@ -163,23 +162,7 @@ export default function Header() {
   const handleLogoClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    const y = Math.max(0, window.scrollY);
-
-    // If not on home, always go home.
-    if (pathname !== "/") {
-      router.push("/");
-      return;
-    }
-
-    // On home:
-    // - if already at top → navigate to "/" (effectively refresh route)
-    // - else → scroll to top
-    if (y <= 2) {
-      router.push("/");
-      return;
-    }
-
+    router.push("/");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

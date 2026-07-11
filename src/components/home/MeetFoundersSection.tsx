@@ -6,7 +6,7 @@ export default function MeetFoundersSection() {
   return (
     <section
       aria-labelledby="founders-heading"
-      className="bg-[#fffbea] py-20 sm:py-28"
+      className="bg-amber-50 py-20 sm:py-28"
     >
       <div className="mx-auto max-w-6xl px-6">
         <h2
@@ -16,25 +16,25 @@ export default function MeetFoundersSection() {
           Meet the Founders
         </h2>
 
-        <div className="mt-12 flex flex-col items-center gap-8 sm:flex-row sm:justify-center sm:gap-6">
-          <figure className="w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:max-w-[240px]">
+        <div className="mt-12 flex flex-row items-start justify-center gap-4 sm:gap-6">
+          <figure className="w-[calc(50%-0.5rem)] max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:w-full sm:max-w-[240px]">
             <Image
               src="/assets/kelsey-collins.JPG"
               alt="Kelsey Collins, Co-Founder of Golden Hour Cleaning Co."
               width={480}
               height={640}
               className="h-auto w-full"
-              sizes="240px"
+              sizes="(max-width: 640px) 45vw, 240px"
             />
           </figure>
-          <figure className="w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:max-w-[240px]">
+          <figure className="w-[calc(50%-0.5rem)] max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:w-full sm:max-w-[240px]">
             <Image
               src="/assets/jasmin-heart.JPG"
               alt="Jasmin Heart, Co-Founder of Golden Hour Cleaning Co."
               width={480}
               height={640}
               className="h-auto w-full"
-              sizes="240px"
+              sizes="(max-width: 640px) 45vw, 240px"
             />
           </figure>
         </div>

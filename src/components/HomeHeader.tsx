@@ -1,18 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SimpleHeader() {
   const HEADER_H = 190;
   const BANNER_H = 36;
   const innerHeight = HEADER_H - BANNER_H;
 
-  const pathname = usePathname();
   const router = useRouter();
 
   const bannerItems = [
-    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin",
+    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro",
     "Eco-friendly, non-toxic products",
     "Licensed & insured",
     "Flexible weekly • bi-weekly • monthly",
@@ -22,12 +21,9 @@ export default function SimpleHeader() {
   ];
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    if (pathname === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      router.push("/");
-    }
+    e.preventDefault();
+    router.push("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

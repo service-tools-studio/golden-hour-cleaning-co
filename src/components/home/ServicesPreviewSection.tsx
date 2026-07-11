@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import { HEADING_UPPER } from "@/helpers/typography.js";
+import { trackInstantQuoteClick } from "@/helpers/instantQuoteAnalytics";
+import { scrollToId } from "@/helpers/scrollToId";
+import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 const SERVICES = [
   {
@@ -31,6 +35,7 @@ const SERVICES = [
 export default function ServicesPreviewSection() {
   return (
     <section
+      id="services"
       aria-labelledby="services-preview-heading"
       className="border-t border-amber-200/60 bg-white py-20 sm:py-24"
     >
@@ -51,7 +56,7 @@ export default function ServicesPreviewSection() {
             <li key={title}>
               <Link
                 href={href}
-                className="group flex h-full flex-col rounded-3xl border border-stone-200 bg-[#fffbea] p-8 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="group flex h-full flex-col rounded-3xl border border-stone-200 bg-amber-50 p-8 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
                 <span className="text-3xl" aria-hidden>
                   {emoji}
@@ -72,6 +77,23 @@ export default function ServicesPreviewSection() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-12 flex justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              trackInstantQuoteClick({
+                buttonLocation: "landing_trust_section",
+                buttonLabel: "Get an Instant Quote & Book Online",
+                destination: "#quote",
+              });
+              scrollToId("#quote", 8, { focus: true });
+            }}
+            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+          >
+            Get an Instant Quote & Book Online
+          </button>
+        </div>
       </div>
     </section>
   );

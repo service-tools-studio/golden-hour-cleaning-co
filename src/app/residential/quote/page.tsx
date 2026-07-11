@@ -34,7 +34,7 @@ export default function QuotePage() {
         {/* HERO */}
         <section className="relative overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 pt-10 pb-16 sm:pt-6">
-            <Link href="/residential" aria-label="Go to residential home">
+            <Link href="/" aria-label="Go to homepage">
               <Image
                 src="/assets/Golden Hour - commercial.png"
                 alt="Golden Hour Cleaning Co."
