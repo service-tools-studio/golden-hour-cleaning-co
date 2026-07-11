@@ -11,7 +11,7 @@ export default function SimpleHeader() {
   const router = useRouter();
 
   const bannerItems = [
-    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro",
+    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City",
     "Eco-friendly, non-toxic products",
     "Licensed & insured",
     "Flexible weekly • bi-weekly • monthly",

@@ -148,7 +148,7 @@ export default function Header() {
   }, [height]);
 
   const bannerItems = [
-    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro",
+    "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City",
     "We use eco-friendly, non-toxic products",
     "Licensed & insured",
     "Flexible weekly • bi-weekly • monthly",
