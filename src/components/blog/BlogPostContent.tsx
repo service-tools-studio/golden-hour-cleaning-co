@@ -42,20 +42,24 @@ function BlogSectionBody({ section }: { section: BlogSection }) {
 function BlogSections({ post }: { post: BlogPost }) {
   return (
     <>
-      {post.sections.map((section, index) => (
-        <section key={section.heading ?? `intro-${index}`}>
-          {section.heading ? (
-            <h2
-              className={`text-xl font-semibold text-stone-900 md:text-2xl ${HEADING_UPPER}`}
-            >
-              {section.heading}
-            </h2>
-          ) : null}
-          <div className={section.heading ? "mt-4" : undefined}>
-            <BlogSectionBody section={section} />
-          </div>
-        </section>
-      ))}
+      {post.sections.map((section, index) => {
+        const HeadingTag = section.headingLevel === 3 ? "h3" : "h2";
+        const headingClass =
+          section.headingLevel === 3
+            ? `text-lg font-semibold text-stone-900 md:text-xl ${HEADING_UPPER}`
+            : `text-xl font-semibold text-stone-900 md:text-2xl ${HEADING_UPPER}`;
+
+        return (
+          <section key={section.heading ?? `intro-${index}`}>
+            {section.heading ? (
+              <HeadingTag className={headingClass}>{section.heading}</HeadingTag>
+            ) : null}
+            <div className={section.heading ? "mt-4" : undefined}>
+              <BlogSectionBody section={section} />
+            </div>
+          </section>
+        );
+      })}
     </>
   );
 }

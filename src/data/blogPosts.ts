@@ -4,6 +4,8 @@ export type BlogSectionBlock =
 
 export type BlogSection = {
   heading?: string;
+  /** Defaults to 2 (h2). Use 3 for subsections under a parent h2. */
+  headingLevel?: 2 | 3;
   /** Simple paragraph-only sections */
   paragraphs?: string[];
   /** Mixed paragraphs and bullet lists */
@@ -27,6 +29,319 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "what-to-expect-during-a-professional-deep-cleaning-in-portland",
+    title:
+      "What to Expect During a Professional Deep Cleaning in Portland, Oregon",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-11",
+    excerpt:
+      "Wondering what happens during a professional deep cleaning? A clear look at what gets cleaned, how long it takes, and why Portland homes often need one.",
+    heroImage: {
+      src: "/assets/glass-cleaning.webp",
+      alt: "Streak-free glass and mirrors after a Golden Hour deep cleaning",
+      orientation: "portrait",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Moving into a new home, preparing for guests, catching up after a busy season, or simply wanting a fresh start—there are times when a regular cleaning just isn't enough.",
+          "A professional deep cleaning goes beyond the basics to remove built-up dust, grime, soap scum, and hidden dirt that accumulates over time. If you've never scheduled one before, you might be wondering exactly what happens during the appointment and whether it's worth the investment.",
+          "If you're considering a deep cleaning service in Portland, Beaverton, Hillsboro, Lake Oswego, Tigard, or anywhere in the surrounding Portland metro area, here's what you can expect.",
+        ],
+      },
+      {
+        heading: "What Is a Deep Cleaning?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Think of a deep cleaning as resetting your home.",
+          },
+          {
+            type: "paragraph",
+            text: "While recurring maintenance cleanings focus on keeping surfaces tidy, a deep cleaning reaches the areas that don't usually get attention during routine visits.",
+          },
+          {
+            type: "paragraph",
+            text: "A deep cleaning typically includes:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Baseboards",
+              "Door frames",
+              "Light switches",
+              "Cabinet fronts",
+              "Window sills",
+              "Ceiling fans",
+              "Bathroom grout",
+              "Shower buildup",
+              "Behind and underneath furniture (when safely accessible)",
+              "Detailed kitchen cleaning",
+              "Dust removal from hard-to-reach areas",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The goal isn't simply making your home look clean—it's restoring the feeling of walking into a home that's been truly cared for.",
+          },
+        ],
+      },
+      {
+        heading: "Why Portland Homes Often Need Deep Cleaning",
+        paragraphs: [
+          "Homes throughout the Portland area face a few unique cleaning challenges.",
+        ],
+      },
+      {
+        heading: "🌧️ Rain Means More Dirt Indoors",
+        headingLevel: 3,
+        paragraphs: [
+          "Between October and May, it's common for moisture, mud, leaves, and debris to get tracked inside. Entryways, hardwood floors, and grout lines often accumulate dirt much faster than homeowners realize.",
+        ],
+      },
+      {
+        heading: "🏠 Older Homes Collect More Dust",
+        headingLevel: 3,
+        paragraphs: [
+          "Many Portland neighborhoods—including Irvington, Laurelhurst, Sellwood, Alberta, and Multnomah Village—feature beautiful older homes with original trim, detailed millwork, and historic windows.",
+          "While charming, these homes naturally have more surfaces that collect dust and require careful hand cleaning.",
+        ],
+      },
+      {
+        heading: "🌿 Moss, Pollen, and Moisture",
+        headingLevel: 3,
+        paragraphs: [
+          "The Pacific Northwest's climate creates more airborne pollen in spring and additional moisture year-round, meaning window sills, tracks, and less frequently cleaned surfaces often need extra attention.",
+        ],
+      },
+      {
+        heading: "What Happens Before Your Cleaning",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Every home is different.",
+          },
+          {
+            type: "paragraph",
+            text: "Before beginning, professional cleaners usually walk through the home to:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Confirm your priorities",
+              "Identify areas needing extra attention",
+              "Discuss any delicate materials",
+              "Answer questions about the service",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "If you've requested oven cleaning, refrigerator cleaning, or other add-on services, those are reviewed as well.",
+          },
+        ],
+      },
+      {
+        heading: "Room-by-Room: What Gets Cleaned",
+        paragraphs: [
+          "Here's what a professional deep cleaning typically covers throughout your home.",
+        ],
+      },
+      {
+        heading: "Kitchen",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "The kitchen typically receives the most detailed attention because grease and food residue build up gradually.",
+          },
+          {
+            type: "paragraph",
+            text: "A professional deep cleaning often includes:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Cleaning appliance exteriors",
+              "Degreasing stovetops",
+              "Cleaning backsplash areas",
+              "Sanitizing countertops",
+              "Cleaning cabinet fronts",
+              "Wiping doors and trim",
+              "Cleaning sink fixtures",
+              "Dusting vents and light fixtures",
+              "Vacuuming and mopping floors",
+              "Spot cleaning walls where needed",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Many homeowners also request inside-the-oven or refrigerator cleaning during their first visit.",
+          },
+        ],
+      },
+      {
+        heading: "Bathrooms",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Bathrooms receive extensive detail work during a deep clean.",
+          },
+          {
+            type: "paragraph",
+            text: "This generally includes:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Removing soap scum",
+              "Cleaning shower walls and doors",
+              "Scrubbing tubs",
+              "Sanitizing toilets",
+              "Cleaning sinks and countertops",
+              "Polishing mirrors",
+              "Cleaning faucets",
+              "Wiping baseboards",
+              "Dusting vents",
+              "Vacuuming and mopping floors",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Extra attention is given to corners, grout lines, and areas where moisture commonly creates buildup.",
+          },
+        ],
+      },
+      {
+        heading: "Bedrooms & Living Areas",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "These spaces focus on dust removal and detail work.",
+          },
+          {
+            type: "paragraph",
+            text: "Typical tasks include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Dusting furniture",
+              "Cleaning window sills",
+              "Wiping baseboards",
+              "Cleaning light switches",
+              "Dusting ceiling fans",
+              "Removing cobwebs",
+              "Vacuuming upholstered furniture",
+              "Vacuuming carpets",
+              "Mopping hard floors",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The goal is to leave every room feeling noticeably brighter and fresher.",
+          },
+        ],
+      },
+      {
+        heading: "How Long Does a Deep Cleaning Take?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Every home is different.",
+          },
+          {
+            type: "paragraph",
+            text: "Factors include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Square footage",
+              "Number of bathrooms",
+              "Pets",
+              "How long it's been since the last professional cleaning",
+              "Amount of buildup",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A first-time deep clean generally takes significantly longer than recurring maintenance visits because so much detail work is completed.",
+          },
+          {
+            type: "paragraph",
+            text: "After the initial deep cleaning, many Portland homeowners find that recurring cleanings are quicker, more affordable, and much easier to maintain.",
+          },
+        ],
+      },
+      {
+        heading: "Do I Need to Be Home?",
+        paragraphs: [
+          "Not necessarily.",
+          "Many homeowners choose to work from home during the appointment, while others provide entry instructions and return after the cleaning is complete.",
+          "A reputable cleaning company should communicate clearly, treat your home respectfully, and keep you updated if any questions arise during the visit.",
+        ],
+      },
+      {
+        heading: "Should I Clean Before the Cleaners Arrive?",
+        paragraphs: [
+          "No major cleaning is necessary.",
+          "The most helpful thing you can do is pick up personal belongings, clothing, toys, or paperwork from surfaces so your cleaning team can spend more time actually cleaning instead of organizing.",
+          "The more accessible your home is, the more detailed work can be completed during your appointment.",
+        ],
+      },
+      {
+        heading: "A Great Deep Cleaning Sets the Foundation",
+        paragraphs: [
+          "One reason many homeowners are disappointed with cleaning services is inconsistency.",
+          "A rushed first visit may leave obvious details untouched—tops of appliances, baseboards, window sills, or furniture that was never vacuumed.",
+          "A quality deep cleaning establishes a high standard from the beginning, making future maintenance visits far more effective.",
+          "When every cleaner follows the same detailed checklist and takes pride in their work, you shouldn't have to wonder whether the little things were forgotten.",
+        ],
+      },
+      {
+        heading: "Choosing the Right Deep Cleaning Service in Portland",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Not all cleaning companies approach deep cleaning the same way.",
+          },
+          {
+            type: "paragraph",
+            text: "Look for a company that:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Uses detailed cleaning checklists",
+              "Communicates clearly before your appointment",
+              "Offers satisfaction guarantees",
+              "Takes time to understand your priorities",
+              "Pays attention to the small details",
+              "Maintains consistent quality from visit to visit",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The best cleaning experience isn't just about a spotless home—it's about knowing the people caring for your space genuinely care about doing the job right.",
+          },
+        ],
+      },
+      {
+        heading:
+          "Experience a Thoughtful Deep Cleaning with Golden Hour Cleaning Co.",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we believe a deep cleaning should feel like a fresh start.",
+          "We proudly serve homeowners throughout Portland, Beaverton, Hillsboro, Tigard, Lake Oswego, Tualatin, Oregon City, West Linn, Happy Valley, and the surrounding Portland metro area, combining meticulous attention to detail with warm, personal service.",
+          "If something isn't quite right, we'll make it right. Our satisfaction guarantee means you can book with confidence, knowing we're committed to delivering a cleaning experience that truly exceeds expectations.",
+          "Whether you're preparing for recurring service or simply want your home feeling refreshed again, we'd love to help you come home to a space that feels peaceful, spotless, and genuinely cared for.",
+        ],
+      },
+    ],
+  },
   {
     slug: "how-often-should-a-house-be-professionally-cleaned",
     title: "How Often Should a House Be Professionally Cleaned?",

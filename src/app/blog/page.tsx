@@ -44,7 +44,11 @@ export default function BlogPage() {
                           alt=""
                           fill
                           sizes="96px"
-                          className="object-cover object-center"
+                          className={`object-cover ${
+                            post.heroImage.orientation === "portrait"
+                              ? "object-top"
+                              : "object-center"
+                          }`}
                         />
                       </Link>
                     ) : null}
