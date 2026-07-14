@@ -30,6 +30,32 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "client-story-bringing-their-baby-home",
+    title: "Client Story: Bringing Their Baby Home",
+    author: "Kelsey Collins",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-14",
+    excerpt:
+      "Some cleanings stay with you forever. A story about preparing a home for a newborn daughter's long-awaited return from the hospital—and why this work means more than spotless surfaces.",
+    heroImage: {
+      src: "/assets/baby-coming-home.png",
+      alt: "A bright, freshly cleaned nursery ready for a baby's homecoming",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Some cleanings stay with you forever.",
+          "One family reached out to us while their newborn daughter was in the hospital. She had spent the first five months of her life there because of a chronic lung condition, and the day we were scheduled to clean was the very day she was finally coming home.",
+          "Our team cleaned every inch of their home from top to bottom with one purpose in mind: helping them provide a clean space that would support their daughter's wellness. Every room, every surface, and every detail mattered because we knew what this homecoming meant to their family.",
+          "When her father arrived for the final walkthrough, he was incredibly grateful. Knowing that he could bring his daughter home to a fresh, thoroughly cleaned environment brought him peace during an already emotional day.",
+          "It's one of the moments I'm most proud of as a business owner. Watching our team come together with so much care and intention reminded me that what we do goes far beyond cleaning homes.",
+          "A clean home is more than just a beautiful space. It's deeper than that. In this case, it's part of a family's fresh start, creating an environment to heal and be healthy in.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "what-to-expect-during-a-professional-deep-cleaning-in-portland",
     title:
       "What to Expect During a Professional Deep Cleaning in Portland, Oregon",
