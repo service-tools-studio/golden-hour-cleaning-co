@@ -260,7 +260,7 @@ export default function MoveOutCleanPageContent({
             Get a quote for Move-In &amp; Move-Out
           </Link>
           <Link
-            href="/residential#services"
+            href="/residential/services"
             className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 hover:bg-stone-50`}
           >
             Compare all services

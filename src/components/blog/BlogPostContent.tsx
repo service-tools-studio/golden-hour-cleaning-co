@@ -56,6 +56,16 @@ function BlogSections({ post }: { post: BlogPost }) {
             ) : null}
             <div className={section.heading ? "mt-4" : undefined}>
               <BlogSectionBody section={section} />
+              {section.link ? (
+                <p className="mt-4">
+                  <Link
+                    href={section.link.href}
+                    className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
+                  >
+                    {section.link.label}
+                  </Link>
+                </p>
+              ) : null}
             </div>
           </section>
         );

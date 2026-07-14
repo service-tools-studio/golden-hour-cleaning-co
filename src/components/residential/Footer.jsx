@@ -72,6 +72,7 @@ export default function Footer() {
             Explore
           </h3>
           <ul className="space-y-1 text-sm">
+            <FooterCitiesMenu />
             <li>
               <a
                 href="/residential/services"
@@ -96,7 +97,6 @@ export default function Footer() {
                 Commercial Cleaning
               </a>
             </li>
-            <FooterCitiesMenu />
             <li>
               <a
                 href="/about"

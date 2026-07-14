@@ -10,6 +10,8 @@ export type BlogSection = {
   paragraphs?: string[];
   /** Mixed paragraphs and bullet lists */
   blocks?: BlogSectionBlock[];
+  /** Optional CTA link after the section body */
+  link?: { href: string; label: string };
 };
 
 export type BlogPost = {
@@ -415,6 +417,10 @@ export const BLOG_POSTS: BlogPost[] = [
             text: "Many of our weekly clients tell us they no longer feel like they're constantly \"behind\" on housework.",
           },
         ],
+        link: {
+          href: "/residential/services/standard",
+          label: "Learn More About Weekly Cleaning",
+        },
       },
       {
         heading: "Bi-Weekly Cleaning",
@@ -425,6 +431,10 @@ export const BLOG_POSTS: BlogPost[] = [
           "If someone asks us for a recommendation without giving much background, bi-weekly cleaning is usually where we start.",
           "It offers excellent value while keeping most homes consistently clean.",
         ],
+        link: {
+          href: "/residential/services/standard",
+          label: "Learn More About Bi-Weekly Cleaning",
+        },
       },
       {
         heading: "Monthly Cleaning",
@@ -447,6 +457,10 @@ export const BLOG_POSTS: BlogPost[] = [
             text: "Many homeowners use monthly service to take care of the more time-consuming tasks that tend to get pushed aside during busy weeks.",
           },
         ],
+        link: {
+          href: "/residential/services/standard",
+          label: "Learn More About Monthly Cleaning",
+        },
       },
       {
         heading: "One-Time Deep Cleaning",
@@ -458,6 +472,10 @@ export const BLOG_POSTS: BlogPost[] = [
           "A professional deep cleaning tackles the areas that often get overlooked during routine cleaning and leaves your home ready for easier maintenance moving forward.",
           "Many of our recurring clients begin with a deep clean before transitioning to standard maintenance cleanings.",
         ],
+        link: {
+          href: "/residential/services/deep",
+          label: "Learn More About Deep Cleaning Service",
+        },
       },
       {
         heading: "Move-In & Move-Out Cleaning",
@@ -466,6 +484,10 @@ export const BLOG_POSTS: BlogPost[] = [
           "Whether you're preparing your home for its next owner or moving into a new space, a detailed move-in or move-out cleaning helps create a fresh start.",
           "Moving is stressful enough—cleaning doesn't have to be.",
         ],
+        link: {
+          href: "/residential/services/move-out",
+          label: "Learn More About Move-Out Cleaning",
+        },
       },
       {
         heading: "How to Know It's Time for Professional Cleaning",
