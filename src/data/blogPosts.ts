@@ -1,6 +1,13 @@
 export type BlogSectionBlock =
   | { type: "paragraph"; text: string }
-  | { type: "bullets"; items: string[] };
+  | { type: "bullets"; items: string[] }
+  | {
+      type: "table";
+      headers: string[];
+      rows: string[][];
+      /** Optional per-column alignment; defaults to left. */
+      align?: Array<"left" | "right" | "center">;
+    };
 
 export type BlogSection = {
   heading?: string;
@@ -31,6 +38,650 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "how-to-prepare-for-a-house-cleaning-appointment",
+    title:
+      "How to Prepare for a House Cleaning Appointment: 10 Simple Things to Do Before Your Cleaner Arrives",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-22",
+    excerpt:
+      "Do you need to clean before the cleaners arrive? No—but these 10 simple steps help your team work efficiently so you get the best results from every appointment.",
+    heroImage: {
+      src: "/assets/house-cleaning-west-linn.png",
+      alt: "A bright, tidy open-concept living space ready for a professional house cleaning appointment",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Hiring a professional house cleaning service is one of the easiest ways to reclaim your time and enjoy a cleaner, more peaceful home. But many homeowners ask the same question before their first appointment:",
+          "\"Do I need to clean before the cleaners arrive?\"",
+          "The short answer is no—that's what we're here for.",
+          "That said, there are a few simple things you can do before your cleaning appointment that help your cleaning team work more efficiently and focus on the deep cleaning tasks that make the biggest difference.",
+          "Whether you've scheduled a one-time deep cleaning or recurring house cleaning, here's how to prepare for a successful cleaning day.",
+        ],
+      },
+      {
+        heading: "1. Pick Up Personal Items",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "You don't need to deep clean your home, but spending a few minutes putting away everyday clutter can make a big difference.",
+          },
+          {
+            type: "paragraph",
+            text: "Consider putting away:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Clothing",
+              "Toys",
+              "Shoes",
+              "Important paperwork",
+              "Electronics",
+              "Personal hygiene items",
+              "Dishes you'd rather wash yourself",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The less time your cleaners spend organizing belongings, the more time they can spend cleaning surfaces.",
+          },
+          {
+            type: "paragraph",
+            text: "Think of it this way: tidying creates access, cleaning creates results.",
+          },
+        ],
+      },
+      {
+        heading: "2. Secure Valuables",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional cleaning companies take great care inside your home, but it's always a good idea to store valuable or sentimental items somewhere safe.",
+          },
+          {
+            type: "paragraph",
+            text: "Examples include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Jewelry",
+              "Cash",
+              "Important documents",
+              "Family heirlooms",
+              "Prescription medications",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "This protects both you and your cleaning team and gives everyone greater peace of mind.",
+          },
+        ],
+      },
+      {
+        heading: "3. Let Your Cleaner Know About Any Priorities",
+        paragraphs: [
+          "Every home is different.",
+          "Maybe you're hosting family this weekend.",
+          "Maybe the guest bathroom needs extra attention.",
+          "Maybe your kitchen has been getting all the use lately.",
+          "Before your appointment, let your cleaning company know if there are any areas you'd like prioritized. Good communication helps ensure you're happiest with the final result.",
+        ],
+      },
+      {
+        heading: "4. Make Sure Your Pets Are Comfortable",
+        paragraphs: [
+          "Most professional cleaners love meeting pets—but not every pet loves meeting strangers.",
+          "If your dog becomes anxious around visitors or your cat tends to dart outside when doors are open, consider placing them in a comfortable room during the cleaning.",
+          "If your pet has any special instructions, let your cleaning team know beforehand.",
+        ],
+      },
+      {
+        heading: "5. Provide Access to Your Home",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Before your appointment, make sure your cleaners know how they'll get inside.",
+          },
+          {
+            type: "paragraph",
+            text: "Some homeowners:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Leave a garage code",
+              "Provide a lockbox code",
+              "Hide a spare key",
+              "Meet the cleaners at the home",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Whatever method you choose, confirming it ahead of time helps everything run smoothly.",
+          },
+        ],
+      },
+      {
+        heading: "6. Make a Note of Any Areas That Need Special Attention",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional cleaners notice a lot—but we can't read minds.",
+          },
+          {
+            type: "paragraph",
+            text: "If there's something specific you'd like addressed, mention it before the appointment.",
+          },
+          {
+            type: "paragraph",
+            text: "For example:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Soap buildup in a shower",
+              "Fingerprints on glass doors",
+              "Heavy dust in a home office",
+              "Pet hair in a particular room",
+              "A ceiling fan you'd like cleaned",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Even small notes help us tailor the cleaning to your needs.",
+          },
+        ],
+      },
+      {
+        heading: "7. Put Away Fragile Items",
+        paragraphs: [
+          "If there are delicate decorations, family heirlooms, or collectibles displayed in busy areas, consider moving them somewhere safe beforehand.",
+          "This isn't because professional cleaners expect accidents—it's simply one of the easiest ways to reduce risk while allowing your team to clean thoroughly.",
+        ],
+      },
+      {
+        heading: "8. Decide Whether You'll Be Home",
+        paragraphs: [
+          "Many homeowners wonder if they should stay home during the cleaning.",
+          "The answer is entirely up to you.",
+          "Some people enjoy working from home while the cleaning takes place.",
+          "Others prefer running errands and returning to a freshly cleaned home.",
+          "Professional cleaning companies are accustomed to both situations.",
+        ],
+      },
+      {
+        heading: "9. Don't Worry About Making Things Perfect",
+        paragraphs: [
+          "One of the biggest misconceptions is that you need to clean before your cleaners arrive.",
+          "Please don't feel that way.",
+          "Professional cleaners expect homes to be lived in.",
+          "Our job isn't to judge your home—it's to help care for it.",
+          "Whether life has simply been busy or it's been months since your last deep cleaning, we've seen it all.",
+        ],
+      },
+      {
+        heading: "10. Share Any Questions Before We Begin",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "If this is your first professional cleaning, don't hesitate to ask questions.",
+          },
+          {
+            type: "paragraph",
+            text: "Examples include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "What's included?",
+              "How long will the cleaning take?",
+              "Do I need to provide supplies?",
+              "Will the same cleaners come each visit?",
+              "What happens if I notice something that needs attention afterward?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A great cleaning company will be happy to answer these questions before your appointment begins.",
+          },
+        ],
+      },
+      {
+        heading: "What You Don't Need to Do",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Many first-time clients worry they're expected to prepare extensively.",
+          },
+          {
+            type: "paragraph",
+            text: "In reality, you don't need to:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Vacuum first",
+              "Dust first",
+              "Scrub bathrooms",
+              "Mop floors",
+              "Clean your kitchen",
+              "Feel embarrassed about the condition of your home",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Professional cleaners are there to help, not to judge.",
+          },
+        ],
+      },
+      {
+        heading: "Preparing for a Deep Cleaning vs. Recurring Cleaning",
+        paragraphs: [
+          "If you've scheduled a deep cleaning, your team will likely be cleaning areas that haven't received detailed attention in some time, such as baseboards, doors, trim, and buildup in kitchens and bathrooms. Taking a few minutes to clear surfaces and reduce clutter allows them to spend more time on those detailed cleaning tasks.",
+          "For recurring cleanings, preparation is usually even simpler. Since your home is maintained regularly, a quick tidy is often all that's needed before your cleaners arrive.",
+        ],
+        link: {
+          href: "/residential/services",
+          label: "Compare Our Cleaning Services",
+        },
+      },
+      {
+        heading: "Frequently Asked Questions",
+      },
+      {
+        heading: "Should I clean before my house cleaner comes?",
+        headingLevel: 3,
+        paragraphs: [
+          "No. You hired professionals for a reason. A quick tidy helps us access surfaces, but you should never feel like you need to clean your home before we clean it.",
+        ],
+      },
+      {
+        heading: "Should I leave while my house is being cleaned?",
+        headingLevel: 3,
+        paragraphs: [
+          "That's completely your choice. Many clients leave for work or errands, while others stay home during the appointment.",
+        ],
+      },
+      {
+        heading: "Should I tip my house cleaner?",
+        headingLevel: 3,
+        paragraphs: [
+          "Tipping is always appreciated but never expected. If you're happy with the service, the best compliment is often becoming a recurring client or leaving a thoughtful review.",
+        ],
+      },
+      {
+        heading: "Looking for House Cleaning in the Portland Area?",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we believe a great cleaning experience starts long before we arrive at your door. From clear communication and personalized service to thoughtful, detail-oriented cleaning, our goal is to make the entire process feel simple and stress-free.",
+          "Whether you're scheduling your first deep cleaning or looking for recurring house cleaning in Portland, Beaverton, Lake Oswego, West Linn, Oregon City, or nearby communities, we're here to help you enjoy a cleaner home—and more time to enjoy it.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get Your Instant Quote",
+        },
+      },
+    ],
+  },
+  {
+    slug: "how-much-does-house-cleaning-cost-in-portland-2026",
+    title: "How Much Does House Cleaning Cost in Portland? (2026 Pricing Guide)",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-17",
+    excerpt:
+      "What does house cleaning cost in Portland? A clear 2026 pricing guide covering typical ranges, what drives quotes up or down, and how to choose real value—not just the lowest bid.",
+    heroImage: {
+      src: "/assets/house-cleaning-portland.png",
+      alt: "A bright, professionally cleaned Portland home living space",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "If you're searching for house cleaning costs in Portland, you're probably wondering what a fair price is—and why quotes can vary so much from one company to another.",
+          "The truth is that there isn't a single flat rate for professional house cleaning. Every home is different, and factors like the size of your home, its current condition, and the type of cleaning you need all affect the final price.",
+          "In this guide, we'll explain what influences house cleaning prices in the Portland area, what you can expect to pay, and how to choose the best value—not just the lowest price.",
+        ],
+      },
+      {
+        heading: "Average House Cleaning Prices in Portland",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "While every company has its own pricing structure, these are typical ranges you'll see around the Portland metro area.",
+          },
+          {
+            type: "table",
+            headers: ["Cleaning Service", "Typical Portland Price"],
+            align: ["left", "right"],
+            rows: [
+              ["Standard recurring cleaning", "$150–$300+"],
+              ["Deep cleaning", "$250–$700+"],
+              ["Move-out cleaning", "$300–$900+"],
+              ["Move-in cleaning", "$300–$900+"],
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Large homes, homes that haven't been professionally cleaned in a while, or homes requiring detailed attention can cost more.",
+          },
+        ],
+      },
+      {
+        heading: "What Affects the Cost of House Cleaning?",
+      },
+      {
+        heading: "1. The Size of Your Home",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Larger homes naturally require more time, more supplies, and often more cleaners.",
+          },
+          {
+            type: "paragraph",
+            text: "Instead of focusing only on square footage, many cleaning companies also consider:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Number of bedrooms",
+              "Number of bathrooms",
+              "Layout",
+              "Amount of living space",
+              "Number of kitchens or specialty rooms",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A well-maintained 3,000-square-foot home may actually take less time than a cluttered 1,500-square-foot home.",
+          },
+        ],
+      },
+      {
+        heading: "2. The Current Condition of the Home",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "One of the biggest pricing factors is how much work is required.",
+          },
+          {
+            type: "paragraph",
+            text: "For example:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Has the home been professionally cleaned recently?",
+              "Is there heavy buildup in bathrooms?",
+              "Is grease built up in the kitchen?",
+              "Is there pet hair throughout the home?",
+              "Has dust accumulated for months?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A home that has been cleaned regularly usually requires significantly less work than one receiving its first professional cleaning.",
+          },
+        ],
+      },
+      {
+        heading: "3. The Type of Cleaning",
+        headingLevel: 3,
+        paragraphs: [
+          "Not every cleaning service includes the same level of detail.",
+        ],
+      },
+      {
+        heading: "Standard Cleaning",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A standard cleaning is designed to maintain a home that's already in good condition.",
+          },
+          {
+            type: "paragraph",
+            text: "Typical tasks include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Dusting",
+              "Vacuuming",
+              "Mopping",
+              "Bathroom cleaning",
+              "Kitchen cleaning",
+              "Surface wipe-downs",
+            ],
+          },
+        ],
+        link: {
+          href: "/residential/services/standard",
+          label: "Learn More About Standard Cleaning",
+        },
+      },
+      {
+        heading: "Deep Cleaning",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A deep cleaning goes much further.",
+          },
+          {
+            type: "paragraph",
+            text: "It may include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Baseboards",
+              "Doors and trim",
+              "Light fixtures",
+              "Detailed bathroom scrubbing",
+              "Kitchen detailing",
+              "Hand wiping furniture",
+              "Dusting difficult-to-reach areas",
+              "Extra attention to buildup and neglected spaces",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Most homeowners choose a deep cleaning before beginning recurring service.",
+          },
+        ],
+        link: {
+          href: "/residential/services/deep",
+          label: "Learn More About Deep Cleaning",
+        },
+      },
+      {
+        heading: "Move-Out Cleaning",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Move-out cleanings are typically the most detailed.",
+          },
+          {
+            type: "paragraph",
+            text: "They often include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Inside cabinets",
+              "Inside drawers",
+              "Inside appliances",
+              "Window tracks",
+              "Closets",
+              "Doors",
+              "Baseboards",
+              "Detailed bathroom cleaning",
+              "Kitchen detailing",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "These cleanings are designed to leave the home ready for its next occupants.",
+          },
+        ],
+        link: {
+          href: "/residential/services/move-out",
+          label: "Learn More About Move-Out Cleaning",
+        },
+      },
+      {
+        heading: "Why Do Cleaning Quotes Vary So Much?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "You may receive one quote for $180 and another for $500 on the exact same home.",
+          },
+          {
+            type: "paragraph",
+            text: "That doesn't necessarily mean one company is overcharging.",
+          },
+          {
+            type: "paragraph",
+            text: "Some companies price by:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Estimated labor hours",
+              "Number of cleaners",
+              "Square footage",
+              "Flat-rate pricing",
+              "Scope of work",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Others include more detailed cleaning, higher-quality supplies, employee wages, insurance, licensing, and quality guarantees.",
+          },
+          {
+            type: "paragraph",
+            text: "The cheapest quote isn't always the best value if important details are skipped.",
+          },
+        ],
+      },
+      {
+        heading: "Should You Choose the Lowest Price?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional house cleaning isn't just about making a home look nice.",
+          },
+          {
+            type: "paragraph",
+            text: "A thorough cleaning can save you hours of work, reduce stress, improve indoor cleanliness, and help maintain your home's finishes over time.",
+          },
+          {
+            type: "paragraph",
+            text: "When comparing companies, ask questions like:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "What exactly is included?",
+              "Are they insured?",
+              "Do they guarantee their work?",
+              "Will the same areas always be cleaned?",
+              "How are concerns handled if something is missed?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A company that's transparent, communicative, and stands behind its work often provides much greater long-term value than simply choosing the lowest bid.",
+          },
+        ],
+      },
+      {
+        heading: "How We Price House Cleaning at Golden Hour Cleaning Co.",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "At Golden Hour Cleaning Co., we believe pricing should be based on the actual work required—not just an hourly rate.",
+          },
+          {
+            type: "paragraph",
+            text: "Every home is unique, so we provide personalized quotes based on factors like:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Home size",
+              "Current condition",
+              "Type of cleaning requested",
+              "Cleaning goals",
+              "Areas you'd like us to prioritize",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Our goal is simple: provide enough time for our team to clean your home thoroughly instead of rushing through a checklist.",
+          },
+          {
+            type: "paragraph",
+            text: "That means you'll know exactly what's included before your appointment, with no surprises.",
+          },
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get a Personalized Quote",
+        },
+      },
+      {
+        heading: "Frequently Asked Questions",
+      },
+      {
+        heading:
+          "How much does it cost to clean a 2,000-square-foot house in Portland?",
+        headingLevel: 3,
+        paragraphs: [
+          "The price depends on the home's condition and the type of cleaning. A well-maintained home receiving recurring service will generally cost less than a first-time deep cleaning.",
+        ],
+      },
+      {
+        heading: "Are deep cleanings worth the extra cost?",
+        headingLevel: 3,
+        paragraphs: [
+          "For many homeowners, yes. Deep cleanings remove buildup that regular maintenance cleanings aren't designed to address and create a fresh starting point for ongoing service.",
+        ],
+      },
+      {
+        heading: "How often should I have my house professionally cleaned?",
+        headingLevel: 3,
+        paragraphs: [
+          "Many Portland homeowners choose biweekly service because it strikes a balance between maintaining a consistently clean home and keeping costs manageable. Others prefer weekly or monthly service depending on their lifestyle, family size, pets, and schedule.",
+        ],
+        link: {
+          href: "/blog/how-often-should-a-house-be-professionally-cleaned",
+          label: "Read Our Guide to Cleaning Frequency",
+        },
+      },
+      {
+        heading: "Looking for House Cleaning in Portland?",
+        paragraphs: [
+          "Whether you're looking for a one-time deep cleaning, recurring service, or move-out cleaning, choosing a company that takes the time to understand your home can make all the difference.",
+          "At Golden Hour Cleaning Co., we proudly serve homeowners throughout Portland, Beaverton, Lake Oswego, West Linn, Oregon City, and surrounding communities. We focus on thoughtful, detail-oriented cleaning and clear communication so you know exactly what to expect from the very first visit.",
+          "If you'd like a personalized quote, we'd be happy to learn about your home and recommend the service that's the best fit for your needs.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get Your Instant Quote",
+        },
+      },
+    ],
+  },
   {
     slug: "client-story-bringing-their-baby-home",
     title: "Client Story: Bringing Their Baby Home",

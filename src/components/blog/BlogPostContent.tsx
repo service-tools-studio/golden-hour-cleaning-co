@@ -5,22 +5,87 @@ import { HEADING_UPPER } from "@/helpers/typography.js";
 import type { BlogPost, BlogSection } from "@/data/blogPosts";
 import { formatBlogDate } from "@/data/blogPosts";
 
+function BlogTable({
+  headers,
+  rows,
+  align,
+}: {
+  headers: string[];
+  rows: string[][];
+  align?: Array<"left" | "right" | "center">;
+}) {
+  const alignClass = (index: number) => {
+    const value = align?.[index] ?? "left";
+    if (value === "right") return "text-right";
+    if (value === "center") return "text-center";
+    return "text-left";
+  };
+
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-amber-200 bg-white">
+      <table className="w-full min-w-[320px] border-collapse text-left text-sm text-stone-700">
+        <thead>
+          <tr className="border-b border-amber-200 bg-amber-50/80">
+            {headers.map((header, index) => (
+              <th
+                key={header}
+                scope="col"
+                className={`px-4 py-3 font-semibold text-stone-900 ${alignClass(index)}`}
+              >
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr
+              key={row.join("-")}
+              className="border-b border-amber-100 last:border-b-0"
+            >
+              {row.map((cell, index) => (
+                <td
+                  key={`${row[0]}-${index}`}
+                  className={`px-4 py-3 ${alignClass(index)}`}
+                >
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function BlogSectionBody({ section }: { section: BlogSection }) {
   if (section.blocks) {
     return (
       <div className="space-y-4">
-        {section.blocks.map((block, index) =>
-          block.type === "paragraph" ? (
-            <p
-              key={`${block.text}-${index}`}
-              className="text-base leading-relaxed text-stone-700"
-            >
-              {block.text}
-            </p>
-          ) : (
-            <BulletList key={`bullets-${index}`} items={block.items} />
-          )
-        )}
+        {section.blocks.map((block, index) => {
+          if (block.type === "paragraph") {
+            return (
+              <p
+                key={`${block.text}-${index}`}
+                className="text-base leading-relaxed text-stone-700"
+              >
+                {block.text}
+              </p>
+            );
+          }
+          if (block.type === "bullets") {
+            return <BulletList key={`bullets-${index}`} items={block.items} />;
+          }
+          return (
+            <BlogTable
+              key={`table-${index}`}
+              headers={block.headers}
+              rows={block.rows}
+              align={block.align}
+            />
+          );
+        })}
       </div>
     );
   }
