@@ -57,33 +57,33 @@ function Feature({
 export default function CommercialPage() {
   return (
     <>
-      <main className="min-h-screen bg-[#fffbea] text-stone-900 overflow-hidden">
+      <main className="min-h-screen bg-[#fffbea] text-stone-900">
         <ScrollDepthTracker pagePath="/commercial" />
-        <header className="w-full border-b border-amber-200 bg-brand">
-          <div className="mx-auto max-w-7xl px-6 pt-10 pb-6 sm:pt-6">
-            <div className="flex items-center justify-between gap-4">
-              <Link href="/" aria-label="Go to homepage" className="shrink-0">
+        <header className="sticky top-0 z-50 w-full border-b border-amber-200 bg-brand shadow-sm">
+          <div className="mx-auto max-w-7xl px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <Link href="/" aria-label="Go to homepage" className="min-w-0 shrink self-start">
                 <Image
                   src="/assets/Golden Hour - commercial.png"
                   alt="Golden Hour Cleaning Co."
                   width={200}
                   height={100}
                   priority
-                  className="h-[100px] sm:h-[100px] w-auto cursor-pointer"
-                  sizes="(max-width: 640px) 260px, 360px"
+                  className="h-14 w-auto cursor-pointer sm:h-20 md:h-[100px]"
+                  sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 360px"
                 />
               </Link>
 
-              <div className="flex shrink-0 items-center gap-3">
+              <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto sm:gap-3">
                 <a
                   href="tel:+15038934795"
-                  className={`rounded-2xl border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 shadow-sm transition hover:bg-stone-50 ${BTN_UPPER}`}
+                  className={`flex-1 rounded-xl border border-stone-300 bg-white px-3 py-2.5 text-center text-xs font-semibold text-stone-900 shadow-sm transition hover:bg-stone-50 sm:flex-none sm:rounded-2xl sm:px-4 sm:py-2 sm:text-sm ${BTN_UPPER}`}
                 >
                   Call now
                 </a>
                 <a
                   href="#request-quote"
-                  className={`rounded-2xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70 ${BTN_UPPER}`}
+                  className={`flex-1 rounded-xl bg-stone-900 px-3 py-2.5 text-center text-xs font-semibold text-white shadow-sm transition hover:opacity-95 ring-1 ring-brand/40 hover:ring-brand/70 sm:flex-none sm:rounded-2xl sm:px-4 sm:py-2 sm:text-sm ${BTN_UPPER}`}
                 >
                   Request a quote
                 </a>
