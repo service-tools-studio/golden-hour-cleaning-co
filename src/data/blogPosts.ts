@@ -39,6 +39,95 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "helping-a-family-return-home-after-mold-remediation",
+    title:
+      "A Clean Home, A Fresh Start: Helping a Family Return Home After Mold Remediation",
+    author: "Kelsey Collins",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-27",
+    excerpt:
+      "After nine months displaced by mold remediation and reconstruction, one family needed more than a tidy house—they needed a truly clean space to begin healing. Here's how we helped them come home.",
+    heroImage: {
+      src: "/assets/post-construction-cleaning.png",
+      alt: "A Golden Hour cleaner wiping down a kitchen island during a post-construction cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Some cleanings stay with us forever.",
+          "Recently, we had the privilege of helping a family return home after one of the most difficult chapters of their lives.",
+          "For nearly 50 years, one family had built their life in the same home. They raised their son there, watched him grow up, leave for college, and eventually return home with his partner. It was a home filled with decades of memories.",
+          "Then everything changed.",
+          "Both their son and his partner began experiencing serious, unexplained health issues. After months of searching for answers, they discovered the cause: mold exposure. The home they loved had extensive hidden mold, and both of them were highly sensitive to it.",
+          "The house required a complete mold remediation and reconstruction. For nine months, the family was displaced while contractors removed damaged materials and rebuilt large portions of the home.",
+          "When the construction was finally complete, they weren't quite ready to move back in.",
+          "Construction dust settles everywhere—inside cabinets, on walls, in vents, and across every surface. After everything this family had been through, they wanted the peace of mind of knowing their home was truly clean before beginning this next chapter.",
+          "That's when they called Golden Hour Cleaning Co.",
+        ],
+      },
+      {
+        heading: "A Thorough Post-Construction Cleaning",
+        paragraphs: [
+          "Our team spent two full days performing a detailed post-construction cleaning throughout the entire home.",
+          "Every room was carefully cleaned from top to bottom. We removed fine construction dust, cleaned every reachable surface, detailed cabinetry, sanitized kitchens and bathrooms, cleaned floors, and paid close attention to the small details that make a house feel like home again.",
+          "Our goal wasn't simply to make the home look beautiful.",
+          "It was to create an environment where the family could return with confidence after months of uncertainty.",
+        ],
+      },
+      {
+        heading: "Supporting a Healing Environment",
+        paragraphs: [
+          "While professional cleaning is not a substitute for certified mold remediation or medical treatment, a thorough post-construction cleaning can help remove the dust and debris left behind after renovation and provide a fresh, comfortable space for families moving back into their homes.",
+          "For this family, returning home represented much more than the end of a construction project.",
+          "It marked the beginning of their healing journey.",
+          "Knowing that they could walk through the front door into a freshly cleaned home brought them comfort after months of disruption.",
+          "Since that first cleaning, they've invited us back for follow-up maintenance cleanings, and they've shared how grateful they are to have a clean, peaceful environment that supports their recovery and everyday life.",
+          "Stories like theirs remind us that cleaning isn't just about appearance.",
+          "Sometimes it's about helping families move forward.",
+        ],
+      },
+      {
+        heading: "When Is a Post-Construction Cleaning Needed?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Many homeowners schedule a professional post-construction cleaning after:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Mold remediation projects",
+              "Water damage restoration",
+              "Fire or smoke restoration",
+              "Home renovations or remodels",
+              "Kitchen or bathroom remodels",
+              "Flooring replacement",
+              "Whole-home construction projects",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Even when contractors clean up after themselves, fine construction dust often remains throughout the home and benefits from a detailed professional cleaning before move-in.",
+          },
+        ],
+      },
+      {
+        heading: "Professional Post-Construction Cleaning in Portland",
+        paragraphs: [
+          "If you've recently completed a remodel, renovation, or restoration project, Golden Hour Cleaning Co. provides detailed post-construction cleaning throughout the Portland metro area.",
+          "Our team carefully removes construction dust, cleans surfaces from top to bottom, and prepares your home so you can enjoy the results of your renovation with confidence.",
+          "Whether you're returning home after a major project or preparing a newly renovated home for move-in, we're honored to help make your fresh start a little easier.",
+          "Need a professional post-construction cleaning? Contact Golden Hour Cleaning Co. today to schedule your cleaning in Portland, Beaverton, Lake Oswego, West Linn, Oregon City, or the surrounding communities.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get a Personalized Quote",
+        },
+      },
+    ],
+  },
+  {
     slug: "how-to-prepare-for-a-house-cleaning-appointment",
     title:
       "How to Prepare for a House Cleaning Appointment: 10 Simple Things to Do Before Your Cleaner Arrives",
