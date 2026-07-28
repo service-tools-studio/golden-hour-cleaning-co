@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Star } from "lucide-react";
 import { BulletList } from "@/components/residential/servicePageParts";
 import { HEADING_UPPER } from "@/helpers/typography.js";
-import type { BlogPost, BlogSection } from "@/data/blogPosts";
+import type { BlogGoogleReview, BlogPost, BlogSection } from "@/data/blogPosts";
 import { formatBlogDate } from "@/data/blogPosts";
 
 function BlogTable({
@@ -59,6 +60,46 @@ function BlogTable({
   );
 }
 
+function BlogReviewCard({ review }: { review: BlogGoogleReview }) {
+  const stars = Math.max(0, Math.min(5, Math.round(review.rating)));
+
+  return (
+    <a
+      href={review.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-4 flex flex-col rounded-2xl border border-amber-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+      aria-label={`Read ${review.author}'s ${stars}-star Google review`}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-semibold text-stone-900">{review.author}</p>
+        <span className="text-xs font-semibold uppercase tracking-wide text-stone-500">
+          Google Review
+        </span>
+      </div>
+      <div className="mt-2 flex items-center gap-0.5" aria-label={`${stars} out of 5 stars`}>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Star
+            key={index}
+            className={`h-4 w-4 ${
+              index < stars
+                ? "fill-amber-400 text-amber-400"
+                : "fill-stone-200 text-stone-200"
+            }`}
+            aria-hidden
+          />
+        ))}
+      </div>
+      <p className="mt-3 text-base leading-relaxed text-stone-700">
+        &ldquo;{review.text}&rdquo;
+      </p>
+      <p className="mt-4 text-sm font-semibold text-amber-800 underline underline-offset-4">
+        Read on Google
+      </p>
+    </a>
+  );
+}
+
 function BlogSectionBody({ section }: { section: BlogSection }) {
   if (section.blocks) {
     return (
@@ -90,9 +131,13 @@ function BlogSectionBody({ section }: { section: BlogSection }) {
     );
   }
 
+  if (!section.paragraphs?.length) {
+    return null;
+  }
+
   return (
     <div className="space-y-4">
-      {section.paragraphs?.map((paragraph) => (
+      {section.paragraphs.map((paragraph) => (
         <p
           key={paragraph}
           className="text-base leading-relaxed text-stone-700"
@@ -113,25 +158,35 @@ function BlogSections({ post }: { post: BlogPost }) {
           section.headingLevel === 3
             ? `text-lg font-semibold text-stone-900 md:text-xl ${HEADING_UPPER}`
             : `text-xl font-semibold text-stone-900 md:text-2xl ${HEADING_UPPER}`;
+        const hasBody =
+          Boolean(section.blocks?.length) ||
+          Boolean(section.paragraphs?.length) ||
+          Boolean(section.review) ||
+          Boolean(section.link);
 
         return (
           <section key={section.heading ?? `intro-${index}`}>
             {section.heading ? (
               <HeadingTag className={headingClass}>{section.heading}</HeadingTag>
             ) : null}
-            <div className={section.heading ? "mt-4" : undefined}>
-              <BlogSectionBody section={section} />
-              {section.link ? (
-                <p className="mt-4">
-                  <Link
-                    href={section.link.href}
-                    className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
-                  >
-                    {section.link.label}
-                  </Link>
-                </p>
-              ) : null}
-            </div>
+            {hasBody ? (
+              <div className={section.heading ? "mt-4" : undefined}>
+                <BlogSectionBody section={section} />
+                {section.review ? (
+                  <BlogReviewCard review={section.review} />
+                ) : null}
+                {section.link ? (
+                  <p className="mt-4">
+                    <Link
+                      href={section.link.href}
+                      className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
+                    >
+                      {section.link.label}
+                    </Link>
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
           </section>
         );
       })}

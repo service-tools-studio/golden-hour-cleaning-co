@@ -9,6 +9,13 @@ export type BlogSectionBlock =
       align?: Array<"left" | "right" | "center">;
     };
 
+export type BlogGoogleReview = {
+  author: string;
+  rating: number;
+  text: string;
+  href: string;
+};
+
 export type BlogSection = {
   heading?: string;
   /** Defaults to 2 (h2). Use 3 for subsections under a parent h2. */
@@ -19,6 +26,8 @@ export type BlogSection = {
   blocks?: BlogSectionBlock[];
   /** Optional CTA link after the section body */
   link?: { href: string; label: string };
+  /** Optional embedded Google review card */
+  review?: BlogGoogleReview;
 };
 
 export type BlogPost = {
@@ -86,6 +95,15 @@ export const BLOG_POSTS: BlogPost[] = [
           "Stories like theirs remind us that cleaning isn't just about appearance.",
           "Sometimes it's about helping families move forward.",
         ],
+      },
+      {
+        heading: "From Their Google Review",
+        review: {
+          author: "Madison Mallory",
+          rating: 5,
+          text: "Thank you Kelsey and team for all your hard work you have done and continue to do on our home. We live with chronic illness and keeping our home clean and dust free is important to our health. The team at Golden Hour Cleaning Co. is super professional and thorough. We look forward to continuing to work with them.",
+          href: "https://maps.app.goo.gl/PX5mzyvrYCmddDLFA",
+        },
       },
       {
         heading: "When Is a Post-Construction Cleaning Needed?",
