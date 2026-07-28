@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         destination: "/cities/house-cleaning-beaverton",
         permanent: true,
       },
+      {
+        source: "/house-cleaning-oregon-city",
+        destination: "/cities/house-cleaning-oregon-city",
+        permanent: true,
+      },
+      {
+        source: "/house-cleaning-happy-valley",
+        destination: "/cities/house-cleaning-happy-valley",
+        permanent: true,
+      },
     ];
   },
 };

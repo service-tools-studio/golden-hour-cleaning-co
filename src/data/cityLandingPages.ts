@@ -19,4 +19,12 @@ export const CITY_LANDING_PAGES = [
     label: "West Linn",
     href: "/cities/house-cleaning-west-linn",
   },
+  {
+    label: "Oregon City",
+    href: "/cities/house-cleaning-oregon-city",
+  },
+  {
+    label: "Happy Valley",
+    href: "/cities/house-cleaning-happy-valley",
+  },
 ] as const;

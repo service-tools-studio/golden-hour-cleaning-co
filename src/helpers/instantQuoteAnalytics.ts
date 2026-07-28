@@ -7,6 +7,7 @@ type InstantQuoteLocation =
   | "landing_hero"
   | "landing_final_cta"
   | "landing_trust_section"
+  | "landing_pricing_section"
   | "blog_cta";
 
 type TrackInstantQuoteClickInput = {

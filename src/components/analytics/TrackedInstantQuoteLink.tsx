@@ -11,7 +11,10 @@ type Props = {
     | "blog_cta"
     | "header_desktop"
     | "header_mobile_sticky"
-    | "landing_trust_section";
+    | "landing_hero"
+    | "landing_final_cta"
+    | "landing_trust_section"
+    | "landing_pricing_section";
   children: React.ReactNode;
 };
 

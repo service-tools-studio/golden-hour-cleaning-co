@@ -1805,9 +1805,9 @@ export const BLOG_POSTS: BlogPost[] = [
     excerpt:
       "From software engineering to co-founding Golden Hour Cleaning Co.—why this unexpected chapter has become the most meaningful work of my life.",
     heroImage: {
-      src: "/assets/me-blogging.png",
+      src: "/assets/me-blogging-2026.png",
       alt: "Jasmin Heart writing in a journal at home with Golden Hour Cleaning Co. supplies nearby",
-      orientation: "landscape",
+      orientation: "portrait",
     },
     sections: [
       {
