@@ -48,6 +48,231 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "what-to-look-for-in-a-professional-cleaning-company",
+    title: "What to Look for in a Professional Cleaning Company",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-07-30",
+    excerpt:
+      "Hiring a cleaning company means inviting people into your home. Here's what to look for—communication, pricing, reliability, insurance, and more—so you can choose a team you'll trust for years.",
+    heroImage: {
+      src: "/assets/chateau-cleaning.webp",
+      alt: "A bright, professionally cleaned home interior after a Golden Hour cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Hiring a professional cleaning company is about much more than finding someone who can vacuum and wipe down countertops. You're inviting people into your home, trusting them with your belongings, and expecting consistent results every time they visit.",
+          "Whether you're looking for recurring house cleaning, a deep clean, or a move-in/move-out cleaning, knowing what to look for can help you choose a company you'll feel confident hiring for years to come.",
+        ],
+      },
+      {
+        heading: "1. Consistent Communication",
+        paragraphs: [
+          "One of the biggest differences between a professional cleaning company and an unreliable one is communication.",
+          "Before your first cleaning, you should expect prompt responses, clear pricing, and straightforward answers to your questions. After the service, the company should also be easy to reach if you have feedback or need to make changes to your appointment.",
+          "A company that communicates well before earning your business is much more likely to continue communicating well after you're a client.",
+        ],
+      },
+      {
+        heading: "2. Transparent Pricing",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional cleaners should provide clear, upfront pricing with no hidden fees or surprise charges.",
+          },
+          {
+            type: "paragraph",
+            text: "Ask questions like:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Is the quote a flat rate or hourly?",
+              "What services are included?",
+              "Are supplies included?",
+              "Are there additional charges for pets, inside appliances, or heavily soiled areas?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Transparent pricing helps you understand exactly what you're paying for and builds trust from the beginning.",
+          },
+        ],
+        link: {
+          href: "/blog/how-much-does-house-cleaning-cost-in-portland-2026",
+          label: "Read Our Portland Pricing Guide",
+        },
+      },
+      {
+        heading: "3. Reliable Scheduling",
+        paragraphs: [
+          "Your time is valuable.",
+          "Look for a company that offers convenient scheduling, confirms appointments, and arrives within the expected arrival window.",
+          "Many modern cleaning companies also offer online booking, making it easy to schedule services whenever it's convenient for you.",
+        ],
+      },
+      {
+        heading: "4. A Clear Cleaning Process",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional cleaners don't simply \"clean the house.\" They follow a consistent system.",
+          },
+          {
+            type: "paragraph",
+            text: "A reputable company should be able to explain:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "What is included in each cleaning",
+              "How kitchens, bathrooms, bedrooms, and living spaces are cleaned",
+              "What is included in a deep cleaning versus a recurring maintenance cleaning",
+              "How quality is maintained from one visit to the next",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Consistency is one of the hallmarks of a professional service.",
+          },
+        ],
+        link: {
+          href: "/residential/services",
+          label: "Compare Our Cleaning Services",
+        },
+      },
+      {
+        heading: "5. High-Quality Equipment and Products",
+        paragraphs: [
+          "Professional results require professional tools.",
+          "While every company uses different products, they should arrive with equipment and cleaning solutions designed to produce excellent results efficiently and safely.",
+          "Using clean microfiber cloths, quality vacuums, and appropriate products for different surfaces helps protect your home while delivering a better clean.",
+        ],
+      },
+      {
+        heading: "6. Insurance and Professional Standards",
+        paragraphs: [
+          "Accidents are rare, but they can happen.",
+          "A professional cleaning company should carry appropriate business insurance and operate with clear policies for handling unexpected situations.",
+          "Don't be afraid to ask whether the company is insured and how they handle accidental damage if it occurs.",
+        ],
+      },
+      {
+        heading: "7. Respect for Your Home",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Professional cleaners understand that they're guests in your home.",
+          },
+          {
+            type: "paragraph",
+            text: "They should treat your property with care by:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Respecting your belongings",
+              "Following your preferences",
+              "Locking doors when leaving",
+              "Being courteous and professional",
+              "Protecting delicate surfaces whenever possible",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Attention to these small details often separates exceptional cleaning companies from average ones.",
+          },
+        ],
+      },
+      {
+        heading: "8. Positive Reviews and Reputation",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Online reviews provide valuable insight into a company's consistency.",
+          },
+          {
+            type: "paragraph",
+            text: "Look for reviews that mention qualities such as:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Reliability",
+              "Thoroughness",
+              "Professionalism",
+              "Friendly communication",
+              "Consistent quality over multiple visits",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A strong reputation is built over time through excellent customer experiences.",
+          },
+        ],
+      },
+      {
+        heading: "9. Flexible Services",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Every home is different.",
+          },
+          {
+            type: "paragraph",
+            text: "A professional company should offer services that fit your needs, including:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Recurring house cleaning",
+              "Deep cleaning",
+              "Move-in and move-out cleaning",
+              "Post-construction cleaning",
+              "Vacation rental cleaning",
+              "One-time cleanings",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "As your needs change, your cleaning company should be able to adapt with you.",
+          },
+        ],
+      },
+      {
+        heading: "10. A Commitment to Customer Satisfaction",
+        paragraphs: [
+          "Even the best cleaning companies are made up of human beings, and occasionally something may be overlooked.",
+          "What matters most is how the company responds.",
+          "A professional business welcomes feedback, addresses concerns promptly, and genuinely wants every customer to be happy with the service they receive.",
+        ],
+      },
+      {
+        heading: "Why Choosing the Right Cleaning Company Matters",
+        paragraphs: [
+          "Your home is one of your biggest investments, and the people who care for it should reflect that.",
+          "The lowest price isn't always the best value. A dependable cleaning company saves you time, reduces stress, communicates clearly, and consistently delivers results you can count on.",
+          "When you find a team you trust, house cleaning becomes one less thing to worry about.",
+        ],
+      },
+      {
+        heading:
+          "Looking for a Professional Cleaning Company in the Portland Area?",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we believe professionalism means more than simply leaving your home clean. It means clear communication, dependable service, respect for your home, and a commitment to doing things the right way.",
+          "Whether you need recurring house cleaning, a deep cleaning, move-in or move-out cleaning, or post-construction cleaning, our goal is to provide a cleaning experience that's reliable, thorough, and built around you.",
+          "If you're looking for a trusted professional cleaning company serving Portland, Lake Oswego, West Linn, Oregon City, Happy Valley, Beaverton, and the surrounding communities, we'd love the opportunity to earn your trust.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get Your Instant Quote",
+        },
+      },
+    ],
+  },
+  {
     slug: "helping-a-family-return-home-after-mold-remediation",
     title:
       "A Clean Home, A Fresh Start: Helping a Family Return Home After Mold Remediation",

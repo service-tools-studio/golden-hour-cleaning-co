@@ -40,7 +40,7 @@ export default function BeforeAfterSlider() {
           Before &amp; After
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600">
-          Real results from Golden Hour visits — closets, bathrooms, floors, kitchens,
+          Real results from Golden Hour visits — bathrooms, floors, kitchens,
           and more. Every photo is a side-by-side from the same home.
         </p>
 
