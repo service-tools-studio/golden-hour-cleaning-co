@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import Script from "next/script";
+import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import "./globals.css";
 
 const josefinSans = Josefin_Sans({
@@ -39,6 +40,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${josefinSans.className} antialiased`}>
+        <ScrollToTopOnNavigate />
         {children}
       </body>
     </html>
