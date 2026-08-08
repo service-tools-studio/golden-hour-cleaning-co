@@ -5,76 +5,11 @@
  *
  * Usage:
  *   npm run parse-utm -- 'UTM_Content=type=deep~bed=3~ba=1.5~...'
+ *   node scripts/parse-utm-content.mjs 'https://calendly.com/...?utm_content=...'
+ *   echo 'type=deep~bed=3~...' | node scripts/parse-utm-content.mjs
  */
 
-const FIELD_LABELS = [
-  ["type", "Type"],
-  ["bed", "Bed"],
-  ["ba", "Bath"],
-  ["sf_heur", "Square Footage (heuristic)"],
-  ["sf_ent", "Square Footage Entered"],
-  ["hours_est", "Hours"],
-  ["use_eco", "Use eco"],
-  ["promo", "Promo"],
-  ["est_after_promo", "Estimate after promo"],
-];
-
-function extractUtmContent(rawInput) {
-  const input = String(rawInput ?? "").trim();
-  if (!input) return "";
-
-  // Full URL with query params
-  try {
-    const url = new URL(input);
-    const fromQuery =
-      url.searchParams.get("utm_content") ||
-      url.searchParams.get("UTM_Content") ||
-      url.searchParams.get("UTM_CONTENT");
-    if (fromQuery) return fromQuery;
-  } catch {
-    // Not a URL — continue
-  }
-
-  // Query-string fragment: utm_content=... or UTM_Content=...
-  const match = input.match(/(?:^|[?&])utm_content=([^&]*)/i);
-  if (match) {
-    try {
-      return decodeURIComponent(match[1]);
-    } catch {
-      return match[1];
-    }
-  }
-
-  // Prefixed: UTM_Content=type=deep~bed=3...
-  if (/^utm_content=/i.test(input)) {
-    return input.replace(/^utm_content=/i, "");
-  }
-
-  // Raw content payload already: type=deep~bed=3...
-  return input;
-}
-
-function parseUtmContent(rawInput) {
-  const content = extractUtmContent(rawInput);
-  const values = {};
-
-  for (const part of content.split("~")) {
-    if (!part) continue;
-    const eq = part.indexOf("=");
-    if (eq === -1) continue;
-    const key = part.slice(0, eq).trim();
-    const value = part.slice(eq + 1).trim();
-    if (key) values[key] = value;
-  }
-
-  return values;
-}
-
-function formatOutput(values) {
-  return FIELD_LABELS.map(
-    ([key, label]) => `${label}: ${values[key] ?? ""}`
-  ).join("\n");
-}
+import { formatUtmContent } from "../src/helpers/parseUtmContent.mjs";
 
 async function readStdin() {
   if (process.stdin.isTTY) return "";
@@ -99,8 +34,7 @@ Example:
     process.exit(1);
   }
 
-  const values = parseUtmContent(input);
-  console.log(formatOutput(values));
+  console.log(formatUtmContent(input));
 }
 
 main().catch((err) => {

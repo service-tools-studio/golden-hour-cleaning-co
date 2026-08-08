@@ -1,0 +1,117 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { Check, Copy } from "lucide-react";
+import { formatUtmContent } from "@/helpers/parseUtmContent.mjs";
+import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+
+const EXAMPLE =
+  "UTM_Content=type=deep~bed=3~ba=1.5~sf_heur=1500~sf_ent=1350~sf_low=1350~sf_high=1500~hours_est=5-6~freq=one_time~use_eco=no~add=none~promo=none~est_after_promo=375-450~ts=08-03-26|20:29";
+
+export default function CalendarDetailsClient() {
+  const [input, setInput] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  const output = useMemo(() => {
+    const trimmed = input.trim();
+    if (!trimmed) return "";
+    return formatUtmContent(trimmed);
+  }, [input]);
+
+  async function handleCopy() {
+    if (!output) return;
+    try {
+      await navigator.clipboard.writeText(output);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen bg-amber-50 text-stone-900">
+      <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
+        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
+          Internal tool
+        </p>
+        <h1 className={`mt-3 text-3xl md:text-4xl ${HEADING_UPPER}`}>
+          Calendar details
+        </h1>
+        <p className="mt-4 text-base leading-relaxed text-stone-700">
+          Paste a Calendly URL,{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">
+            utm_content
+          </code>{" "}
+          query value, or raw{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">
+            type=deep~bed=3~...
+          </code>{" "}
+          payload to decode quote details.
+        </p>
+
+        <label
+          htmlFor="utm-input"
+          className={`mt-8 block text-sm font-semibold text-stone-800 ${HEADING_UPPER}`}
+        >
+          Input
+        </label>
+        <textarea
+          id="utm-input"
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          rows={6}
+          spellCheck={false}
+          placeholder={EXAMPLE}
+          className="mt-2 w-full rounded-2xl border border-amber-200 bg-white px-4 py-3 font-mono text-sm leading-relaxed text-stone-800 shadow-sm outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
+        />
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setInput(EXAMPLE)}
+            className={`${BTN_UPPER} rounded-xl border border-stone-300 bg-white px-4 py-2 text-xs font-semibold text-stone-900 transition hover:bg-stone-50`}
+          >
+            Load example
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setInput("");
+              setCopied(false);
+            }}
+            className={`${BTN_UPPER} rounded-xl border border-stone-300 bg-white px-4 py-2 text-xs font-semibold text-stone-900 transition hover:bg-stone-50`}
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="mt-8 flex items-center justify-between gap-3">
+          <h2 className={`text-lg font-semibold ${HEADING_UPPER}`}>Output</h2>
+          <button
+            type="button"
+            onClick={handleCopy}
+            disabled={!output}
+            className={`${BTN_UPPER} inline-flex items-center gap-2 rounded-xl bg-stone-900 px-4 py-2 text-xs font-semibold text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40`}
+          >
+            {copied ? (
+              <>
+                <Check className="h-3.5 w-3.5" aria-hidden />
+                Copied
+              </>
+            ) : (
+              <>
+                <Copy className="h-3.5 w-3.5" aria-hidden />
+                Copy
+              </>
+            )}
+          </button>
+        </div>
+
+        <pre className="mt-3 min-h-[14rem] whitespace-pre-wrap rounded-2xl border border-amber-200 bg-white px-4 py-4 font-mono text-sm leading-relaxed text-stone-800 shadow-sm">
+          {output || "Parsed details will appear here."}
+        </pre>
+      </div>
+    </main>
+  );
+}
