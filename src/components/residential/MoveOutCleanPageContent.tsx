@@ -13,9 +13,13 @@ export default function MoveOutCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">
-        ~$0.46/sq ft • most intensive
+        ~$0.40–$0.50/sq ft • most intensive
       </p>
-      <h1 className={`mt-1 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
+      <p className="mt-1 text-xs text-stone-500">
+        Range depends on home condition. Final price confirmed after a quick
+        walkthrough.
+      </p>
+      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Move-In &amp; Move-Out Cleaning Services in Portland, OR
       </h1>
 
@@ -42,14 +46,19 @@ export default function MoveOutCleanPageContent({
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our detailed cleaning service helps leave your home fresh, clean, and
-          ready for its next chapter. Whether you&apos;re a homeowner, renter,
-          landlord, property manager, or real estate professional, we&apos;re here
-          to make moving a little easier.
+          ready for its next chapter. Pricing is by the square foot
+          ($0.40–$0.50 depending on condition), bathrooms are priced at a higher
+          rate for denser care, and we use eco-friendly products whenever
+          possible. Stronger conventional products may be used when heavy buildup
+          requires it. Whether you&apos;re a homeowner, renter, landlord,
+          property manager, or real estate professional, we&apos;re here to make
+          moving a little easier.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Get an instant quote and book your cleaning directly on our website,
           or give us a call to speak with a friendly Golden Hour Cleaning Co.
-          representative.
+          representative. We&apos;ll confirm your final price after a quick
+          walkthrough.
         </p>
       </Section>
 
@@ -201,6 +210,10 @@ export default function MoveOutCleanPageContent({
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
+            question="How is move-in / move-out cleaning priced?"
+            answer="We bill by the square foot at about $0.40–$0.50/sq ft depending on home condition. Bathrooms are priced at a higher rate for denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+          />
+          <FaqItem
             question="Do I need to empty the home before the cleaning?"
             answer="For the most thorough results, we recommend the home be completely empty or nearly empty before our arrival. This allows us to clean every accessible surface efficiently."
           />
@@ -215,6 +228,10 @@ export default function MoveOutCleanPageContent({
           <FaqItem
             question="Do you clean inside the refrigerator?"
             answer="Yes. Cleaning the inside of the refrigerator is included in our move-in and move-out cleaning service."
+          />
+          <FaqItem
+            question="Do you bring your own cleaning supplies?"
+            answer="Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. We arrive with professional-grade equipment and supplies, and you're welcome to share any product preferences."
           />
           <FaqItem
             question="How do I get a quote?"
@@ -267,8 +284,9 @@ export default function MoveOutCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on estimated square footage, service level, and
-          add-ons. Final price is confirmed during your in-home walkthrough.
+          Quotes are based on square footage and service type. Bathrooms are
+          priced at a higher rate for denser care. Final price is confirmed after
+          a quick walkthrough.
         </p>
       </Section>
     </>

@@ -71,7 +71,7 @@ const FAQS = [
   {
     question: "Do you bring your own supplies?",
     answer:
-      "Yes. Our cleaners can bring professional supplies and equipment unless you prefer we use specific products in your home.",
+      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our cleaners bring professional supplies and equipment unless you prefer we use specific products in your home.",
   },
   {
     question: "Do you offer recurring cleaning?",

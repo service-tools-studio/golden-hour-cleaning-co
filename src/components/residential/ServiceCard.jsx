@@ -66,8 +66,9 @@ export default function ServiceCard({ service }) {
       </div>
 
       <p className="mt-2 text-xs text-stone-500">
-        Quotes are based on estimated square footage, service level, and add-ons.
-        Final price is confirmed after a quick walkthrough.
+        Quotes are based on square footage and service type. Bathrooms are priced
+        at a higher rate for denser care. We use eco-friendly products whenever
+        possible. Final price is confirmed after a quick walkthrough.
       </p>
     </div>
   );

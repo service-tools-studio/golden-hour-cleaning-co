@@ -4,8 +4,10 @@ const FIELD_LABELS = [
   ["ba", "Bath"],
   ["sf_heur", "Square Footage (heuristic)"],
   ["sf_ent", "Square Footage Entered"],
-  ["hours_est", "Hours"],
-  ["use_eco", "Use eco"],
+  ["hours_est", "Person-hours"],
+  ["onsite", "On-site time"],
+  ["cleaners", "Cleaners"],
+  ["add", "Add-ons"],
   ["promo", "Promo"],
   ["est_after_promo", "Estimate after promo"],
 ];
@@ -58,10 +60,15 @@ export function parseUtmContent(rawInput) {
   return values;
 }
 
+function displayValue(key, value) {
+  if (value == null || value === "") return "";
+  return value;
+}
+
 export function formatUtmContent(rawInput) {
   const values = parseUtmContent(rawInput);
   return FIELD_LABELS.map(
-    ([key, label]) => `${label}: ${values[key] ?? ""}`
+    ([key, label]) => `${label}: ${displayValue(key, values[key])}`
   ).join("\n");
 }
 

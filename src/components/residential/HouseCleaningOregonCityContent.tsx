@@ -117,7 +117,7 @@ const FAQS = [
   {
     question: "Do you bring your own cleaning supplies?",
     answer:
-      "Yes. We arrive with professional-grade cleaning products and equipment.",
+      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. We arrive with professional-grade cleaning products and equipment.",
   },
   {
     question: "Are you insured?",

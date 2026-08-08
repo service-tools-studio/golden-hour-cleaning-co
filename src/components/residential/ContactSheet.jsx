@@ -19,15 +19,6 @@ const ContactSheet = forwardRef(function ContactSheet(
 
   const levelLabel = LEVEL_COPY[context.level]?.name ?? String(context.level);
 
-  const humanFreq =
-    context.frequency === "weekly"
-      ? "Weekly"
-      : context.frequency === "bi_weekly"
-        ? "Bi-weekly"
-        : context.frequency === "monthly"
-          ? "Monthly"
-          : "One-time";
-
   const hasSqftRange =
     typeof context.sqftLow === "number" &&
     typeof context.sqftHigh === "number" &&
@@ -52,8 +43,8 @@ const ContactSheet = forwardRef(function ContactSheet(
       ? `Estimated total: ${formatCurrency(context.total)}\n`
       : "";
 
-  const ecoLine = `Eco-friendly products: ${context.ecoProducts ? "Yes" : "No"
-    }\n`;
+  const ecoLine =
+    `Products: Eco-friendly whenever possible; conventional products may be used for heavy buildup when needed\n`;
 
   const promoLine = context.promo
     ? `Promo applied: ${context.promo.code} (−${formatCurrency(
@@ -67,7 +58,6 @@ const ContactSheet = forwardRef(function ContactSheet(
     `Bedrooms: ${context.bedrooms}\n` +
     `Bathrooms: ${context.bathrooms}\n` +
     homeSizeLine +
-    `Cleaning frequency: ${humanFreq}\n` +
     ecoLine +
     promoLine +
     priceLine +

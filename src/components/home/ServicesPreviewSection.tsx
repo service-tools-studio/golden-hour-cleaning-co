@@ -9,19 +9,19 @@ const SERVICES = [
   {
     emoji: "🏡",
     title: "Standard Cleaning",
-    desc: "Weekly or bi-weekly upkeep for homes that already feel pretty tidy.",
+    desc: "Recurring upkeep for tidy homes — or homes professionally cleaned within the past 2–4 weeks.",
     href: "/residential/services/standard",
   },
   {
     emoji: "✨",
     title: "Deep Cleaning",
-    desc: "A full-home reset when dust, grime, or life has built up.",
+    desc: "A full-home reset when dust, grime, or life has built up (~$0.26–$0.40/sq ft).",
     href: "/residential/services/deep",
   },
   {
     emoji: "📦",
     title: "Move In / Move Out",
-    desc: "Detailed cleaning for empty homes before keys change hands.",
+    desc: "Detailed cleaning for empty homes before keys change hands (~$0.40–$0.50/sq ft).",
     href: "/residential/services/move-out",
   },
   {

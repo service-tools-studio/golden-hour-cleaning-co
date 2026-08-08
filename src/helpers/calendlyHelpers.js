@@ -31,17 +31,19 @@ export function buildCalendlyUrlWithUtm(baseUrl, result, promo = {}) {
   const promoCode = promoApplied && promo?.code ? String(promo.code) : "none";
 
   // Build utm_content (kept as one string)
+  const onSiteLow = result?.time?.onSiteRangeLow ?? "";
+  const onSiteHigh = result?.time?.onSiteRangeHigh ?? "";
+  const cleaners = result?.time?.cleaners ?? "";
+
   const contentParts = [
     `type=${result?.cleanType ?? "unknown"}`,
     `bed=${result?.bedrooms ?? ""}`,
     `ba=${result?.bathrooms ?? ""}`,
     `sf_heur=${result?.estSqft ?? ""}`,
     `sf_ent=${result?.sqftInput ?? ""}`,
-    `sf_low=${result?.sqftLow ?? ""}`,
-    `sf_high=${result?.sqftHigh ?? ""}`,
     `hours_est=${result?.billableHoursLow ?? ""}-${result?.billableHoursHigh ?? result?.billableHours ?? ""}`,
-    `freq=${result?.frequency ?? ""}`,
-    `use_eco=${result?.ecoProducts ? "yes" : "no"}`,
+    `onsite=${onSiteLow}-${onSiteHigh}`,
+    `cleaners=${cleaners}`,
     `add=${addons}`,
     `promo=${promoCode}`,
     `est_after_promo=${result?.totalAfterPromoLow ?? ""}-${result?.totalAfterPromoHigh ?? result?.totalAfterPromo ?? ""}`,

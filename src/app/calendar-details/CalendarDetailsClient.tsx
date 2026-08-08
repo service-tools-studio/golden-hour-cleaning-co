@@ -6,7 +6,7 @@ import { formatUtmContent } from "@/helpers/parseUtmContent.mjs";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 const EXAMPLE =
-  "UTM_Content=type=deep~bed=3~ba=1.5~sf_heur=1500~sf_ent=1350~sf_low=1350~sf_high=1500~hours_est=5-6~freq=one_time~use_eco=no~add=none~promo=none~est_after_promo=375-450~ts=08-03-26|20:29";
+  "UTM_Content=type=deep~bed=3~ba=1.5~sf_heur=1500~sf_ent=1350~hours_est=5-6~onsite=2.5-3~cleaners=2~add=none~promo=none~est_after_promo=400-475~ts=08-08-26|12:50";
 
 export default function CalendarDetailsClient() {
   const [input, setInput] = useState("");

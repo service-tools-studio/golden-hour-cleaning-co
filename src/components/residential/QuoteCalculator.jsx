@@ -12,62 +12,92 @@ import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 
 /**
- * Golden Hour Cleaning Co. — Quote Calculator (Hybrid Sq Ft + Time)
+ * Golden Hour Cleaning Co. — Quote Calculator (Square Footage Pricing)
  *
- * Hybrid model:
- * - We estimate TWO square footages:
- *    1) Heuristic from bedrooms (bath count uses 0.5 steps; half = 50% of full time/price)
- *    2) The value you enter in the "Total Sq Ft" field
- * - We use these to create a LOW–HIGH range:
- *    sqftLow  = smaller of (heuristic, entered)
- *    sqftHigh = larger  of (heuristic, entered)
- *    (If no sqft is entered, both = heuristic.)
+ * Pricing model:
+ * - Prefer the entered square footage as the floor
+ * - Bedroom heuristic (base + beds × per bedroom) only when bedrooms > 0 and
+ *   higher than the entry (guards understated size; does not pull large homes down)
+ * - Price = (home sq ft + baths × 150) × $/sq ft rate for the clean type
+ *   (bathrooms take more care; math is additive sq-ft equivalent)
+ * - Breakdown display: bathrooms are shown as a carve-out of home size at 2× the
+ *   listed $/sq ft (same dollars as the additive math)
+ * - Deep cleans use a condition-based rate range ($0.26–$0.40/sq ft)
+ * - Minimum base visit charge: standard $150, deep $250, move-out $350
+ *   • Entered sq ft below bedroom heuristic and low end under min → floor low
+ *     only; high end stays $/sq ft
+ *   • No bedrooms, bathrooms entered, and low end under min → same: low = min,
+ *     high = living areas + bathroom $/sq ft
+ *   • Also for 0 beds & 0 baths, or size under 300 sq ft, when pricing is low
+ * - Flat add-ons (fridge, oven, second kitchen) are added after
  *
- * - We then estimate cleaning time from sq ft and clean type
- *   and multiply by an hourly rate behind the scenes to get a
- *   price RANGE. This protects against under-estimating size
- *   while still honoring the customer’s entry.
- *
- * Frequency discounts (applied before eco upcharge):
- * - weekly: 18%
- * - bi-weekly: 12%
- * - monthly: 5%
- * - one-time: 0%
+ * Hours model (approximate, for scheduling only — does not set price):
+ * - Convert size + bathrooms + add-ons + second kitchen into person-hours
+ * - Deep cleans span productivity from ~346 sq ft/hr (straightforward) to ~225 (moderate)
+ * - Scale cleaners so on-site duration stays at most ~4 hours
  *
  * Promo:
  * - GOLDENWELCOME = $50 off Deep Clean only; applied to estimated total
+ *
  */
 
-const HOURLY_RATE = 75;          // used internally, never shown in UI
-const ECO_MULTIPLIER = 1.15;     // 15% upcharge
-const SQFT_PER_HOUR_BASE = 290;  // average productivity per cleaner (deep baseline)
+/**
+ * Deep-clean condition bands (at ~$90/labor hr).
+ * Rate range for quotes: relatively straightforward → moderately labor-intensive
+ * (heavier bands confirmed at walkthrough when needed).
+ */
+const DEEP_RATE_PER_SQFT_LOW = 0.26; // ~346 sq ft/hr at $90/labor hr
+const DEEP_RATE_PER_SQFT_HIGH = 0.40; // 225 sq ft/hr
+const DEEP_SQFT_PER_HOUR_FAST = 90 / DEEP_RATE_PER_SQFT_LOW;
+const DEEP_SQFT_PER_HOUR_SLOW = 225;
+
+/** Public square-footage rates by clean type (low–high; same when fixed). */
+const RATE_PER_SQFT = {
+  standard: { low: 0.22, high: 0.22 },
+  deep: { low: DEEP_RATE_PER_SQFT_LOW, high: DEEP_RATE_PER_SQFT_HIGH },
+  move_out: { low: 0.4, high: 0.5 },
+};
+
+/**
+ * Approximate crew productivity (sq ft/hr) for time estimates only.
+ * Standard keeps a single mid-band; deep / move-out span condition bands.
+ * (~$90/labor hr → rate ≈ 90 / productivity)
+ */
+const SQFT_PER_HOUR = {
+  standard: { fast: 290 / 0.8, slow: 290 / 0.8 },
+  deep: { fast: DEEP_SQFT_PER_HOUR_FAST, slow: DEEP_SQFT_PER_HOUR_SLOW },
+  move_out: { fast: 225, slow: 180 }, // $0.40 → $0.50
+};
+
 const MIN_VISIT_HOURS_ONE_CLEANER = 2;
-/** Above this on-site duration with one cleaner, we schedule two cleaners and halve on-site time */
-const MAX_ON_SITE_HOURS_ONE_CLEANER = 4;
+/** Keep on-site duration at or under this by adding cleaners as needed. */
+const MAX_ON_SITE_HOURS = 4;
+
+/** Minimum base cleaning charge by clean type (before flat add-ons / promo). */
+const MIN_CHARGE_BY_TYPE = {
+  standard: 150,
+  deep: 250,
+  move_out: 350,
+};
 
 // We treat anything over 16 total person-hours as a "large job"
 const MAX_TOTAL_PERSON_HOURS = 16;
 
-// Deep is baseline (1.0). Standard is faster; Move-Out is slower.
-const CLEAN_TYPE_MULTIPLIER = {
-  standard: 0.8,
-  deep: 1.0,
-  move_out: 1.3,
-};
-
 /**
- * Add-on configuration
+ * Add-on configuration — flat price for quote; hours only affect time estimate
  */
-const ADDON_FRIDGE_PRICE = 55;
+const ADDON_FRIDGE_PRICE = 60;
 const ADDON_FRIDGE_HOURS_LOW = 0.5;   // 30 min
 const ADDON_FRIDGE_HOURS_HIGH = 1.25; // 75 min
 
-const ADDON_OVEN_PRICE = 55;
+const ADDON_OVEN_PRICE = 60;
 const ADDON_OVEN_HOURS_LOW = 0.5;   // 30 min
 const ADDON_OVEN_HOURS_HIGH = 1.25; // 75 min
 
-const ADDON_SECOND_KITCHEN_SQFT = 300;
-const ADDON_SECOND_KITCHEN_HOURS_LOW = 1.0;  // 60 min
+/** Second kitchen: flat fee range for price; hours for time estimate only. */
+const ADDON_SECOND_KITCHEN_FEE_LOW = 75;
+const ADDON_SECOND_KITCHEN_FEE_HIGH = 200;
+const ADDON_SECOND_KITCHEN_HOURS_LOW = 1;    // 60 min
 const ADDON_SECOND_KITCHEN_HOURS_HIGH = 1.5; // 90 min
 
 const FULL_BATH_SQFT = CFG.roomsToSqft.perBathroom;
@@ -78,18 +108,29 @@ function snapBathroomUnits(bathrooms) {
   return Math.max(0, Math.round(n * 2) / 2);
 }
 
-/** Person-hours one full bath adds at the given clean type (half = 50% of this). */
-function fullBathPersonHours(cleanMult) {
-  return (FULL_BATH_SQFT * cleanMult) / SQFT_PER_HOUR_BASE;
+/** Approximate person-hours one full bath adds at the given productivity (half = 50%). */
+function fullBathPersonHours(sqftPerHour) {
+  return FULL_BATH_SQFT / sqftPerHour;
+}
+
+function formatRatePerSqft(low, high) {
+  const lo = Number(low).toFixed(2);
+  const hi = Number(high).toFixed(2);
+  return lo === hi ? `$${lo}/sq ft` : `$${lo}–$${hi}/sq ft`;
+}
+
+function formatMoneyRange(low, high) {
+  if (low === high) return `$${low.toLocaleString()}`;
+  return `$${low.toLocaleString()}–$${high.toLocaleString()}`;
+}
+
+function formatSqftRange(low, high) {
+  if (low === high) return `${low.toLocaleString()} sq ft`;
+  return `${low.toLocaleString()}–${high.toLocaleString()} sq ft`;
 }
 
 function clampCurrency(n) {
   return Math.max(0, Math.round(n));
-}
-
-function formatSigned(amount) {
-  const sign = amount >= 0 ? "+" : "−";
-  return `${sign}$${Math.abs(amount)}`;
 }
 
 function roundTo(n, step = 0.5) {
@@ -115,16 +156,13 @@ export default function QuoteCalculator({
   const quoteScheduleBtnRef = useRef(null);
   const [bedrooms, setBedrooms] = useState(3);
   const [bathrooms, setBathrooms] = useState(2);
-  const [sqft, setSqft] = useState(1800);
-  const [frequency, setFrequency] = useState("one_time");
+  const [sqft, setSqft] = useState(1500);
 
   const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 
   const [cleanType, setCleanType] = useState(() =>
     VALID_LEVELS.has(initialLevel) ? initialLevel : "deep"
   );
-
-  const [ecoProducts, setEcoProducts] = useState(true);
 
   // Add-ons
   const [includeFridge, setIncludeFridge] = useState(false);
@@ -180,36 +218,43 @@ export default function QuoteCalculator({
 
     const bathroomUnits = snapBathroomUnits(bathrooms);
 
-    // Heuristic sqft from beds only; bath time/price applied explicitly below
-    const estSqft =
-      CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom;
+    // Heuristic sqft from beds only; baths add a billed sq-ft surcharge below.
+    // No bedrooms entered → no size heuristic (entered sq ft alone, if any).
+    const hasBedroomHeuristic = bedrooms > 0;
+    const estSqft = hasBedroomHeuristic
+      ? CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom
+      : 0;
 
-    const cleanMult = CLEAN_TYPE_MULTIPLIER[cleanType] ?? 1.0;
-    const bathPersonHours = bathroomUnits * fullBathPersonHours(cleanMult);
+    const rates = RATE_PER_SQFT[cleanType] ?? RATE_PER_SQFT.deep;
+    const productivity = SQFT_PER_HOUR[cleanType] ?? SQFT_PER_HOUR.deep;
+    const ratePerSqftLow = rates.low;
+    const ratePerSqftHigh = rates.high;
+    const bathPersonHoursLow =
+      bathroomUnits * fullBathPersonHours(productivity.fast);
+    const bathPersonHoursHigh =
+      bathroomUnits * fullBathPersonHours(productivity.slow);
+    const bathSqftSurcharge = bathroomUnits * FULL_BATH_SQFT;
 
-    // Hybrid range from heuristic + entered
+    // Entered sq ft is the floor. Heuristic only raises the high end when larger.
     let sqftLow;
     let sqftHigh;
 
     if (safeSqftInput <= 0) {
-      // No usable entry → both ends are heuristic
-      sqftLow = estSqft;
-      sqftHigh = estSqft;
+      sqftLow = hasBedroomHeuristic ? estSqft : 0;
+      sqftHigh = hasBedroomHeuristic ? estSqft : 0;
     } else {
-      sqftLow = Math.min(estSqft, safeSqftInput);
-      sqftHigh = Math.max(estSqft, safeSqftInput);
+      sqftLow = safeSqftInput;
+      sqftHigh = hasBedroomHeuristic
+        ? Math.max(estSqft, safeSqftInput)
+        : safeSqftInput;
     }
 
-    // Second kitchen adds fixed square footage on both ends of the range
-    if (includeSecondKitchen) {
-      sqftLow += ADDON_SECOND_KITCHEN_SQFT;
-      sqftHigh += ADDON_SECOND_KITCHEN_SQFT;
-    }
-
-    // Add-ons: extra time + flat prices
-    let addonHoursLow = bathPersonHours;
-    let addonHoursHigh = bathPersonHours;
+    // Hours: approximate only (scheduling).
+    let addonHoursLow = bathPersonHoursLow;
+    let addonHoursHigh = bathPersonHoursHigh;
     let addonFlat = 0;
+    let secondKitchenFeeLow = 0;
+    let secondKitchenFeeHigh = 0;
 
     if (includeFridge) {
       addonHoursLow += ADDON_FRIDGE_HOURS_LOW;
@@ -226,22 +271,26 @@ export default function QuoteCalculator({
     if (includeSecondKitchen) {
       addonHoursLow += ADDON_SECOND_KITCHEN_HOURS_LOW;
       addonHoursHigh += ADDON_SECOND_KITCHEN_HOURS_HIGH;
+      secondKitchenFeeLow = ADDON_SECOND_KITCHEN_FEE_LOW;
+      secondKitchenFeeHigh = ADDON_SECOND_KITCHEN_FEE_HIGH;
     }
 
-    // Person-hours for ONE cleaner from sq ft + add-ons
+    // Person-hours for ONE cleaner from sq ft + time add-ons
     const billableHoursLowRaw = Math.max(
       MIN_VISIT_HOURS_ONE_CLEANER,
-      (sqftLow * cleanMult) / SQFT_PER_HOUR_BASE + addonHoursLow
+      sqftLow / productivity.fast + addonHoursLow
     );
     const billableHoursHighRaw = Math.max(
       MIN_VISIT_HOURS_ONE_CLEANER,
-      (sqftHigh * cleanMult) / SQFT_PER_HOUR_BASE + addonHoursHigh
+      sqftHigh / productivity.slow + addonHoursHigh
     );
 
-    // Use two cleaners when one cleaner would be on site more than 4 hours
-    const cleaners = billableHoursHighRaw > MAX_ON_SITE_HOURS_ONE_CLEANER ? 2 : 1;
+    // Add cleaners so on-site time stays at most MAX_ON_SITE_HOURS (based on high estimate)
+    const cleaners = Math.max(
+      1,
+      Math.ceil(billableHoursHighRaw / MAX_ON_SITE_HOURS)
+    );
 
-    // On-site time per cleaner
     const onSiteRangeLowRaw = billableHoursLowRaw / cleaners;
     const onSiteRangeHighRaw = billableHoursHighRaw / cleaners;
 
@@ -251,7 +300,6 @@ export default function QuoteCalculator({
     const billableHoursLow = onSiteRangeLow * cleaners;
     const billableHoursHigh = onSiteRangeHigh * cleaners;
 
-    // Total person-hours (used to decide "large job")
     const totalPersonHoursHigh = billableHoursHigh;
     const isLargeJob = totalPersonHoursHigh > MAX_TOTAL_PERSON_HOURS;
 
@@ -265,29 +313,89 @@ export default function QuoteCalculator({
         onSiteRangeHigh
       )} ${hoursUnit(onSiteRangeHigh)}`;
 
-    // Base labor (time-based) vs flat add-ons — compute separately
-    const baseLaborLowRawCore = billableHoursLow * HOURLY_RATE;
-    const baseLaborHighRawCore = billableHoursHigh * HOURLY_RATE;
+    // Price from square footage (bathrooms get an equivalent sq-ft surcharge)
+    const billableSqftLow = sqftLow + bathSqftSurcharge;
+    const billableSqftHigh = sqftHigh + bathSqftSurcharge;
 
-    const baseLaborLowRaw = baseLaborLowRawCore + addonFlat;
-    const baseLaborHighRaw = baseLaborHighRawCore + addonFlat;
+    const basePriceLowRaw = billableSqftLow * ratePerSqftLow;
+    const basePriceHighRaw = billableSqftHigh * ratePerSqftHigh;
 
-    const disc = CFG.frequencyDiscount[frequency] || 0;
+    // Breakdown framing (same dollars): carve baths out of home and price them at 2× rate.
+    // Falls back to home @ rate + bath care @ rate when baths × 150 exceeds home size.
+    const canCarveBaths =
+      bathSqftSurcharge > 0 && bathSqftSurcharge <= sqftLow;
+    const bathAreaSqft = Math.round(bathSqftSurcharge);
+    const bathRateLow = ratePerSqftLow * (canCarveBaths ? 2 : 1);
+    const bathRateHigh = ratePerSqftHigh * (canCarveBaths ? 2 : 1);
+    const bathPriceLow = clampCurrency(bathAreaSqft * bathRateLow);
+    const bathPriceHigh = clampCurrency(bathAreaSqft * bathRateHigh);
+    const livingSqftLow = Math.round(
+      canCarveBaths ? sqftLow - bathSqftSurcharge : sqftLow
+    );
+    const livingSqftHigh = Math.round(
+      canCarveBaths ? sqftHigh - bathSqftSurcharge : sqftHigh
+    );
+    const livingPriceLow = Math.max(
+      0,
+      clampCurrency(basePriceLowRaw) - bathPriceLow
+    );
+    const livingPriceHigh = Math.max(
+      0,
+      clampCurrency(basePriceHighRaw) - bathPriceHigh
+    );
+    const calculatedHighFromAreas = clampCurrency(
+      livingPriceHigh + bathPriceHigh
+    );
 
-    const freqDiscountLowRaw = baseLaborLowRaw * disc;
-    const subtotalLowAfterFreq = baseLaborLowRaw - freqDiscountLowRaw;
+    const minCharge = MIN_CHARGE_BY_TYPE[cleanType] ?? 0;
+    const enteredBelowHeuristic =
+      hasBedroomHeuristic && safeSqftInput > 0 && safeSqftInput < estSqft;
+    // Baths + no beds: low may hit the floor while high stays living + bathroom calc
+    const bathsNoBedsUnderMin =
+      !hasBedroomHeuristic &&
+      bathroomUnits > 0 &&
+      safeSqftInput > 0 &&
+      basePriceLowRaw < minCharge;
+    const tinyScopeEligible =
+      (bedrooms === 0 && bathroomUnits === 0) || sqftLow < 300;
+    const lowBelowMin = basePriceLowRaw < minCharge;
+    const highBelowMin = basePriceHighRaw < minCharge;
 
-    const freqDiscountHighRaw = baseLaborHighRaw * disc;
-    const subtotalHighAfterFreq = baseLaborHighRaw - freqDiscountHighRaw;
+    let baseLaborCoreLow;
+    let baseLaborCoreHigh;
+    let usesMinCharge = false;
+    let fullyAtMinimum = false;
+    let minOnLowOnly = false;
 
-    // Eco upcharge
-    const ecoMultiplier = ecoProducts ? ECO_MULTIPLIER : 1;
-
-    const totalBeforePromoLowRaw = subtotalLowAfterFreq * ecoMultiplier;
-    const ecoUpchargeLowRaw = totalBeforePromoLowRaw - subtotalLowAfterFreq;
-
-    const totalBeforePromoHighRaw = subtotalHighAfterFreq * ecoMultiplier;
-    const ecoUpchargeHighRaw = totalBeforePromoHighRaw - subtotalHighAfterFreq;
+    if ((enteredBelowHeuristic || bathsNoBedsUnderMin) && lowBelowMin) {
+      // Floor low end only; high end = living + bathroom $/sq ft (or full sq-ft calc)
+      baseLaborCoreLow = clampCurrency(minCharge);
+      baseLaborCoreHigh = clampCurrency(
+        Math.max(calculatedHighFromAreas, minCharge)
+      );
+      usesMinCharge = true;
+      fullyAtMinimum = baseLaborCoreHigh === minCharge;
+      // Show min (low) + living/bath lines (high) whenever high is above the floor
+      minOnLowOnly =
+        bathroomUnits > 0
+          ? calculatedHighFromAreas > minCharge
+          : !fullyAtMinimum;
+    } else if (tinyScopeEligible && (lowBelowMin || highBelowMin)) {
+      baseLaborCoreLow = clampCurrency(Math.max(basePriceLowRaw, minCharge));
+      baseLaborCoreHigh = clampCurrency(Math.max(basePriceHighRaw, minCharge));
+      usesMinCharge = true;
+      fullyAtMinimum =
+        baseLaborCoreLow === minCharge && baseLaborCoreHigh === minCharge;
+      minOnLowOnly =
+        baseLaborCoreLow === minCharge && baseLaborCoreHigh > minCharge;
+    } else {
+      baseLaborCoreLow = clampCurrency(basePriceLowRaw);
+      baseLaborCoreHigh = clampCurrency(basePriceHighRaw);
+    }
+    const totalBeforePromoLowRaw =
+      baseLaborCoreLow + addonFlat + secondKitchenFeeLow;
+    const totalBeforePromoHighRaw =
+      baseLaborCoreHigh + addonFlat + secondKitchenFeeHigh;
 
     // Promo (client-side): $50 off Deep Clean only
     const promoDiscountLow = promoValid ? 50 : 0;
@@ -307,29 +415,48 @@ export default function QuoteCalculator({
       estSqft: Math.round(estSqft),
       sqftLow: Math.round(sqftLow),
       sqftHigh: Math.round(sqftHigh),
+      billableSqftLow: Math.round(billableSqftLow),
+      billableSqftHigh: Math.round(billableSqftHigh),
+      bathSqftSurcharge: bathAreaSqft,
+      canCarveBaths,
+      livingSqftLow,
+      livingSqftHigh,
+      livingPriceLow,
+      livingPriceHigh,
+      bathAreaSqft,
+      bathRateLow,
+      bathRateHigh,
+      bathPriceLow,
+      bathPriceHigh,
       // For backwards compatibility: "sq ft used for quote" = high end
       usedSqft: Math.round(sqftHigh),
 
-      hourlyRate: HOURLY_RATE,
+      ratePerSqftLow,
+      ratePerSqftHigh,
+      // Compatibility: single-rate callers use the midpoint/high band high
+      ratePerSqft: ratePerSqftHigh,
       billableHoursLow,
       billableHours: billableHoursHigh, // high end
-      billableHoursHigh, // alias
+      billableHoursHigh,
       totalPersonHoursHigh,
 
+      minCharge,
+      usesMinCharge,
+      fullyAtMinimum,
+      minOnLowOnly,
+
       // High-end values in the detailed breakdown (most conservative)
-      baseLabor: clampCurrency(baseLaborHighRaw),
-      baseLaborCore: clampCurrency(baseLaborHighRawCore),
+      baseLabor: clampCurrency(baseLaborCoreHigh + addonFlat),
+      baseLaborCore: baseLaborCoreHigh,
+      baseLaborCoreLow,
+      baseLaborCoreHigh,
       addonFlatTotal: clampCurrency(addonFlat),
-      freqDiscount: clampCurrency(freqDiscountHighRaw),
-      ecoUpcharge: clampCurrency(ecoUpchargeHighRaw),
       total: clampCurrency(totalBeforePromoHighRaw),
 
       promoDiscount: clampCurrency(promoDiscountHigh),
 
-      // Range totals for display
       totalAfterPromoLow,
       totalAfterPromoHigh,
-      // Compatibility: "totalAfterPromo" = upper end
       totalAfterPromo: totalAfterPromoHigh,
 
       walkthroughArrivalHours: WALKTHROUGH_ARRIVAL_HOURS,
@@ -342,13 +469,13 @@ export default function QuoteCalculator({
       },
 
       cleanType,
-      ecoProducts,
-      frequency,
+      ecoProducts: true,
 
-      // Add-ons (for UTM / contact context)
       addonFridge: includeFridge,
       addonOven: includeOven,
       addonSecondKitchen: includeSecondKitchen,
+      secondKitchenFeeLow: clampCurrency(secondKitchenFeeLow),
+      secondKitchenFeeHigh: clampCurrency(secondKitchenFeeHigh),
       addonHoursLow,
       addonHoursHigh,
       addonFlat: clampCurrency(addonFlat),
@@ -360,8 +487,6 @@ export default function QuoteCalculator({
     bathrooms,
     sqft,
     cleanType,
-    frequency,
-    ecoProducts,
     promoValid,
     includeFridge,
     includeOven,
@@ -369,15 +494,10 @@ export default function QuoteCalculator({
   ]);
 
   const hasSqftRange = result.sqftLow !== result.sqftHigh;
-  const hasHourRange = result.billableHoursLow !== result.billableHours;
 
   const breakdownSqftLabel = hasSqftRange
     ? `${result.sqftLow.toLocaleString()} to ${result.sqftHigh.toLocaleString()} square feet`
     : `${result.sqftHigh.toLocaleString()} square feet`;
-
-  const quoteHoursLabel = hasHourRange
-    ? `${result.billableHoursLow.toFixed(1)} to ${result.billableHours.toFixed(1)} hours of cleaning time`
-    : `${result.billableHours.toFixed(1)} ${hoursUnit(result.billableHours)} of cleaning time`;
 
   const quoteTotalLabel =
     result.totalAfterPromoLow === result.totalAfterPromoHigh
@@ -388,9 +508,53 @@ export default function QuoteCalculator({
     const parts = [];
 
     parts.push(`Home size used for estimate, ${breakdownSqftLabel}.`);
-    parts.push(
-      `Cleaning time upper estimate, ${formatCurrency(result.baseLaborCore)}.`
-    );
+    if (result.minOnLowOnly) {
+      parts.push(
+        `Minimum visit charge on the low end, ${formatCurrency(result.minCharge)}.`
+      );
+      if (result.bathAreaSqft > 0) {
+        parts.push(
+          `High-end living areas, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
+        );
+        parts.push(
+          `High-end bathroom areas at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
+        );
+      } else {
+        parts.push(
+          `High-end base cleaning at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.baseLaborCoreHigh)}.`
+        );
+      }
+    } else if (result.usesMinCharge) {
+      parts.push(
+        `Minimum visit charge, ${formatCurrency(result.minCharge)}.`
+      );
+    } else if (result.bathAreaSqft > 0) {
+      parts.push(
+        `Living areas, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
+          ? formatCurrency(result.livingPriceHigh)
+          : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
+        }.`
+      );
+      parts.push(
+        result.canCarveBaths
+          ? `Bathroom areas, ${result.bathAreaSqft.toLocaleString()} square feet (${result.bathrooms} ${result.bathrooms === 1 ? "bath" : "baths"} at approximately ${FULL_BATH_SQFT} square feet each) at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")} — denser care, ${result.bathPriceLow === result.bathPriceHigh
+            ? formatCurrency(result.bathPriceHigh)
+            : `${formatCurrency(result.bathPriceLow)} to ${formatCurrency(result.bathPriceHigh)}`
+          }.`
+          : `Bathroom care, ${result.bathAreaSqft.toLocaleString()} square feet equivalent at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${result.bathPriceLow === result.bathPriceHigh
+            ? formatCurrency(result.bathPriceHigh)
+            : `${formatCurrency(result.bathPriceLow)} to ${formatCurrency(result.bathPriceHigh)}`
+          }.`
+      );
+    } else {
+      const basePriceLabel =
+        result.baseLaborCoreLow === result.baseLaborCoreHigh
+          ? formatCurrency(result.baseLaborCoreHigh)
+          : `${formatCurrency(result.baseLaborCoreLow)} to ${formatCurrency(result.baseLaborCoreHigh)}`;
+      parts.push(
+        `Base cleaning at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${basePriceLabel}.`
+      );
+    }
 
     if (result.addonFridge) {
       parts.push(
@@ -404,17 +568,7 @@ export default function QuoteCalculator({
     }
     if (result.addonSecondKitchen) {
       parts.push(
-        "Second full kitchen, time-based, approximately 60 to 90 minutes."
-      );
-    }
-    if (result.freqDiscount > 0) {
-      parts.push(
-        `Frequency discount, minus ${formatCurrency(result.freqDiscount)}.`
-      );
-    }
-    if (result.ecoUpcharge > 0) {
-      parts.push(
-        `Eco-friendly products, 15 percent, plus ${formatCurrency(result.ecoUpcharge)}.`
+        `Second full kitchen, plus ${formatCurrency(result.secondKitchenFeeLow)} to ${formatCurrency(result.secondKitchenFeeHigh)} or more, adds approximately 60 to 90 minutes.`
       );
     }
     if (promoValid) {
@@ -423,6 +577,10 @@ export default function QuoteCalculator({
       );
     }
 
+    parts.push(
+      "Why is pricing shown as a range? The price per square foot varies based on your home's condition. Buildup, dust, grease, pet hair, and other factors can affect the overall size and scope of the cleaning. Bathrooms also need denser care, so they're priced at a higher rate than living areas."
+    );
+
     return parts.join(" ");
   }, [result, breakdownSqftLabel, promoValid]);
 
@@ -430,7 +588,11 @@ export default function QuoteCalculator({
     const parts = [];
 
     parts.push(
-      `Estimated total ${quoteTotalLabel}, based on ${breakdownSqftLabel} and ${quoteHoursLabel}.`
+      result.fullyAtMinimum
+        ? `Estimated total ${quoteTotalLabel}, minimum visit charge.`
+        : result.minOnLowOnly
+          ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${result.sqftHigh.toLocaleString()} square feet.`
+          : `Estimated total ${quoteTotalLabel}, based on ${breakdownSqftLabel}.`
     );
 
     if (!result.isLargeJob) {
@@ -438,7 +600,7 @@ export default function QuoteCalculator({
         `Estimated cleaning time on site ${result.time.displayText} with ${result.time.cleaners} ${result.time.cleaners === 1 ? "cleaner" : "cleaners"}.`
       );
       parts.push(
-        `Schedule a ${WALKTHROUGH_ARRIVAL_HOURS} ${hoursUnit(WALKTHROUGH_ARRIVAL_HOURS)} arrival window for your in-home walkthrough and final quote. No deposit required to book.`
+        `When you schedule, you'll choose a ${WALKTHROUGH_ARRIVAL_HOURS}-hour arrival window. Once we arrive, we'll do a quick walkthrough, confirm your final price, and begin cleaning right away.`
       );
     } else {
       parts.push(
@@ -446,12 +608,8 @@ export default function QuoteCalculator({
       );
     }
 
-    parts.push(
-      "Final price is confirmed during your in-home walkthrough."
-    );
-
     return parts.join(" ");
-  }, [result, breakdownSqftLabel, quoteHoursLabel, quoteTotalLabel]);
+  }, [result, breakdownSqftLabel, quoteTotalLabel]);
 
   const quoteResultsA11yText = useMemo(
     () =>
@@ -464,7 +622,7 @@ export default function QuoteCalculator({
   const sqftRangeHintId = "quote-sqft-range-hint";
   const cleanTypeLabelId = "quote-clean-type-label";
   const cleanTypeTipId = "quote-clean-type-tip";
-  const ecoHintId = "quote-eco-hint";
+  const cleanTypeNoteId = "quote-clean-type-note";
   const promoHintId = "quote-promo-hint";
   const promoErrorId = "quote-promo-error";
   const promoSuccessId = "quote-promo-success";
@@ -521,7 +679,7 @@ export default function QuoteCalculator({
 
       <p id="quote-calculator-desc" className="mt-1 text-stone-600">
         {subtitle ||
-          "Instant, size-based pricing with eco-friendly supplies and gentle care."}
+          "Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."}
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -565,29 +723,28 @@ export default function QuoteCalculator({
               min={0}
               step={50}
               describedBy={
-                result.sqftInput > 0 && result.sqftInput !== result.estSqft
+                result.sqftInput > 0 && result.estSqft > result.sqftInput
                   ? `${sqftHintId} ${sqftRangeHintId}`
                   : sqftHintId
               }
             />
             <p id={sqftHintId} className="mt-1 text-xs text-stone-500">
-              Enter your best estimate. If it looks different from what we’d
-              expect based on bedrooms and bathrooms, we’ll show a price range
-              between both.
+              Enter your best estimate. We’ll use this as your home size. If our
+              bedroom-based estimate is larger, we’ll quote a range so you’re
+              covered if square footage was understated.
             </p>
 
-            {result.sqftInput > 0 && result.sqftInput !== result.estSqft && (
+            {result.sqftInput > 0 && result.estSqft > result.sqftInput && (
               <p id={sqftRangeHintId} className="mt-1 text-xs text-stone-500">
-                We’re using{" "}
-                <span className="font-medium">
-                  {result.estSqft.toLocaleString()} sq ft
-                </span>{" "}
-                (estimated from bedrooms and bathrooms) and{" "}
+                Your entry is{" "}
                 <span className="font-medium">
                   {result.sqftInput.toLocaleString()} sq ft
-                </span>{" "}
-                (your entry) to create this range, so you’re covered even if the
-                exact square footage is a bit off.
+                </span>
+                . Based on bedrooms, we’d estimate about{" "}
+                <span className="font-medium">
+                  {result.estSqft.toLocaleString()} sq ft
+                </span>
+                , so this quote uses that higher end too.
               </p>
             )}
           </div>
@@ -596,7 +753,7 @@ export default function QuoteCalculator({
 
       <fieldset className="mt-6 rounded-2xl border p-4 relative">
         <legend className={`${QUOTE_SECTION_LABEL} px-1`}>Cleaning options</legend>
-        <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
           <div>
             <span id={cleanTypeLabelId} className={`${QUOTE_FIELD_LABEL} block`}>
               Clean Type
@@ -605,12 +762,12 @@ export default function QuoteCalculator({
             <SelectField
               id={quoteFieldId("clean-type")}
               labelledBy={cleanTypeLabelId}
-              describedBy={cleanTypeTipId}
+              describedBy={`${cleanTypeTipId} ${cleanTypeNoteId}`}
               value={cleanType}
               setValue={setCleanType}
               options={[
-                { value: "standard", label: "Standard Clean" },
                 { value: "deep", label: "Deep Clean" },
+                { value: "standard", label: "Standard Clean" },
                 { value: "move_out", label: "Move-In / Move-Out" },
               ]}
             />
@@ -624,42 +781,10 @@ export default function QuoteCalculator({
               </a>{" "}
               for details on what each clean type includes.
             </p>
-          </div>
-
-          {/* Frequency */}
-          <SelectField
-            label="Frequency"
-            value={frequency}
-            setValue={setFrequency}
-            options={[
-              { value: "one_time", label: "One-time" },
-              { value: "monthly", label: "Monthly (−5%)" },
-              { value: "bi_weekly", label: "Bi-weekly (−12%)" },
-              { value: "weekly", label: "Weekly (−18%)" },
-            ]}
-          />
-
-          <div>
-            <span id="eco-products-label" className={`${QUOTE_FIELD_LABEL} block`}>
-              Products
-            </span>
-            <div className="mt-2 flex items-center gap-2">
-              <input
-                id="eco-products"
-                type="checkbox"
-                checked={ecoProducts}
-                onChange={(e) => setEcoProducts(e.target.checked)}
-                aria-labelledby="eco-products-label eco-products-text"
-                aria-describedby={ecoHintId}
-                className="h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
-              />
-              <span id="eco-products-text" className="text-sm text-stone-700">
-                Use eco-friendly products (+15%)
-              </span>
-            </div>
-            <p id={ecoHintId} className="mt-1 text-[11px] text-stone-500">
-              Eco is our Golden Hour standard. Uncheck if you prefer
-              conventional supplies.
+            <p id={cleanTypeNoteId} className="mt-1 text-[11px] text-stone-500">
+              Note: <em>Standard cleans</em> are reserved for recurring customers
+              or homes that have had a professional cleaning within the past 2–4
+              weeks.
             </p>
           </div>
 
@@ -725,7 +850,7 @@ export default function QuoteCalculator({
               <label htmlFor="addon-fridge">
                 <span className="font-medium">Inside fridge</span>{" "}
                 <span className="text-stone-500">
-                  (+$55, adds approximately 30 to 75 minutes)
+                  (+${ADDON_FRIDGE_PRICE}, adds approximately 30 to 75 minutes)
                 </span>
               </label>
             </div>
@@ -741,7 +866,7 @@ export default function QuoteCalculator({
               <label htmlFor="addon-oven">
                 <span className="font-medium">Inside oven</span>{" "}
                 <span className="text-stone-500">
-                  (+$55, adds approximately 30 to 75 minutes)
+                  (+${ADDON_OVEN_PRICE}, adds approximately 30 to 75 minutes)
                 </span>
               </label>
             </div>
@@ -757,7 +882,8 @@ export default function QuoteCalculator({
               <label htmlFor="addon-second-kitchen">
                 <span className="font-medium">Second full kitchen</span>{" "}
                 <span className="text-stone-500">
-                  (adds approximately 300 square feet and 60 to 90 minutes)
+                  (+${ADDON_SECOND_KITCHEN_FEE_LOW}–${ADDON_SECOND_KITCHEN_FEE_HIGH}+, adds
+                  approximately 60 to 90 minutes)
                 </span>
               </label>
             </div>
@@ -807,52 +933,169 @@ export default function QuoteCalculator({
                 </span>
               </li>
 
-              <li className="flex justify-between">
-                <span>Cleaning time (upper estimate)</span>
-                <span className="tabular-nums">
-                  ${result.baseLaborCore.toLocaleString()}
-                </span>
-              </li>
-
-              {result.addonFlatTotal > 0 && (
+              {result.minOnLowOnly ? (
                 <>
-                  {result.addonFridge && (
-                    <li className="flex justify-between">
-                      <span>Inside fridge add-on</span>
-                      <span className="tabular-nums">+${ADDON_FRIDGE_PRICE}</span>
-                    </li>
-                  )}
-                  {result.addonOven && (
-                    <li className="flex justify-between">
-                      <span>Inside oven add-on</span>
-                      <span className="tabular-nums">+${ADDON_OVEN_PRICE}</span>
-                    </li>
-                  )}
-                  {result.addonSecondKitchen && (
-                    <li className="flex justify-between">
-                      <span>Second full kitchen</span>
-                      <span className="tabular-nums text-xs text-stone-500">
-                        time-based (~60–90 min)
+                  <li className="flex justify-between gap-3">
+                    <span>
+                      Minimum visit charge{" "}
+                      <span className="text-stone-500">(low end)</span>
+                    </span>
+                    <span className="shrink-0 tabular-nums">
+                      ${result.minCharge.toLocaleString()}
+                    </span>
+                  </li>
+                  {result.bathAreaSqft > 0 ? (
+                    <>
+                      <li className="flex justify-between gap-3">
+                        <span>
+                          Living areas{" "}
+                          <span className="text-stone-500">
+                            (high end ·{" "}
+                            {formatRatePerSqft(
+                              result.ratePerSqftLow,
+                              result.ratePerSqftHigh
+                            )}{" "}
+                            × {result.livingSqftHigh.toLocaleString()} sq ft)
+                          </span>
+                        </span>
+                        <span className="shrink-0 tabular-nums">
+                          ${result.livingPriceHigh.toLocaleString()}
+                        </span>
+                      </li>
+                      <li className="flex justify-between gap-3">
+                        <span>
+                          Bathroom areas{" "}
+                          <span className="text-stone-500">
+                            (high end · {result.bathrooms}{" "}
+                            {result.bathrooms === 1 ? "bath" : "baths"} × ~
+                            {FULL_BATH_SQFT} sq ft @{" "}
+                            {formatRatePerSqft(
+                              result.bathRateLow,
+                              result.bathRateHigh
+                            )}
+                            )
+                          </span>
+                        </span>
+                        <span className="shrink-0 tabular-nums">
+                          ${result.bathPriceHigh.toLocaleString()}
+                        </span>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="flex justify-between gap-3">
+                      <span>
+                        Base cleaning{" "}
+                        <span className="text-stone-500">
+                          (high end ·{" "}
+                          {formatRatePerSqft(
+                            result.ratePerSqftLow,
+                            result.ratePerSqftHigh
+                          )}{" "}
+                          × {result.sqftHigh.toLocaleString()} sq ft)
+                        </span>
+                      </span>
+                      <span className="shrink-0 tabular-nums">
+                        ${result.baseLaborCoreHigh.toLocaleString()}
                       </span>
                     </li>
                   )}
                 </>
-              )}
-
-              {result.freqDiscount > 0 && (
-                <li className="flex justify-between">
-                  <span>Frequency discount</span>
-                  <span className="tabular-nums">
-                    −${result.freqDiscount.toLocaleString()}
+              ) : result.usesMinCharge ? (
+                <li className="flex justify-between gap-3">
+                  <span>Minimum visit charge</span>
+                  <span className="shrink-0 tabular-nums">
+                    {formatMoneyRange(
+                      result.baseLaborCoreLow,
+                      result.baseLaborCoreHigh
+                    )}
+                  </span>
+                </li>
+              ) : result.bathAreaSqft > 0 ? (
+                <>
+                  <li className="flex justify-between gap-3">
+                    <span>
+                      Living areas{" "}
+                      <span className="text-stone-500">
+                        ({formatRatePerSqft(
+                          result.ratePerSqftLow,
+                          result.ratePerSqftHigh
+                        )}{" "}
+                        × {formatSqftRange(result.livingSqftLow, result.livingSqftHigh)})
+                      </span>
+                    </span>
+                    <span className="shrink-0 tabular-nums">
+                      {formatMoneyRange(
+                        result.livingPriceLow,
+                        result.livingPriceHigh
+                      )}
+                    </span>
+                  </li>
+                  <li className="flex justify-between gap-3">
+                    <span>
+                      Bathroom areas{" "}
+                      <span className="text-stone-500">
+                        ({result.bathrooms}{" "}
+                        {result.bathrooms === 1 ? "bath" : "baths"} × ~
+                        {FULL_BATH_SQFT} sq ft @{" "}
+                        {formatRatePerSqft(
+                          result.bathRateLow,
+                          result.bathRateHigh
+                        )}
+                        {result.canCarveBaths ? "" : " care"})
+                      </span>
+                    </span>
+                    <span className="shrink-0 tabular-nums">
+                      {formatMoneyRange(
+                        result.bathPriceLow,
+                        result.bathPriceHigh
+                      )}
+                    </span>
+                  </li>
+                </>
+              ) : (
+                <li className="flex justify-between gap-3">
+                  <span>
+                    Base cleaning{" "}
+                    <span className="text-stone-500">
+                      ({formatRatePerSqft(
+                        result.ratePerSqftLow,
+                        result.ratePerSqftHigh
+                      )}
+                      {result.sqftLow === result.sqftHigh
+                        ? ` × ${result.sqftHigh.toLocaleString()}`
+                        : ` × ${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()}`}
+                      {" "}sq ft)
+                    </span>
+                  </span>
+                  <span className="shrink-0 tabular-nums">
+                    {formatMoneyRange(
+                      result.baseLaborCoreLow,
+                      result.baseLaborCoreHigh
+                    )}
                   </span>
                 </li>
               )}
 
-              {result.ecoUpcharge > 0 && (
+              {result.addonFridge && (
                 <li className="flex justify-between">
-                  <span>Eco-friendly products (+15%)</span>
-                  <span className="tabular-nums">
-                    {formatSigned(result.ecoUpcharge)}
+                  <span>Inside fridge add-on</span>
+                  <span className="tabular-nums">+${ADDON_FRIDGE_PRICE}</span>
+                </li>
+              )}
+              {result.addonOven && (
+                <li className="flex justify-between">
+                  <span>Inside oven add-on</span>
+                  <span className="tabular-nums">+${ADDON_OVEN_PRICE}</span>
+                </li>
+              )}
+              {result.addonSecondKitchen && (
+                <li className="flex justify-between gap-3">
+                  <span>
+                    Second full kitchen{" "}
+                    <span className="text-stone-500">(~60–90 min)</span>
+                  </span>
+                  <span className="shrink-0 tabular-nums">
+                    +${result.secondKitchenFeeLow}–${result.secondKitchenFeeHigh}+
                   </span>
                 </li>
               )}
@@ -866,6 +1109,19 @@ export default function QuoteCalculator({
                 </li>
               )}
             </ul>
+
+            <div className="mt-4 border-t border-stone-200 pt-3">
+              <p className="text-sm font-medium text-stone-800">
+                Why is pricing shown as a range?
+              </p>
+              <p className="mt-1 text-xs text-stone-600">
+                The price per square foot varies based on your home&apos;s
+                condition. Buildup, dust, grease, pet hair, and other factors can
+                affect the overall size and scope of the cleaning. Bathrooms also
+                need denser care, so they&apos;re priced at a higher rate than
+                living areas.
+              </p>
+            </div>
           </section>
 
           <section
@@ -892,30 +1148,25 @@ export default function QuoteCalculator({
                   </p>
 
                   <p className="mt-1 text-xs text-stone-600">
-                    {hasSqftRange || hasHourRange ? "Estimated range " : "Estimated "}
-                    based on{" "}
-                    {hasSqftRange ? (
+                    {result.fullyAtMinimum ? (
+                      <>Minimum visit charge.</>
+                    ) : result.minOnLowOnly ? (
                       <>
-                        {result.sqftLow.toLocaleString()}–{" "}
-                        {result.sqftHigh.toLocaleString()} sq ft
+                        Low end is our minimum visit charge; high end based on{" "}
+                        {result.sqftHigh.toLocaleString()} sq ft.
                       </>
-                    ) : (
-                      <>{result.sqftHigh.toLocaleString()} sq ft</>
-                    )}{" "}
-                    and{" "}
-                    {hasHourRange ? (
+                    ) : hasSqftRange ? (
                       <>
-                        {result.billableHoursLow.toFixed(1)}–{" "}
-                        {result.billableHours.toFixed(1)}{" "}
-                        {hoursUnit(result.billableHours)}
+                        Estimated range based on{" "}
+                        {result.sqftLow.toLocaleString()}–
+                        {result.sqftHigh.toLocaleString()} sq ft.
                       </>
                     ) : (
                       <>
-                        {result.billableHours.toFixed(1)}{" "}
-                        {hoursUnit(result.billableHours)}
+                        Estimated based on{" "}
+                        {result.sqftHigh.toLocaleString()} sq ft.
                       </>
-                    )}{" "}
-                    of cleaning time.
+                    )}
                   </p>
                 </div>
               </div>
@@ -935,12 +1186,13 @@ export default function QuoteCalculator({
                     .
                   </div>
                   <div className="mt-1 text-xs text-stone-600">
-                    When you schedule, you&apos;ll pick a{" "}
+                    When you schedule, you&apos;ll choose a{" "}
                     <span className="font-medium">
-                      {WALKTHROUGH_ARRIVAL_HOURS}{" "}
-                      {hoursUnit(WALKTHROUGH_ARRIVAL_HOURS)}
+                      {WALKTHROUGH_ARRIVAL_HOURS}-hour arrival window.
                     </span>{" "}
-                    arrival window for your in-home walkthrough and final quote.
+                    Once we
+                    arrive, we&apos;ll do a quick walkthrough, confirm your final
+                    price, and begin cleaning right away.
                   </div>
                 </div>
               )}
@@ -988,12 +1240,12 @@ export default function QuoteCalculator({
                       bathrooms,
                       total: result.totalAfterPromo, // upper end
                       totalLow: result.totalAfterPromoLow,
-                      frequency,
-                      ecoProducts,
+                      ecoProducts: true,
                       cleaners: result.time.cleaners,
                       billableHoursLow: result.billableHoursLow,
                       billableHours: result.billableHours,
-                      hourlyRate: result.hourlyRate,
+                      ratePerSqftLow: result.ratePerSqftLow,
+                      ratePerSqftHigh: result.ratePerSqftHigh,
                       addons: {
                         fridge: result.addonFridge,
                         oven: result.addonOven,
@@ -1036,12 +1288,12 @@ export default function QuoteCalculator({
                       bathrooms,
                       total: result.totalAfterPromo,
                       totalLow: result.totalAfterPromoLow,
-                      frequency,
-                      ecoProducts,
+                      ecoProducts: true,
                       cleaners: result.time.cleaners,
                       billableHoursLow: result.billableHoursLow,
                       billableHours: result.billableHours,
-                      hourlyRate: result.hourlyRate,
+                      ratePerSqftLow: result.ratePerSqftLow,
+                      ratePerSqftHigh: result.ratePerSqftHigh,
                       addons: {
                         fridge: result.addonFridge,
                         oven: result.addonOven,
@@ -1058,11 +1310,6 @@ export default function QuoteCalculator({
                 </>
               )}
             </div>
-
-            <p className="mt-2 text-xs text-stone-600" aria-hidden="true">
-              Final price is confirmed during your in-home walkthrough. No deposit
-              required to schedule.
-            </p>
           </section>
         </div>
       </div>

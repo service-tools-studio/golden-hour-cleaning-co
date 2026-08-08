@@ -13,9 +13,13 @@ export default function DeepCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">
-        ~$0.35/sq ft • full-home reset
+        ~$0.26–$0.40/sq ft • full-home reset
       </p>
-      <h1 className={`mt-1 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
+      <p className="mt-1 text-xs text-stone-500">
+        Range depends on home condition. Final price confirmed after a quick
+        walkthrough.
+      </p>
+      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Deep House Cleaning Services in Portland, OR
       </h1>
 
@@ -43,11 +47,16 @@ export default function DeepCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our deep cleaning service targets the buildup, dust, grime, and
           overlooked areas that naturally accumulate over time, leaving your home
-          feeling refreshed from top to bottom.
+          feeling refreshed from top to bottom. Pricing is by the square foot
+          ($0.26–$0.40 depending on condition), bathrooms are priced at a higher
+          rate for denser care, and we use eco-friendly products whenever
+          possible. Stronger conventional products may be used when heavy buildup
+          requires it.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Get an instant quote and book your cleaning directly on our
-          website—no phone call required.
+          website—no phone call required. We&apos;ll confirm your final price after
+          a quick walkthrough.
         </p>
       </Section>
 
@@ -142,8 +151,9 @@ export default function DeepCleanPageContent({
 
       <Section title="What Makes a Deep Cleaning Different?">
         <p className="text-base leading-relaxed text-stone-700">
-          A standard cleaning is designed to maintain a home that is already being
-          cleaned regularly.
+          Standard cleaning (~$0.22/sq ft) is reserved for recurring customers or
+          homes professionally cleaned within the past 2–4 weeks — it maintains a
+          home that&apos;s already in good shape.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           A deep cleaning goes much further by focusing on the detailed areas that
@@ -152,7 +162,7 @@ export default function DeepCleanPageContent({
         </p>
         <BulletList
           items={[
-            "Your home hasn't been professionally cleaned in several months",
+            "Your home hasn't been professionally cleaned in 2+ months",
             "You're preparing to begin recurring cleaning service",
             "You're hosting family or guests",
             "You're moving into a home",
@@ -161,7 +171,7 @@ export default function DeepCleanPageContent({
         />
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Many of our recurring clients begin with a deep cleaning before
-          transitioning to regular maintenance cleanings.
+          transitioning to regular standard maintenance cleanings.
         </p>
       </Section>
 
@@ -200,8 +210,12 @@ export default function DeepCleanPageContent({
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
+            question="How is deep cleaning priced?"
+            answer="We bill by the square foot at about $0.26–$0.40/sq ft depending on home condition. Bathrooms are priced at a higher rate for denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+          />
+          <FaqItem
             question="How long does a deep cleaning take?"
-            answer="Every home is different. The time depends on the size of your home and its current condition. When you request a quote through our website, we'll provide an estimate based on your home's details."
+            answer="On-site time varies with your home's size and condition. We schedule enough cleaners to keep visits efficient (typically up to about 4 hours on site), and you'll see a time estimate with your quote."
           />
           <FaqItem
             question="Do I need to be home during the cleaning?"
@@ -209,7 +223,7 @@ export default function DeepCleanPageContent({
           />
           <FaqItem
             question="Do you bring your own cleaning supplies?"
-            answer="Yes. Our team arrives fully equipped with professional-grade cleaning products and equipment. If you have specific product preferences, just let us know."
+            answer="Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our team arrives fully equipped with professional-grade cleaning products and equipment. If you have specific product preferences, just let us know."
           />
           <FaqItem
             question="How often should I schedule a deep cleaning?"
@@ -264,8 +278,9 @@ export default function DeepCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on estimated square footage, service level, and
-          add-ons. Final price is confirmed during your in-home walkthrough.
+          Quotes are based on square footage and service type. Bathrooms are
+          priced at a higher rate for denser care. Final price is confirmed after
+          a quick walkthrough.
         </p>
       </Section>
     </>

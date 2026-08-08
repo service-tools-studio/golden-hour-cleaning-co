@@ -12,9 +12,13 @@ export default function StandardCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">
-        ~$0.26/sq ft • lighter upkeep
+        ~$0.22/sq ft • lighter upkeep
       </p>
-      <h1 className={`mt-1 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
+      <p className="mt-1 text-xs text-stone-500">
+        Note: <em>Standard cleans</em> are reserved for recurring customers or
+        homes that have had a professional cleaning within the past 2–4 weeks.
+      </p>
+      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Standard House Cleaning Services in Portland, OR
       </h1>
 
@@ -42,7 +46,9 @@ export default function StandardCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Whether you&apos;re looking for weekly, bi-weekly, monthly, or
           occasional maintenance cleaning, our experienced team delivers the
-          attention to detail and reliability you deserve.
+          attention to detail and reliability you deserve. Pricing is about
+          $0.22 per square foot, bathrooms are priced at a higher rate for denser
+          care, and we use eco-friendly products whenever possible.
         </p>
       </Section>
 
@@ -150,33 +156,34 @@ export default function StandardCleanPageContent({
 
       <Section title="Standard Cleaning vs. Deep Cleaning">
         <p className="text-base leading-relaxed text-stone-700">
-          A standard cleaning is ideal for homes that are cleaned regularly and
-          simply need ongoing maintenance.
+          Standard cleaning is reserved for recurring customers or homes that have
+          had a professional cleaning within the past 2–4 weeks. It&apos;s priced at
+          about $0.22 per square foot and is meant for ongoing maintenance once a
+          home is already in good condition.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          If your home hasn&apos;t been professionally cleaned in several months,
-          has significant buildup, or you&apos;re preparing for recurring service,
-          we may recommend starting with a deep cleaning to restore your home to a
-          maintainable condition.
+          If your home hasn&apos;t been professionally cleaned recently, has
+          buildup, or you&apos;re starting service for the first time, we recommend
+          a Deep Clean first ($0.26–$0.40/sq ft depending on condition). After that,
+          regular standard cleanings help keep your home consistently fresh.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          After that, regular standard cleanings help keep your home consistently
-          fresh.
+          All quotes are by the square foot. Bathrooms are priced at a higher rate
+          because they need denser care, and we confirm your final price after a
+          quick walkthrough.
         </p>
       </Section>
 
       <Section title="Who Benefits from Standard Cleaning?">
         <p className="text-base leading-relaxed text-stone-700">
-          Our standard cleaning service is perfect for:
+          Our standard cleaning service is a great fit for:
         </p>
         <BulletList
           items={[
-            "Busy professionals",
-            "Families with children",
-            "Pet owners",
-            "Seniors",
-            "Remote workers",
-            "Anyone who wants more free time and a consistently clean home",
+            "Recurring weekly, bi-weekly, or monthly clients",
+            "Homes professionally cleaned within the past 2–4 weeks",
+            "Households maintaining a deep-clean baseline",
+            "Busy professionals and families who want reliable upkeep",
           ]}
         />
         <p className="mt-4 text-base leading-relaxed text-stone-700">
@@ -196,8 +203,16 @@ export default function StandardCleanPageContent({
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
+            question="How is standard cleaning priced?"
+            answer="We bill by the square foot at about $0.22/sq ft. Bathrooms are priced at a higher rate because they need denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+          />
+          <FaqItem
+            question="Who is Standard Cleaning for?"
+            answer="Standard cleans are reserved for recurring customers or homes that have had a professional cleaning within the past 2–4 weeks. If it's been longer, we usually recommend starting with a Deep Clean."
+          />
+          <FaqItem
             question="How long does a standard cleaning take?"
-            answer="Cleaning times vary depending on your home's size, condition, and layout. We'll provide an estimate before your appointment."
+            answer="On-site time varies with your home's size and condition. We schedule enough cleaners to keep visits efficient, and you'll see an estimate when you get your quote."
           />
           <FaqItem
             question="Do I need to be home?"
@@ -205,7 +220,7 @@ export default function StandardCleanPageContent({
           />
           <FaqItem
             question="Do you bring your own supplies?"
-            answer="Yes. We arrive with professional-grade equipment and cleaning products, so you don't have to worry about providing anything unless you have specific product preferences."
+            answer="Yes. We use eco-friendly products whenever possible. We arrive with professional-grade equipment and supplies, and you're welcome to share any product preferences."
           />
           <FaqItem
             question="How often should I schedule cleaning?"
@@ -239,8 +254,9 @@ export default function StandardCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on estimated square footage, service level, and
-          add-ons. Final price is confirmed during your in-home walkthrough.
+          Quotes are based on square footage and service type. Bathrooms are
+          priced at a higher rate for denser care. We use eco-friendly products
+          whenever possible. Final price is confirmed after a quick walkthrough.
         </p>
       </Section>
     </>
