@@ -27,6 +27,10 @@ function normalizeReview(r) {
   };
 }
 
+function isFiveStarReview(review) {
+  return Number(review?.rating) === 5;
+}
+
 export default function GoogleReviews() {
   const [reviews, setReviews] = useState([]);
   const [placeName, setPlaceName] = useState('');
@@ -111,7 +115,11 @@ export default function GoogleReviews() {
         setPlaceName(typeof name === 'string' ? name : name?.text ?? '');
         setRating(place.rating ?? null);
         setTotalRatings(place.userRatingCount ?? null);
-        setReviews((place.reviews || []).map(normalizeReview));
+        setReviews(
+          (place.reviews || [])
+            .map(normalizeReview)
+            .filter(isFiveStarReview)
+        );
       })
       .catch(() => setError('Could not load reviews'))
       .finally(() => setLoading(false));

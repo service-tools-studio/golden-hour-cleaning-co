@@ -62,6 +62,7 @@ function BlogTable({
 
 function BlogReviewCard({ review }: { review: BlogGoogleReview }) {
   const stars = Math.max(0, Math.min(5, Math.round(review.rating)));
+  if (stars < 5) return null;
 
   return (
     <a
