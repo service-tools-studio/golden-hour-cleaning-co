@@ -48,6 +48,240 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "what-happens-if-a-house-cleaner-damages-something-in-your-home",
+    title:
+      "What Happens If a House Cleaner Damages Something in Your Home?",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-08-05",
+    excerpt:
+      "Even experienced cleaners can have an accidental mishap. Here's how responsibility, insurance, pre-existing damage, and clear communication factor in—and how Golden Hour handles unexpected situations.",
+    heroImage: {
+      src: "/assets/careful-cleaner.png",
+      alt: "A Golden Hour cleaner carefully wiping a decorative lantern in a client's home",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Hiring a professional house cleaner means trusting someone with your home, furniture, fixtures, and belongings. Naturally, one question homeowners may have before hiring a cleaning service is: What happens if a cleaner accidentally damages something?",
+          "Even the most experienced cleaning professionals can occasionally have an accident. A glass item can slip, an older fixture can come loose, or a surface may react unexpectedly to a cleaning product. What matters is how the cleaning company handles the situation.",
+          "At Golden Hour Cleaning Co., we believe professionalism isn't about pretending accidents never happen. It's about communicating honestly, treating our clients' homes with care, and handling unexpected situations responsibly.",
+        ],
+      },
+      {
+        heading: "Can House Cleaners Be Responsible for Damage?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Depending on the circumstances, a professional cleaner or cleaning company may be responsible when an item is accidentally damaged during service.",
+          },
+          {
+            type: "paragraph",
+            text: "However, every situation is different.",
+          },
+          {
+            type: "paragraph",
+            text: "There is an important difference between accidental damage caused during cleaning and an item that breaks because it was already deteriorated, improperly installed, unstable, or unusually fragile.",
+          },
+          {
+            type: "paragraph",
+            text: "For example, a cleaner might encounter:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Brittle or aging blinds",
+              "Loose towel bars or fixtures",
+              "Chipped or cracked surfaces",
+              "Unstable décor",
+              "Peeling or deteriorating finishes",
+              "Furniture that is already damaged",
+              "Delicate natural stone or specialty surfaces",
+              "Appliances or fixtures with loose components",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Sometimes an item that appears perfectly functional can fail when it is touched or cleaned normally.",
+          },
+          {
+            type: "paragraph",
+            text: "That's why communication and documentation are so important.",
+          },
+        ],
+      },
+      {
+        heading:
+          "What Should a Professional Cleaning Company Do If Something Is Damaged?",
+        paragraphs: [
+          "If accidental damage occurs during a cleaning, a reputable cleaning company should address it rather than ignore it.",
+          "The appropriate response will depend on the situation, but generally, the company should document what happened, communicate with the homeowner, and determine a reasonable next step.",
+          "Depending on the circumstances, that could involve repairing an item, contributing toward a replacement, reimbursing the client, or working through the company's insurance.",
+          "The goal should be a solution that is fair and appropriate for what actually happened.",
+        ],
+      },
+      {
+        heading: "Who Pays If a House Cleaner Breaks Something?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "There isn't necessarily a one-size-fits-all answer.",
+          },
+          {
+            type: "paragraph",
+            text: "Responsibility can depend on factors such as:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "How the damage occurred",
+              "Whether the item had pre-existing damage",
+              "The age and condition of the item",
+              "Whether the cleaner followed appropriate cleaning procedures",
+              "Whether the homeowner provided special care instructions",
+              "The cleaning company's damage and insurance policies",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "For example, accidentally knocking over a relatively new lamp is very different from an old set of blinds cracking because the plastic has become brittle with age.",
+          },
+          {
+            type: "paragraph",
+            text: "A professional cleaning company should look at the circumstances rather than automatically assigning blame to either the cleaner or homeowner.",
+          },
+        ],
+      },
+      {
+        heading: "Why Hiring an Insured Cleaning Company Matters",
+        paragraphs: [
+          "One important question to ask before hiring a house cleaner is whether they carry appropriate business insurance.",
+          "Professional liability practices and insurance provide an additional layer of protection when something unexpected happens.",
+          "Insurance is particularly important when cleaning higher-value homes because cleaners may be working around expensive flooring, appliances, artwork, furniture, fixtures, and specialty finishes.",
+          "Insurance doesn't mean every scratch or broken household item automatically becomes an insurance claim. Many minor situations can be resolved directly between the cleaning company and client.",
+          "Instead, insurance provides protection for situations involving more significant accidental property damage.",
+        ],
+      },
+      {
+        heading: "What About Pre-Existing Damage?",
+        paragraphs: [
+          "Pre-existing damage is one of the reasons professional cleaners may document the condition of a home before or during service.",
+          "Something may already be cracked, loose, scratched, chipped, deteriorating, or unstable before the cleaner touches it.",
+          "This can be especially common during move-out cleans and deep cleans, where cleaners are working much more extensively with areas that may not have been cleaned or inspected recently.",
+          "If we notice something concerning, we may photograph it or bring it to the client's attention.",
+          "Documentation protects everyone involved and helps prevent confusion about when damage occurred.",
+        ],
+      },
+      {
+        heading: "What About Fragile or High-Value Items?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "If you have something particularly fragile, valuable, sentimental, or irreplaceable, we recommend letting your cleaning company know before service.",
+          },
+          {
+            type: "paragraph",
+            text: "Examples might include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Antiques",
+              "Fine art",
+              "Delicate sculptures",
+              "Collectibles",
+              "Heirlooms",
+              "Hand-painted décor",
+              "Fragile glassware",
+              "Specialty furniture or finishes",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "For particularly valuable or irreplaceable objects, the safest option may be to move them to a secure location before your cleaning appointment.",
+          },
+          {
+            type: "paragraph",
+            text: "You should also tell your cleaners if a particular surface requires specialized care.",
+          },
+          {
+            type: "paragraph",
+            text: "Not every countertop, floor, fixture, or finish can safely be cleaned using the same products and techniques.",
+          },
+        ],
+      },
+      {
+        heading: "Accidental Damage Isn't Always Negligence",
+        paragraphs: [
+          "It's also important to distinguish between an accident and negligence.",
+          "A professional cleaner can take reasonable precautions and still encounter an unexpected problem.",
+          "Older homes in particular can contain materials and fixtures that have deteriorated over time. Paint can begin separating from a surface. Plastic can become brittle. Hardware can loosen. Older finishes may react differently to moisture or cleaning products.",
+          "This doesn't mean damage should be dismissed. It means the circumstances should be considered when determining a fair solution.",
+        ],
+      },
+      {
+        heading:
+          "What Should You Ask a Cleaning Company Before Hiring Them?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "If you're comparing house cleaning companies, don't be afraid to ask what happens if something is accidentally damaged.",
+          },
+          {
+            type: "paragraph",
+            text: "A professional company should be comfortable discussing its policies.",
+          },
+          {
+            type: "paragraph",
+            text: "You can ask:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Are you insured?",
+              "What happens if something is accidentally damaged?",
+              "How do you document pre-existing damage?",
+              "Do you have a process for reporting accidents?",
+              "Are there certain surfaces or items you don't clean?",
+              "How do you handle fragile or specialty materials?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The answers can tell you a lot about how professionally the company operates.",
+          },
+        ],
+        link: {
+          href: "/blog/what-to-look-for-in-a-professional-cleaning-company",
+          label: "What to Look for in a Professional Cleaning Company",
+        },
+      },
+      {
+        heading: "Our Approach at Golden Hour Cleaning Co.",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we understand that inviting cleaners into your home requires trust.",
+          "Our goal is always to treat your home and belongings carefully. If something unexpected happens, we believe in communicating openly, documenting the situation, and working toward a fair and reasonable resolution.",
+          "We also believe transparency goes both ways. If there is a fragile item, damaged fixture, specialty surface, or anything else our cleaners should know about, we encourage clients to tell us before we begin.",
+          "That communication helps us provide a safer and more personalized cleaning experience.",
+        ],
+      },
+      {
+        heading:
+          "Looking for a Professional House Cleaning Company in the Portland Area?",
+        paragraphs: [
+          "Golden Hour Cleaning Co. provides professional residential cleaning services throughout the Portland metro area, including Portland, Beaverton, Lake Oswego, West Linn, Oregon City, Happy Valley, and surrounding communities.",
+          "We offer recurring house cleaning, deep cleaning, move-in and move-out cleaning, and other detailed residential cleaning services.",
+          "If you're looking for a cleaning company that values clear communication, attention to detail, and respect for your home, we'd love to help.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Request a Cleaning Quote",
+        },
+      },
+    ],
+  },
+  {
     slug: "what-to-look-for-in-a-professional-cleaning-company",
     title: "What to Look for in a Professional Cleaning Company",
     author: "Jasmin Heart",
