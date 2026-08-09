@@ -37,6 +37,7 @@ import { quoteFieldId } from "../../helpers/fieldIds.js";
  *
  * Hours model (approximate, for scheduling only — does not set price):
  * - Convert size + bathrooms + add-ons + second kitchen into person-hours
+ * - Bathrooms use a 1.5× time multiplier only when baths × 150 ≥ home size
  * - Deep cleans span productivity from ~346 sq ft/hr (straightforward) to ~225 (moderate)
  * - Scale cleaners so on-site duration stays at most ~4 hours
  *
@@ -119,9 +120,12 @@ function snapBathroomUnits(bathrooms) {
   return Math.max(0, Math.round(n * 2) / 2);
 }
 
+/** Bathrooms take denser care — time only when baths dominate home size. */
+const BATH_TIME_MULTIPLIER = 1.5;
+
 /** Approximate person-hours one full bath adds at the given productivity (half = 50%). */
-function fullBathPersonHours(sqftPerHour) {
-  return FULL_BATH_SQFT / sqftPerHour;
+function fullBathPersonHours(sqftPerHour, timeMultiplier = 1) {
+  return (FULL_BATH_SQFT / sqftPerHour) * timeMultiplier;
 }
 
 function formatRatePerSqft(low, high) {
@@ -240,10 +244,6 @@ export default function QuoteCalculator({
     const productivity = SQFT_PER_HOUR[cleanType] ?? SQFT_PER_HOUR.deep;
     const ratePerSqftLow = rates.low;
     const ratePerSqftHigh = rates.high;
-    const bathPersonHoursLow =
-      bathroomUnits * fullBathPersonHours(productivity.fast);
-    const bathPersonHoursHigh =
-      bathroomUnits * fullBathPersonHours(productivity.slow);
 
     // Entered sq ft is the floor. Heuristic only raises the high end when larger.
     let sqftLow;
@@ -258,6 +258,16 @@ export default function QuoteCalculator({
         ? Math.max(estSqft, safeSqftInput)
         : safeSqftInput;
     }
+
+    const bathAreaSqft = Math.round(bathroomUnits * FULL_BATH_SQFT);
+    const bathsDominateHome =
+      bathAreaSqft > 0 && bathAreaSqft >= Math.max(sqftLow, sqftHigh, 1);
+    const bathTimeMultiplier = bathsDominateHome ? BATH_TIME_MULTIPLIER : 1;
+    const bathPersonHoursLow =
+      bathroomUnits * fullBathPersonHours(productivity.fast, bathTimeMultiplier);
+    const bathPersonHoursHigh =
+      bathroomUnits *
+      fullBathPersonHours(productivity.slow, bathTimeMultiplier);
 
     // Hours: approximate only (scheduling).
     let addonHoursLow = bathPersonHoursLow;
@@ -326,14 +336,11 @@ export default function QuoteCalculator({
     // Price: normally (home + baths×150) × rate (deep / move-out).
     // Standard bathrooms use $0.22–$0.40/sq ft. When baths dominate home size:
     // (baths×150) × bathroom rate only.
-    const bathAreaSqft = Math.round(bathroomUnits * FULL_BATH_SQFT);
     const bathRates = BATH_RATE_PER_SQFT[cleanType] ?? BATH_RATE_PER_SQFT.deep;
     const bathRateLow = bathRates.low;
     const bathRateHigh = bathRates.high;
     const canCarveBaths =
       bathAreaSqft > 0 && bathAreaSqft < Math.max(sqftLow, 1);
-    const bathsDominateHome =
-      bathAreaSqft > 0 && bathAreaSqft >= Math.max(sqftLow, sqftHigh, 1);
 
     const livingSqftLow = Math.round(
       bathsDominateHome
@@ -563,8 +570,10 @@ export default function QuoteCalculator({
 
   const bathEstimateLabel =
     result.bathrooms === 1
-      ? `1 bath (~${result.bathAreaSqft.toLocaleString()} sq ft bathroom care)`
-      : `${result.bathrooms} baths (~${result.bathAreaSqft.toLocaleString()} sq ft bathroom care)`;
+      ? `1 bath × ~${FULL_BATH_SQFT} = ~${result.bathAreaSqft.toLocaleString()} sq ft`
+      : `${result.bathrooms} baths × ~${FULL_BATH_SQFT} = ~${result.bathAreaSqft.toLocaleString()} sq ft`;
+  const bathCountLabel =
+    result.bathrooms === 1 ? "1 bath" : `${result.bathrooms} baths`;
 
   const breakdownSqftLabel = bathsDominate
     ? bathEstimateLabel
@@ -582,7 +591,7 @@ export default function QuoteCalculator({
 
     parts.push(
       bathsDominate
-        ? `Estimate based on bathroom care, ${bathEstimateLabel}.`
+        ? `Bathroom square feet used for estimate, ${bathEstimateLabel}.`
         : `Home size used for estimate, ${breakdownSqftLabel}.`
     );
     if (result.minOnLowOnly) {
@@ -596,7 +605,7 @@ export default function QuoteCalculator({
           );
         } else {
           parts.push(
-            `High-end home size, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
+            `High-end main areas, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
           );
           parts.push(
             `High-end bathroom care at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
@@ -621,7 +630,7 @@ export default function QuoteCalculator({
         );
       } else {
         parts.push(
-          `Home size, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
+          `Main areas, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
             ? formatCurrency(result.livingPriceHigh)
             : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
           }.`
@@ -685,8 +694,8 @@ export default function QuoteCalculator({
       result.fullyAtMinimum
         ? `Estimated total ${quoteTotalLabel}, minimum visit charge.`
         : result.minOnLowOnly
-          ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${bathsDominate ? bathEstimateLabel : `${result.sqftHigh.toLocaleString()} square feet`}.`
-          : `Estimated total ${quoteTotalLabel}, based on ${breakdownSqftLabel}.`
+          ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${bathsDominate ? bathCountLabel : `${result.sqftHigh.toLocaleString()} square feet`}.`
+          : `Estimated total ${quoteTotalLabel}, based on ${bathsDominate ? bathCountLabel : breakdownSqftLabel}.`
     );
 
     if (!result.isLargeJob) {
@@ -708,7 +717,7 @@ export default function QuoteCalculator({
     breakdownSqftLabel,
     quoteTotalLabel,
     bathsDominate,
-    bathEstimateLabel,
+    bathCountLabel,
   ]);
 
   const quoteResultsA11yText = useMemo(
@@ -1027,7 +1036,7 @@ export default function QuoteCalculator({
               <li className="flex justify-between gap-3">
                 <span>
                   {bathsDominate
-                    ? "Bathroom care used for estimate"
+                    ? "Bathroom sq ft used for estimate"
                     : "Home size used for estimate"}
                 </span>
                 <span className="shrink-0 tabular-nums text-right">
@@ -1074,7 +1083,7 @@ export default function QuoteCalculator({
                       <>
                         <li className="flex justify-between gap-3">
                           <span>
-                            Home size{" "}
+                            Main areas{" "}
                             <span className="text-stone-500">
                               (high end ·{" "}
                               {formatRatePerSqft(
@@ -1164,7 +1173,7 @@ export default function QuoteCalculator({
                   <>
                     <li className="flex justify-between gap-3">
                       <span>
-                        Home size{" "}
+                        Main areas{" "}
                         <span className="text-stone-500">
                           ({formatRatePerSqft(
                             result.ratePerSqftLow,
@@ -1305,12 +1314,12 @@ export default function QuoteCalculator({
                       <>
                         Low end is our minimum visit charge; high end based on{" "}
                         {bathsDominate
-                          ? bathEstimateLabel
+                          ? bathCountLabel
                           : `${result.sqftHigh.toLocaleString()} sq ft`}
                         .
                       </>
                     ) : bathsDominate ? (
-                      <>Estimated based on {bathEstimateLabel}.</>
+                      <>Estimated based on {bathCountLabel}.</>
                     ) : hasSqftRange ? (
                       <>
                         Estimated range based on{" "}
