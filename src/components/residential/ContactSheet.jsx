@@ -43,9 +43,6 @@ const ContactSheet = forwardRef(function ContactSheet(
       ? `Estimated total: ${formatCurrency(context.total)}\n`
       : "";
 
-  const ecoLine =
-    `Products: Eco-friendly whenever possible; conventional products may be used for heavy buildup when needed\n`;
-
   const promoLine = context.promo
     ? `Promo applied: ${context.promo.code} (−${formatCurrency(
       context.promo.amount
@@ -58,7 +55,6 @@ const ContactSheet = forwardRef(function ContactSheet(
     `Bedrooms: ${context.bedrooms}\n` +
     `Bathrooms: ${context.bathrooms}\n` +
     homeSizeLine +
-    ecoLine +
     promoLine +
     priceLine +
     `\nMy question: `;
