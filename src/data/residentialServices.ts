@@ -22,7 +22,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
     levelKey: "standard",
     title: "Standard Clean",
     desc: "Recurring upkeep for homes that already feel pretty tidy — or that have been professionally cleaned within the past 2–4 weeks.",
-    price: "~$0.22/sq ft • lighter upkeep",
+    price: "~$0.14–$0.20/sq ft • lighter upkeep",
     items: [
       "Kitchen & bath surfaces",
       "Dusting & high-touch areas",

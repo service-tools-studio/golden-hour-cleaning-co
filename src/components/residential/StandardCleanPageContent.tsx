@@ -12,7 +12,7 @@ export default function StandardCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">
-        ~$0.22/sq ft • lighter upkeep
+        ~$0.14–$0.20/sq ft • lighter upkeep
       </p>
       <p className="mt-1 text-xs text-stone-500">
         Note: <em>Standard cleans</em> are reserved for recurring customers or
@@ -46,9 +46,9 @@ export default function StandardCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Whether you&apos;re looking for weekly, bi-weekly, monthly, or
           occasional maintenance cleaning, our experienced team delivers the
-          attention to detail and reliability you deserve. Pricing is about
-          $0.22 per square foot, bathrooms are priced at a higher rate for denser
-          care, and we use eco-friendly products whenever possible.
+          attention to detail and reliability you deserve. Pricing for living areas
+          is about $0.14–$0.20 per square foot, bathrooms are priced at a higher
+          rate for denser care, and we use eco-friendly products whenever possible.
         </p>
       </Section>
 
@@ -158,7 +158,7 @@ export default function StandardCleanPageContent({
         <p className="text-base leading-relaxed text-stone-700">
           Standard cleaning is reserved for recurring customers or homes that have
           had a professional cleaning within the past 2–4 weeks. It&apos;s priced at
-          about $0.22 per square foot and is meant for ongoing maintenance once a
+          about $0.14–$0.20 per square foot and is meant for ongoing maintenance once a
           home is already in good condition.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
@@ -204,7 +204,7 @@ export default function StandardCleanPageContent({
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
             question="How is standard cleaning priced?"
-            answer="We bill by the square foot at about $0.22/sq ft. Bathrooms are priced at a higher rate because they need denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+            answer="We bill living areas by the square foot at about $0.14–$0.20/sq ft. Bathrooms are priced at a higher rate because they need denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="Who is Standard Cleaning for?"

@@ -151,7 +151,7 @@ export default function DeepCleanPageContent({
 
       <Section title="What Makes a Deep Cleaning Different?">
         <p className="text-base leading-relaxed text-stone-700">
-          Standard cleaning (~$0.22/sq ft) is reserved for recurring customers or
+          Standard cleaning (~$0.14–$0.20/sq ft) is reserved for recurring customers or
           homes professionally cleaned within the past 2–4 weeks — it maintains a
           home that&apos;s already in good shape.
         </p>

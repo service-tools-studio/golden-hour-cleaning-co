@@ -18,16 +18,20 @@ import { quoteFieldId } from "../../helpers/fieldIds.js";
  * - Prefer the entered square footage as the floor
  * - Bedroom heuristic (base + beds × per bedroom) only when bedrooms > 0 and
  *   higher than the entry (guards understated size; does not pull large homes down)
- * - Price = (home sq ft + baths × 150) × $/sq ft rate for the clean type
- *   (bathrooms take more care; math is additive sq-ft equivalent)
- * - Breakdown display: bathrooms are shown as a carve-out of home size at 2× the
- *   listed $/sq ft (same dollars as the additive math)
+ * - Standard home size uses $0.14–$0.20/sq ft; bathrooms use $0.22–$0.40/sq ft.
+ *   Deep / move-out bathrooms use 2× the living $/sq ft when carved or when
+ *   baths dominate home size
+ * - Price (deep / move-out, typical): (home sq ft + baths × 150) × $/sq ft
+ * - Breakdown: when baths fit in home size, show home remainder @ 1× and
+ *   bathrooms @ denser rate (same dollars as the additive math for deep / move-out)
+ * - When baths × 150 ≥ home size: price = (baths × 150) × bathroom $/sq ft;
+ *   breakdown/subtitle emphasize bathroom care only
  * - Deep cleans use a condition-based rate range ($0.26–$0.40/sq ft)
  * - Minimum base visit charge: standard $150, deep $250, move-out $350
  *   • Entered sq ft below bedroom heuristic and low end under min → floor low
  *     only; high end stays $/sq ft
  *   • No bedrooms, bathrooms entered, and low end under min → same: low = min,
- *     high = living areas + bathroom $/sq ft
+ *     high = home + bathroom $/sq ft
  *   • Also for 0 beds & 0 baths, or size under 300 sq ft, when pricing is low
  * - Flat add-ons (fridge, oven, second kitchen) are added after
  *
@@ -53,9 +57,16 @@ const DEEP_SQFT_PER_HOUR_SLOW = 225;
 
 /** Public square-footage rates by clean type (low–high; same when fixed). */
 const RATE_PER_SQFT = {
-  standard: { low: 0.22, high: 0.22 },
+  standard: { low: 0.14, high: 0.2 },
   deep: { low: DEEP_RATE_PER_SQFT_LOW, high: DEEP_RATE_PER_SQFT_HIGH },
   move_out: { low: 0.4, high: 0.5 },
+};
+
+/** Bathroom care $/sq ft by clean type (denser than living areas). */
+const BATH_RATE_PER_SQFT = {
+  standard: { low: 0.22, high: 0.4 },
+  deep: { low: DEEP_RATE_PER_SQFT_LOW * 2, high: DEEP_RATE_PER_SQFT_HIGH * 2 },
+  move_out: { low: 0.8, high: 1.0 },
 };
 
 /**
@@ -218,8 +229,8 @@ export default function QuoteCalculator({
 
     const bathroomUnits = snapBathroomUnits(bathrooms);
 
-    // Heuristic sqft from beds only; baths add a billed sq-ft surcharge below.
-    // No bedrooms entered → no size heuristic (entered sq ft alone, if any).
+    // Heuristic sqft from beds only. No bedrooms entered → no size heuristic.
+    // Bathrooms add denser care as +150 sq ft each at the base $/sq ft rate.
     const hasBedroomHeuristic = bedrooms > 0;
     const estSqft = hasBedroomHeuristic
       ? CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom
@@ -233,7 +244,6 @@ export default function QuoteCalculator({
       bathroomUnits * fullBathPersonHours(productivity.fast);
     const bathPersonHoursHigh =
       bathroomUnits * fullBathPersonHours(productivity.slow);
-    const bathSqftSurcharge = bathroomUnits * FULL_BATH_SQFT;
 
     // Entered sq ft is the floor. Heuristic only raises the high end when larger.
     let sqftLow;
@@ -313,44 +323,90 @@ export default function QuoteCalculator({
         onSiteRangeHigh
       )} ${hoursUnit(onSiteRangeHigh)}`;
 
-    // Price from square footage (bathrooms get an equivalent sq-ft surcharge)
-    const billableSqftLow = sqftLow + bathSqftSurcharge;
-    const billableSqftHigh = sqftHigh + bathSqftSurcharge;
-
-    const basePriceLowRaw = billableSqftLow * ratePerSqftLow;
-    const basePriceHighRaw = billableSqftHigh * ratePerSqftHigh;
-
-    // Breakdown framing (same dollars): carve baths out of home and price them at 2× rate.
-    // Falls back to home @ rate + bath care @ rate when baths × 150 exceeds home size.
+    // Price: normally (home + baths×150) × rate (deep / move-out).
+    // Standard bathrooms use $0.22–$0.40/sq ft. When baths dominate home size:
+    // (baths×150) × bathroom rate only.
+    const bathAreaSqft = Math.round(bathroomUnits * FULL_BATH_SQFT);
+    const bathRates = BATH_RATE_PER_SQFT[cleanType] ?? BATH_RATE_PER_SQFT.deep;
+    const bathRateLow = bathRates.low;
+    const bathRateHigh = bathRates.high;
     const canCarveBaths =
-      bathSqftSurcharge > 0 && bathSqftSurcharge <= sqftLow;
-    const bathAreaSqft = Math.round(bathSqftSurcharge);
-    const bathRateLow = ratePerSqftLow * (canCarveBaths ? 2 : 1);
-    const bathRateHigh = ratePerSqftHigh * (canCarveBaths ? 2 : 1);
-    const bathPriceLow = clampCurrency(bathAreaSqft * bathRateLow);
-    const bathPriceHigh = clampCurrency(bathAreaSqft * bathRateHigh);
+      bathAreaSqft > 0 && bathAreaSqft < Math.max(sqftLow, 1);
+    const bathsDominateHome =
+      bathAreaSqft > 0 && bathAreaSqft >= Math.max(sqftLow, sqftHigh, 1);
+
     const livingSqftLow = Math.round(
-      canCarveBaths ? sqftLow - bathSqftSurcharge : sqftLow
+      bathsDominateHome
+        ? 0
+        : canCarveBaths
+          ? Math.max(0, sqftLow - bathAreaSqft)
+          : sqftLow
     );
     const livingSqftHigh = Math.round(
-      canCarveBaths ? sqftHigh - bathSqftSurcharge : sqftHigh
+      bathsDominateHome
+        ? 0
+        : canCarveBaths
+          ? Math.max(0, sqftHigh - bathAreaSqft)
+          : sqftHigh
     );
-    const livingPriceLow = Math.max(
-      0,
-      clampCurrency(basePriceLowRaw) - bathPriceLow
-    );
-    const livingPriceHigh = Math.max(
-      0,
-      clampCurrency(basePriceHighRaw) - bathPriceHigh
-    );
-    const calculatedHighFromAreas = clampCurrency(
-      livingPriceHigh + bathPriceHigh
-    );
+
+    let billableSqftLow;
+    let billableSqftHigh;
+    let basePriceLowRaw;
+    let basePriceHighRaw;
+    let bathPriceLow;
+    let bathPriceHigh;
+    let livingPriceLow;
+    let livingPriceHigh;
+
+    if (bathsDominateHome) {
+      // Bathroom-only quote at denser bathroom rate
+      billableSqftLow = bathAreaSqft;
+      billableSqftHigh = bathAreaSqft;
+      bathPriceLow = clampCurrency(bathAreaSqft * bathRateLow);
+      bathPriceHigh = clampCurrency(bathAreaSqft * bathRateHigh);
+      livingPriceLow = 0;
+      livingPriceHigh = 0;
+      basePriceLowRaw = bathPriceLow;
+      basePriceHighRaw = bathPriceHigh;
+    } else if (cleanType === "standard") {
+      // Home @ $0.14–$0.20 + bathrooms @ $0.22–$0.40
+      billableSqftLow = Math.round(sqftLow + bathAreaSqft);
+      billableSqftHigh = Math.round(sqftHigh + bathAreaSqft);
+      livingPriceLow = clampCurrency(livingSqftLow * ratePerSqftLow);
+      livingPriceHigh = clampCurrency(livingSqftHigh * ratePerSqftHigh);
+      bathPriceLow = clampCurrency(bathAreaSqft * bathRateLow);
+      bathPriceHigh = clampCurrency(bathAreaSqft * bathRateHigh);
+      basePriceLowRaw = livingPriceLow + bathPriceLow;
+      basePriceHighRaw = livingPriceHigh + bathPriceHigh;
+    } else {
+      billableSqftLow = Math.round(sqftLow + bathAreaSqft);
+      billableSqftHigh = Math.round(sqftHigh + bathAreaSqft);
+      basePriceLowRaw = billableSqftLow * ratePerSqftLow;
+      basePriceHighRaw = billableSqftHigh * ratePerSqftHigh;
+      bathPriceLow = canCarveBaths
+        ? clampCurrency(bathAreaSqft * bathRateLow)
+        : clampCurrency(bathAreaSqft * ratePerSqftLow);
+      bathPriceHigh = canCarveBaths
+        ? clampCurrency(bathAreaSqft * bathRateHigh)
+        : clampCurrency(bathAreaSqft * ratePerSqftHigh);
+      livingPriceLow = canCarveBaths
+        ? Math.max(0, clampCurrency(basePriceLowRaw) - bathPriceLow)
+        : clampCurrency(Math.round(sqftLow) * ratePerSqftLow);
+      livingPriceHigh = canCarveBaths
+        ? Math.max(0, clampCurrency(basePriceHighRaw) - bathPriceHigh)
+        : clampCurrency(Math.round(sqftHigh) * ratePerSqftHigh);
+    }
+
+    const displayBathPriceLow = bathPriceLow;
+    const displayBathPriceHigh = bathPriceHigh;
+
+    const calculatedHighFromAreas = clampCurrency(basePriceHighRaw);
 
     const minCharge = MIN_CHARGE_BY_TYPE[cleanType] ?? 0;
     const enteredBelowHeuristic =
       hasBedroomHeuristic && safeSqftInput > 0 && safeSqftInput < estSqft;
-    // Baths + no beds: low may hit the floor while high stays living + bathroom calc
+    // Baths + no beds: low may hit the floor while high stays sq-ft calc
     const bathsNoBedsUnderMin =
       !hasBedroomHeuristic &&
       bathroomUnits > 0 &&
@@ -368,14 +424,13 @@ export default function QuoteCalculator({
     let minOnLowOnly = false;
 
     if ((enteredBelowHeuristic || bathsNoBedsUnderMin) && lowBelowMin) {
-      // Floor low end only; high end = living + bathroom $/sq ft (or full sq-ft calc)
+      // Floor low end only; high end stays at square-footage pricing
       baseLaborCoreLow = clampCurrency(minCharge);
       baseLaborCoreHigh = clampCurrency(
         Math.max(calculatedHighFromAreas, minCharge)
       );
       usesMinCharge = true;
       fullyAtMinimum = baseLaborCoreHigh === minCharge;
-      // Show min (low) + living/bath lines (high) whenever high is above the floor
       minOnLowOnly =
         bathroomUnits > 0
           ? calculatedHighFromAreas > minCharge
@@ -418,16 +473,25 @@ export default function QuoteCalculator({
       billableSqftLow: Math.round(billableSqftLow),
       billableSqftHigh: Math.round(billableSqftHigh),
       bathSqftSurcharge: bathAreaSqft,
+      bathsDominateHome,
       canCarveBaths,
       livingSqftLow,
       livingSqftHigh,
       livingPriceLow,
       livingPriceHigh,
       bathAreaSqft,
-      bathRateLow,
-      bathRateHigh,
+      bathRateLow:
+        bathsDominateHome || canCarveBaths || cleanType === "standard"
+          ? bathRateLow
+          : ratePerSqftLow,
+      bathRateHigh:
+        bathsDominateHome || canCarveBaths || cleanType === "standard"
+          ? bathRateHigh
+          : ratePerSqftHigh,
       bathPriceLow,
       bathPriceHigh,
+      displayBathPriceLow,
+      displayBathPriceHigh,
       // For backwards compatibility: "sq ft used for quote" = high end
       usedSqft: Math.round(sqftHigh),
 
@@ -494,10 +558,19 @@ export default function QuoteCalculator({
   ]);
 
   const hasSqftRange = result.sqftLow !== result.sqftHigh;
+  const hasBathCare = result.bathAreaSqft > 0;
+  const bathsDominate = result.bathsDominateHome;
 
-  const breakdownSqftLabel = hasSqftRange
-    ? `${result.sqftLow.toLocaleString()} to ${result.sqftHigh.toLocaleString()} square feet`
-    : `${result.sqftHigh.toLocaleString()} square feet`;
+  const bathEstimateLabel =
+    result.bathrooms === 1
+      ? `1 bath (~${result.bathAreaSqft.toLocaleString()} sq ft bathroom care)`
+      : `${result.bathrooms} baths (~${result.bathAreaSqft.toLocaleString()} sq ft bathroom care)`;
+
+  const breakdownSqftLabel = bathsDominate
+    ? bathEstimateLabel
+    : hasSqftRange
+      ? `${result.sqftLow.toLocaleString()} to ${result.sqftHigh.toLocaleString()} square feet`
+      : `${result.sqftHigh.toLocaleString()} square feet`;
 
   const quoteTotalLabel =
     result.totalAfterPromoLow === result.totalAfterPromoHigh
@@ -507,18 +580,28 @@ export default function QuoteCalculator({
   const breakdownA11yText = useMemo(() => {
     const parts = [];
 
-    parts.push(`Home size used for estimate, ${breakdownSqftLabel}.`);
+    parts.push(
+      bathsDominate
+        ? `Estimate based on bathroom care, ${bathEstimateLabel}.`
+        : `Home size used for estimate, ${breakdownSqftLabel}.`
+    );
     if (result.minOnLowOnly) {
       parts.push(
         `Minimum visit charge on the low end, ${formatCurrency(result.minCharge)}.`
       );
-      if (result.bathAreaSqft > 0) {
-        parts.push(
-          `High-end living areas, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
-        );
-        parts.push(
-          `High-end bathroom areas at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
-        );
+      if (hasBathCare) {
+        if (bathsDominate) {
+          parts.push(
+            `High-end bathroom care, ${bathEstimateLabel} at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.displayBathPriceHigh)}.`
+          );
+        } else {
+          parts.push(
+            `High-end home size, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
+          );
+          parts.push(
+            `High-end bathroom care at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
+          );
+        }
       } else {
         parts.push(
           `High-end base cleaning at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.baseLaborCoreHigh)}.`
@@ -528,24 +611,28 @@ export default function QuoteCalculator({
       parts.push(
         `Minimum visit charge, ${formatCurrency(result.minCharge)}.`
       );
-    } else if (result.bathAreaSqft > 0) {
-      parts.push(
-        `Living areas, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
-          ? formatCurrency(result.livingPriceHigh)
-          : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
-        }.`
-      );
-      parts.push(
-        result.canCarveBaths
-          ? `Bathroom areas, ${result.bathAreaSqft.toLocaleString()} square feet (${result.bathrooms} ${result.bathrooms === 1 ? "bath" : "baths"} at approximately ${FULL_BATH_SQFT} square feet each) at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")} — denser care, ${result.bathPriceLow === result.bathPriceHigh
+    } else if (hasBathCare) {
+      if (bathsDominate) {
+        parts.push(
+          `Bathroom care, ${bathEstimateLabel} at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${result.displayBathPriceLow === result.displayBathPriceHigh
+            ? formatCurrency(result.displayBathPriceHigh)
+            : `${formatCurrency(result.displayBathPriceLow)} to ${formatCurrency(result.displayBathPriceHigh)}`
+          }.`
+        );
+      } else {
+        parts.push(
+          `Home size, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
+            ? formatCurrency(result.livingPriceHigh)
+            : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
+          }.`
+        );
+        parts.push(
+          `Bathroom care, ${result.bathAreaSqft.toLocaleString()} square feet (${result.bathrooms} ${result.bathrooms === 1 ? "bath" : "baths"} at approximately ${FULL_BATH_SQFT} square feet each) at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}${result.canCarveBaths ? " — denser care" : ""}, ${result.bathPriceLow === result.bathPriceHigh
             ? formatCurrency(result.bathPriceHigh)
             : `${formatCurrency(result.bathPriceLow)} to ${formatCurrency(result.bathPriceHigh)}`
           }.`
-          : `Bathroom care, ${result.bathAreaSqft.toLocaleString()} square feet equivalent at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${result.bathPriceLow === result.bathPriceHigh
-            ? formatCurrency(result.bathPriceHigh)
-            : `${formatCurrency(result.bathPriceLow)} to ${formatCurrency(result.bathPriceHigh)}`
-          }.`
-      );
+        );
+      }
     } else {
       const basePriceLabel =
         result.baseLaborCoreLow === result.baseLaborCoreHigh
@@ -582,7 +669,14 @@ export default function QuoteCalculator({
     );
 
     return parts.join(" ");
-  }, [result, breakdownSqftLabel, promoValid]);
+  }, [
+    result,
+    breakdownSqftLabel,
+    promoValid,
+    hasBathCare,
+    bathsDominate,
+    bathEstimateLabel,
+  ]);
 
   const summaryA11yText = useMemo(() => {
     const parts = [];
@@ -591,7 +685,7 @@ export default function QuoteCalculator({
       result.fullyAtMinimum
         ? `Estimated total ${quoteTotalLabel}, minimum visit charge.`
         : result.minOnLowOnly
-          ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${result.sqftHigh.toLocaleString()} square feet.`
+          ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${bathsDominate ? bathEstimateLabel : `${result.sqftHigh.toLocaleString()} square feet`}.`
           : `Estimated total ${quoteTotalLabel}, based on ${breakdownSqftLabel}.`
     );
 
@@ -609,7 +703,13 @@ export default function QuoteCalculator({
     }
 
     return parts.join(" ");
-  }, [result, breakdownSqftLabel, quoteTotalLabel]);
+  }, [
+    result,
+    breakdownSqftLabel,
+    quoteTotalLabel,
+    bathsDominate,
+    bathEstimateLabel,
+  ]);
 
   const quoteResultsA11yText = useMemo(
     () =>
@@ -924,12 +1024,18 @@ export default function QuoteCalculator({
               aria-hidden="true"
               className="mt-3 space-y-1 text-sm text-stone-700"
             >
-              <li className="flex justify-between">
-                <span>Home size used for estimate</span>
-                <span className="tabular-nums">
-                  {hasSqftRange
-                    ? `${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()} sq ft`
-                    : `${result.sqftHigh.toLocaleString()} sq ft`}
+              <li className="flex justify-between gap-3">
+                <span>
+                  {bathsDominate
+                    ? "Bathroom care used for estimate"
+                    : "Home size used for estimate"}
+                </span>
+                <span className="shrink-0 tabular-nums text-right">
+                  {bathsDominate
+                    ? bathEstimateLabel
+                    : hasSqftRange
+                      ? `${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()} sq ft`
+                      : `${result.sqftHigh.toLocaleString()} sq ft`}
                 </span>
               </li>
 
@@ -944,27 +1050,11 @@ export default function QuoteCalculator({
                       ${result.minCharge.toLocaleString()}
                     </span>
                   </li>
-                  {result.bathAreaSqft > 0 ? (
-                    <>
+                  {hasBathCare ? (
+                    bathsDominate ? (
                       <li className="flex justify-between gap-3">
                         <span>
-                          Living areas{" "}
-                          <span className="text-stone-500">
-                            (high end ·{" "}
-                            {formatRatePerSqft(
-                              result.ratePerSqftLow,
-                              result.ratePerSqftHigh
-                            )}{" "}
-                            × {result.livingSqftHigh.toLocaleString()} sq ft)
-                          </span>
-                        </span>
-                        <span className="shrink-0 tabular-nums">
-                          ${result.livingPriceHigh.toLocaleString()}
-                        </span>
-                      </li>
-                      <li className="flex justify-between gap-3">
-                        <span>
-                          Bathroom areas{" "}
+                          Bathroom care{" "}
                           <span className="text-stone-500">
                             (high end · {result.bathrooms}{" "}
                             {result.bathrooms === 1 ? "bath" : "baths"} × ~
@@ -977,10 +1067,47 @@ export default function QuoteCalculator({
                           </span>
                         </span>
                         <span className="shrink-0 tabular-nums">
-                          ${result.bathPriceHigh.toLocaleString()}
+                          ${result.displayBathPriceHigh.toLocaleString()}
                         </span>
                       </li>
-                    </>
+                    ) : (
+                      <>
+                        <li className="flex justify-between gap-3">
+                          <span>
+                            Home size{" "}
+                            <span className="text-stone-500">
+                              (high end ·{" "}
+                              {formatRatePerSqft(
+                                result.ratePerSqftLow,
+                                result.ratePerSqftHigh
+                              )}{" "}
+                              × {result.livingSqftHigh.toLocaleString()} sq ft)
+                            </span>
+                          </span>
+                          <span className="shrink-0 tabular-nums">
+                            ${result.livingPriceHigh.toLocaleString()}
+                          </span>
+                        </li>
+                        <li className="flex justify-between gap-3">
+                          <span>
+                            Bathroom care{" "}
+                            <span className="text-stone-500">
+                              (high end · {result.bathrooms}{" "}
+                              {result.bathrooms === 1 ? "bath" : "baths"} × ~
+                              {FULL_BATH_SQFT} sq ft @{" "}
+                              {formatRatePerSqft(
+                                result.bathRateLow,
+                                result.bathRateHigh
+                              )}
+                              )
+                            </span>
+                          </span>
+                          <span className="shrink-0 tabular-nums">
+                            ${result.bathPriceHigh.toLocaleString()}
+                          </span>
+                        </li>
+                      </>
+                    )
                   ) : (
                     <li className="flex justify-between gap-3">
                       <span>
@@ -1010,29 +1137,11 @@ export default function QuoteCalculator({
                     )}
                   </span>
                 </li>
-              ) : result.bathAreaSqft > 0 ? (
-                <>
+              ) : hasBathCare ? (
+                bathsDominate ? (
                   <li className="flex justify-between gap-3">
                     <span>
-                      Living areas{" "}
-                      <span className="text-stone-500">
-                        ({formatRatePerSqft(
-                          result.ratePerSqftLow,
-                          result.ratePerSqftHigh
-                        )}{" "}
-                        × {formatSqftRange(result.livingSqftLow, result.livingSqftHigh)})
-                      </span>
-                    </span>
-                    <span className="shrink-0 tabular-nums">
-                      {formatMoneyRange(
-                        result.livingPriceLow,
-                        result.livingPriceHigh
-                      )}
-                    </span>
-                  </li>
-                  <li className="flex justify-between gap-3">
-                    <span>
-                      Bathroom areas{" "}
+                      Bathroom care{" "}
                       <span className="text-stone-500">
                         ({result.bathrooms}{" "}
                         {result.bathrooms === 1 ? "bath" : "baths"} × ~
@@ -1041,17 +1150,59 @@ export default function QuoteCalculator({
                           result.bathRateLow,
                           result.bathRateHigh
                         )}
-                        {result.canCarveBaths ? "" : " care"})
+                        )
                       </span>
                     </span>
                     <span className="shrink-0 tabular-nums">
                       {formatMoneyRange(
-                        result.bathPriceLow,
-                        result.bathPriceHigh
+                        result.displayBathPriceLow,
+                        result.displayBathPriceHigh
                       )}
                     </span>
                   </li>
-                </>
+                ) : (
+                  <>
+                    <li className="flex justify-between gap-3">
+                      <span>
+                        Home size{" "}
+                        <span className="text-stone-500">
+                          ({formatRatePerSqft(
+                            result.ratePerSqftLow,
+                            result.ratePerSqftHigh
+                          )}{" "}
+                          × {formatSqftRange(result.livingSqftLow, result.livingSqftHigh)})
+                        </span>
+                      </span>
+                      <span className="shrink-0 tabular-nums">
+                        {formatMoneyRange(
+                          result.livingPriceLow,
+                          result.livingPriceHigh
+                        )}
+                      </span>
+                    </li>
+                    <li className="flex justify-between gap-3">
+                      <span>
+                        Bathroom care{" "}
+                        <span className="text-stone-500">
+                          ({result.bathrooms}{" "}
+                          {result.bathrooms === 1 ? "bath" : "baths"} × ~
+                          {FULL_BATH_SQFT} sq ft @{" "}
+                          {formatRatePerSqft(
+                            result.bathRateLow,
+                            result.bathRateHigh
+                          )}
+                          )
+                        </span>
+                      </span>
+                      <span className="shrink-0 tabular-nums">
+                        {formatMoneyRange(
+                          result.bathPriceLow,
+                          result.bathPriceHigh
+                        )}
+                      </span>
+                    </li>
+                  </>
+                )
               ) : (
                 <li className="flex justify-between gap-3">
                   <span>
@@ -1153,8 +1304,13 @@ export default function QuoteCalculator({
                     ) : result.minOnLowOnly ? (
                       <>
                         Low end is our minimum visit charge; high end based on{" "}
-                        {result.sqftHigh.toLocaleString()} sq ft.
+                        {bathsDominate
+                          ? bathEstimateLabel
+                          : `${result.sqftHigh.toLocaleString()} sq ft`}
+                        .
                       </>
+                    ) : bathsDominate ? (
+                      <>Estimated based on {bathEstimateLabel}.</>
                     ) : hasSqftRange ? (
                       <>
                         Estimated range based on{" "}
