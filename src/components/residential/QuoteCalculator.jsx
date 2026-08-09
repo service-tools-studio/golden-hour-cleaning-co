@@ -28,11 +28,8 @@ import { quoteFieldId } from "../../helpers/fieldIds.js";
  *   breakdown/subtitle emphasize bathroom care only
  * - Deep cleans use a condition-based rate range ($0.26–$0.40/sq ft)
  * - Minimum base visit charge: standard $150, deep $250, move-out $350
- *   • Entered sq ft below bedroom heuristic and low end under min → floor low
- *     only; high end stays $/sq ft
- *   • No bedrooms, bathrooms entered, and low end under min → same: low = min,
- *     high = home + bathroom $/sq ft
- *   • Also for 0 beds & 0 baths, or size under 300 sq ft, when pricing is low
+ *   • Whenever the low-end sq-ft price is under the minimum: floor low only;
+ *     high end stays $/sq ft (at least the minimum)
  * - Flat add-ons (fridge, oven, second kitchen) are added after
  *
  * Hours model (approximate, for scheduling only — does not set price):
@@ -408,19 +405,7 @@ export default function QuoteCalculator({
     const displayBathPriceLow = bathPriceLow;
     const displayBathPriceHigh = bathPriceHigh;
 
-    const calculatedHighFromAreas = clampCurrency(basePriceHighRaw);
-
     const minCharge = MIN_CHARGE_BY_TYPE[cleanType] ?? 0;
-    const enteredBelowHeuristic =
-      hasBedroomHeuristic && safeSqftInput > 0 && safeSqftInput < estSqft;
-    // Baths + no beds: low may hit the floor while high stays sq-ft calc
-    const bathsNoBedsUnderMin =
-      !hasBedroomHeuristic &&
-      bathroomUnits > 0 &&
-      safeSqftInput > 0 &&
-      basePriceLowRaw < minCharge;
-    const tinyScopeEligible =
-      (bedrooms === 0 && bathroomUnits === 0) || sqftLow < 300;
     const lowBelowMin = basePriceLowRaw < minCharge;
     const highBelowMin = basePriceHighRaw < minCharge;
 
@@ -430,19 +415,8 @@ export default function QuoteCalculator({
     let fullyAtMinimum = false;
     let minOnLowOnly = false;
 
-    if ((enteredBelowHeuristic || bathsNoBedsUnderMin) && lowBelowMin) {
-      // Floor low end only; high end stays at square-footage pricing
-      baseLaborCoreLow = clampCurrency(minCharge);
-      baseLaborCoreHigh = clampCurrency(
-        Math.max(calculatedHighFromAreas, minCharge)
-      );
-      usesMinCharge = true;
-      fullyAtMinimum = baseLaborCoreHigh === minCharge;
-      minOnLowOnly =
-        bathroomUnits > 0
-          ? calculatedHighFromAreas > minCharge
-          : !fullyAtMinimum;
-    } else if (tinyScopeEligible && (lowBelowMin || highBelowMin)) {
+    if (lowBelowMin || highBelowMin) {
+      // Floor low end to minimum when under; high end stays $/sq ft (never below min)
       baseLaborCoreLow = clampCurrency(Math.max(basePriceLowRaw, minCharge));
       baseLaborCoreHigh = clampCurrency(Math.max(basePriceHighRaw, minCharge));
       usesMinCharge = true;
