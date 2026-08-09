@@ -605,7 +605,7 @@ export default function QuoteCalculator({
           );
         } else {
           parts.push(
-            `High-end main areas, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
+            `High-end living space, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
           );
           parts.push(
             `High-end bathroom care at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
@@ -630,7 +630,7 @@ export default function QuoteCalculator({
         );
       } else {
         parts.push(
-          `Main areas, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
+          `Living space, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
             ? formatCurrency(result.livingPriceHigh)
             : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
           }.`
@@ -1083,7 +1083,7 @@ export default function QuoteCalculator({
                       <>
                         <li className="flex justify-between gap-3">
                           <span>
-                            Main areas{" "}
+                            Living space{" "}
                             <span className="text-stone-500">
                               (high end ·{" "}
                               {formatRatePerSqft(
@@ -1173,7 +1173,7 @@ export default function QuoteCalculator({
                   <>
                     <li className="flex justify-between gap-3">
                       <span>
-                        Main areas{" "}
+                        Living space{" "}
                         <span className="text-stone-500">
                           ({formatRatePerSqft(
                             result.ratePerSqftLow,
