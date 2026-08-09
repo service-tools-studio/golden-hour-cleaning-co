@@ -22,7 +22,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
     levelKey: "standard",
     title: "Standard Clean",
     desc: "Recurring upkeep for homes that already feel pretty tidy — or that have been professionally cleaned within the past 2–4 weeks.",
-    price: "~$0.14–$0.20/sq ft • lighter upkeep",
+    price: "Lighter upkeep",
     items: [
       "Kitchen & bath surfaces",
       "Dusting & high-touch areas",
@@ -42,7 +42,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
     levelKey: "deep",
     title: "Deep Clean",
     desc: "A full-home reset — perfect if it’s been 2+ months since last clean or things feel built up.",
-    price: "~$0.26–$0.40/sq ft • full-home reset",
+    price: "Full-home reset",
     featured: true,
     items: [
       "Baseboards & edges",
@@ -66,7 +66,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
     levelKey: "move_out",
     title: "Move-Out",
     desc: "Empty-home detail clean so you can move in (or hand over keys) feeling completely clear.",
-    price: "~$0.40–$0.50/sq ft • most intensive",
+    price: "Most intensive",
     items: [
       "Everything in Deep Clean, plus:",
       "Inside cabinets & drawers",

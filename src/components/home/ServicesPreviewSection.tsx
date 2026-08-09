@@ -15,13 +15,13 @@ const SERVICES = [
   {
     emoji: "✨",
     title: "Deep Cleaning",
-    desc: "A full-home reset when dust, grime, or life has built up (~$0.26–$0.40/sq ft).",
+    desc: "A full-home reset when dust, grime, or life has built up.",
     href: "/residential/services/deep",
   },
   {
     emoji: "📦",
     title: "Move In / Move Out",
-    desc: "Detailed cleaning for empty homes before keys change hands (~$0.40–$0.50/sq ft).",
+    desc: "Detailed cleaning for empty homes before keys change hands.",
     href: "/residential/services/move-out",
   },
   {
