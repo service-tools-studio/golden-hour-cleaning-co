@@ -127,7 +127,7 @@ export default function GoogleReviews() {
 
   if (!placeId) {
     return (
-      <section className="bg-amber-50/50">
+      <section id="reviews" className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
           <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
@@ -153,7 +153,7 @@ export default function GoogleReviews() {
 
   if (loading) {
     return (
-      <section className="bg-amber-50/50">
+      <section id="reviews" className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
           <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
@@ -168,7 +168,7 @@ export default function GoogleReviews() {
 
   if (error || reviews.length === 0) {
     return (
-      <section className="bg-amber-50/50">
+      <section id="reviews" className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
           <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
             What our clients say
@@ -193,7 +193,7 @@ export default function GoogleReviews() {
   }
 
   return (
-    <section className="bg-amber-50/50" aria-label="Google reviews">
+    <section id="reviews" className="bg-amber-50/50" aria-label="Google reviews">
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
           <div>

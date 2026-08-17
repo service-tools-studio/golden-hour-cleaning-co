@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
 import ServicesPreviewSection from "@/components/home/ServicesPreviewSection";
@@ -15,7 +14,6 @@ import Header from "@/components/residential/Header";
 import Hero from "@/components/residential/Hero";
 import QuoteCalculator from "@/components/residential/QuoteCalculator";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
-import { Badge } from "@/helpers/ui-elements.jsx";
 import { scrollToId } from "@/helpers/scrollToId";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
@@ -52,15 +50,6 @@ export default function MarketingLandingClient({ pagePath }: Props) {
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
         <Hero />
-
-        <div className="mx-auto flex min-h-[8rem] max-w-7xl flex-col items-center justify-center px-6 pt-5">
-          <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4">
-            <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
-            <Badge icon={<BadgeCheck />} label="Background-Checked" />
-            <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
-            <Badge icon={<Stars />} label="5-Star Experience" />
-          </div>
-        </div>
 
         <GoogleMapsProvider>
           <GoogleReviews />

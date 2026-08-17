@@ -1,10 +1,30 @@
-export function Badge({ icon, label }) {
-  return (
-    <div className="flex h-16 w-full min-w-0 items-center gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2">
-      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-amber-100/80">{icon}</span>
-      <span className="min-w-0 break-words text-[13px] font-medium leading-snug text-stone-800">{label}</span>
-    </div>
+export function Badge({ icon, label, onClick }) {
+  const className =
+    "flex h-16 w-full min-w-0 items-center gap-2 rounded-xl border border-amber-200 bg-white px-3";
+  const inner = (
+    <>
+      <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-amber-100/80 [&_svg]:block [&_svg]:h-4 [&_svg]:w-4">
+        {icon}
+      </span>
+      <span className="min-w-0 break-words text-[13px] font-medium leading-none text-stone-800">
+        {label}
+      </span>
+    </>
   );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className={`${className} cursor-pointer text-left hover:border-amber-300 hover:bg-amber-50/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+      >
+        {inner}
+      </button>
+    );
+  }
+
+  return <div className={className}>{inner}</div>;
 }
 
 export function Step({ number, title, desc }) {

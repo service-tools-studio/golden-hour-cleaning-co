@@ -16,25 +16,15 @@ export default function MeetFoundersSection() {
           Meet the Founders
         </h2>
 
-        <div className="mt-12 flex flex-row items-start justify-center gap-4 sm:gap-6">
-          <figure className="w-[calc(50%-0.5rem)] max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:w-full sm:max-w-[240px]">
+        <div className="mt-12 flex justify-center">
+          <figure className="w-full max-w-[360px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:max-w-[420px]">
             <Image
-              src="/assets/kelsey-collins.JPG"
-              alt="Kelsey Collins, Co-Founder of Golden Hour Cleaning Co."
-              width={480}
-              height={640}
+              src="/assets/kelsey-and-jasmin.JPG"
+              alt="Kelsey Collins and Jasmin Heart, Co-Founders of Golden Hour Cleaning Co."
+              width={1030}
+              height={1562}
               className="h-auto w-full"
-              sizes="(max-width: 640px) 45vw, 240px"
-            />
-          </figure>
-          <figure className="w-[calc(50%-0.5rem)] max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:w-full sm:max-w-[240px]">
-            <Image
-              src="/assets/jasmin-heart.JPG"
-              alt="Jasmin Heart, Co-Founder of Golden Hour Cleaning Co."
-              width={480}
-              height={640}
-              className="h-auto w-full"
-              sizes="(max-width: 640px) 45vw, 240px"
+              sizes="(max-width: 640px) 90vw, 420px"
             />
           </figure>
         </div>
