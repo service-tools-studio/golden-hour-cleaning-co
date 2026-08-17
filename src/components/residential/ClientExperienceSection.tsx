@@ -29,7 +29,7 @@ export default function ClientExperienceSection() {
       <div className="lg:relative">
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-amber-50 lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-1/2">
           <Image
-            src="/assets/golden-hour-sweep.jpeg"
+            src="/assets/golden-hour-sweep-2.jpg"
             alt="A Golden Hour cleaner smiling while holding a dust mop in a sunlit room"
             fill
             className="object-cover object-center"
