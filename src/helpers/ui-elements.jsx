@@ -1,3 +1,6 @@
+/**
+ * @param {{ icon: import('react').ReactNode; label: string; onClick?: () => void }} props
+ */
 export function Badge({ icon, label, onClick }) {
   const className =
     "flex h-16 w-full min-w-0 items-center gap-2 rounded-xl border border-amber-200 bg-white px-3";
