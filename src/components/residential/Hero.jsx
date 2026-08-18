@@ -24,11 +24,11 @@ export default function Hero() {
 
         <div className="relative flex items-center px-4 pt-4 pb-16 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
           <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
-            <h1 className={`text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
+            <h1 className={`text-center text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
               Professional cleaners with high standards, intentional care & consistent results.
             </h1>
 
-            <p className="mt-3 text-stone-700 lg:text-base">
+            <p className="mt-3 text-center text-stone-700 lg:text-base">
               Golden Hour brings meticulous, non-toxic cleaning with a calm, grounded presence.
               Designed for busy households and boutique rentals who value immaculate results,
               instant online booking, and a team that treats your space like a sanctuary.
@@ -47,7 +47,7 @@ export default function Hero() {
               </button>
             </div>
 
-            <div className="mt-3 text-center lg:text-left">
+            <div className="mt-3 text-center">
               <button
                 type="button"
                 onClick={(e) => {
