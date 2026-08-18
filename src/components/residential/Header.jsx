@@ -149,12 +149,13 @@ export default function Header() {
 
   const bannerItems = [
     "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City",
-    "We use eco-friendly products whenever possible",
+    "We use eco-friendly products",
     "Licensed & insured",
     "Flexible weekly • bi-weekly • monthly",
     "Same-week openings available",
     "Easy online booking",
     "Locally owned & operated",
+    "Women owned & operated",
     "Questions? Call or Text us: (503) 893-4795",
   ];
   const phoneAnnouncement = "Questions? Call or Text us: (503) 893-4795";
