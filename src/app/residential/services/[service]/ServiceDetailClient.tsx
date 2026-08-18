@@ -22,7 +22,7 @@ function GenericServiceContent({ service }: { service: ResidentialService }) {
         {service.overview}
       </p>
 
-      <section className="mt-10 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+      <section id="whats-included" className="mt-10 scroll-mt-[var(--header-height,120px)] rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
         <h2 className={`text-lg font-semibold ${HEADING_UPPER}`}>
           What&apos;s included
         </h2>

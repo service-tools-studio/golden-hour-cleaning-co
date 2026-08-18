@@ -63,7 +63,7 @@ export default function Hero() {
             <div className="mt-6 grid w-full grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4 lg:mt-10 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
               <Badge icon={<BadgeCheck />} label="Background-Checked" />
-              <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
+              <Badge icon={<CalendarCheck2 />} label="Easy Online Booking" />
               <Badge
                 icon={<Stars />}
                 label="★★★★★ 5.0 Google Rating"

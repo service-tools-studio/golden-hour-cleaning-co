@@ -9,6 +9,7 @@ import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 
@@ -188,14 +189,14 @@ function ConditionRangeVisual({ low, high }) {
 
   return (
     <div className="mt-6">
-      <div className="flex justify-between text-[11px] tabular-nums text-stone-600">
+      <div className="flex justify-between text-xs tabular-nums text-stone-600">
         {ticks.map((n, i) => (
           <span key={`${n}-${i}`}>{moneyLabel(n)}</span>
         ))}
       </div>
 
       <div
-        className="mt-1 flex min-h-14 overflow-hidden rounded-full border border-stone-200 sm:min-h-12"
+        className="mt-1 flex min-h-16 overflow-hidden rounded-full border border-stone-200 sm:min-h-14"
         role="img"
         aria-label={`Price range by home condition: light buildup ${moneyLabel(bands[0].low)} to ${moneyLabel(bands[0].high)}, moderate buildup ${moneyLabel(bands[1].low)} to ${moneyLabel(bands[1].high)}, heavy buildup ${moneyLabel(bands[2].low)} to ${moneyLabel(bands[2].high)}.`}
       >
@@ -204,10 +205,10 @@ function ConditionRangeVisual({ low, high }) {
             key={band.id}
             className={`flex min-w-0 flex-1 flex-col items-center justify-center px-0.5 py-1.5 text-center sm:px-1 ${band.barClass}`}
           >
-            <span className="text-[9px] font-semibold uppercase leading-tight tracking-wide text-stone-800 sm:text-[10px]">
+            <span className="text-[11px] font-semibold uppercase leading-tight tracking-wide text-stone-800 sm:text-xs">
               {band.title}
             </span>
-            <span className="text-[9px] tabular-nums leading-tight text-stone-800 sm:text-[10px]">
+            <span className="text-[11px] tabular-nums leading-tight text-stone-800 sm:text-xs">
               {moneyLabel(band.low)}–{moneyLabel(band.high)}
             </span>
           </div>
@@ -1136,30 +1137,57 @@ export default function QuoteCalculator({
           aria-describedby={quoteSummaryA11yId}
           className={`${QUOTE_CARD} bg-[#fffbea]`}
         >
-            <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-              Your estimated quote
-            </h3>
             <p id={quoteSummaryA11yId} className="sr-only">
               {summaryA11yText}
             </p>
 
-            <div aria-hidden="true">
-              <div className="mt-3">
-                <div>
-                  <p className="text-3xl md:text-4xl font-semibold tabular-nums">
-                    {result.totalAfterPromoLow === result.totalAfterPromoHigh
-                      ? formatCurrency(result.totalAfterPromoHigh)
-                      : `${formatCurrency(
-                        result.totalAfterPromoLow
-                      )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
-                  </p>
-
-                  <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                    Your final price depends on the condition of the home at your
-                    walkthrough.
-                  </p>
-                </div>
+            <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-5 sm:gap-8">
+              <div className="sm:col-span-2">
+                <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
+                  Your estimated quote
+                </h3>
+                <p className="mt-3 text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
+                  {result.totalAfterPromoLow === result.totalAfterPromoHigh
+                    ? formatCurrency(result.totalAfterPromoHigh)
+                    : `${formatCurrency(
+                      result.totalAfterPromoLow
+                    )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                  Your final price depends on the condition of your home at your
+                  walkthrough.
+                </p>
               </div>
+
+              <aside className="-mx-2 rounded-2xl border border-[#dcbb52]/30 bg-[#dcbb52]/10 px-4 py-2 sm:mx-0 sm:col-span-3 sm:px-5 sm:py-5">
+                <p className="text-base font-semibold text-stone-900">
+                  Seen a cheaper number elsewhere?
+                </p>
+                <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
+                  Not all cleaning quotes include the same scope. Lower prices may
+                  reflect a more limited service or separately priced add-ons.
+                </p>
+                <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
+                  Ours includes a detailed,{" "}
+                  <Link
+                    href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
+                    className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                  >
+                    comprehensive clean
+                  </Link>{" "}
+                  backed by our{" "}
+                  <Link
+                    href="/satisfaction-guarantee"
+                    className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                  >
+                    Satisfaction Guarantee
+                  </Link>
+                  .
+                </p>
+              </aside>
+            </div>
+
+            <div aria-hidden="true">
 
               <ConditionRangeVisual
                 low={result.totalAfterPromoLow}

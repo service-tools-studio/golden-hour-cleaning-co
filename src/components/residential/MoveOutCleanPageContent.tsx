@@ -13,10 +13,6 @@ export default function MoveOutCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">Most intensive</p>
-      <p className="mt-1 text-xs text-stone-500">
-        Range depends on home condition. Final price confirmed after a quick
-        walkthrough.
-      </p>
       <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Move-In &amp; Move-Out Cleaning Services in Portland, OR
       </h1>
@@ -57,7 +53,7 @@ export default function MoveOutCleanPageContent({
         </p>
       </Section>
 
-      <Section title="What's Included in Our Move-In & Move-Out Cleaning?">
+      <Section id="whats-included" title="What's Included in Our Move-In & Move-Out Cleaning?">
         <p className="text-base leading-relaxed text-stone-700">
           Our move-in and move-out cleaning is one of our most detailed services,
           designed to clean areas that are often overlooked during routine

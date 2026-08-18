@@ -13,10 +13,6 @@ export default function DeepCleanPageContent({
     <>
       <BackToServicesLink />
       <p className="text-sm font-medium text-stone-500">Full-home reset</p>
-      <p className="mt-1 text-xs text-stone-500">
-        Range depends on home condition. Final price confirmed after a quick
-        walkthrough.
-      </p>
       <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Deep House Cleaning Services in Portland, OR
       </h1>
@@ -56,10 +52,16 @@ export default function DeepCleanPageContent({
         </p>
       </Section>
 
-      <Section title="What's Included in Our Deep Cleaning Service?">
+      <Section id="whats-included" title="What's Included in Our Deep Cleaning Service?">
         <p className="text-base leading-relaxed text-stone-700">
-          Our deep cleaning includes everything in our Standard Cleaning service,
-          plus additional detailed attention throughout your home.
+          Our deep cleaning includes everything in our{" "}
+          <Link
+            href="/residential/services/standard"
+            className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
+          >
+            Standard Cleaning
+          </Link>{" "}
+          service, plus additional detailed attention throughout your home.
         </p>
 
         <div className="mt-6 space-y-6 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
@@ -145,7 +147,7 @@ export default function DeepCleanPageContent({
         </div>
       </Section>
 
-      <Section title="What Makes a Deep Cleaning Different?">
+      <Section title="What Makes a Deep Clean Different from a Standard Clean?">
         <p className="text-base leading-relaxed text-stone-700">
           Standard cleaning is reserved for recurring customers or
           homes professionally cleaned within the past 2–4 weeks — it maintains a
@@ -158,7 +160,7 @@ export default function DeepCleanPageContent({
         </p>
         <BulletList
           items={[
-            "Your home hasn't been professionally cleaned in 2+ months",
+            "Your home hasn't been professionally cleaned in over a month",
             "You're preparing to begin recurring cleaning service",
             "You're hosting family or guests",
             "You're moving into a home",

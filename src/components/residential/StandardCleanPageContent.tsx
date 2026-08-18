@@ -44,7 +44,7 @@ export default function StandardCleanPageContent({
         </p>
       </Section>
 
-      <Section title="What's Included in Our Standard Cleaning Service?">
+      <Section id="whats-included" title="What's Included in Our Standard Cleaning Service?">
         <p className="text-base leading-relaxed text-stone-700">
           Our standard cleaning is designed to maintain an already lived-in home
           and keep it looking its best.
@@ -155,7 +155,14 @@ export default function StandardCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           If your home hasn&apos;t been professionally cleaned recently, has
           buildup, or you&apos;re starting service for the first time, we recommend
-          a Deep Clean first. After that, regular standard cleanings help keep your
+          a{" "}
+          <Link
+            href="/residential/services/deep"
+            className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
+          >
+            Deep Clean
+          </Link>{" "}
+          first. After that, regular standard cleanings help keep your
           home consistently fresh.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">

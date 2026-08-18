@@ -32,10 +32,12 @@ export function BulletList({ items }: { items: string[] }) {
 export function Section({
   title,
   level = 2,
+  id,
   children,
 }: {
   title: string;
   level?: 2 | 3;
+  id?: string;
   children: ReactNode;
 }) {
   const Tag = level === 3 ? "h3" : "h2";
@@ -45,7 +47,7 @@ export function Section({
       : `mt-10 text-xl font-semibold text-stone-900 md:text-2xl ${HEADING_UPPER}`;
 
   return (
-    <section>
+    <section id={id} className={id ? "scroll-mt-[var(--header-height,120px)]" : undefined}>
       <Tag className={className}>{title}</Tag>
       <div className="mt-3">{children}</div>
     </section>
