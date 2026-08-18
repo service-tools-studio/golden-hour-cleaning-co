@@ -9,6 +9,7 @@ export default function FooterCitiesMenu() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const containerRef = useRef<HTMLLIElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -35,6 +36,16 @@ export default function FooterCitiesMenu() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open || !menuRef.current) return;
+
+    const frame = requestAnimationFrame(() => {
+      menuRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
+
   return (
     <li ref={containerRef} className="relative">
       <button
@@ -53,6 +64,7 @@ export default function FooterCitiesMenu() {
 
       {open ? (
         <ul
+          ref={menuRef}
           id={menuId}
           className="mt-2 space-y-1 rounded-xl border border-amber-200 bg-white p-3 shadow-sm"
         >

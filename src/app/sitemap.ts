@@ -20,6 +20,7 @@ const ROUTES: {
   })),
   { path: "/commercial", changeFrequency: "weekly", priority: 0.9 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/partnerships", changeFrequency: "monthly", priority: 0.7 },
   { path: "/careers", changeFrequency: "monthly", priority: 0.7 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
   ...BLOG_POSTS.map((post) => ({

@@ -91,10 +91,10 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="/commercial"
+                href="/satisfaction-guarantee"
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
-                Commercial Cleaning
+                Satisfaction Guarantee
               </a>
             </li>
             <li>
@@ -111,6 +111,14 @@ export default function Footer() {
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Blog
+              </a>
+            </li>
+            <li>
+              <a
+                href="/partnerships"
+                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+              >
+                Partnerships
               </a>
             </li>
             <li>

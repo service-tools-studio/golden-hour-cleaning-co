@@ -1161,7 +1161,7 @@ export default function QuoteCalculator({
 
               <aside className="-mx-2 rounded-2xl border border-[#dcbb52]/30 bg-[#dcbb52]/10 px-4 py-2 sm:mx-0 sm:col-span-3 sm:px-5 sm:py-5">
                 <p className="text-base font-semibold text-stone-900">
-                  Seen a cheaper number elsewhere?
+                  Found a lower quote elsewhere?
                 </p>
                 <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
                   Not all cleaning quotes include the same scope. Lower prices may
