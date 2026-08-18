@@ -125,22 +125,6 @@ function fullBathPersonHours(sqftPerHour, timeMultiplier = 1) {
   return (FULL_BATH_SQFT / sqftPerHour) * timeMultiplier;
 }
 
-function formatRatePerSqft(low, high) {
-  const lo = Number(low).toFixed(2);
-  const hi = Number(high).toFixed(2);
-  return lo === hi ? `$${lo}/sq ft` : `$${lo}–$${hi}/sq ft`;
-}
-
-function formatMoneyRange(low, high) {
-  if (low === high) return `$${low.toLocaleString()}`;
-  return `$${low.toLocaleString()}–$${high.toLocaleString()}`;
-}
-
-function formatSqftRange(low, high) {
-  if (low === high) return `${low.toLocaleString()} sq ft`;
-  return `${low.toLocaleString()}–${high.toLocaleString()} sq ft`;
-}
-
 function clampCurrency(n) {
   return Math.max(0, Math.round(n));
 }
@@ -157,6 +141,129 @@ function trimHours(h) {
 function hoursUnit(h) {
   return Math.abs(h - 1) < 1e-9 ? "hour" : "hours";
 }
+
+function moneyLabel(n) {
+  return `$${Number(n).toLocaleString()}`;
+}
+
+const CONDITION_BANDS = [
+  {
+    id: "light",
+    title: "Light buildup",
+    desc: "Regularly maintained with minimal dust, grease, soap scum and pet hair.",
+    barClass: "bg-amber-100",
+    cardClass: "bg-amber-100/25",
+  },
+  {
+    id: "moderate",
+    title: "Moderate buildup",
+    badge: "Most common",
+    desc: "Typical lived-in condition with visible dust, bathroom/kitchen buildup, soap scum or pet hair.",
+    barClass: "bg-amber-300",
+    cardClass: "bg-amber-300/20",
+  },
+  {
+    id: "heavy",
+    title: "Heavy buildup",
+    desc: "Significant accumulated dust, grease, soap scum, pet hair or grime; areas may not have been thoroughly cleaned for several months.",
+    barClass: "bg-[#dcbb52]",
+    cardClass: "bg-[#dcbb52]/15",
+  },
+];
+
+function splitConditionBands(low, high) {
+  const lo = Math.round(Number(low) || 0);
+  const hi = Math.round(Number(high) || 0);
+  if (hi <= lo) return null;
+  const span = hi - lo;
+  const third = Math.max(1, Math.floor(span / 3));
+  const lightHigh = Math.min(lo + third - 1, hi - 2);
+  const modLow = lightHigh + 1;
+  const modHigh = Math.min(modLow + third - 1, hi - 1);
+  return [
+    { ...CONDITION_BANDS[0], low: lo, high: lightHigh },
+    { ...CONDITION_BANDS[1], low: modLow, high: modHigh },
+    { ...CONDITION_BANDS[2], low: modHigh + 1, high: hi },
+  ];
+}
+
+function ConditionRangeVisual({ low, high }) {
+  const bands = splitConditionBands(low, high);
+  if (!bands) return null;
+  const ticks = [bands[0].low, bands[1].low, bands[2].low, bands[2].high];
+
+  return (
+    <div className="mt-6">
+      <div className="flex justify-between text-[11px] tabular-nums text-stone-600">
+        {ticks.map((n, i) => (
+          <span key={`${n}-${i}`}>{moneyLabel(n)}</span>
+        ))}
+      </div>
+
+      <div
+        className="mt-1 flex min-h-14 overflow-hidden rounded-full border border-stone-200 sm:min-h-12"
+        role="img"
+        aria-label={`Price range by home condition: light buildup ${moneyLabel(bands[0].low)} to ${moneyLabel(bands[0].high)}, moderate buildup ${moneyLabel(bands[1].low)} to ${moneyLabel(bands[1].high)}, heavy buildup ${moneyLabel(bands[2].low)} to ${moneyLabel(bands[2].high)}.`}
+      >
+        {bands.map((band) => (
+          <div
+            key={band.id}
+            className={`flex min-w-0 flex-1 flex-col items-center justify-center px-0.5 py-1.5 text-center sm:px-1 ${band.barClass}`}
+          >
+            <span className="text-[9px] font-semibold uppercase leading-tight tracking-wide text-stone-800 sm:text-[10px]">
+              {band.title}
+            </span>
+            <span className="text-[9px] tabular-nums leading-tight text-stone-800 sm:text-[10px]">
+              {moneyLabel(band.low)}–{moneyLabel(band.high)}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <ul className="mt-5 space-y-3">
+        {bands.map((band) => (
+          <li
+            key={band.id}
+            className={`rounded-xl px-4 py-3 ${band.cardClass}`}
+          >
+            <p className="text-sm font-semibold text-stone-900">
+              {band.title}
+              {band.badge ? (
+                <span className="ml-2 text-xs font-medium uppercase tracking-wide text-stone-500">
+                  {band.badge}
+                </span>
+              ) : null}
+            </p>
+            <p className="mt-0.5 text-sm leading-relaxed text-stone-600">
+              {band.desc}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-5 text-sm leading-relaxed text-stone-600">
+        We&apos;ll assess your home&apos;s condition during your walkthrough and
+        confirm your final price before cleaning begins.
+      </p>
+    </div>
+  );
+}
+
+function QuoteStepHeader({ step, children, id }) {
+  return (
+    <div id={id} className="flex w-full items-center gap-3">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fde68a] text-sm font-semibold text-stone-900">
+        {step}
+      </span>
+      <span className={QUOTE_SECTION_LABEL}>{children}</span>
+    </div>
+  );
+}
+
+const QUOTE_CARD =
+  "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm md:p-8";
+
+const QUOTE_HINT = "mt-4 text-sm leading-relaxed text-stone-500";
 
 export default function QuoteCalculator({
   title,
@@ -539,7 +646,6 @@ export default function QuoteCalculator({
   ]);
 
   const hasSqftRange = result.sqftLow !== result.sqftHigh;
-  const hasBathCare = result.bathAreaSqft > 0;
   const bathsDominate = result.bathsDominateHome;
 
   const bathEstimateLabel =
@@ -549,7 +655,7 @@ export default function QuoteCalculator({
   const bathCountLabel =
     result.bathrooms === 1 ? "1 bath" : `${result.bathrooms} baths`;
 
-  const breakdownSqftLabel = bathsDominate
+  const sizeLabel = bathsDominate
     ? bathEstimateLabel
     : hasSqftRange
       ? `${result.sqftLow.toLocaleString()} to ${result.sqftHigh.toLocaleString()} square feet`
@@ -560,106 +666,14 @@ export default function QuoteCalculator({
       ? formatCurrency(result.totalAfterPromoHigh)
       : `${formatCurrency(result.totalAfterPromoLow)} to ${formatCurrency(result.totalAfterPromoHigh)}`;
 
-  const breakdownA11yText = useMemo(() => {
-    const parts = [];
-
-    parts.push(
-      bathsDominate
-        ? `Bathroom square feet used for estimate, ${bathEstimateLabel}.`
-        : `Home size used for estimate, ${breakdownSqftLabel}.`
-    );
-    if (result.minOnLowOnly) {
-      parts.push(
-        `Minimum visit charge on the low end, ${formatCurrency(result.minCharge)}.`
-      );
-      if (hasBathCare) {
-        if (bathsDominate) {
-          parts.push(
-            `High-end bathroom care, ${bathEstimateLabel} at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.displayBathPriceHigh)}.`
-          );
-        } else {
-          parts.push(
-            `High-end living space, ${result.livingSqftHigh.toLocaleString()} square feet at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.livingPriceHigh)}.`
-          );
-          parts.push(
-            `High-end bathroom care at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${formatCurrency(result.bathPriceHigh)}.`
-          );
-        }
-      } else {
-        parts.push(
-          `High-end base cleaning at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${formatCurrency(result.baseLaborCoreHigh)}.`
-        );
-      }
-    } else if (result.usesMinCharge) {
-      parts.push(
-        `Minimum visit charge, ${formatCurrency(result.minCharge)}.`
-      );
-    } else if (hasBathCare) {
-      if (bathsDominate) {
-        parts.push(
-          `Bathroom care, ${bathEstimateLabel} at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}, ${result.displayBathPriceLow === result.displayBathPriceHigh
-            ? formatCurrency(result.displayBathPriceHigh)
-            : `${formatCurrency(result.displayBathPriceLow)} to ${formatCurrency(result.displayBathPriceHigh)}`
-          }.`
-        );
-      } else {
-        parts.push(
-          `Living space, ${formatSqftRange(result.livingSqftLow, result.livingSqftHigh).replace(" sq ft", " square feet")} at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${result.livingPriceLow === result.livingPriceHigh
-            ? formatCurrency(result.livingPriceHigh)
-            : `${formatCurrency(result.livingPriceLow)} to ${formatCurrency(result.livingPriceHigh)}`
-          }.`
-        );
-        parts.push(
-          `Bathroom care, ${result.bathAreaSqft.toLocaleString()} square feet (${result.bathrooms} ${result.bathrooms === 1 ? "bath" : "baths"} at approximately ${FULL_BATH_SQFT} square feet each) at ${formatRatePerSqft(result.bathRateLow, result.bathRateHigh).replace("/", " per ")}${result.canCarveBaths ? " — denser care" : ""}, ${result.bathPriceLow === result.bathPriceHigh
-            ? formatCurrency(result.bathPriceHigh)
-            : `${formatCurrency(result.bathPriceLow)} to ${formatCurrency(result.bathPriceHigh)}`
-          }.`
-        );
-      }
-    } else {
-      const basePriceLabel =
-        result.baseLaborCoreLow === result.baseLaborCoreHigh
-          ? formatCurrency(result.baseLaborCoreHigh)
-          : `${formatCurrency(result.baseLaborCoreLow)} to ${formatCurrency(result.baseLaborCoreHigh)}`;
-      parts.push(
-        `Base cleaning at ${formatRatePerSqft(result.ratePerSqftLow, result.ratePerSqftHigh).replace("/", " per ")}, ${basePriceLabel}.`
-      );
-    }
-
-    if (result.addonFridge) {
-      parts.push(
-        `Inside fridge add-on, plus ${formatCurrency(ADDON_FRIDGE_PRICE)}.`
-      );
-    }
-    if (result.addonOven) {
-      parts.push(
-        `Inside oven add-on, plus ${formatCurrency(ADDON_OVEN_PRICE)}.`
-      );
-    }
-    if (result.addonSecondKitchen) {
-      parts.push(
-        `Second full kitchen, plus ${formatCurrency(result.secondKitchenFeeLow)} to ${formatCurrency(result.secondKitchenFeeHigh)} or more, adds approximately 60 to 90 minutes.`
-      );
-    }
-    if (promoValid) {
-      parts.push(
-        `Promo golden welcome, minus ${formatCurrency(result.promoDiscount)}.`
-      );
-    }
-
-    parts.push(
-      "Why is pricing shown as a range? The price per square foot varies based on your home's condition. Buildup, dust, grease, pet hair, and other factors can affect the overall size and scope of the cleaning. Bathrooms also need denser care, so they're priced at a higher rate than living areas."
-    );
-
-    return parts.join(" ");
-  }, [
-    result,
-    breakdownSqftLabel,
-    promoValid,
-    hasBathCare,
-    bathsDominate,
-    bathEstimateLabel,
-  ]);
+  const conditionBands = useMemo(
+    () =>
+      splitConditionBands(
+        result.totalAfterPromoLow,
+        result.totalAfterPromoHigh
+      ),
+    [result.totalAfterPromoLow, result.totalAfterPromoHigh]
+  );
 
   const summaryA11yText = useMemo(() => {
     const parts = [];
@@ -669,8 +683,14 @@ export default function QuoteCalculator({
         ? `Estimated total ${quoteTotalLabel}, minimum visit charge.`
         : result.minOnLowOnly
           ? `Estimated total ${quoteTotalLabel}, low end is our minimum visit charge; high end based on ${bathsDominate ? bathCountLabel : `${result.sqftHigh.toLocaleString()} square feet`}.`
-          : `Estimated total ${quoteTotalLabel}, based on ${bathsDominate ? bathCountLabel : breakdownSqftLabel}.`
+          : `Estimated total ${quoteTotalLabel}, based on ${bathsDominate ? bathCountLabel : sizeLabel}.`
     );
+
+    if (conditionBands) {
+      parts.push(
+        `Your final price depends on the condition of the home at your walkthrough. Light buildup ${moneyLabel(conditionBands[0].low)} to ${moneyLabel(conditionBands[0].high)}. Moderate buildup, most common, ${moneyLabel(conditionBands[1].low)} to ${moneyLabel(conditionBands[1].high)}. Heavy buildup ${moneyLabel(conditionBands[2].low)} to ${moneyLabel(conditionBands[2].high)}. We'll assess your home's condition during your walkthrough and confirm your final price before cleaning begins.`
+      );
+    }
 
     if (!result.isLargeJob) {
       parts.push(
@@ -688,17 +708,14 @@ export default function QuoteCalculator({
     return parts.join(" ");
   }, [
     result,
-    breakdownSqftLabel,
+    sizeLabel,
     quoteTotalLabel,
     bathsDominate,
     bathCountLabel,
+    conditionBands,
   ]);
 
-  const quoteResultsA11yText = useMemo(
-    () =>
-      `Breakdown. ${breakdownA11yText} Your quote. ${summaryA11yText}`,
-    [breakdownA11yText, summaryA11yText]
-  );
+  const quoteResultsA11yText = summaryA11yText;
 
   const roomsHintId = "quote-rooms-hint";
   const sqftHintId = "quote-sqft-hint";
@@ -709,11 +726,9 @@ export default function QuoteCalculator({
   const promoHintId = "quote-promo-hint";
   const promoErrorId = "quote-promo-error";
   const promoSuccessId = "quote-promo-success";
-  const breakdownHeadingId = "quote-breakdown-heading";
   const quoteHeadingId = "quote-summary-heading";
   const quoteResultsHeadingId = "quote-results-heading";
   const quoteResultsDescId = "quote-results-a11y-desc";
-  const quoteBreakdownA11yId = "quote-breakdown-a11y";
   const quoteSummaryA11yId = "quote-summary-a11y";
 
   function focusQuoteContactButton(e) {
@@ -750,55 +765,64 @@ export default function QuoteCalculator({
     <section
       id="quote-calculator"
       aria-labelledby="quote-calculator-heading"
-      className="mx-auto max-w-4xl rounded-3xl border border-amber-200 bg-white p-6 shadow-sm md:p-8"
+      className="mx-auto max-w-3xl px-4"
     >
       <h2
         id="quote-calculator-heading"
         tabIndex={-1}
-        className={`text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
+        className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
       >
         {title}
       </h2>
 
-      <p id="quote-calculator-desc" className="mt-1 text-stone-600">
+      <p id="quote-calculator-desc" className="mt-3 text-center text-sm leading-relaxed text-stone-600 md:text-base">
         {subtitle ||
           "Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."}
       </p>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <fieldset className="rounded-2xl border p-4">
-          <legend className={`${QUOTE_SECTION_LABEL} px-1`}>
+      <div className="mt-8 space-y-5">
+        <fieldset className={QUOTE_CARD} aria-labelledby="quote-step-1-heading">
+          <legend className="sr-only">Bedrooms and bathrooms</legend>
+          <QuoteStepHeader step={1} id="quote-step-1-heading">
             Bedrooms &amp; Bathrooms
-          </legend>
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            <NumberField
-              label="Bedrooms"
-              value={bedrooms}
-              setValue={setBedrooms}
-              min={0}
-              showStepper
-              describedBy={roomsHintId}
-            />
-            <NumberField
-              label="Bathrooms"
-              value={bathrooms}
-              setValue={setBathrooms}
-              min={0}
-              step={0.5}
-              showStepper
-              describedBy={roomsHintId}
-            />
+          </QuoteStepHeader>
+          <div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-start">
+            <div className="min-w-0 pr-4 sm:pr-10">
+              <NumberField
+                label="Bedrooms"
+                value={bedrooms}
+                setValue={setBedrooms}
+                min={0}
+                showStepper
+                describedBy={roomsHintId}
+              />
+            </div>
+            <div className="w-px self-stretch bg-stone-200" aria-hidden />
+            <div className="min-w-0 pl-4 sm:pl-10">
+              <NumberField
+                label="Bathrooms"
+                value={bathrooms}
+                setValue={setBathrooms}
+                min={0}
+                step={0.5}
+                showStepper
+                describedBy={roomsHintId}
+              />
+            </div>
           </div>
-          <p id={roomsHintId} className="mt-2 text-xs text-stone-500">
-            Select how many bedrooms and bathrooms you’d like us to care for.
-            We’ll estimate your home’s size from this so your quote reflects the
+          <p id={roomsHintId} className={QUOTE_HINT}>
+            Select how many bedrooms and bathrooms you&apos;d like us to care for.
+            We&apos;ll estimate your home&apos;s size from this so your quote reflects the
             right amount of time and attention.
           </p>
         </fieldset>
 
-        <fieldset className="rounded-2xl border p-4">
-          <legend className={`${QUOTE_SECTION_LABEL} px-1`}>Square Feet</legend>
-          <div className="mt-4">
+        <fieldset className={QUOTE_CARD} aria-labelledby="quote-step-2-heading">
+          <legend className="sr-only">Square feet</legend>
+          <QuoteStepHeader step={2} id="quote-step-2-heading">
+            Square Feet
+          </QuoteStepHeader>
+          <div className="mt-6">
             <NumberField
               label="Total Sq Ft"
               value={sqft}
@@ -811,20 +835,20 @@ export default function QuoteCalculator({
                   : sqftHintId
               }
             />
-            <p id={sqftHintId} className="mt-1 text-xs text-stone-500">
-              Enter your best estimate. We’ll use this as your home size. If our
-              bedroom-based estimate is larger, we’ll quote a range so you’re
+            <p id={sqftHintId} className={QUOTE_HINT}>
+              Enter your best estimate. We&apos;ll use this as your home size. If our
+              bedroom-based estimate is larger, we&apos;ll quote a range so you&apos;re
               covered if square footage was understated.
             </p>
 
             {result.sqftInput > 0 && result.estSqft > result.sqftInput && (
-              <p id={sqftRangeHintId} className="mt-1 text-xs text-stone-500">
+              <p id={sqftRangeHintId} className="mt-2 text-sm leading-relaxed text-stone-500">
                 Your entry is{" "}
-                <span className="font-medium">
+                <span className="font-medium text-stone-700">
                   {result.sqftInput.toLocaleString()} sq ft
                 </span>
-                . Based on bedrooms, we’d estimate about{" "}
-                <span className="font-medium">
+                . Based on bedrooms, we&apos;d estimate about{" "}
+                <span className="font-medium text-stone-700">
                   {result.estSqft.toLocaleString()} sq ft
                 </span>
                 , so this quote uses that higher end too.
@@ -832,12 +856,13 @@ export default function QuoteCalculator({
             )}
           </div>
         </fieldset>
-      </div>
 
-      <fieldset className="mt-6 rounded-2xl border p-4 relative">
-        <legend className={`${QUOTE_SECTION_LABEL} px-1`}>Cleaning options</legend>
-        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-          <div>
+        <fieldset className={QUOTE_CARD} aria-labelledby="quote-step-3-heading">
+          <legend className="sr-only">Cleaning options</legend>
+          <QuoteStepHeader step={3} id="quote-step-3-heading">
+            Cleaning Options
+          </QuoteStepHeader>
+          <div className="mt-6">
             <span id={cleanTypeLabelId} className={`${QUOTE_FIELD_LABEL} block`}>
               Clean Type
             </span>
@@ -854,7 +879,7 @@ export default function QuoteCalculator({
                 { value: "move_out", label: "Move-In / Move-Out" },
               ]}
             />
-            <p id={cleanTypeTipId} className="mt-1 text-[11px] text-stone-500">
+            <p id={cleanTypeTipId} className={QUOTE_HINT}>
               View our{" "}
               <a
                 href="/residential/services"
@@ -864,65 +889,69 @@ export default function QuoteCalculator({
               </a>{" "}
               for details on what each clean type includes.
             </p>
-            <p id={cleanTypeNoteId} className="mt-1 text-[11px] text-stone-500">
+            <p id={cleanTypeNoteId} className="mt-2 text-sm italic leading-relaxed text-stone-500">
               Note: <em>Standard cleans</em> are reserved for recurring customers
               or homes that have had a professional cleaning within the past 2–4
               weeks.
             </p>
-          </div>
 
-          <div>
-            <label htmlFor="promo-code" className={`${QUOTE_FIELD_LABEL} block`}>
-              Promo code
-            </label>
-            <div className="mt-1 flex gap-2">
-              <input
-                id="promo-code"
-                type="text"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                placeholder="Enter code"
-                className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                inputMode="text"
-                autoCapitalize="characters"
-                aria-invalid={promoError ? true : undefined}
-                aria-describedby={
-                  [
-                    promoHintId,
-                    promoError ? promoErrorId : null,
-                    promoValid && !promoError ? promoSuccessId : null,
-                  ]
-                    .filter(Boolean)
-                    .join(" ") || undefined
-                }
-              />
+            <div className="mt-6 border-t border-stone-200 pt-6">
+              <label htmlFor="promo-code" className={`${QUOTE_FIELD_LABEL} block`}>
+                Promo code
+              </label>
+              <div className="mt-2">
+                <input
+                  id="promo-code"
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Enter code"
+                  className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                  inputMode="text"
+                  autoCapitalize="characters"
+                  aria-invalid={promoError ? true : undefined}
+                  aria-describedby={
+                    [
+                      promoHintId,
+                      promoError ? promoErrorId : null,
+                      promoValid && !promoError ? promoSuccessId : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" ") || undefined
+                  }
+                />
+              </div>
+              {promoError && (
+                <p id={promoErrorId} role="alert" className="mt-2 text-xs text-red-600">
+                  {promoError}
+                </p>
+              )}
+              {promoValid && !promoError && (
+                <p id={promoSuccessId} className="mt-2 text-xs text-green-700">
+                  Code applied: minus $50
+                </p>
+              )}
+              <p id={promoHintId} className="mt-2 text-sm text-stone-500">
+                Applies to Deep Clean only. Discount reduces the estimated total.
+              </p>
             </div>
-            {promoError && (
-              <p id={promoErrorId} role="alert" className="mt-1 text-xs text-red-600">
-                {promoError}
-              </p>
-            )}
-            {promoValid && !promoError && (
-              <p id={promoSuccessId} className="mt-1 text-xs text-green-700">
-                Code applied: minus $50
-              </p>
-            )}
-            <p id={promoHintId} className="mt-1 text-[11px] text-stone-500">
-              Applies to Deep Clean only. Discount reduces the estimated total.
-            </p>
           </div>
-        </div>
+        </fieldset>
 
-        <div className="mt-4 border-t pt-3 text-sm">
-          <span id="quote-addons-label" className={`${QUOTE_FIELD_LABEL} mb-2 block font-medium`}>
-            Optional add-ons
-          </span>
+        <fieldset className={QUOTE_CARD} aria-labelledby="quote-step-4-heading">
+          <legend className="sr-only">Optional add-ons</legend>
+          <QuoteStepHeader step={4} id="quote-step-4-heading">
+            Add-Ons (Optional)
+          </QuoteStepHeader>
           <div
             role="group"
             aria-labelledby="quote-addons-label"
-            className="space-y-2 text-xs text-stone-700"
+            className="mt-6 space-y-3 text-sm text-stone-700"
           >
-            <div className="flex items-start gap-2">
+            <span id="quote-addons-label" className="sr-only">
+              Optional add-ons
+            </span>
+            <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
               <input
                 id="addon-fridge"
                 type="checkbox"
@@ -931,14 +960,14 @@ export default function QuoteCalculator({
                 className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
               />
               <label htmlFor="addon-fridge">
-                <span className="font-medium">Inside fridge</span>{" "}
+                <span className="font-medium text-stone-900">Inside fridge</span>{" "}
                 <span className="text-stone-500">
                   (+${ADDON_FRIDGE_PRICE}, adds approximately 30 to 75 minutes)
                 </span>
               </label>
             </div>
 
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
               <input
                 id="addon-oven"
                 type="checkbox"
@@ -947,14 +976,14 @@ export default function QuoteCalculator({
                 className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
               />
               <label htmlFor="addon-oven">
-                <span className="font-medium">Inside oven</span>{" "}
+                <span className="font-medium text-stone-900">Inside oven</span>{" "}
                 <span className="text-stone-500">
                   (+${ADDON_OVEN_PRICE}, adds approximately 30 to 75 minutes)
                 </span>
               </label>
             </div>
 
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
               <input
                 id="addon-second-kitchen"
                 type="checkbox"
@@ -963,7 +992,7 @@ export default function QuoteCalculator({
                 className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
               />
               <label htmlFor="addon-second-kitchen">
-                <span className="font-medium">Second full kitchen</span>{" "}
+                <span className="font-medium text-stone-900">Second full kitchen</span>{" "}
                 <span className="text-stone-500">
                   (+${ADDON_SECOND_KITCHEN_FEE_LOW}–${ADDON_SECOND_KITCHEN_FEE_HIGH}+, adds
                   approximately 60 to 90 minutes)
@@ -971,8 +1000,8 @@ export default function QuoteCalculator({
               </label>
             </div>
           </div>
-        </div>
-      </fieldset>
+        </fieldset>
+      </div>
 
       <div
         id="quote-results"
@@ -991,280 +1020,13 @@ export default function QuoteCalculator({
           {quoteResultsA11yText}
         </p>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <section
-            aria-labelledby={breakdownHeadingId}
-            aria-describedby={quoteBreakdownA11yId}
-            className="rounded-2xl border p-4"
-          >
-            <h3 id={breakdownHeadingId} className={QUOTE_SECTION_LABEL}>
-              Breakdown
-            </h3>
-            <p id={quoteBreakdownA11yId} className="sr-only">
-              {breakdownA11yText}
-            </p>
-            <ul
-              aria-hidden="true"
-              className="mt-3 space-y-1 text-sm text-stone-700"
-            >
-              <li className="flex justify-between gap-3">
-                <span>
-                  {bathsDominate
-                    ? "Bathroom sq ft used for estimate"
-                    : "Home size used for estimate"}
-                </span>
-                <span className="shrink-0 tabular-nums text-right">
-                  {bathsDominate
-                    ? bathEstimateLabel
-                    : hasSqftRange
-                      ? `${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()} sq ft`
-                      : `${result.sqftHigh.toLocaleString()} sq ft`}
-                </span>
-              </li>
-
-              {result.minOnLowOnly ? (
-                <>
-                  <li className="flex justify-between gap-3">
-                    <span>
-                      Minimum visit charge{" "}
-                      <span className="text-stone-500">(low end)</span>
-                    </span>
-                    <span className="shrink-0 tabular-nums">
-                      ${result.minCharge.toLocaleString()}
-                    </span>
-                  </li>
-                  {hasBathCare ? (
-                    bathsDominate ? (
-                      <li className="flex justify-between gap-3">
-                        <span>
-                          Bathroom care{" "}
-                          <span className="text-stone-500">
-                            (high end · {result.bathrooms}{" "}
-                            {result.bathrooms === 1 ? "bath" : "baths"} × ~
-                            {FULL_BATH_SQFT} sq ft @{" "}
-                            {formatRatePerSqft(
-                              result.bathRateLow,
-                              result.bathRateHigh
-                            )}
-                            )
-                          </span>
-                        </span>
-                        <span className="shrink-0 tabular-nums">
-                          ${result.displayBathPriceHigh.toLocaleString()}
-                        </span>
-                      </li>
-                    ) : (
-                      <>
-                        <li className="flex justify-between gap-3">
-                          <span>
-                            Living space{" "}
-                            <span className="text-stone-500">
-                              (high end ·{" "}
-                              {formatRatePerSqft(
-                                result.ratePerSqftLow,
-                                result.ratePerSqftHigh
-                              )}{" "}
-                              × {result.livingSqftHigh.toLocaleString()} sq ft)
-                            </span>
-                          </span>
-                          <span className="shrink-0 tabular-nums">
-                            ${result.livingPriceHigh.toLocaleString()}
-                          </span>
-                        </li>
-                        <li className="flex justify-between gap-3">
-                          <span>
-                            Bathroom care{" "}
-                            <span className="text-stone-500">
-                              (high end · {result.bathrooms}{" "}
-                              {result.bathrooms === 1 ? "bath" : "baths"} × ~
-                              {FULL_BATH_SQFT} sq ft @{" "}
-                              {formatRatePerSqft(
-                                result.bathRateLow,
-                                result.bathRateHigh
-                              )}
-                              )
-                            </span>
-                          </span>
-                          <span className="shrink-0 tabular-nums">
-                            ${result.bathPriceHigh.toLocaleString()}
-                          </span>
-                        </li>
-                      </>
-                    )
-                  ) : (
-                    <li className="flex justify-between gap-3">
-                      <span>
-                        Base cleaning{" "}
-                        <span className="text-stone-500">
-                          (high end ·{" "}
-                          {formatRatePerSqft(
-                            result.ratePerSqftLow,
-                            result.ratePerSqftHigh
-                          )}{" "}
-                          × {result.sqftHigh.toLocaleString()} sq ft)
-                        </span>
-                      </span>
-                      <span className="shrink-0 tabular-nums">
-                        ${result.baseLaborCoreHigh.toLocaleString()}
-                      </span>
-                    </li>
-                  )}
-                </>
-              ) : result.usesMinCharge ? (
-                <li className="flex justify-between gap-3">
-                  <span>Minimum visit charge</span>
-                  <span className="shrink-0 tabular-nums">
-                    {formatMoneyRange(
-                      result.baseLaborCoreLow,
-                      result.baseLaborCoreHigh
-                    )}
-                  </span>
-                </li>
-              ) : hasBathCare ? (
-                bathsDominate ? (
-                  <li className="flex justify-between gap-3">
-                    <span>
-                      Bathroom care{" "}
-                      <span className="text-stone-500">
-                        ({result.bathrooms}{" "}
-                        {result.bathrooms === 1 ? "bath" : "baths"} × ~
-                        {FULL_BATH_SQFT} sq ft @{" "}
-                        {formatRatePerSqft(
-                          result.bathRateLow,
-                          result.bathRateHigh
-                        )}
-                        )
-                      </span>
-                    </span>
-                    <span className="shrink-0 tabular-nums">
-                      {formatMoneyRange(
-                        result.displayBathPriceLow,
-                        result.displayBathPriceHigh
-                      )}
-                    </span>
-                  </li>
-                ) : (
-                  <>
-                    <li className="flex justify-between gap-3">
-                      <span>
-                        Living space{" "}
-                        <span className="text-stone-500">
-                          ({formatRatePerSqft(
-                            result.ratePerSqftLow,
-                            result.ratePerSqftHigh
-                          )}{" "}
-                          × {formatSqftRange(result.livingSqftLow, result.livingSqftHigh)})
-                        </span>
-                      </span>
-                      <span className="shrink-0 tabular-nums">
-                        {formatMoneyRange(
-                          result.livingPriceLow,
-                          result.livingPriceHigh
-                        )}
-                      </span>
-                    </li>
-                    <li className="flex justify-between gap-3">
-                      <span>
-                        Bathroom care{" "}
-                        <span className="text-stone-500">
-                          ({result.bathrooms}{" "}
-                          {result.bathrooms === 1 ? "bath" : "baths"} × ~
-                          {FULL_BATH_SQFT} sq ft @{" "}
-                          {formatRatePerSqft(
-                            result.bathRateLow,
-                            result.bathRateHigh
-                          )}
-                          )
-                        </span>
-                      </span>
-                      <span className="shrink-0 tabular-nums">
-                        {formatMoneyRange(
-                          result.bathPriceLow,
-                          result.bathPriceHigh
-                        )}
-                      </span>
-                    </li>
-                  </>
-                )
-              ) : (
-                <li className="flex justify-between gap-3">
-                  <span>
-                    Base cleaning{" "}
-                    <span className="text-stone-500">
-                      ({formatRatePerSqft(
-                        result.ratePerSqftLow,
-                        result.ratePerSqftHigh
-                      )}
-                      {result.sqftLow === result.sqftHigh
-                        ? ` × ${result.sqftHigh.toLocaleString()}`
-                        : ` × ${result.sqftLow.toLocaleString()}–${result.sqftHigh.toLocaleString()}`}
-                      {" "}sq ft)
-                    </span>
-                  </span>
-                  <span className="shrink-0 tabular-nums">
-                    {formatMoneyRange(
-                      result.baseLaborCoreLow,
-                      result.baseLaborCoreHigh
-                    )}
-                  </span>
-                </li>
-              )}
-
-              {result.addonFridge && (
-                <li className="flex justify-between">
-                  <span>Inside fridge add-on</span>
-                  <span className="tabular-nums">+${ADDON_FRIDGE_PRICE}</span>
-                </li>
-              )}
-              {result.addonOven && (
-                <li className="flex justify-between">
-                  <span>Inside oven add-on</span>
-                  <span className="tabular-nums">+${ADDON_OVEN_PRICE}</span>
-                </li>
-              )}
-              {result.addonSecondKitchen && (
-                <li className="flex justify-between gap-3">
-                  <span>
-                    Second full kitchen{" "}
-                    <span className="text-stone-500">(~60–90 min)</span>
-                  </span>
-                  <span className="shrink-0 tabular-nums">
-                    +${result.secondKitchenFeeLow}–${result.secondKitchenFeeHigh}+
-                  </span>
-                </li>
-              )}
-
-              {promoValid && (
-                <li className="flex justify-between text-emerald-800">
-                  <span>Promo (GOLDENWELCOME)</span>
-                  <span className="tabular-nums">
-                    −${result.promoDiscount.toLocaleString()}
-                  </span>
-                </li>
-              )}
-            </ul>
-
-            <div className="mt-4 border-t border-stone-200 pt-3">
-              <p className="text-sm font-medium text-stone-800">
-                Why is pricing shown as a range?
-              </p>
-              <p className="mt-1 text-xs text-stone-600">
-                The price per square foot varies based on your home&apos;s
-                condition. Buildup, dust, grease, pet hair, and other factors can
-                affect the overall size and scope of the cleaning. Bathrooms also
-                need denser care, so they&apos;re priced at a higher rate than
-                living areas.
-              </p>
-            </div>
-          </section>
-
-          <section
-            aria-labelledby={quoteHeadingId}
-            aria-describedby={quoteSummaryA11yId}
-            className="rounded-2xl border p-4 bg-amber-50/60"
-          >
+        <section
+          aria-labelledby={quoteHeadingId}
+          aria-describedby={quoteSummaryA11yId}
+          className={`${QUOTE_CARD} bg-[#fffbea]`}
+        >
             <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-              Your quote
+              Your estimated quote
             </h3>
             <p id={quoteSummaryA11yId} className="sr-only">
               {summaryA11yText}
@@ -1281,37 +1043,20 @@ export default function QuoteCalculator({
                       )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
                   </p>
 
-                  <p className="mt-1 text-xs text-stone-600">
-                    {result.fullyAtMinimum ? (
-                      <>Minimum visit charge.</>
-                    ) : result.minOnLowOnly ? (
-                      <>
-                        Low end is our minimum visit charge; high end based on{" "}
-                        {bathsDominate
-                          ? bathCountLabel
-                          : `${result.sqftHigh.toLocaleString()} sq ft`}
-                        .
-                      </>
-                    ) : bathsDominate ? (
-                      <>Estimated based on {bathCountLabel}.</>
-                    ) : hasSqftRange ? (
-                      <>
-                        Estimated range based on{" "}
-                        {result.sqftLow.toLocaleString()}–
-                        {result.sqftHigh.toLocaleString()} sq ft.
-                      </>
-                    ) : (
-                      <>
-                        Estimated based on{" "}
-                        {result.sqftHigh.toLocaleString()} sq ft.
-                      </>
-                    )}
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                    Your final price depends on the condition of the home at your
+                    walkthrough.
                   </p>
                 </div>
               </div>
 
+              <ConditionRangeVisual
+                low={result.totalAfterPromoLow}
+                high={result.totalAfterPromoHigh}
+              />
+
               {!result.isLargeJob && (
-                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3">
+                <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4">
                   <div className="text-sm text-stone-800">
                     Estimated cleaning time on site:{" "}
                     <span className="font-medium tabular-nums">
@@ -1337,7 +1082,7 @@ export default function QuoteCalculator({
               )}
 
               {result.isLargeJob && (
-                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/40 p-3 text-xs text-stone-700">
+                <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4 text-xs text-stone-700">
                   This is a larger project. For accurate scheduling, please call us
                   to book so we can plan enough time and team support.
                 </div>
@@ -1357,7 +1102,7 @@ export default function QuoteCalculator({
                     type="button"
                     onClick={onScheduleClick}
                     onKeyDown={focusQuoteContactButton}
-                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-[#333333] px-4 py-3 text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300`}
                     aria-label="Schedule this cleaning"
                   >
                     Schedule This Cleaning
@@ -1450,7 +1195,6 @@ export default function QuoteCalculator({
               )}
             </div>
           </section>
-        </div>
       </div>
     </section>
   );

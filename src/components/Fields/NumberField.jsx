@@ -1,6 +1,9 @@
 import { QUOTE_FIELD_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 
+const INPUT_CLASS =
+  "w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-300";
+
 export default function NumberField({
   label,
   value,
@@ -48,11 +51,8 @@ export default function NumberField({
     setValue(clamp(next));
   };
 
-  const btnClass =
-    "inline-flex shrink-0 items-center justify-center rounded-xl border border-stone-300 bg-white px-3 py-2 text-lg font-semibold leading-none text-stone-700 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:cursor-not-allowed disabled:opacity-40";
-
-  const inputClass =
-    "min-w-0 flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300";
+  const stepperBtnClass =
+    "flex w-9 shrink-0 items-center justify-center bg-white text-base font-medium leading-none text-stone-700 transition hover:bg-stone-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-300 disabled:cursor-not-allowed disabled:opacity-40";
 
   const inputProps = {
     id: fieldId,
@@ -66,13 +66,13 @@ export default function NumberField({
 
   const inner = showStepper ? (
     <div
-      className="mt-1 flex items-stretch gap-2"
+      className="inline-flex w-full max-w-[156px] overflow-hidden rounded-xl border border-stone-200 bg-white"
       role="group"
       aria-labelledby={`${fieldId}-label`}
     >
       <button
         type="button"
-        className={btnClass}
+        className={`${stepperBtnClass} border-r border-stone-200`}
         aria-label={`Decrease ${label}`}
         disabled={value <= min}
         onClick={decrement}
@@ -96,11 +96,11 @@ export default function NumberField({
             setValue(snapToStep(parseInput(e.target.value)));
           }
         }}
-        className={inputClass}
+        className="min-w-0 flex-1 border-0 bg-transparent px-1 py-2 text-center text-sm text-stone-900 focus:outline-none focus:ring-0"
       />
       <button
         type="button"
-        className={btnClass}
+        className={`${stepperBtnClass} border-l border-stone-200`}
         aria-label={`Increase ${label}`}
         onClick={increment}
       >
@@ -119,12 +119,12 @@ export default function NumberField({
           setValue(parseInput(raw));
         }
       }}
-      className={`mt-1 w-full ${inputClass}`}
+      className={`${INPUT_CLASS}`}
     />
   );
 
   return (
-    <div className="block text-sm">
+    <div className="flex flex-col gap-3 text-sm">
       <label id={`${fieldId}-label`} htmlFor={fieldId} className={QUOTE_FIELD_LABEL}>
         {label}
       </label>
