@@ -30,7 +30,7 @@ export default function Hero() {
 
             <p className="mt-3 text-stone-700 lg:text-base">
               Golden Hour brings meticulous, non-toxic cleaning with a calm, grounded presence.
-              Designed for high-performing households and boutique rentals who value immaculate results,
+              Designed for busy households and boutique rentals who value immaculate results,
               instant online booking, and a team that treats your space like a sanctuary.
             </p>
 
@@ -41,9 +41,22 @@ export default function Hero() {
                   e.preventDefault();
                   scrollToId('#quote', 8);
                 }}
-                className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl bg-[#333333] px-5 py-3 text-sm font-medium text-white shadow hover:bg-[#dcbb52] hover:text-[#333333] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
               >
                 Get My Instant Quote
+              </button>
+            </div>
+
+            <div className="mt-3 text-center lg:text-left">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId('#services', 8);
+                }}
+                className="text-sm text-stone-600 underline underline-offset-4 hover:text-stone-900"
+              >
+                Learn about our services →
               </button>
             </div>
 
