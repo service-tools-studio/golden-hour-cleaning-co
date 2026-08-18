@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Check } from "lucide-react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
@@ -300,6 +301,13 @@ export default function QuoteCalculator({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialLevel]);
 
+  useEffect(() => {
+    if (cleanType === "move_out") {
+      setIncludeFridge(false);
+      setIncludeOven(false);
+    }
+  }, [cleanType]);
+
   // Promo validation (client-side UX)
   useEffect(() => {
     if (!promoCode) {
@@ -380,13 +388,15 @@ export default function QuoteCalculator({
     let secondKitchenFeeLow = 0;
     let secondKitchenFeeHigh = 0;
 
-    if (includeFridge) {
+    const moveOutIncludesFridgeOven = cleanType === "move_out";
+
+    if (includeFridge && !moveOutIncludesFridgeOven) {
       addonHoursLow += ADDON_FRIDGE_HOURS_LOW;
       addonHoursHigh += ADDON_FRIDGE_HOURS_HIGH;
       addonFlat += ADDON_FRIDGE_PRICE;
     }
 
-    if (includeOven) {
+    if (includeOven && !moveOutIncludesFridgeOven) {
       addonHoursLow += ADDON_OVEN_HOURS_LOW;
       addonHoursHigh += ADDON_OVEN_HOURS_HIGH;
       addonFlat += ADDON_OVEN_PRICE;
@@ -623,8 +633,8 @@ export default function QuoteCalculator({
       cleanType,
       ecoProducts: true,
 
-      addonFridge: includeFridge,
-      addonOven: includeOven,
+      addonFridge: moveOutIncludesFridgeOven || includeFridge,
+      addonOven: moveOutIncludesFridgeOven || includeOven,
       addonSecondKitchen: includeSecondKitchen,
       secondKitchenFeeLow: clampCurrency(secondKitchenFeeLow),
       secondKitchenFeeHigh: clampCurrency(secondKitchenFeeHigh),
@@ -943,45 +953,93 @@ export default function QuoteCalculator({
           <QuoteStepHeader step={4} id="quote-step-4-heading">
             Add-Ons (Optional)
           </QuoteStepHeader>
+          {cleanType === "move_out" && (
+            <p className="mt-4 text-sm leading-relaxed text-stone-600">
+              Inside fridge and inside oven are included with move-in / move-out
+              cleaning.
+            </p>
+          )}
           <div
             role="group"
             aria-labelledby="quote-addons-label"
-            className="mt-6 space-y-3 text-sm text-stone-700"
+            className={`space-y-3 text-sm text-stone-700 ${cleanType === "move_out" ? "mt-4" : "mt-6"}`}
           >
             <span id="quote-addons-label" className="sr-only">
               Optional add-ons
             </span>
-            <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
-              <input
-                id="addon-fridge"
-                type="checkbox"
-                checked={includeFridge}
-                onChange={(e) => setIncludeFridge(e.target.checked)}
-                className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
-              />
-              <label htmlFor="addon-fridge">
-                <span className="font-medium text-stone-900">Inside fridge</span>{" "}
-                <span className="text-stone-500">
-                  (+${ADDON_FRIDGE_PRICE}, adds approximately 30 to 75 minutes)
-                </span>
-              </label>
-            </div>
+            {cleanType === "move_out" ? (
+              <>
+                <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50/30 px-4 py-3">
+                  <span
+                    className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border border-amber-300 bg-amber-100 text-amber-900"
+                    aria-hidden
+                  >
+                    <Check className="h-3 w-3" strokeWidth={3} />
+                  </span>
+                  <div>
+                    <span className="font-medium text-stone-900">Inside fridge</span>{" "}
+                    <span className="text-xs font-semibold uppercase tracking-wide text-[#b8952e]">
+                      Included
+                    </span>
+                    <p className="mt-0.5 text-stone-500">
+                      Included with move-in / move-out cleaning.
+                    </p>
+                  </div>
+                </div>
 
-            <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
-              <input
-                id="addon-oven"
-                type="checkbox"
-                checked={includeOven}
-                onChange={(e) => setIncludeOven(e.target.checked)}
-                className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
-              />
-              <label htmlFor="addon-oven">
-                <span className="font-medium text-stone-900">Inside oven</span>{" "}
-                <span className="text-stone-500">
-                  (+${ADDON_OVEN_PRICE}, adds approximately 30 to 75 minutes)
-                </span>
-              </label>
-            </div>
+                <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50/30 px-4 py-3">
+                  <span
+                    className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border border-amber-300 bg-amber-100 text-amber-900"
+                    aria-hidden
+                  >
+                    <Check className="h-3 w-3" strokeWidth={3} />
+                  </span>
+                  <div>
+                    <span className="font-medium text-stone-900">Inside oven</span>{" "}
+                    <span className="text-xs font-semibold uppercase tracking-wide text-[#b8952e]">
+                      Included
+                    </span>
+                    <p className="mt-0.5 text-stone-500">
+                      Included with move-in / move-out cleaning.
+                    </p>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
+                  <input
+                    id="addon-fridge"
+                    type="checkbox"
+                    checked={includeFridge}
+                    onChange={(e) => setIncludeFridge(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
+                  />
+                  <label htmlFor="addon-fridge">
+                    <span className="font-medium text-stone-900">Inside fridge</span>{" "}
+                    <span className="text-stone-500">
+                      (+${ADDON_FRIDGE_PRICE}, adds approximately 30 to 75 minutes)
+                    </span>
+                  </label>
+                </div>
+
+                <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
+                  <input
+                    id="addon-oven"
+                    type="checkbox"
+                    checked={includeOven}
+                    onChange={(e) => setIncludeOven(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
+                  />
+                  <label htmlFor="addon-oven">
+                    <span className="font-medium text-stone-900">Inside oven</span>{" "}
+                    <span className="text-stone-500">
+                      (+${ADDON_OVEN_PRICE}, adds approximately 30 to 75 minutes)
+                    </span>
+                  </label>
+                </div>
+              </>
+            )}
 
             <div className="flex items-start gap-3 rounded-xl border border-stone-200 bg-stone-50/40 px-4 py-3">
               <input
