@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check } from "lucide-react";
+import { AlertTriangle, Check } from "lucide-react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
@@ -917,7 +917,11 @@ export default function QuoteCalculator({
             <SelectField
               id={quoteFieldId("clean-type")}
               labelledBy={cleanTypeLabelId}
-              describedBy={`${cleanTypeTipId} ${cleanTypeNoteId}`}
+              describedBy={
+                cleanType === "standard"
+                  ? `${cleanTypeTipId} ${cleanTypeNoteId}`
+                  : cleanTypeTipId
+              }
               value={cleanType}
               setValue={setCleanType}
               options={[
@@ -936,11 +940,23 @@ export default function QuoteCalculator({
               </a>{" "}
               for details on what each clean type includes.
             </p>
-            <p id={cleanTypeNoteId} className="mt-2 text-sm italic leading-relaxed text-stone-500">
-              Note: <em>Standard cleans</em> are reserved for recurring customers
-              or homes that have had a professional cleaning within the past 2–4
-              weeks.
-            </p>
+            {cleanType === "standard" && (
+              <div
+                id={cleanTypeNoteId}
+                role="note"
+                className="mt-3 flex gap-3 rounded-xl border border-amber-300 bg-amber-200 px-4 py-3"
+              >
+                <AlertTriangle
+                  className="mt-0.5 h-5 w-5 shrink-0 text-amber-800"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+                <p className="text-sm leading-relaxed text-amber-950">
+                  Note: Standard cleans are reserved for recurring customers or homes
+                  that have had a professional cleaning within the past 2–4 weeks.
+                </p>
+              </div>
+            )}
 
             <div className="mt-6 border-t border-stone-200 pt-6">
               <label htmlFor="promo-code" className={`${QUOTE_FIELD_LABEL} block`}>
