@@ -12,9 +12,7 @@ export default function DeepCleanPageContent({
   return (
     <>
       <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">
-        ~$0.26–$0.40/sq ft • full-home reset
-      </p>
+      <p className="text-sm font-medium text-stone-500">Full-home reset</p>
       <p className="mt-1 text-xs text-stone-500">
         Range depends on home condition. Final price confirmed after a quick
         walkthrough.
@@ -47,9 +45,7 @@ export default function DeepCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our deep cleaning service targets the buildup, dust, grime, and
           overlooked areas that naturally accumulate over time, leaving your home
-          feeling refreshed from top to bottom. Pricing is by the square foot
-          ($0.26–$0.40 depending on condition), bathrooms are priced at a higher
-          rate for denser care, and we use eco-friendly products whenever
+          feeling refreshed from top to bottom. We use eco-friendly products whenever
           possible. Stronger conventional products may be used when heavy buildup
           requires it.
         </p>
@@ -151,7 +147,7 @@ export default function DeepCleanPageContent({
 
       <Section title="What Makes a Deep Cleaning Different?">
         <p className="text-base leading-relaxed text-stone-700">
-          Standard cleaning (~$0.14–$0.20/sq ft) is reserved for recurring customers or
+          Standard cleaning is reserved for recurring customers or
           homes professionally cleaned within the past 2–4 weeks — it maintains a
           home that&apos;s already in good shape.
         </p>
@@ -211,7 +207,7 @@ export default function DeepCleanPageContent({
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
             question="How is deep cleaning priced?"
-            answer="We bill by the square foot at about $0.26–$0.40/sq ft depending on home condition. Bathrooms are priced at a higher rate for denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+            answer="You'll get an instant estimate online based on your home's size and condition. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="How long does a deep cleaning take?"
@@ -266,7 +262,7 @@ export default function DeepCleanPageContent({
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
           >
             Get a quote for Deep Clean
           </Link>
@@ -278,8 +274,7 @@ export default function DeepCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on square footage and service type. Bathrooms are
-          priced at a higher rate for denser care. Final price is confirmed after
+          Quotes are based on your home&apos;s size and service type. Final price is confirmed after
           a quick walkthrough.
         </p>
       </Section>

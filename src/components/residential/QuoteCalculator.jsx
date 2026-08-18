@@ -13,30 +13,23 @@ import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 
 /**
- * Golden Hour Cleaning Co. — Quote Calculator (Square Footage Pricing)
+ * Golden Hour Cleaning Co. — Quote Calculator
  *
  * Pricing model:
  * - Prefer the entered square footage as the floor
  * - Bedroom heuristic (base + beds × per bedroom) only when bedrooms > 0 and
  *   higher than the entry (guards understated size; does not pull large homes down)
- * - Standard home size uses $0.14–$0.20/sq ft; bathrooms use $0.22–$0.40/sq ft.
- *   Deep / move-out bathrooms use 2× the living $/sq ft when carved or when
- *   baths dominate home size
- * - Price (deep / move-out, typical): (home sq ft + baths × 150) × $/sq ft
- * - Breakdown: when baths fit in home size, show home remainder @ 1× and
- *   bathrooms @ denser rate (same dollars as the additive math for deep / move-out)
- * - When baths × 150 ≥ home size: price = (baths × 150) × bathroom $/sq ft;
- *   breakdown/subtitle emphasize bathroom care only
- * - Deep cleans use a condition-based rate range ($0.26–$0.40/sq ft)
+ * - Standard, deep, and move-out use separate living-area and bathroom rate bands
+ * - Price (deep / move-out, typical): (home sq ft + baths × 150) × rate
+ * - When baths × 150 ≥ home size: price uses bathroom rate only
+ * - Deep cleans use a condition-based rate range (low–high)
  * - Minimum base visit charge: standard $150, deep $250, move-out $350
- *   • Whenever the low-end sq-ft price is under the minimum: floor low only;
- *     high end stays $/sq ft (at least the minimum)
  * - Flat add-ons (fridge, oven, second kitchen) are added after
  *
  * Hours model (approximate, for scheduling only — does not set price):
  * - Convert size + bathrooms + add-ons + second kitchen into person-hours
  * - Bathrooms use a 1.5× time multiplier only when baths × 150 ≥ home size
- * - Deep cleans span productivity from ~346 sq ft/hr (straightforward) to ~225 (moderate)
+ * - Deep cleans span productivity bands from straightforward to moderate
  * - Scale cleaners so on-site duration stays at most ~4 hours
  *
  * Promo:
@@ -54,14 +47,14 @@ const DEEP_RATE_PER_SQFT_HIGH = 0.40; // 225 sq ft/hr
 const DEEP_SQFT_PER_HOUR_FAST = 90 / DEEP_RATE_PER_SQFT_LOW;
 const DEEP_SQFT_PER_HOUR_SLOW = 225;
 
-/** Public square-footage rates by clean type (low–high; same when fixed). */
+/** Internal living-area rates by clean type (low–high). */
 const RATE_PER_SQFT = {
   standard: { low: 0.14, high: 0.2 },
   deep: { low: DEEP_RATE_PER_SQFT_LOW, high: DEEP_RATE_PER_SQFT_HIGH },
   move_out: { low: 0.4, high: 0.5 },
 };
 
-/** Bathroom care $/sq ft by clean type (denser than living areas). */
+/** Bathroom care rates by clean type (denser than living areas). */
 const BATH_RATE_PER_SQFT = {
   standard: { low: 0.22, high: 0.4 },
   deep: { low: DEEP_RATE_PER_SQFT_LOW * 2, high: DEEP_RATE_PER_SQFT_HIGH * 2 },
@@ -76,7 +69,7 @@ const BATH_RATE_PER_SQFT = {
 const SQFT_PER_HOUR = {
   standard: { fast: 290 / 0.8, slow: 290 / 0.8 },
   deep: { fast: DEEP_SQFT_PER_HOUR_FAST, slow: DEEP_SQFT_PER_HOUR_SLOW },
-  move_out: { fast: 225, slow: 180 }, // $0.40 → $0.50
+  move_out: { fast: 225, slow: 180 },
 };
 
 const MIN_VISIT_HOURS_ONE_CLEANER = 2;
@@ -266,10 +259,46 @@ const QUOTE_CARD =
 
 const QUOTE_HINT = "mt-4 text-sm leading-relaxed text-stone-500";
 
+export const BOOKING_HEADER_BAND =
+  "relative w-screen max-w-[100vw] overflow-x-clip bg-[#a7eff1] [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]";
+
+function QuoteCalculatorIntro() {
+  return (
+    <div id="quote-calculator-desc" className="mt-4 text-center">
+      <p className="text-sm leading-relaxed text-stone-600 md:text-base">
+        See your estimated price in about 30 seconds,
+        <br />
+        then choose a cleaning time that works for you.
+      </p>
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-stone-600">
+        <span>⚡ Instant estimate</span>
+        <span>📅 Live availability</span>
+        <span>🔒 Secure booking</span>
+      </div>
+    </div>
+  );
+}
+
+export function QuoteCalculatorBookingHeader({ title }) {
+  return (
+    <>
+      <h2
+        id="quote-calculator-heading"
+        tabIndex={-1}
+        className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
+      >
+        {title}
+      </h2>
+      <QuoteCalculatorIntro />
+    </>
+  );
+}
+
 export default function QuoteCalculator({
   title,
   subtitle = '',
   initialLevel = "deep",
+  hideHeader = false,
 }) {
   const router = useRouter();
   const quoteContactBtnRef = useRef(null);
@@ -346,7 +375,7 @@ export default function QuoteCalculator({
     const bathroomUnits = snapBathroomUnits(bathrooms);
 
     // Heuristic sqft from beds only. No bedrooms entered → no size heuristic.
-    // Bathrooms add denser care as +150 sq ft each at the base $/sq ft rate.
+    // Bathrooms add denser care as +150 sq ft each at the base rate.
     const hasBedroomHeuristic = bedrooms > 0;
     const estSqft = hasBedroomHeuristic
       ? CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom
@@ -448,8 +477,7 @@ export default function QuoteCalculator({
       )} ${hoursUnit(onSiteRangeHigh)}`;
 
     // Price: normally (home + baths×150) × rate (deep / move-out).
-    // Standard bathrooms use $0.22–$0.40/sq ft. When baths dominate home size:
-    // (baths×150) × bathroom rate only.
+    // When baths dominate home size: (baths×150) × bathroom rate only.
     const bathRates = BATH_RATE_PER_SQFT[cleanType] ?? BATH_RATE_PER_SQFT.deep;
     const bathRateLow = bathRates.low;
     const bathRateHigh = bathRates.high;
@@ -491,7 +519,7 @@ export default function QuoteCalculator({
       basePriceLowRaw = bathPriceLow;
       basePriceHighRaw = bathPriceHigh;
     } else if (cleanType === "standard") {
-      // Home @ $0.14–$0.20 + bathrooms @ $0.22–$0.40
+      // Living areas + bathrooms at their respective rate bands
       billableSqftLow = Math.round(sqftLow + bathAreaSqft);
       billableSqftHigh = Math.round(sqftHigh + bathAreaSqft);
       livingPriceLow = clampCurrency(livingSqftLow * ratePerSqftLow);
@@ -533,7 +561,7 @@ export default function QuoteCalculator({
     let minOnLowOnly = false;
 
     if (lowBelowMin || highBelowMin) {
-      // Floor low end to minimum when under; high end stays $/sq ft (never below min)
+      // Floor low end to minimum when under; high end stays at computed rate
       baseLaborCoreLow = clampCurrency(Math.max(basePriceLowRaw, minCharge));
       baseLaborCoreHigh = clampCurrency(Math.max(basePriceHighRaw, minCharge));
       usesMinCharge = true;
@@ -777,20 +805,29 @@ export default function QuoteCalculator({
       aria-labelledby="quote-calculator-heading"
       className="mx-auto max-w-3xl px-4"
     >
-      <h2
-        id="quote-calculator-heading"
-        tabIndex={-1}
-        className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
-      >
-        {title}
-      </h2>
+      {!hideHeader &&
+        (subtitle ? (
+          <>
+            <h2
+              id="quote-calculator-heading"
+              tabIndex={-1}
+              className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
+            >
+              {title}
+            </h2>
+            <p id="quote-calculator-desc" className="mt-3 text-center text-sm leading-relaxed text-stone-600 md:text-base">
+              {subtitle}
+            </p>
+          </>
+        ) : (
+          <div className={`${BOOKING_HEADER_BAND} px-4 pb-8 pt-10`}>
+            <div className="mx-auto max-w-3xl">
+              <QuoteCalculatorBookingHeader title={title} />
+            </div>
+          </div>
+        ))}
 
-      <p id="quote-calculator-desc" className="mt-3 text-center text-sm leading-relaxed text-stone-600 md:text-base">
-        {subtitle ||
-          "Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."}
-      </p>
-
-      <div className="mt-8 space-y-5">
+      <div className={hideHeader ? "space-y-5" : "mt-8 space-y-5"}>
         <fieldset className={QUOTE_CARD} aria-labelledby="quote-step-1-heading">
           <legend className="sr-only">Bedrooms and bathrooms</legend>
           <QuoteStepHeader step={1} id="quote-step-1-heading">

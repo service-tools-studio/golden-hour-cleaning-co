@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import Services from "@/components/residential/Services";
+import ServiceTrustBar from "@/components/residential/ServiceTrustBar";
 import QuoteCalculator from "@/components/residential/QuoteCalculator";
 import { scrollToId } from "@/helpers/scrollToId";
 
@@ -37,6 +38,7 @@ export default function ResidentialServicesClient({
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <Services />
+        <ServiceTrustBar />
 
         <section
           id="quote"

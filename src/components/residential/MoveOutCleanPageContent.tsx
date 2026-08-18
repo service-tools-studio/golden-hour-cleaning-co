@@ -12,9 +12,7 @@ export default function MoveOutCleanPageContent({
   return (
     <>
       <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">
-        ~$0.40–$0.50/sq ft • most intensive
-      </p>
+      <p className="text-sm font-medium text-stone-500">Most intensive</p>
       <p className="mt-1 text-xs text-stone-500">
         Range depends on home condition. Final price confirmed after a quick
         walkthrough.
@@ -46,13 +44,10 @@ export default function MoveOutCleanPageContent({
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our detailed cleaning service helps leave your home fresh, clean, and
-          ready for its next chapter. Pricing is by the square foot
-          ($0.40–$0.50 depending on condition), bathrooms are priced at a higher
-          rate for denser care, and we use eco-friendly products whenever
-          possible. Stronger conventional products may be used when heavy buildup
-          requires it. Whether you&apos;re a homeowner, renter, landlord,
-          property manager, or real estate professional, we&apos;re here to make
-          moving a little easier.
+          ready for its next chapter. We use eco-friendly products whenever possible. Stronger
+          conventional products may be used when heavy buildup requires it. Whether
+          you&apos;re a homeowner, renter, landlord, property manager, or real estate
+          professional, we&apos;re here to make moving a little easier.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Get an instant quote and book your cleaning directly on our website,
@@ -211,7 +206,7 @@ export default function MoveOutCleanPageContent({
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
             question="How is move-in / move-out cleaning priced?"
-            answer="We bill by the square foot at about $0.40–$0.50/sq ft depending on home condition. Bathrooms are priced at a higher rate for denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+            answer="You'll get an instant estimate online based on your home's size and condition. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="Do I need to empty the home before the cleaning?"
@@ -272,7 +267,7 @@ export default function MoveOutCleanPageContent({
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
           >
             Get a quote for Move-In &amp; Move-Out
           </Link>
@@ -284,8 +279,7 @@ export default function MoveOutCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on square footage and service type. Bathrooms are
-          priced at a higher rate for denser care. Final price is confirmed after
+          Quotes are based on your home&apos;s size and service type. Final price is confirmed after
           a quick walkthrough.
         </p>
       </Section>

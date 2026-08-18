@@ -48,6 +48,76 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "homeowners-nightmare-reviving-severely-neglected-rental-property",
+    title:
+      "A Homeowner's Nightmare: How We Helped Revive a Severely Neglected Rental Property",
+    author: "Kelsey Collins",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-08-12",
+    excerpt:
+      "After tenants moved out, a Portland-area homeowner walked back into his $800,000 rental to find grime, buildup, and a cockroach infestation. Here's how a thorough professional cleaning gave him a clean foundation to move forward.",
+    heroImage: {
+      src: "/assets/restoration-cleaning.png",
+      alt: "A Golden Hour cleaner wiping a kitchen countertop during a detailed restoration cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Owning a rental property can be a great investment—until you walk back into your home and barely recognize it.",
+          "That was the situation one Portland-area homeowner found himself in after renting out his approximately $800,000 home to a family. By the time the tenants moved out, the property had been left in extremely poor condition. There was significant grime and buildup throughout the home, along with evidence of a cockroach infestation.",
+          "What should have been a straightforward transition between occupants had turned into a homeowner's nightmare.",
+        ],
+      },
+      {
+        heading: "The Challenge: Where Do You Even Start?",
+        paragraphs: [
+          "When a property reaches this level of neglect, cleaning is rarely the only thing that needs to happen.",
+          "The homeowner knew that some repairs and remodeling would still be necessary. But before contractors could address those projects—and before he could really assess what could be saved—the home needed to be cleaned from top to bottom.",
+          "That's where our team at Golden Hour Cleaning Co. came in.",
+          "This wasn't a matter of wiping down counters and mopping the floors. The home needed a thorough reset.",
+          "Our team worked through the property systematically, tackling the accumulated dirt, grime, residue, and neglected surfaces throughout the space. Our goal was simple: remove as much of the mess as possible and give the homeowner a clean foundation for whatever came next.",
+        ],
+      },
+      {
+        heading: "The Transformation",
+        paragraphs: [
+          "By the time we finished, the difference was dramatic.",
+          "When the homeowner walked through the property afterward, he couldn't believe how clean we had been able to get it.",
+          "After seeing the condition of the home beforehand, he hadn't realized just how much of the space could be revived through professional cleaning alone.",
+          "There were still areas that would require remodeling and repair. Cleaning can't reverse permanent damage, and we never want to pretend that it can.",
+          "But suddenly, the home felt manageable again.",
+          "Instead of facing an entire property filled with someone else's mess, the homeowner could focus on the repairs that actually needed his attention. The cleaning portion of the project—the overwhelming, dirty, labor-intensive part—had already been handled.",
+        ],
+      },
+      {
+        heading:
+          "Sometimes Cleaning Is the First Step in Getting Your Property Back",
+        paragraphs: [
+          "Jobs like this are one of the reasons we love what we do.",
+          "A severely neglected property can feel almost impossible when you're standing in the middle of it. It's easy to look around and wonder whether the space will ever feel like your home again.",
+          "Professional cleaning won't fix damaged flooring, replace broken fixtures, or eliminate the need for remodeling. But it can reveal what's underneath years of buildup and neglect—and sometimes, the transformation is much greater than the homeowner expected.",
+          "For this client, there was still work ahead.",
+          "But his home was clean again.",
+          "And after everything the property had been through, that was a pretty powerful place to start.",
+        ],
+      },
+      {
+        heading:
+          "Dealing With a Rental Property That Was Left in Poor Condition?",
+        paragraphs: [
+          "Golden Hour Cleaning Co. provides detailed move-out, deep cleaning, and property reset services throughout the Portland metro area.",
+          "Whether you're a homeowner dealing with a difficult tenant move-out, a landlord preparing a property for its next resident, or a property manager facing a unit that needs significantly more than a standard turnover clean, our team can assess the condition of the property and create a cleaning plan based on the actual scope of work.",
+          "Your property may need repairs. It may need remodeling. But you don't have to handle the mess yourself.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get a Personalized Quote",
+        },
+      },
+    ],
+  },
+  {
     slug: "what-happens-if-a-house-cleaner-damages-something-in-your-home",
     title:
       "What Happens If a House Cleaner Damages Something in Your Home?",

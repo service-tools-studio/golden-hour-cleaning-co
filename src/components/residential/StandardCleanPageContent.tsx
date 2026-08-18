@@ -11,13 +11,7 @@ export default function StandardCleanPageContent({
   return (
     <>
       <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">
-        ~$0.14–$0.20/sq ft • lighter upkeep
-      </p>
-      <p className="mt-1 text-xs text-stone-500">
-        Note: <em>Standard cleans</em> are reserved for recurring customers or
-        homes that have had a professional cleaning within the past 2–4 weeks.
-      </p>
+      <p className="text-sm font-medium text-stone-500">Lighter upkeep</p>
       <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
         Standard House Cleaning Services in Portland, OR
       </h1>
@@ -46,9 +40,7 @@ export default function StandardCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Whether you&apos;re looking for weekly, bi-weekly, monthly, or
           occasional maintenance cleaning, our experienced team delivers the
-          attention to detail and reliability you deserve. Pricing for living areas
-          is about $0.14–$0.20 per square foot, bathrooms are priced at a higher
-          rate for denser care, and we use eco-friendly products whenever possible.
+          attention to detail and reliability you deserve. We use eco-friendly products whenever possible.
         </p>
       </Section>
 
@@ -157,20 +149,17 @@ export default function StandardCleanPageContent({
       <Section title="Standard Cleaning vs. Deep Cleaning">
         <p className="text-base leading-relaxed text-stone-700">
           Standard cleaning is reserved for recurring customers or homes that have
-          had a professional cleaning within the past 2–4 weeks. It&apos;s priced at
-          about $0.14–$0.20 per square foot and is meant for ongoing maintenance once a
-          home is already in good condition.
+          had a professional cleaning within the past 2–4 weeks. It&apos;s meant for
+          ongoing maintenance once a home is already in good condition.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           If your home hasn&apos;t been professionally cleaned recently, has
           buildup, or you&apos;re starting service for the first time, we recommend
-          a Deep Clean first ($0.26–$0.40/sq ft depending on condition). After that,
-          regular standard cleanings help keep your home consistently fresh.
+          a Deep Clean first. After that, regular standard cleanings help keep your
+          home consistently fresh.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          All quotes are by the square foot. Bathrooms are priced at a higher rate
-          because they need denser care, and we confirm your final price after a
-          quick walkthrough.
+          We confirm your final price after a quick walkthrough.
         </p>
       </Section>
 
@@ -204,7 +193,7 @@ export default function StandardCleanPageContent({
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem
             question="How is standard cleaning priced?"
-            answer="We bill living areas by the square foot at about $0.14–$0.20/sq ft. Bathrooms are priced at a higher rate because they need denser care. You'll get an instant estimate online, and we confirm your final price after a quick walkthrough."
+            answer="You'll get an instant estimate online based on your home's size and service type. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="Who is Standard Cleaning for?"
@@ -242,7 +231,7 @@ export default function StandardCleanPageContent({
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
           >
             Get a quote for Standard Clean
           </Link>
@@ -254,8 +243,7 @@ export default function StandardCleanPageContent({
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on square footage and service type. Bathrooms are
-          priced at a higher rate for denser care. We use eco-friendly products
+          Quotes are based on your home&apos;s size and service type. We use eco-friendly products
           whenever possible. Final price is confirmed after a quick walkthrough.
         </p>
       </Section>

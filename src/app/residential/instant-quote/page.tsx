@@ -168,7 +168,7 @@ export default function InstantBookLanding() {
 
       {/* QUOTE CALCULATOR MOUNT (placeholder) */}
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <QuoteCalculator title="Instant Quote & Booking" subtitle="Start below to see your price and reserve an exact time on our calendar." />
+        <QuoteCalculator title="Instant Quote & Booking" />
       </section>
 
       <Footer />

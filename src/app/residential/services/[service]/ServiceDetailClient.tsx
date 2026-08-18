@@ -85,7 +85,7 @@ export default function ServiceDetailClient({
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href={quoteHref}
-                  className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                  className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
                 >
                   Get a quote for {service.title}
                 </Link>
@@ -97,7 +97,7 @@ export default function ServiceDetailClient({
                 </Link>
               </div>
               <p className="mt-4 text-xs text-stone-500">
-                Quotes are based on estimated square footage, service level, and
+                Quotes are based on your home&apos;s size, service level, and
                 add-ons. Final price is confirmed during your in-home
                 walkthrough.
               </p>

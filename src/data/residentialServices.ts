@@ -30,7 +30,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
       "Light general tidy",
     ],
     overview:
-      "Our Standard Clean keeps your home feeling fresh between deeper resets. We focus on the surfaces and spaces you use every day — kitchens, bathrooms, floors, and high-touch areas. We use eco-friendly products whenever possible;. Bathrooms are priced at a higher rate because they need denser care. Quotes are based on square footage; we confirm your final price after a quick walkthrough.",
+      "Our Standard Clean keeps your home feeling fresh between deeper resets. We focus on the surfaces and spaces you use every day — kitchens, bathrooms, floors, and high-touch areas. We use eco-friendly products whenever possible. We confirm your final price after a quick walkthrough.",
     bestFor: [
       "Recurring weekly, bi-weekly, or monthly customers",
       "Homes professionally cleaned within the past 2–4 weeks",
@@ -54,7 +54,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
       "Spot wall wipe",
     ],
     overview:
-      "A Deep Clean is our most popular starting point — a thorough top-to-bottom refresh when dust, grime, or life has built up. We go beyond upkeep with detailed attention to edges, bathrooms, kitchens, and the spots easy to miss in day-to-day cleaning. Pricing is by the square foot ($0.26–$0.40), bathrooms are priced at a higher rate for denser care, and we use eco-friendly products whenever possible (conventional products may be used for heavy buildup when needed). Your final price within the range is confirmed after a quick walkthrough based on condition.",
+      "A Deep Clean is our most popular starting point — a thorough top-to-bottom refresh when dust, grime, or life has built up. We go beyond upkeep with detailed attention to edges, bathrooms, kitchens, and the spots easy to miss in day-to-day cleaning. We use eco-friendly products whenever possible (conventional products may be used for heavy buildup when needed). Your final price within the range is confirmed after a quick walkthrough based on condition.",
     bestFor: [
       "First-time clients or seasonal resets",
       "Homes that haven’t been professionally cleaned in 2+ months",
@@ -64,7 +64,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
   "move-out": {
     slug: "move-out",
     levelKey: "move_out",
-    title: "Move-Out",
+    title: "Move-Out Clean",
     desc: "Empty-home detail clean so you can move in (or hand over keys) feeling completely clear.",
     price: "Most intensive",
     items: [
@@ -80,7 +80,7 @@ export const RESIDENTIAL_SERVICES: Record<ServiceSlug, ResidentialService> = {
       "Light fixture dusting",
     ],
     overview:
-      "Move-In / Move-Out cleaning is our most intensive service — designed for empty homes when every cabinet, closet, and corner needs to shine. Pricing is by the square foot ($0.40–$0.50), bathrooms are priced at a higher rate for denser care, and we use eco-friendly products whenever possible (conventional products may be used for heavy buildup when needed). We confirm your final price after a quick walkthrough. Ideal before handing over keys or settling into a new space with a truly clean start.",
+      "Move-In / Move-Out cleaning is our most intensive service — designed for empty homes when every cabinet, closet, and corner needs to shine. We use eco-friendly products whenever possible (conventional products may be used for heavy buildup when needed). We confirm your final price after a quick walkthrough. Ideal before handing over keys or settling into a new space with a truly clean start.",
     bestFor: [
       "Move-out inspections and key handoffs",
       "Move-in preparation",
