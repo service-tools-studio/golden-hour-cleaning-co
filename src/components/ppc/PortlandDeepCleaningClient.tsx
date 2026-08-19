@@ -139,6 +139,8 @@ export default function PortlandDeepCleaningClient({
   const completedRef = useRef(false);
   const viewedRef = useRef(false);
   const calendlyOpenedRef = useRef(false);
+  const [quoteInView, setQuoteInView] = useState(false);
+  const updateQuoteVisibilityRef = useRef(() => {});
   const { rating, reviewCount } = useGooglePlaceSummary({
     rating: initialRating,
     reviewCount: initialReviewCount,
@@ -150,6 +152,36 @@ export default function PortlandDeepCleaningClient({
     if (viewedRef.current) return;
     viewedRef.current = true;
     trackPpcDeepCleanEvent(PPC_DEEP_CLEAN_EVENTS.landingView, undefined, attrs);
+  }, []);
+
+  useEffect(() => {
+    const updateQuoteVisibility = () => {
+      const section = document.getElementById("quote");
+      if (!section) {
+        setQuoteInView(false);
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 0;
+      const headerOffset = 88;
+      setQuoteInView(rect.top < viewportHeight && rect.bottom > headerOffset);
+    };
+
+    updateQuoteVisibilityRef.current = updateQuoteVisibility;
+    updateQuoteVisibility();
+    window.addEventListener("scroll", updateQuoteVisibility, { passive: true });
+    window.addEventListener("resize", updateQuoteVisibility);
+    document.addEventListener("scroll", updateQuoteVisibility, {
+      passive: true,
+      capture: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", updateQuoteVisibility);
+      window.removeEventListener("resize", updateQuoteVisibility);
+      document.removeEventListener("scroll", updateQuoteVisibility, true);
+    };
   }, []);
 
   function handleQuoteStarted() {
@@ -198,6 +230,8 @@ export default function PortlandDeepCleaningClient({
 
   function scrollToQuote() {
     scrollToId("#quote", 8, { focus: true });
+    window.setTimeout(() => updateQuoteVisibilityRef.current(), 200);
+    window.setTimeout(() => updateQuoteVisibilityRef.current(), 700);
   }
 
   return (
@@ -552,7 +586,7 @@ export default function PortlandDeepCleaningClient({
         <Footer />
       </main>
 
-      {phase !== "done" && (
+      {phase !== "done" && !quoteInView && (
         <div className="fixed inset-x-0 bottom-0 z-[100000] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm lg:hidden">
           {phase === "book" && calendlyUrl ? (
             <a

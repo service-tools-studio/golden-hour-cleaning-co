@@ -151,6 +151,8 @@ const CONDITION_BANDS = [
   {
     id: "light",
     title: "Light buildup",
+    shortLabel: "Light",
+    summary: ["Minimal", "buildup"],
     desc: "Regularly maintained with minimal dust, grease, soap scum and pet hair.",
     barClass: "bg-amber-100",
     cardClass: "bg-amber-100/25",
@@ -158,6 +160,8 @@ const CONDITION_BANDS = [
   {
     id: "moderate",
     title: "Moderate buildup",
+    shortLabel: "Moderate",
+    summary: ["Typical", "buildup"],
     badge: "Most common",
     desc: "Typical lived-in condition with visible dust, bathroom/kitchen buildup, soap scum or pet hair.",
     barClass: "bg-amber-300",
@@ -166,6 +170,8 @@ const CONDITION_BANDS = [
   {
     id: "heavy",
     title: "Heavy buildup",
+    shortLabel: "Heavy",
+    summary: ["Significant", "buildup"],
     desc: "Significant accumulated dust, grease, soap scum, pet hair or grime; areas may not have been thoroughly cleaned for some time.",
     barClass: "bg-[#dcbb52]",
     cardClass: "bg-[#dcbb52]/15",
@@ -195,52 +201,34 @@ function ConditionRangeVisual({ low, high }) {
   return (
     <div className="mt-6">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-700">
-        How condition affects your price
+        How condition affects your estimate
       </p>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 md:hidden">
-        {bands.map((band, index) => (
-          <div
-            key={band.id}
-            className={`px-4 py-3 ${band.barClass} ${index < bands.length - 1 ? "border-b border-stone-200/80" : ""
-              }`}
-          >
-            <div className="flex items-start gap-3">
-              <div className="min-w-0 flex-[0_0_42%]">
-                <p className="text-xs font-semibold uppercase tracking-wide text-stone-800">
-                  {band.title}
-                </p>
-                <p className="mt-1 text-base font-semibold tabular-nums text-stone-900">
-                  {moneyLabel(band.low)}–{moneyLabel(band.high)}
-                </p>
-              </div>
-              <p className="min-w-0 flex-1 text-xs leading-snug text-stone-700">
-                {band.desc}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
       <div
-        className="mt-4 hidden min-h-16 overflow-hidden rounded-full border border-stone-200 md:flex md:min-h-14"
+        className="mt-4 flex min-h-[3.75rem] overflow-hidden rounded-full border border-stone-200 md:min-h-[4.25rem]"
         role="img"
-        aria-label={`Price range by home condition: light buildup ${moneyLabel(bands[0].low)} to ${moneyLabel(bands[0].high)}, moderate buildup ${moneyLabel(bands[1].low)} to ${moneyLabel(bands[1].high)}, heavy buildup ${moneyLabel(bands[2].low)} to ${moneyLabel(bands[2].high)}.`}
+        aria-label={`Price range by home condition: light ${moneyLabel(bands[0].low)} to ${moneyLabel(bands[0].high)}, moderate ${moneyLabel(bands[1].low)} to ${moneyLabel(bands[1].high)}, heavy ${moneyLabel(bands[2].low)} to ${moneyLabel(bands[2].high)}.`}
       >
         {bands.map((band) => (
           <div
             key={band.id}
-            className={`flex min-w-0 flex-1 flex-col items-center justify-center px-0.5 py-1.5 text-center sm:px-1 ${band.barClass}`}
+            className={`flex min-w-0 flex-1 flex-col items-center justify-center px-0.5 py-2 text-center sm:px-1 ${band.barClass}`}
           >
-            <span className="text-[11px] font-semibold uppercase leading-tight tracking-wide text-stone-800 sm:text-xs">
-              {band.title}
+            <span className="text-xs font-semibold uppercase leading-tight tracking-wide text-stone-800">
+              {band.shortLabel}
             </span>
-            <span className="text-[11px] tabular-nums leading-tight text-stone-800 sm:text-xs">
+            <span className="text-base font-semibold tabular-nums leading-tight text-stone-800">
               {moneyLabel(band.low)}–{moneyLabel(band.high)}
             </span>
           </div>
         ))}
       </div>
+
+      <p className="mt-3 text-xs leading-snug text-stone-600 md:hidden">
+        Your home&apos;s condition determines where your estimate falls
+        within this range. We consider accumulated dust, grease, soap scum,
+        pet hair, grime and overall buildup.
+      </p>
 
       <ul className="mt-4 hidden grid-cols-3 gap-3 md:grid">
         {bands.map((band) => (
@@ -1262,8 +1250,9 @@ export default function QuoteCalculator({
               </div>
               <p className="mt-6 hidden text-sm leading-snug text-stone-600 md:block">
                 This online quote is based on the information provided and is
-                subject to change. We&apos;ll assess your home&apos;s actual
-                size and condition during the initial walkthrough and confirm
+                subject to change. We&apos;ll assess your home&apos;s{" "}
+                <strong className="font-bold">actual size and condition</strong>{" "}
+                during the initial walkthrough and confirm
                 your final price before cleaning begins.
               </p>
             </div>
@@ -1305,8 +1294,9 @@ export default function QuoteCalculator({
 
           <p className="mt-6 text-sm leading-snug text-stone-600 md:hidden">
             This online quote is based on the information provided and is
-            subject to change. We&apos;ll assess your home&apos;s actual
-            size and condition during the initial walkthrough and confirm
+            subject to change. We&apos;ll assess your home&apos;s{" "}
+            <strong className="font-bold">actual size and condition</strong>{" "}
+            during the initial walkthrough and confirm
             your final price before cleaning begins.
           </p>
 

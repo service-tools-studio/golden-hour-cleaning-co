@@ -381,8 +381,9 @@ export default function DeepCleanQuoteCalculator({
               </div>
               <p className="mt-6 hidden text-sm leading-snug text-stone-600 md:block">
                 This online quote is based on the information provided and is
-                subject to change. We&apos;ll assess your home&apos;s actual
-                size and condition during the initial walkthrough and confirm
+                subject to change. We&apos;ll assess your home&apos;s{" "}
+                <strong className="font-bold">actual size and condition</strong>{" "}
+                during the initial walkthrough and confirm
                 your final price before cleaning begins.
               </p>
             </div>
@@ -422,8 +423,9 @@ export default function DeepCleanQuoteCalculator({
 
           <p className="mt-6 text-sm leading-snug text-stone-600 md:hidden">
             This online quote is based on the information provided and is
-            subject to change. We&apos;ll assess your home&apos;s actual
-            size and condition during the initial walkthrough and confirm
+            subject to change. We&apos;ll assess your home&apos;s{" "}
+            <strong className="font-bold">actual size and condition</strong>{" "}
+            during the initial walkthrough and confirm
             your final price before cleaning begins.
           </p>
 
