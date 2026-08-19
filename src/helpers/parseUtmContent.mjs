@@ -10,6 +10,11 @@ const FIELD_LABELS = [
   ["add", "Add-ons"],
   ["promo", "Promo"],
   ["est_after_promo", "Estimate after promo"],
+  ["gclid", "Google Click ID"],
+  ["gbraid", "Google gbraid"],
+  ["wbraid", "Google wbraid"],
+  ["ad_content", "Ad content"],
+  ["lp", "Landing page"],
 ];
 
 export function extractUtmContent(rawInput) {

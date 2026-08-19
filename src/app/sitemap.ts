@@ -34,6 +34,7 @@ const ROUTES: {
   { path: "/residential/services/move-out", changeFrequency: "monthly", priority: 0.75 },
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
   { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/portland-deep-cleaning", changeFrequency: "monthly", priority: 0.8 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

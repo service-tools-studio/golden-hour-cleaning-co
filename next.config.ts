@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // This repo does not set a global Content-Security-Policy.
   async redirects() {
     return [
       {

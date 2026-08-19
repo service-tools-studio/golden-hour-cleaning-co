@@ -12,6 +12,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
+import {
+  asFiniteNumber,
+  readQuoteDraft,
+  writeQuoteDraft,
+} from "../../helpers/quoteDraftStorage";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator
@@ -363,6 +368,50 @@ export default function QuoteCalculator({
     setPromoValid(true);
     setPromoError(null);
   }, [promoCode, cleanType]);
+
+  useEffect(() => {
+    const draft = readQuoteDraft();
+    if (!draft) return;
+
+    if (draft.bedrooms != null) setBedrooms(asFiniteNumber(draft.bedrooms, 3));
+    if (draft.bathrooms != null) setBathrooms(asFiniteNumber(draft.bathrooms, 2));
+    if (draft.sqft != null) setSqft(asFiniteNumber(draft.sqft, 1500));
+    if (VALID_LEVELS.has(draft.cleanType)) setCleanType(draft.cleanType);
+    if (typeof draft.includeFridge === "boolean") setIncludeFridge(draft.includeFridge);
+    if (typeof draft.includeOven === "boolean") setIncludeOven(draft.includeOven);
+    if (typeof draft.includeSecondKitchen === "boolean") {
+      setIncludeSecondKitchen(draft.includeSecondKitchen);
+    }
+    if (typeof draft.promoCode === "string") setPromoCode(draft.promoCode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const skipQuoteDraftSave = useRef(true);
+  useEffect(() => {
+    if (skipQuoteDraftSave.current) {
+      skipQuoteDraftSave.current = false;
+      return;
+    }
+    writeQuoteDraft({
+      bedrooms,
+      bathrooms,
+      sqft,
+      cleanType,
+      includeFridge,
+      includeOven,
+      includeSecondKitchen,
+      promoCode,
+    });
+  }, [
+    bedrooms,
+    bathrooms,
+    sqft,
+    cleanType,
+    includeFridge,
+    includeOven,
+    includeSecondKitchen,
+    promoCode,
+  ]);
 
   // -----------------------------
   // Calculation
@@ -1152,6 +1201,14 @@ export default function QuoteCalculator({
                     : `${formatCurrency(
                       result.totalAfterPromoLow
                     )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
+                </p>
+                <p className="mt-2 text-sm text-stone-500">
+                  {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
+                  {" · "}
+                  {result.bathrooms}{" "}
+                  {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
+                  {" · "}
+                  {result.sqftInput.toLocaleString()} sq ft
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-stone-600">
                   Your final price depends on the condition of your home at your
