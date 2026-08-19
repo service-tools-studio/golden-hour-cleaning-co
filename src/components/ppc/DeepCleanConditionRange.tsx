@@ -19,7 +19,7 @@ const BAND_COPY = [
   {
     id: "heavy",
     title: "Heavy Buildup",
-    desc: "Significant accumulated dust, grease, soap scum, pet hair or grime, or areas that have not been thoroughly cleaned for an extended period.",
+    desc: "Significant accumulated dust, grease, soap scum, pet hair or grime; areas may not have been thoroughly cleaned for some time.",
     barClass: "bg-[#dcbb52]",
     cardClass: "bg-[#dcbb52]/15",
   },

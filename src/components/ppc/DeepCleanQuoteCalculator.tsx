@@ -343,11 +343,13 @@ export default function DeepCleanQuoteCalculator({
                   {result.bathrooms}{" "}
                   {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
                   {" · "}
-                  {(result.sqftInput > 0
-                    ? result.sqftInput
-                    : result.estSqft
-                  ).toLocaleString()} sq ft
-                  {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                  <span className="whitespace-nowrap">
+                    {(result.sqftInput > 0
+                      ? result.sqftInput
+                      : result.estSqft
+                    ).toLocaleString()} sq ft
+                    {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                  </span>
                 </p>
               </div>
               <div className="md:hidden">

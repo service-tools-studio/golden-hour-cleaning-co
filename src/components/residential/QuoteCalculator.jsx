@@ -6,7 +6,7 @@ import { formatCurrency } from "../../helpers/contactHelpers.js";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
-import { CFG, CONTACT, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
+import { CFG, CONTACT, LEVEL_COPY, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
 import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
@@ -166,7 +166,7 @@ const CONDITION_BANDS = [
   {
     id: "heavy",
     title: "Heavy buildup",
-    desc: "Significant accumulated dust, grease, soap scum, pet hair or grime; areas may not have been thoroughly cleaned for several months.",
+    desc: "Significant accumulated dust, grease, soap scum, pet hair or grime; areas may not have been thoroughly cleaned for some time.",
     barClass: "bg-[#dcbb52]",
     cardClass: "bg-[#dcbb52]/15",
   },
@@ -753,6 +753,12 @@ export default function QuoteCalculator({
     result.bathrooms === 1
       ? `1 bath × ~${FULL_BATH_SQFT} = ~${result.bathAreaSqft.toLocaleString()} sq ft`
       : `${result.bathrooms} baths × ~${FULL_BATH_SQFT} = ~${result.bathAreaSqft.toLocaleString()} sq ft`;
+  const estimatedTypeLabel =
+    cleanType === "move_out"
+      ? "move-out"
+      : cleanType === "standard"
+        ? "standard"
+        : "deep";
   const bathCountLabel =
     result.bathrooms === 1 ? "1 bath" : `${result.bathrooms} baths`;
 
@@ -1201,7 +1207,9 @@ export default function QuoteCalculator({
             <div className="md:col-span-3">
               <div className="pr-24 md:pr-0">
                 <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-                  Your Estimate
+                  Your estimated
+                  <br className="md:hidden" />
+                  <span className="hidden md:inline"> </span>{estimatedTypeLabel} clean
                 </h3>
                 <p className="mt-3 whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
                   {result.totalAfterPromoLow === result.totalAfterPromoHigh
@@ -1216,11 +1224,13 @@ export default function QuoteCalculator({
                   {result.bathrooms}{" "}
                   {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
                   {" · "}
-                  {(result.sqftInput > 0
-                    ? result.sqftInput
-                    : result.estSqft
-                  ).toLocaleString()} sq ft
-                  {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                  <span className="whitespace-nowrap">
+                    {(result.sqftInput > 0
+                      ? result.sqftInput
+                      : result.estSqft
+                    ).toLocaleString()} sq ft
+                    {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                  </span>
                 </p>
               </div>
               <div className="md:hidden">
@@ -1232,7 +1242,7 @@ export default function QuoteCalculator({
                       add-ons.
                     </p>
                     <p>
-                      Our deep clean includes a comprehensive scope backed by our{" "}
+                      Our {(LEVEL_COPY[cleanType]?.name ?? "deep clean").toLowerCase()} includes a comprehensive scope backed by our{" "}
                       <Link
                         href="/satisfaction-guarantee"
                         className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
