@@ -74,7 +74,7 @@ export default function DeepCleanQuoteCalculator({
     asFiniteNumber(readQuoteDraft()?.bathrooms, 2)
   );
   const [sqft, setSqft] = useState(() =>
-    asFiniteNumber(readQuoteDraft()?.sqft, 1500)
+    asFiniteNumber(readQuoteDraft()?.sqft, 0)
   );
   const [includeFridge, setIncludeFridge] = useState(
     () => Boolean(readQuoteDraft()?.includeFridge)
@@ -86,6 +86,9 @@ export default function DeepCleanQuoteCalculator({
     () => Boolean(readQuoteDraft()?.includeSecondKitchen)
   );
   const [showMobileValueDetails, setShowMobileValueDetails] = useState(false);
+  const [confirmLowSqft, setConfirmLowSqft] = useState(false);
+  const [sqftSettled, setSqftSettled] = useState(false);
+  const sqftSettledTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const roomsHintId = "ppc-quote-rooms-hint";
   const sqftHintId = "ppc-quote-sqft-hint";
@@ -102,9 +105,31 @@ export default function DeepCleanQuoteCalculator({
         includeFridge,
         includeOven,
         includeSecondKitchen,
+        confirmLowSqft,
       }),
-    [bedrooms, bathrooms, sqft, includeFridge, includeOven, includeSecondKitchen]
+    [
+      bedrooms,
+      bathrooms,
+      sqft,
+      includeFridge,
+      includeOven,
+      includeSecondKitchen,
+      confirmLowSqft,
+    ]
   );
+
+  useEffect(() => {
+    setSqftSettled(false);
+    if (sqftSettledTimer.current) clearTimeout(sqftSettledTimer.current);
+    if (sqft > 0) {
+      sqftSettledTimer.current = setTimeout(() => setSqftSettled(true), 800);
+    }
+    return () => {
+      if (sqftSettledTimer.current) clearTimeout(sqftSettledTimer.current);
+    };
+  }, [sqft]);
+
+  const showSqftGuardrail = result.sqftGuardrailTriggered && sqftSettled;
 
   const calendlyUrl = useMemo(
     () =>
@@ -183,6 +208,7 @@ export default function DeepCleanQuoteCalculator({
               setValue={(value: number) => {
                 markStarted();
                 setBedrooms(value);
+                setConfirmLowSqft(false);
               }}
               min={0}
               step={1}
@@ -222,35 +248,53 @@ export default function DeepCleanQuoteCalculator({
               setValue={(value: number) => {
                 markStarted();
                 setSqft(value);
+                setConfirmLowSqft(false);
               }}
               min={0}
               step={50}
-              describedBy={
-                result.sqftInput > 0 && result.estSqft > result.sqftInput
-                  ? `${sqftHintId} ${sqftRangeHintId}`
-                  : sqftHintId
-              }
+              describedBy={showSqftGuardrail ? `${sqftHintId} ${sqftRangeHintId}` : sqftHintId}
             />
             <p id={sqftHintId} className={QUOTE_HINT}>
-              Enter your best estimate. We&apos;ll use this as your home size.
-              If our bedroom-based estimate is larger, we&apos;ll quote a range
-              so you&apos;re covered if square footage was understated.
+              Enter your best estimate. We&apos;ll use your entered home size for
+              your quote.
             </p>
-            {result.sqftInput > 0 && result.estSqft > result.sqftInput && (
-              <p
+            {showSqftGuardrail && (
+              <div
                 id={sqftRangeHintId}
-                className="mt-2 text-sm leading-relaxed text-stone-500"
+                className="mt-2 rounded-xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm text-stone-700"
               >
-                Your entry is{" "}
-                <span className="font-medium text-stone-700">
-                  {result.sqftInput.toLocaleString()} sq ft
-                </span>
-                . Based on bedrooms, we&apos;d estimate about{" "}
-                <span className="font-medium text-stone-700">
-                  {result.estSqft.toLocaleString()} sq ft
-                </span>
-                , so this quote uses that higher end too.
-              </p>
+                <p className="font-medium text-stone-900">Just checking your home size</p>
+                <p className="mt-1 leading-relaxed">
+                  {result.sqftInput.toLocaleString()} sq ft is smaller than typical
+                  for a {result.bedrooms}-bedroom home. Is{" "}
+                  {result.sqftInput.toLocaleString()} sq ft the approximate total
+                  area we&apos;ll be cleaning?
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setConfirmLowSqft(true)}
+                    className={`rounded-lg border px-3 py-1.5 text-xs font-medium hover:bg-stone-50 ${confirmLowSqft ? "border-green-400 bg-green-50 text-green-800" : "border-stone-300 bg-white text-stone-900"}`}
+                  >
+                    Yes, that&apos;s correct{confirmLowSqft && <span className="ml-1 text-green-600">✓</span>}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setConfirmLowSqft(false);
+                      document.getElementById(quoteFieldId("ppc-total-sqft"))?.focus();
+                    }}
+                    className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-900 hover:bg-stone-50"
+                  >
+                    Let me update it
+                  </button>
+                </div>
+                {result.sqftGuardrailActive && (
+                  <p className="mt-2 text-xs text-stone-600">
+                    Until confirmed, this estimate uses {result.sqftGuardrailMin.toLocaleString()} sq ft.
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </fieldset>

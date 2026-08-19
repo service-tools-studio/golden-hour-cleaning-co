@@ -13,6 +13,7 @@ export default function NumberField({
   showStepper = false,
   id,
   describedBy,
+  onBlur,
 }) {
   const fieldId = id ?? quoteFieldId(label);
   const numericStep = Number(step);
@@ -95,6 +96,7 @@ export default function NumberField({
           if (isFractionalStep && e.target.value !== "") {
             setValue(snapToStep(parseInput(e.target.value)));
           }
+          onBlur?.();
         }}
         className="min-w-0 flex-1 border-0 bg-transparent px-1 py-2 text-center text-sm text-stone-900 focus:outline-none focus:ring-0"
       />
@@ -119,6 +121,7 @@ export default function NumberField({
           setValue(parseInput(raw));
         }
       }}
+      onBlur={() => onBlur?.()}
       className={`${INPUT_CLASS}`}
     />
   );
