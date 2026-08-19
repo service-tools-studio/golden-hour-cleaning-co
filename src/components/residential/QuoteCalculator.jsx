@@ -967,8 +967,6 @@ export default function QuoteCalculator({
           </div>
           <p id={roomsHintId} className={QUOTE_HINT}>
             Select how many bedrooms and bathrooms you&apos;d like us to care for.
-            We&apos;ll estimate your home&apos;s size from this so your quote reflects the
-            right amount of time and attention.
           </p>
         </fieldset>
 
