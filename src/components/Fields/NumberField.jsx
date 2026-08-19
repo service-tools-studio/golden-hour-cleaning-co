@@ -13,7 +13,7 @@ export default function NumberField({
   showStepper = false,
   id,
   describedBy,
-  onBlur,
+  onBlur = undefined,
 }) {
   const fieldId = id ?? quoteFieldId(label);
   const numericStep = Number(step);
