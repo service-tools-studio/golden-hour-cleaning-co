@@ -176,6 +176,7 @@ export default function DeepCleanQuoteCalculator({
           </QuoteStepHeader>
           <div className="mt-6 grid grid-cols-2 gap-4">
             <NumberField
+              id={quoteFieldId("ppc-bedrooms")}
               label="Bedrooms"
               value={bedrooms}
               setValue={(value: number) => {
@@ -188,6 +189,7 @@ export default function DeepCleanQuoteCalculator({
               describedBy={roomsHintId}
             />
             <NumberField
+              id={quoteFieldId("ppc-bathrooms")}
               label="Bathrooms"
               value={bathrooms}
               setValue={(value: number) => {
@@ -213,6 +215,7 @@ export default function DeepCleanQuoteCalculator({
           </QuoteStepHeader>
           <div className="mt-6">
             <NumberField
+              id={quoteFieldId("ppc-total-sqft")}
               label="Total Sq Ft"
               value={sqft}
               setValue={(value: number) => {
