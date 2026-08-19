@@ -255,8 +255,7 @@ export default function DeepCleanQuoteCalculator({
               describedBy={showSqftGuardrail ? `${sqftHintId} ${sqftRangeHintId}` : sqftHintId}
             />
             <p id={sqftHintId} className={QUOTE_HINT}>
-              Enter your best estimate. We&apos;ll use your entered home size for
-              your quote.
+              Enter the approximate total square footage we'll be cleaning. Your home's size and condition will be confirmed during your walkthrough before your final price is set.
             </p>
             {showSqftGuardrail && (
               <div

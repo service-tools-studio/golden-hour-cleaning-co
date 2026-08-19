@@ -87,12 +87,13 @@ function hoursUnit(h) {
 function sqftGuardrailMinForBedrooms(bedrooms) {
   const n = Math.max(0, Math.floor(Number(bedrooms) || 0));
   if (n <= 0) return 0;
-  if (n === 1) return 550;
-  if (n === 2) return 850;
-  if (n === 3) return 1100;
+  if (n === 1) return 650;
+  if (n === 2) return 900;
+  if (n === 3) return 1200;
   if (n === 4) return 1500;
-  if (n === 5) return 1900;
-  return 1900 + (n - 5) * 350;
+  if (n === 5) return 1800;
+  if (n === 6) return 2200;
+  return 2600;
 }
 
 export function splitConditionBands(low, high) {
