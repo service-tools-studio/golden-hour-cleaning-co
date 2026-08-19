@@ -380,8 +380,8 @@ export default function DeepCleanQuoteCalculator({
                   {result.totalAfterPromoLow === result.totalAfterPromoHigh
                     ? formatCurrency(result.totalAfterPromoHigh)
                     : `${formatCurrency(result.totalAfterPromoLow)}–${formatCurrency(
-                        result.totalAfterPromoHigh
-                      )}`}
+                      result.totalAfterPromoHigh
+                    )}`}
                 </p>
                 <button
                   type="button"
@@ -433,7 +433,7 @@ export default function DeepCleanQuoteCalculator({
               </div>
               <p className="mt-2 text-sm leading-relaxed text-stone-600">
                 Your final price is confirmed during your walkthrough based on
-                your home&apos;s condition.
+                your home&apos;s size and condition.
               </p>
             </div>
 

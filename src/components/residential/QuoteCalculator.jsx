@@ -212,9 +212,8 @@ function ConditionRangeVisual({ low, high }) {
         {bands.map((band, index) => (
           <div
             key={band.id}
-            className={`px-4 py-3 ${band.barClass} ${
-              index < bands.length - 1 ? "border-b border-stone-200/80" : ""
-            }`}
+            className={`px-4 py-3 ${band.barClass} ${index < bands.length - 1 ? "border-b border-stone-200/80" : ""
+              }`}
           >
             <div className="flex items-start gap-3">
               <div className="min-w-0 flex-[0_0_42%]">
@@ -1265,252 +1264,252 @@ export default function QuoteCalculator({
           aria-describedby={quoteSummaryA11yId}
           className={`${QUOTE_CARD} bg-[#fffbea]`}
         >
-            <p id={quoteSummaryA11yId} className="sr-only">
-              {summaryA11yText}
-            </p>
+          <p id={quoteSummaryA11yId} className="sr-only">
+            {summaryA11yText}
+          </p>
 
-            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-5 md:gap-8">
-              <div className="md:col-span-3">
-                <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-                  Your estimated quote
-                </h3>
-                <div className="mt-3 flex items-center justify-between gap-3 md:block">
-                  <p className="whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
-                    {result.totalAfterPromoLow === result.totalAfterPromoHigh
-                      ? formatCurrency(result.totalAfterPromoHigh)
-                      : `${formatCurrency(
-                        result.totalAfterPromoLow
-                      )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
-                  </p>
-                  <button
-                    type="button"
-                    className="inline-flex w-auto max-w-[50%] shrink-0 items-center rounded-full border border-[#a7eff1]/80 bg-white/70 px-3 py-1 text-[11px] font-semibold !normal-case !tracking-normal text-stone-800 md:hidden"
-                    style={{ textTransform: "none", letterSpacing: "normal" }}
-                    onClick={() => setShowMobileValueDetails((current) => !current)}
-                    aria-expanded={showMobileValueDetails}
-                  >
-                    Found a lower quote elsewhere?
-                    <span className="ml-1 text-xs" aria-hidden>
-                      {showMobileValueDetails ? "\u2212" : "+"}
-                    </span>
-                  </button>
-                </div>
-                <p className="mt-2 text-sm text-stone-500">
-                  {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
-                  {" · "}
-                  {result.bathrooms}{" "}
-                  {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
-                  {" · "}
-                  {result.sqftInput.toLocaleString()} sq ft
+          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-5 md:gap-8">
+            <div className="md:col-span-3">
+              <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
+                Your estimated quote
+              </h3>
+              <div className="mt-3 flex items-center justify-between gap-3 md:block">
+                <p className="whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
+                  {result.totalAfterPromoLow === result.totalAfterPromoHigh
+                    ? formatCurrency(result.totalAfterPromoHigh)
+                    : `${formatCurrency(
+                      result.totalAfterPromoLow
+                    )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
                 </p>
-                <div className="md:hidden">
-                  {showMobileValueDetails && (
-                    <div className="mt-2 space-y-2 rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 text-sm leading-relaxed text-stone-600">
-                      <p>
-                        Not all cleaning quotes include the same scope. Lower prices
-                        may reflect a more limited service or separately priced
-                        add-ons.
-                      </p>
-                      <p>
-                        Our deep clean includes a comprehensive scope backed by our{" "}
-                        <Link
-                          href="/satisfaction-guarantee"
-                          className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                        >
-                          Satisfaction Guarantee
-                        </Link>
-                        .
-                      </p>
-                      <Link
-                        href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
-                        className="inline-block font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                      >
-                        Compare what&apos;s included &rarr;
-                      </Link>
-                    </div>
-                  )}
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                  Your final price is confirmed during your walkthrough based on
-                  your home&apos;s condition.
-                </p>
-              </div>
-
-              <aside className="hidden rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 md:col-span-2 md:block">
-                <p className="text-base font-semibold text-stone-900">
+                <button
+                  type="button"
+                  className="inline-flex w-auto max-w-[50%] shrink-0 items-center rounded-full border border-[#a7eff1]/80 bg-white/70 px-3 py-1 text-[11px] font-semibold !normal-case !tracking-normal text-stone-800 md:hidden"
+                  style={{ textTransform: "none", letterSpacing: "normal" }}
+                  onClick={() => setShowMobileValueDetails((current) => !current)}
+                  aria-expanded={showMobileValueDetails}
+                >
                   Found a lower quote elsewhere?
-                </p>
-                <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
-                  Not all cleaning quotes include the same scope. Lower prices may
-                  reflect a more limited service or separately priced add-ons.
-                </p>
-                <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
-                  Ours includes a detailed,{" "}
-                  <Link
-                    href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
-                    className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                  >
-                    comprehensive clean
-                  </Link>{" "}
-                  backed by our{" "}
-                  <Link
-                    href="/satisfaction-guarantee"
-                    className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                  >
-                    Satisfaction Guarantee
-                  </Link>
+                  <span className="ml-1 text-xs" aria-hidden>
+                    {showMobileValueDetails ? "\u2212" : "+"}
+                  </span>
+                </button>
+              </div>
+              <p className="mt-2 text-sm text-stone-500">
+                {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
+                {" · "}
+                {result.bathrooms}{" "}
+                {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
+                {" · "}
+                {result.sqftInput.toLocaleString()} sq ft
+              </p>
+              <div className="md:hidden">
+                {showMobileValueDetails && (
+                  <div className="mt-2 space-y-2 rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 text-sm leading-relaxed text-stone-600">
+                    <p>
+                      Not all cleaning quotes include the same scope. Lower prices
+                      may reflect a more limited service or separately priced
+                      add-ons.
+                    </p>
+                    <p>
+                      Our deep clean includes a comprehensive scope backed by our{" "}
+                      <Link
+                        href="/satisfaction-guarantee"
+                        className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                      >
+                        Satisfaction Guarantee
+                      </Link>
+                      .
+                    </p>
+                    <Link
+                      href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
+                      className="inline-block font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                    >
+                      Compare what&apos;s included &rarr;
+                    </Link>
+                  </div>
+                )}
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                Your final price is confirmed during your walkthrough based on
+                your home&apos;s size and condition.
+              </p>
+            </div>
+
+            <aside className="hidden rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 md:col-span-2 md:block">
+              <p className="text-base font-semibold text-stone-900">
+                Found a lower quote elsewhere?
+              </p>
+              <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
+                Not all cleaning quotes include the same scope. Lower prices may
+                reflect a more limited service or separately priced add-ons.
+              </p>
+              <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
+                Ours includes a detailed,{" "}
+                <Link
+                  href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
+                  className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                >
+                  comprehensive clean
+                </Link>{" "}
+                backed by our{" "}
+                <Link
+                  href="/satisfaction-guarantee"
+                  className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                >
+                  Satisfaction Guarantee
+                </Link>
+                .
+              </p>
+            </aside>
+          </div>
+
+          <div aria-hidden="true">
+
+            <ConditionRangeVisual
+              low={result.totalAfterPromoLow}
+              high={result.totalAfterPromoHigh}
+            />
+
+            {!result.isLargeJob && (
+              <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4">
+                <div className="text-sm text-stone-800">
+                  Estimated cleaning time on site:{" "}
+                  <span className="font-medium tabular-nums">
+                    {result.time.displayText}
+                  </span>{" "}
+                  with{" "}
+                  <span className="font-medium">
+                    {result.time.cleaners}{" "}
+                    {result.time.cleaners === 1 ? "cleaner" : "cleaners"}
+                  </span>
                   .
-                </p>
-              </aside>
-            </div>
-
-            <div aria-hidden="true">
-
-              <ConditionRangeVisual
-                low={result.totalAfterPromoLow}
-                high={result.totalAfterPromoHigh}
-              />
-
-              {!result.isLargeJob && (
-                <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4">
-                  <div className="text-sm text-stone-800">
-                    Estimated cleaning time on site:{" "}
-                    <span className="font-medium tabular-nums">
-                      {result.time.displayText}
-                    </span>{" "}
-                    with{" "}
-                    <span className="font-medium">
-                      {result.time.cleaners}{" "}
-                      {result.time.cleaners === 1 ? "cleaner" : "cleaners"}
-                    </span>
-                    .
-                  </div>
-                  <div className="mt-1 text-xs text-stone-600">
-                    When you schedule, you&apos;ll choose a{" "}
-                    <span className="font-medium">
-                      {WALKTHROUGH_ARRIVAL_HOURS}-hour arrival window.
-                    </span>{" "}
-                    Once we
-                    arrive, we&apos;ll do a quick walkthrough, confirm your final
-                    price, and begin cleaning right away.
-                  </div>
                 </div>
-              )}
-
-              {result.isLargeJob && (
-                <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4 text-xs text-stone-700">
-                  This is a larger project. For accurate scheduling, please call us
-                  to book so we can plan enough time and team support.
+                <div className="mt-1 text-xs text-stone-600">
+                  When you schedule, you&apos;ll choose a{" "}
+                  <span className="font-medium">
+                    {WALKTHROUGH_ARRIVAL_HOURS}-hour arrival window.
+                  </span>{" "}
+                  Once we
+                  arrive, we&apos;ll do a quick walkthrough, confirm your final
+                  price, and begin cleaning right away.
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
-            {/* Dual CTA: Calendly for normal jobs, Call-to-book for large jobs */}
-            <div
-              role="group"
-              aria-label="Book or ask questions about your quote"
-              className="mt-4 flex flex-col gap-2 sm:flex-row"
-            >
-              {!result.isLargeJob ? (
-                <>
-                  <button
-                    ref={quoteScheduleBtnRef}
-                    type="button"
-                    onClick={onScheduleClick}
-                    onKeyDown={focusQuoteContactButton}
-                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                    aria-label="Schedule this cleaning"
-                  >
-                    Schedule This Cleaning
-                  </button>
+            {result.isLargeJob && (
+              <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4 text-xs text-stone-700">
+                This is a larger project. For accurate scheduling, please call us
+                to book so we can plan enough time and team support.
+              </div>
+            )}
+          </div>
 
-                  <ContactSheet
-                    ref={quoteContactBtnRef}
-                    className="min-w-0 flex-1"
-                    phone={CONTACT.phone}
-                    sms={CONTACT.sms}
-                    email={CONTACT.email}
-                    onKeyDown={focusQuoteScheduleButton}
-                    context={{
-                      level: cleanType,
-                      sqftLow: result.sqftLow,
-                      sqftHigh: result.sqftHigh,
-                      sqftInput: result.sqftInput,
-                      bedrooms,
-                      bathrooms,
-                      total: result.totalAfterPromo, // upper end
-                      totalLow: result.totalAfterPromoLow,
-                      ecoProducts: true,
-                      cleaners: result.time.cleaners,
-                      billableHoursLow: result.billableHoursLow,
-                      billableHours: result.billableHours,
-                      ratePerSqftLow: result.ratePerSqftLow,
-                      ratePerSqftHigh: result.ratePerSqftHigh,
-                      addons: {
-                        fridge: result.addonFridge,
-                        oven: result.addonOven,
-                        secondKitchen: result.addonSecondKitchen,
-                      },
-                      promo: promoValid
-                        ? {
-                          code: promoCode.trim().toUpperCase(),
-                          amount: result.promoDiscount,
-                        }
-                        : null,
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <a
-                    ref={quoteScheduleBtnRef}
-                    href={`tel:${CONTACT.phone}`}
-                    onKeyDown={focusQuoteContactButton}
-                    className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                    aria-label={`Call to book this clean at ${CONTACT.phone}`}
-                  >
-                    Call to Book This Clean
-                  </a>
+          {/* Dual CTA: Calendly for normal jobs, Call-to-book for large jobs */}
+          <div
+            role="group"
+            aria-label="Book or ask questions about your quote"
+            className="mt-4 flex flex-col gap-2 sm:flex-row"
+          >
+            {!result.isLargeJob ? (
+              <>
+                <button
+                  ref={quoteScheduleBtnRef}
+                  type="button"
+                  onClick={onScheduleClick}
+                  onKeyDown={focusQuoteContactButton}
+                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                  aria-label="Schedule this cleaning"
+                >
+                  Schedule This Cleaning
+                </button>
 
-                  <ContactSheet
-                    ref={quoteContactBtnRef}
-                    className="min-w-0 flex-1"
-                    phone={CONTACT.phone}
-                    sms={CONTACT.sms}
-                    email={CONTACT.email}
-                    onKeyDown={focusQuoteScheduleButton}
-                    context={{
-                      level: cleanType,
-                      sqftLow: result.sqftLow,
-                      sqftHigh: result.sqftHigh,
-                      sqftInput: result.sqftInput,
-                      bedrooms,
-                      bathrooms,
-                      total: result.totalAfterPromo,
-                      totalLow: result.totalAfterPromoLow,
-                      ecoProducts: true,
-                      cleaners: result.time.cleaners,
-                      billableHoursLow: result.billableHoursLow,
-                      billableHours: result.billableHours,
-                      ratePerSqftLow: result.ratePerSqftLow,
-                      ratePerSqftHigh: result.ratePerSqftHigh,
-                      addons: {
-                        fridge: result.addonFridge,
-                        oven: result.addonOven,
-                        secondKitchen: result.addonSecondKitchen,
-                      },
-                      promo: promoValid
-                        ? {
-                          code: promoCode.trim().toUpperCase(),
-                          amount: result.promoDiscount,
-                        }
-                        : null,
-                    }}
-                  />
-                </>
-              )}
-            </div>
-          </section>
+                <ContactSheet
+                  ref={quoteContactBtnRef}
+                  className="min-w-0 flex-1"
+                  phone={CONTACT.phone}
+                  sms={CONTACT.sms}
+                  email={CONTACT.email}
+                  onKeyDown={focusQuoteScheduleButton}
+                  context={{
+                    level: cleanType,
+                    sqftLow: result.sqftLow,
+                    sqftHigh: result.sqftHigh,
+                    sqftInput: result.sqftInput,
+                    bedrooms,
+                    bathrooms,
+                    total: result.totalAfterPromo, // upper end
+                    totalLow: result.totalAfterPromoLow,
+                    ecoProducts: true,
+                    cleaners: result.time.cleaners,
+                    billableHoursLow: result.billableHoursLow,
+                    billableHours: result.billableHours,
+                    ratePerSqftLow: result.ratePerSqftLow,
+                    ratePerSqftHigh: result.ratePerSqftHigh,
+                    addons: {
+                      fridge: result.addonFridge,
+                      oven: result.addonOven,
+                      secondKitchen: result.addonSecondKitchen,
+                    },
+                    promo: promoValid
+                      ? {
+                        code: promoCode.trim().toUpperCase(),
+                        amount: result.promoDiscount,
+                      }
+                      : null,
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <a
+                  ref={quoteScheduleBtnRef}
+                  href={`tel:${CONTACT.phone}`}
+                  onKeyDown={focusQuoteContactButton}
+                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                  aria-label={`Call to book this clean at ${CONTACT.phone}`}
+                >
+                  Call to Book This Clean
+                </a>
+
+                <ContactSheet
+                  ref={quoteContactBtnRef}
+                  className="min-w-0 flex-1"
+                  phone={CONTACT.phone}
+                  sms={CONTACT.sms}
+                  email={CONTACT.email}
+                  onKeyDown={focusQuoteScheduleButton}
+                  context={{
+                    level: cleanType,
+                    sqftLow: result.sqftLow,
+                    sqftHigh: result.sqftHigh,
+                    sqftInput: result.sqftInput,
+                    bedrooms,
+                    bathrooms,
+                    total: result.totalAfterPromo,
+                    totalLow: result.totalAfterPromoLow,
+                    ecoProducts: true,
+                    cleaners: result.time.cleaners,
+                    billableHoursLow: result.billableHoursLow,
+                    billableHours: result.billableHours,
+                    ratePerSqftLow: result.ratePerSqftLow,
+                    ratePerSqftHigh: result.ratePerSqftHigh,
+                    addons: {
+                      fridge: result.addonFridge,
+                      oven: result.addonOven,
+                      secondKitchen: result.addonSecondKitchen,
+                    },
+                    promo: promoValid
+                      ? {
+                        code: promoCode.trim().toUpperCase(),
+                        amount: result.promoDiscount,
+                      }
+                      : null,
+                  }}
+                />
+              </>
+            )}
+          </div>
+        </section>
       </div>
     </section>
   );
