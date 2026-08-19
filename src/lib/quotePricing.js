@@ -84,16 +84,14 @@ function hoursUnit(h) {
   return Math.abs(h - 1) < 1e-9 ? "hour" : "hours";
 }
 
-function sqftGuardrailMinForBedrooms(bedrooms) {
+export function sqftHeuristicForBedrooms(bedrooms) {
   const n = Math.max(0, Math.floor(Number(bedrooms) || 0));
   if (n <= 0) return 0;
-  if (n === 1) return 650;
-  if (n === 2) return 900;
-  if (n === 3) return 1200;
-  if (n === 4) return 1500;
-  if (n === 5) return 1800;
-  if (n === 6) return 2200;
-  return 2600;
+  if (n === 1) return 1000;
+  if (n === 2) return 1100;
+  if (n === 3) return 1500;
+  if (n === 4) return 1900;
+  return 2200;
 }
 
 export function splitConditionBands(low, high) {
@@ -121,7 +119,6 @@ export function calculateQuote({
   includeFridge = false,
   includeOven = false,
   includeSecondKitchen = false,
-  confirmLowSqft = false,
 }) {
   const safeSqftInput = Math.max(
     0,
@@ -131,15 +128,7 @@ export function calculateQuote({
   const bathroomUnits = snapBathroomUnits(bathrooms);
 
   const hasBedroomHeuristic = bedrooms > 0;
-  const estSqft = hasBedroomHeuristic
-    ? CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom
-    : 0;
-  const sqftGuardrailMin = sqftGuardrailMinForBedrooms(bedrooms);
-  const sqftGuardrailTriggered =
-    safeSqftInput > 0 &&
-    sqftGuardrailMin > 0 &&
-    safeSqftInput < sqftGuardrailMin;
-  const sqftGuardrailActive = sqftGuardrailTriggered && !confirmLowSqft;
+  const estSqft = sqftHeuristicForBedrooms(bedrooms);
 
   const rates = RATE_PER_SQFT[cleanType] ?? RATE_PER_SQFT.deep;
   const productivity = SQFT_PER_HOUR[cleanType] ?? SQFT_PER_HOUR.deep;
@@ -152,9 +141,6 @@ export function calculateQuote({
   if (safeSqftInput <= 0) {
     sqftLow = hasBedroomHeuristic ? estSqft : 0;
     sqftHigh = hasBedroomHeuristic ? estSqft : 0;
-  } else if (sqftGuardrailActive) {
-    sqftLow = sqftGuardrailMin;
-    sqftHigh = sqftGuardrailMin;
   } else {
     sqftLow = safeSqftInput;
     sqftHigh = safeSqftInput;
@@ -343,10 +329,6 @@ export function calculateQuote({
     bathrooms: bathroomUnits,
     sqftInput: Math.round(safeSqftInput),
     estSqft: Math.round(estSqft),
-    sqftGuardrailMin: Math.round(sqftGuardrailMin),
-    sqftGuardrailTriggered,
-    sqftGuardrailActive,
-    sqftConfirmedByUser: Boolean(confirmLowSqft),
     sqftLow: Math.round(sqftLow),
     sqftHigh: Math.round(sqftHigh),
     billableSqftLow: Math.round(billableSqftLow),

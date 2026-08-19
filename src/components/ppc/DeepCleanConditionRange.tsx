@@ -47,7 +47,7 @@ export default function DeepCleanConditionRange({
   return (
     <div className="mt-6">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-700">
-        How your estimated range works
+        How condition affects your price
       </p>
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 md:hidden">

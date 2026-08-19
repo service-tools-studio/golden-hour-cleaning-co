@@ -7,6 +7,7 @@ import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
+import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -146,18 +147,6 @@ function moneyLabel(n) {
   return `$${Number(n).toLocaleString()}`;
 }
 
-function sqftGuardrailMinForBedrooms(bedrooms) {
-  const n = Math.max(0, Math.floor(Number(bedrooms) || 0));
-  if (n <= 0) return 0;
-  if (n === 1) return 650;
-  if (n === 2) return 900;
-  if (n === 3) return 1200;
-  if (n === 4) return 1500;
-  if (n === 5) return 1800;
-  if (n === 6) return 2200;
-  return 2600;
-}
-
 const CONDITION_BANDS = [
   {
     id: "light",
@@ -206,7 +195,7 @@ function ConditionRangeVisual({ low, high }) {
   return (
     <div className="mt-6">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-700">
-        How your estimated range works
+        How condition affects your price
       </p>
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 md:hidden">
@@ -356,9 +345,6 @@ export default function QuoteCalculator({
   const [promoCode, setPromoCode] = useState("");
   const [promoValid, setPromoValid] = useState(false);
   const [promoError, setPromoError] = useState(null);
-  const [confirmLowSqft, setConfirmLowSqft] = useState(false);
-  const [sqftSettled, setSqftSettled] = useState(false);
-  const sqftSettledTimer = useRef(null);
   const [showMobileValueDetails, setShowMobileValueDetails] = useState(false);
 
   useEffect(() => {
@@ -407,7 +393,7 @@ export default function QuoteCalculator({
 
     if (draft.bedrooms != null) setBedrooms(asFiniteNumber(draft.bedrooms, 3));
     if (draft.bathrooms != null) setBathrooms(asFiniteNumber(draft.bathrooms, 2));
-    if (draft.sqft != null) setSqft(asFiniteNumber(draft.sqft, 1500));
+    if (draft.sqft != null) setSqft(asFiniteNumber(draft.sqft, 0));
     if (VALID_LEVELS.has(draft.cleanType)) setCleanType(draft.cleanType);
     if (typeof draft.includeFridge === "boolean") setIncludeFridge(draft.includeFridge);
     if (typeof draft.includeOven === "boolean") setIncludeOven(draft.includeOven);
@@ -459,31 +445,19 @@ export default function QuoteCalculator({
     // Heuristic sqft from beds only. No bedrooms entered → no size heuristic.
     // Bathrooms add denser care as +150 sq ft each at the base rate.
     const hasBedroomHeuristic = bedrooms > 0;
-    const estSqft = hasBedroomHeuristic
-      ? CFG.roomsToSqft.base + bedrooms * CFG.roomsToSqft.perBedroom
-      : 0;
-    const sqftGuardrailMin = sqftGuardrailMinForBedrooms(bedrooms);
-    const sqftGuardrailTriggered =
-      safeSqftInput > 0 &&
-      sqftGuardrailMin > 0 &&
-      safeSqftInput < sqftGuardrailMin;
-    const sqftGuardrailActive = sqftGuardrailTriggered && !confirmLowSqft;
+    const estSqft = sqftHeuristicForBedrooms(bedrooms);
 
     const rates = RATE_PER_SQFT[cleanType] ?? RATE_PER_SQFT.deep;
     const productivity = SQFT_PER_HOUR[cleanType] ?? SQFT_PER_HOUR.deep;
     const ratePerSqftLow = rates.low;
     const ratePerSqftHigh = rates.high;
 
-    // Entered sq ft is the floor. Heuristic only raises the high end when larger.
     let sqftLow;
     let sqftHigh;
 
     if (safeSqftInput <= 0) {
       sqftLow = hasBedroomHeuristic ? estSqft : 0;
       sqftHigh = hasBedroomHeuristic ? estSqft : 0;
-    } else if (sqftGuardrailActive) {
-      sqftLow = sqftGuardrailMin;
-      sqftHigh = sqftGuardrailMin;
     } else {
       sqftLow = safeSqftInput;
       sqftHigh = safeSqftInput;
@@ -683,10 +657,6 @@ export default function QuoteCalculator({
       bathrooms: bathroomUnits,
       sqftInput: Math.round(safeSqftInput),
       estSqft: Math.round(estSqft),
-      sqftGuardrailMin: Math.round(sqftGuardrailMin),
-      sqftGuardrailTriggered,
-      sqftGuardrailActive,
-      sqftConfirmedByUser: Boolean(confirmLowSqft),
       sqftLow: Math.round(sqftLow),
       sqftHigh: Math.round(sqftHigh),
       billableSqftLow: Math.round(billableSqftLow),
@@ -774,21 +744,8 @@ export default function QuoteCalculator({
     includeFridge,
     includeOven,
     includeSecondKitchen,
-    confirmLowSqft,
   ]);
 
-  useEffect(() => {
-    setSqftSettled(false);
-    if (sqftSettledTimer.current) clearTimeout(sqftSettledTimer.current);
-    if (sqft > 0) {
-      sqftSettledTimer.current = setTimeout(() => setSqftSettled(true), 800);
-    }
-    return () => {
-      if (sqftSettledTimer.current) clearTimeout(sqftSettledTimer.current);
-    };
-  }, [sqft]);
-
-  const showSqftGuardrail = result.sqftGuardrailTriggered && sqftSettled;
   const hasSqftRange = result.sqftLow !== result.sqftHigh;
   const bathsDominate = result.bathsDominateHome;
 
@@ -863,7 +820,6 @@ export default function QuoteCalculator({
 
   const roomsHintId = "quote-rooms-hint";
   const sqftHintId = "quote-sqft-hint";
-  const sqftRangeHintId = "quote-sqft-range-hint";
   const cleanTypeLabelId = "quote-clean-type-label";
   const cleanTypeTipId = "quote-clean-type-tip";
   const cleanTypeNoteId = "quote-clean-type-note";
@@ -944,10 +900,7 @@ export default function QuoteCalculator({
               <NumberField
                 label="Bedrooms"
                 value={bedrooms}
-                setValue={(value) => {
-                  setBedrooms(value);
-                  setConfirmLowSqft(false);
-                }}
+                setValue={setBedrooms}
                 min={0}
                 showStepper
                 describedBy={roomsHintId}
@@ -980,53 +933,14 @@ export default function QuoteCalculator({
             <NumberField
               label="Total Sq Ft"
               value={sqft}
-              setValue={(value) => {
-                setSqft(value);
-                setConfirmLowSqft(false);
-              }}
+              setValue={setSqft}
               min={0}
               step={50}
-              describedBy={showSqftGuardrail ? `${sqftHintId} ${sqftRangeHintId}` : sqftHintId}
+              describedBy={sqftHintId}
             />
-            <p id={sqftHintId} className={QUOTE_HINT}>
-              Enter the approximate total square footage we'll be cleaning. Your home's actual size and condition will be confirmed during your walkthrough before your final price is set.
+            <p id={sqftHintId} className="mt-4 text-sm leading-snug text-stone-500">
+              Please enter your home&apos;s square footage as accurately as possible so we can provide a reliable quote and plan appropriate staffing. Your home&apos;s size and condition will be confirmed during the initial walkthrough, and your online quote is subject to change based on that assessment.
             </p>
-
-            {showSqftGuardrail && (
-              <div id={sqftRangeHintId} className="mt-2 rounded-xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm text-stone-700">
-                <p className="font-medium text-stone-900">Just checking your home size</p>
-                <p className="mt-1 leading-relaxed">
-                  {result.sqftInput.toLocaleString()} sq ft is smaller than typical
-                  for a {result.bedrooms}-bedroom home. Is{" "}
-                  {result.sqftInput.toLocaleString()} sq ft the approximate total
-                  area we&apos;ll be cleaning?
-                </p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setConfirmLowSqft(true)}
-                    className={`rounded-lg border px-3 py-1.5 text-xs font-medium hover:bg-stone-50 ${confirmLowSqft ? "border-green-400 bg-green-50 text-green-800" : "border-stone-300 bg-white text-stone-900"}`}
-                  >
-                    Yes, that&apos;s correct{confirmLowSqft && <span className="ml-1 text-green-600">✓</span>}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setConfirmLowSqft(false);
-                      document.getElementById(quoteFieldId("total-sq-ft"))?.focus();
-                    }}
-                    className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-900 hover:bg-stone-50"
-                  >
-                    Let me update it
-                  </button>
-                </div>
-                {result.sqftGuardrailActive && (
-                  <p className="mt-2 text-xs text-stone-600">
-                    Until confirmed, this estimate uses {result.sqftGuardrailMin.toLocaleString()} sq ft.
-                  </p>
-                )}
-              </div>
-            )}
           </div>
         </fieldset>
 
@@ -1298,13 +1212,11 @@ export default function QuoteCalculator({
                 {result.bathrooms}{" "}
                 {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
                 {" · "}
-                {(result.sqftGuardrailActive
-                  ? result.sqftGuardrailMin
-                  : result.sqftInput > 0
-                    ? result.sqftInput
-                    : result.estSqft
+                {(result.sqftInput > 0
+                  ? result.sqftInput
+                  : result.estSqft
                 ).toLocaleString()} sq ft
-                {(result.sqftInput <= 0 || result.sqftGuardrailActive) && <span className="text-stone-400"> (est.)</span>}
+                {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
               </p>
               <div className="md:hidden">
                 {showMobileValueDetails && (
@@ -1333,9 +1245,11 @@ export default function QuoteCalculator({
                   </div>
                 )}
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                Your final price is confirmed during your walkthrough based on
-                your home&apos;s size and condition.
+              <p className="mt-6 hidden text-sm leading-snug text-stone-600 md:block">
+                This online quote is based on the information provided and is
+                subject to change. We&apos;ll assess your home&apos;s actual
+                size and condition during the initial walkthrough and confirm
+                your final price before cleaning begins.
               </p>
             </div>
 
@@ -1368,11 +1282,20 @@ export default function QuoteCalculator({
           </div>
 
           <div aria-hidden="true">
-
             <ConditionRangeVisual
               low={result.totalAfterPromoLow}
               high={result.totalAfterPromoHigh}
             />
+          </div>
+
+          <p className="mt-6 text-sm leading-snug text-stone-600 md:hidden">
+            This online quote is based on the information provided and is
+            subject to change. We&apos;ll assess your home&apos;s actual
+            size and condition during the initial walkthrough and confirm
+            your final price before cleaning begins.
+          </p>
+
+          <div aria-hidden="true">
 
             {!result.isLargeJob && (
               <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4">

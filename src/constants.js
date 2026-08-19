@@ -1,6 +1,6 @@
 export const CFG = {
   frequencyDiscount: { weekly: 0.18, bi_weekly: 0.12, monthly: 0.05, one_time: 0.0 },
-  roomsToSqft: { base: 300, perBedroom: 400, perBathroom: 150 }, // heuristic
+  roomsToSqft: { perBathroom: 150 },
 
   // Promo config
   promos: {
