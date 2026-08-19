@@ -46,8 +46,37 @@ export default function DeepCleanConditionRange({
 
   return (
     <div className="mt-6">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-700">
+        How your estimated range works
+      </p>
+
+      <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 md:hidden">
+        {bands.map((band, index) => (
+          <div
+            key={band.id}
+            className={`px-4 py-3 ${band.barClass} ${
+              index < bands.length - 1 ? "border-b border-stone-200/80" : ""
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-[0_0_42%]">
+                <p className="text-xs font-semibold uppercase tracking-wide text-stone-800">
+                  {band.title}
+                </p>
+                <p className="mt-1 text-base font-semibold tabular-nums text-stone-900">
+                  {formatCurrency(band.low)}–{formatCurrency(band.high)}
+                </p>
+              </div>
+              <p className="min-w-0 flex-1 text-xs leading-snug text-stone-700">
+                {band.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div
-        className="mt-4 flex min-h-16 overflow-hidden rounded-full border border-stone-200 sm:min-h-14"
+        className="mt-4 hidden min-h-16 overflow-hidden rounded-full border border-stone-200 md:flex md:min-h-14"
         role="img"
         aria-label={`Price range by home condition: light buildup ${moneyLabel(bands[0].low)} to ${moneyLabel(bands[0].high)}, moderate buildup ${moneyLabel(bands[1].low)} to ${moneyLabel(bands[1].high)}, heavy buildup ${moneyLabel(bands[2].low)} to ${moneyLabel(bands[2].high)}.`}
       >
@@ -66,7 +95,7 @@ export default function DeepCleanConditionRange({
         ))}
       </div>
 
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-4 hidden grid-cols-3 gap-3 md:grid">
         {bands.map((band) => (
           <li key={band.id} className={`rounded-xl px-4 py-3 ${band.cardClass}`}>
             <p className="text-sm font-semibold text-stone-900">{band.title}</p>
@@ -79,6 +108,7 @@ export default function DeepCleanConditionRange({
           </li>
         ))}
       </ul>
+
     </div>
   );
 }

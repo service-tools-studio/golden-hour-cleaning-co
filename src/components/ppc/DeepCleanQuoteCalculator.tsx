@@ -85,6 +85,7 @@ export default function DeepCleanQuoteCalculator({
   const [includeSecondKitchen, setIncludeSecondKitchen] = useState(
     () => Boolean(readQuoteDraft()?.includeSecondKitchen)
   );
+  const [showMobileValueDetails, setShowMobileValueDetails] = useState(false);
 
   const roomsHintId = "ppc-quote-rooms-hint";
   const sqftHintId = "ppc-quote-sqft-hint";
@@ -327,16 +328,30 @@ export default function DeepCleanQuoteCalculator({
         className="mt-8 scroll-mt-[var(--header-height,120px)]"
       >
         <section className={`${QUOTE_CARD} bg-[#fffbea]`}>
-          <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-5 sm:gap-8">
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-5 md:gap-8">
+            <div className="md:col-span-3">
               <h3 className={QUOTE_SECTION_LABEL}>Your estimated deep clean</h3>
-              <p className="mt-3 text-3xl font-semibold tabular-nums md:text-4xl">
-                {result.totalAfterPromoLow === result.totalAfterPromoHigh
-                  ? formatCurrency(result.totalAfterPromoHigh)
-                  : `${formatCurrency(result.totalAfterPromoLow)}–${formatCurrency(
-                      result.totalAfterPromoHigh
-                    )}`}
-              </p>
+              <div className="mt-3 flex items-center justify-between gap-3 md:block">
+                <p className="whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl">
+                  {result.totalAfterPromoLow === result.totalAfterPromoHigh
+                    ? formatCurrency(result.totalAfterPromoHigh)
+                    : `${formatCurrency(result.totalAfterPromoLow)}–${formatCurrency(
+                        result.totalAfterPromoHigh
+                      )}`}
+                </p>
+                <button
+                  type="button"
+                  className="inline-flex w-auto max-w-[50%] shrink-0 items-center rounded-full border border-[#a7eff1]/80 bg-white/70 px-3 py-1 text-[11px] font-semibold !normal-case !tracking-normal text-stone-800 md:hidden"
+                  style={{ textTransform: "none", letterSpacing: "normal" }}
+                  onClick={() => setShowMobileValueDetails((current) => !current)}
+                  aria-expanded={showMobileValueDetails}
+                >
+                  Found a lower quote elsewhere?
+                  <span className="ml-1 text-xs" aria-hidden>
+                    {showMobileValueDetails ? "\u2212" : "+"}
+                  </span>
+                </button>
+              </div>
               <p className="mt-2 text-sm text-stone-500">
                 {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
                 {" · "}
@@ -345,14 +360,41 @@ export default function DeepCleanQuoteCalculator({
                 {" · "}
                 {result.sqftInput.toLocaleString()} sq ft
               </p>
+              <div className="md:hidden">
+                {showMobileValueDetails && (
+                  <div className="mt-2 space-y-2 rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 text-sm leading-relaxed text-stone-600">
+                    <p>
+                      Not all cleaning quotes include the same scope. Lower prices
+                      may reflect a more limited service or separately priced
+                      add-ons.
+                    </p>
+                    <p>
+                      Our deep clean includes a comprehensive scope backed by our{" "}
+                      <Link
+                        href="/satisfaction-guarantee"
+                        className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                      >
+                        Satisfaction Guarantee
+                      </Link>
+                      .
+                    </p>
+                    <Link
+                      href="#whats-included"
+                      className="inline-block font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                    >
+                      Compare what&apos;s included &rarr;
+                    </Link>
+                  </div>
+                )}
+              </div>
               <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                Your final price depends on the condition of your home at your
-                walkthrough.
+                Your final price is confirmed during your walkthrough based on
+                your home&apos;s condition.
               </p>
             </div>
 
-            <aside className="-mx-2 rounded-2xl border border-[#dcbb52]/30 bg-[#dcbb52]/10 px-4 py-3 sm:mx-0 sm:col-span-3 sm:px-5 sm:py-5">
-              <p className="text-base font-semibold text-stone-900">
+            <aside className="hidden rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 md:col-span-2 md:block">
+              <p className="text-sm font-semibold text-stone-900">
                 Found a lower quote elsewhere?
               </p>
               <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">

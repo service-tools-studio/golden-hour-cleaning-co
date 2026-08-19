@@ -559,7 +559,7 @@ export default function PortlandDeepCleaningClient({
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${GOLD_BTN} w-full`}
+              className={`${GOLD_BTN} w-full normal-case tracking-normal`}
               onClick={handleCalendlyOpened}
             >
               Choose My Cleaning Time
@@ -568,7 +568,7 @@ export default function PortlandDeepCleaningClient({
             <button
               type="button"
               onClick={scrollToQuote}
-              className={`${GOLD_BTN} w-full`}
+              className={`${GOLD_BTN} w-full normal-case tracking-normal`}
             >
               Get My Instant Quote
             </button>
