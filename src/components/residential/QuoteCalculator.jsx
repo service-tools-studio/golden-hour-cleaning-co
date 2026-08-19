@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, Check } from "lucide-react";
+import { AlertTriangle, Check, Info } from "lucide-react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
 import ContactSheet from "./ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
@@ -1174,50 +1174,55 @@ export default function QuoteCalculator({
         <section
           aria-labelledby={quoteHeadingId}
           aria-describedby={quoteSummaryA11yId}
-          className={`${QUOTE_CARD} bg-[#fffbea]`}
+          className={`${QUOTE_CARD} relative bg-[#fffbea]`}
         >
           <p id={quoteSummaryA11yId} className="sr-only">
             {summaryA11yText}
           </p>
 
+          <button
+            type="button"
+            className="absolute top-2 right-1 inline-flex flex-col items-start justify-center rounded-xl border border-[#a7eff1]/80 bg-[#a7eff1]/20 py-1 pl-1.5 pr-1 text-left text-xs font-bold leading-tight !normal-case !tracking-normal text-stone-800 md:hidden"
+            style={{ textTransform: "none", letterSpacing: "normal" }}
+            onClick={() => setShowMobileValueDetails((current) => !current)}
+            aria-expanded={showMobileValueDetails}
+          >
+            <span>
+              Comparing another
+              <br />
+              <span className="inline-flex items-center gap-1.5">
+                quote?
+                <Info className="h-3 w-3 shrink-0" aria-hidden />
+              </span>
+            </span>
+          </button>
+
           <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-5 md:gap-8">
             <div className="md:col-span-3">
-              <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-                Your estimated quote
-              </h3>
-              <div className="mt-3 flex items-center justify-between gap-3 md:block">
-                <p className="whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
+              <div className="pr-24 md:pr-0">
+                <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
+                  Your Estimate
+                </h3>
+                <p className="mt-3 whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
                   {result.totalAfterPromoLow === result.totalAfterPromoHigh
                     ? formatCurrency(result.totalAfterPromoHigh)
                     : `${formatCurrency(
                       result.totalAfterPromoLow
                     )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
                 </p>
-                <button
-                  type="button"
-                  className="inline-flex w-auto max-w-[50%] shrink-0 items-center rounded-full border border-[#a7eff1]/80 bg-white/70 px-3 py-1 text-[11px] font-semibold !normal-case !tracking-normal text-stone-800 md:hidden"
-                  style={{ textTransform: "none", letterSpacing: "normal" }}
-                  onClick={() => setShowMobileValueDetails((current) => !current)}
-                  aria-expanded={showMobileValueDetails}
-                >
-                  Found a lower quote elsewhere?
-                  <span className="ml-1 text-xs" aria-hidden>
-                    {showMobileValueDetails ? "\u2212" : "+"}
-                  </span>
-                </button>
+                <p className="mt-2 text-sm text-stone-500">
+                  {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
+                  {" · "}
+                  {result.bathrooms}{" "}
+                  {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
+                  {" · "}
+                  {(result.sqftInput > 0
+                    ? result.sqftInput
+                    : result.estSqft
+                  ).toLocaleString()} sq ft
+                  {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                </p>
               </div>
-              <p className="mt-2 text-sm text-stone-500">
-                {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
-                {" · "}
-                {result.bathrooms}{" "}
-                {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
-                {" · "}
-                {(result.sqftInput > 0
-                  ? result.sqftInput
-                  : result.estSqft
-                ).toLocaleString()} sq ft
-                {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
-              </p>
               <div className="md:hidden">
                 {showMobileValueDetails && (
                   <div className="mt-2 space-y-2 rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 text-sm leading-relaxed text-stone-600">
@@ -1255,7 +1260,7 @@ export default function QuoteCalculator({
 
             <aside className="hidden rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 md:col-span-2 md:block">
               <p className="text-base font-semibold text-stone-900">
-                Found a lower quote elsewhere?
+                Comparing another quote?
               </p>
               <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
                 Not all cleaning quotes include the same scope. Lower prices may
