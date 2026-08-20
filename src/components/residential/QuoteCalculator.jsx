@@ -305,6 +305,14 @@ export function QuoteCalculatorBookingHeader({ title }) {
   );
 }
 
+/**
+ * @param {{
+ *   title: string,
+ *   subtitle?: string,
+ *   initialLevel?: "standard" | "deep" | "move_out",
+ *   hideHeader?: boolean,
+ * }} props
+ */
 export default function QuoteCalculator({
   title,
   subtitle = '',
