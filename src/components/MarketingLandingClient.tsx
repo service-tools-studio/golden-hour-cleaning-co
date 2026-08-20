@@ -19,9 +19,9 @@ import { scrollToId } from "@/helpers/scrollToId";
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
 
-function levelFromUrl(value: string | null): Level {
+function levelFromUrl(value: string | null): Level | null {
   if (value && VALID_LEVELS.has(value as Level)) return value as Level;
-  return "deep";
+  return null;
 }
 
 type Props = {
@@ -30,14 +30,14 @@ type Props = {
 
 export default function MarketingLandingClient({ pagePath }: Props) {
   const searchParams = useSearchParams();
-  const initialLevel = levelFromUrl(searchParams.get("level"));
+  const urlLevel = levelFromUrl(searchParams.get("level"));
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash === "#quote") {
       scrollToId("#quote", 8, { focus: true });
     }
-  }, [initialLevel]);
+  }, [urlLevel]);
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
@@ -65,7 +65,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
         <div className="pt-10 pb-16 md:pb-20" id="quote">
           <QuoteCalculator
-            initialLevel={initialLevel}
+            initialLevel={urlLevel ?? undefined}
             title="Get a Quote & Book Instantly"
             subtitle="Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."
           />

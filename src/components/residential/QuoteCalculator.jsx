@@ -308,7 +308,7 @@ export function QuoteCalculatorBookingHeader({ title }) {
 export default function QuoteCalculator({
   title,
   subtitle = '',
-  initialLevel = "deep",
+  initialLevel,
   hideHeader = false,
 }) {
   const router = useRouter();
@@ -319,9 +319,10 @@ export default function QuoteCalculator({
   const [sqft, setSqft] = useState(0);
 
   const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
+  const hasExplicitLevel = VALID_LEVELS.has(initialLevel);
 
   const [cleanType, setCleanType] = useState(() =>
-    VALID_LEVELS.has(initialLevel) ? initialLevel : "deep"
+    hasExplicitLevel ? initialLevel : "deep"
   );
 
   // Add-ons
@@ -336,8 +337,17 @@ export default function QuoteCalculator({
   const [showMobileValueDetails, setShowMobileValueDetails] = useState(false);
 
   useEffect(() => {
-    if (VALID_LEVELS.has(initialLevel) && initialLevel !== cleanType) {
+    if (VALID_LEVELS.has(initialLevel)) {
       setCleanType(initialLevel);
+      return;
+    }
+
+    // Header Instant Quote clears `level` from the URL — use storage, else deep.
+    const draft = readQuoteDraft();
+    if (draft && VALID_LEVELS.has(draft.cleanType)) {
+      setCleanType(draft.cleanType);
+    } else {
+      setCleanType("deep");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialLevel]);
@@ -382,7 +392,10 @@ export default function QuoteCalculator({
     if (draft.bedrooms != null) setBedrooms(asFiniteNumber(draft.bedrooms, 3));
     if (draft.bathrooms != null) setBathrooms(asFiniteNumber(draft.bathrooms, 2));
     if (draft.sqft != null) setSqft(asFiniteNumber(draft.sqft, 0));
-    if (VALID_LEVELS.has(draft.cleanType)) setCleanType(draft.cleanType);
+    // URL/prop level wins over a saved draft (e.g. service card Instant Quote)
+    if (!VALID_LEVELS.has(initialLevel) && VALID_LEVELS.has(draft.cleanType)) {
+      setCleanType(draft.cleanType);
+    }
     if (typeof draft.includeFridge === "boolean") setIncludeFridge(draft.includeFridge);
     if (typeof draft.includeOven === "boolean") setIncludeOven(draft.includeOven);
     if (typeof draft.includeSecondKitchen === "boolean") {

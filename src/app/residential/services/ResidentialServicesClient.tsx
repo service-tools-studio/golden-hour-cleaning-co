@@ -15,9 +15,9 @@ import { scrollToId } from "@/helpers/scrollToId";
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
 
-function levelFromUrl(value: string | null): Level {
+function levelFromUrl(value: string | null): Level | null {
   if (value && VALID_LEVELS.has(value as Level)) return value as Level;
-  return "deep";
+  return null;
 }
 
 export default function ResidentialServicesClient({
@@ -26,7 +26,8 @@ export default function ResidentialServicesClient({
   initialLevel: Level;
 }) {
   const searchParams = useSearchParams();
-  const level = levelFromUrl(searchParams.get("level")) || initialLevel;
+  const urlLevel = levelFromUrl(searchParams.get("level"));
+  const level = urlLevel ?? initialLevel;
 
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -51,7 +52,7 @@ export default function ResidentialServicesClient({
           className="mx-auto max-w-7xl px-6 pt-6 pb-10 md:pt-8 md:pb-12"
         >
           <QuoteCalculator
-            initialLevel={level}
+            initialLevel={urlLevel ?? undefined}
             title="Get a Quote & Book Instantly"
             subtitle="See your estimated price in about 30 seconds, then choose a cleaning time that works for you."
           />
