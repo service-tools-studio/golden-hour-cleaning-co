@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
-import { BulletList, BackToServicesLink, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function MoveOutCleanPageContent({
   quoteHref,
@@ -200,6 +200,10 @@ export default function MoveOutCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+          <FaqItem
+            question={HOURLY_CHARGE_FAQ.question}
+            answer={HOURLY_CHARGE_FAQ.answer}
+          />
           <FaqItem
             question="How is move-in / move-out cleaning priced?"
             answer="You'll get an instant estimate online based on your home's size and condition. We confirm your final price after a quick walkthrough."

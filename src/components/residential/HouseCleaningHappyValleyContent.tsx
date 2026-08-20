@@ -5,7 +5,7 @@ import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteL
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
-import { BulletList, FaqItem, Section } from "./servicePageParts";
+import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
   "Happy Valley",
@@ -112,6 +112,7 @@ const PRICING_FACTORS = [
 ];
 
 const FAQS = [
+  HOURLY_CHARGE_FAQ,
   {
     question: "Do I need to be home?",
     answer:

@@ -5,7 +5,7 @@ import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteL
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
-import { FaqItem, Section } from "./servicePageParts";
+import { FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
   "Central Beaverton",
@@ -65,6 +65,7 @@ const PROCESS_STEPS = [
 ];
 
 const FAQS = [
+  HOURLY_CHARGE_FAQ,
   {
     question: "How much does house cleaning cost in Beaverton?",
     answer:

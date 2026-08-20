@@ -8,8 +8,7 @@ export function BackToServicesLink() {
       href="/residential/services"
       className="uppercase tracking-wide mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
     >
-      <span aria-hidden>←</span>
-      Back to services
+      ← See all services
     </Link>
   );
 }
@@ -54,13 +53,25 @@ export function Section({
   );
 }
 
+export const HOURLY_CHARGE_FAQ = {
+  question: "What do you charge hourly?",
+  answer:
+    "We don't charge by the hour. Our pricing is based on the size, condition and scope of your home, so you're paying for the completed cleaning—not how long it takes us to get there.\n\nOur experienced team works efficiently, and we don't believe you should pay more simply because a cleaning takes longer—or that our team's efficiency should make the service worth less. Your quoted price reflects completion of the agreed-upon cleaning scope, regardless of the exact time required.",
+};
+
 export function FaqItem({ question, answer }: { question: string; answer: string }) {
+  const paragraphs = answer.trim().split(/\n\n+/);
+
   return (
     <div className="border-t border-amber-100 pt-4 first:border-t-0 first:pt-0">
       <h3 className={`text-sm font-semibold text-stone-900 ${HEADING_UPPER}`}>
         {question}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-stone-700">{answer}</p>
+      {paragraphs.map((paragraph) => (
+        <p key={paragraph} className="mt-2 text-sm leading-relaxed text-stone-700">
+          {paragraph}
+        </p>
+      ))}
     </div>
   );
 }

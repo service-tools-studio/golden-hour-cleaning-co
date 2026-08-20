@@ -24,6 +24,7 @@ import {
 import {
   BulletList,
   FaqItem,
+  HOURLY_CHARGE_FAQ,
   PORTLAND_METRO_AREAS,
   Section,
 } from "@/components/residential/servicePageParts";
@@ -58,7 +59,7 @@ const TRUST_VALUES = [
   {
     icon: CalendarDays,
     title: "Book Entirely Online",
-    desc: "See your price, choose an available time, and reserve your cleaning without waiting for calls or quotes.",
+    desc: "See your estimate, choose an available time, and reserve your cleaning without waiting for calls or quotes.",
   },
 ];
 
@@ -81,6 +82,7 @@ const PROCESS_STEPS = [
 ];
 
 const FAQS = [
+  HOURLY_CHARGE_FAQ,
   {
     question: "How much does deep cleaning cost in Portland?",
     answer:
@@ -235,7 +237,7 @@ export default function PortlandDeepCleaningClient({
   }
 
   return (
-    <div className={`min-h-screen bg-amber-50 text-stone-900 ${phase !== "done" ? "pb-20 lg:pb-0" : ""}`}>
+    <div className={`min-h-screen bg-amber-50 text-stone-900 ${phase !== "done" ? "pb-20 md:pb-0" : ""}`}>
       <header className="sticky top-0 z-[100001] w-full border-b border-amber-200 bg-[#a7eff1]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <a href="/" aria-label="Go to homepage">
@@ -249,12 +251,21 @@ export default function PortlandDeepCleaningClient({
               sizes="(max-width: 640px) 160px, 200px"
             />
           </a>
-          <a
-            href={`tel:${CONTACT.phone}`}
-            className={`${SECONDARY_BTN} hidden sm:inline-flex w-auto px-4 py-2 text-xs sm:text-sm`}
-          >
-            Call Us
-          </a>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={scrollToQuote}
+              className={`${GOLD_BTN} max-md:hidden w-auto px-4 py-2 text-xs sm:text-sm`}
+            >
+              Instant Quote + Book
+            </button>
+            <a
+              href={`tel:${CONTACT.phone}`}
+              className={`${SECONDARY_BTN} w-auto px-4 py-2 text-xs sm:text-sm`}
+            >
+              Call Us
+            </a>
+          </div>
         </div>
       </header>
 
@@ -382,20 +393,56 @@ export default function PortlandDeepCleaningClient({
 
         <section
           id="quote"
-          className="scroll-mt-[var(--header-height,88px)] bg-amber-50 py-12 md:py-16"
+          className="scroll-mt-[var(--header-height,88px)] bg-amber-50 pb-12 md:pb-16"
         >
-          <div className="mx-auto max-w-3xl px-4 text-center">
-            <h2
-              id="quote-calculator-heading"
-              tabIndex={-1}
-              className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER} focus:outline-none`}
-            >
-              Get Your Instant Deep Clean Quote
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-stone-600 md:text-base">
-              Tell us a little about your home to see your personalized pricing
-              range. It only takes about 30 seconds.
-            </p>
+          <div className="border-y border-amber-300 bg-amber-400 px-4 py-8 text-center md:py-10">
+            <div className="mx-auto max-w-3xl">
+              <p
+                className={`text-xs font-semibold text-stone-600 md:text-sm ${HEADING_UPPER}`}
+              >
+                Your Personalized Estimate
+              </p>
+              <h2
+                id="quote-calculator-heading"
+                tabIndex={-1}
+                className={`mt-3 text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER} focus:outline-none`}
+              >
+                Get Your Instant Deep Clean Quote
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-stone-700 md:text-base">
+                Tell us a little about your home to see your personalized pricing
+                range. It only takes about 30 seconds.
+              </p>
+              <div
+                className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-wide text-stone-700 sm:text-xs"
+                aria-label="Quote steps: home details, your estimate, then book"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/80 text-[10px] text-stone-800">
+                    1
+                  </span>
+                  Home Details
+                </span>
+                <span aria-hidden="true" className="text-amber-700/50">
+                  →
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] text-stone-800">
+                    2
+                  </span>
+                  Your Estimate
+                </span>
+                <span aria-hidden="true" className="text-amber-700/50">
+                  →
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] text-stone-800">
+                    3
+                  </span>
+                  Book
+                </span>
+              </div>
+            </div>
           </div>
           <div className="mt-8">
             <DeepCleanQuoteCalculator
@@ -587,7 +634,7 @@ export default function PortlandDeepCleaningClient({
       </main>
 
       {phase !== "done" && !quoteInView && (
-        <div className="fixed inset-x-0 bottom-0 z-[100000] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-[100000] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm md:hidden">
           {phase === "book" && calendlyUrl ? (
             <a
               href={calendlyUrl}
