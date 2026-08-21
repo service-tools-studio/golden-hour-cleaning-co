@@ -7,6 +7,12 @@ export const CALENDLY_EVENTS = {
   click: "calendly_click",
 } as const;
 
+/** Google Ads "Book appointment" conversion (Calendly open). */
+export const GOOGLE_ADS_ID = "AW-17703846603";
+export const GOOGLE_ADS_CALENDLY_SEND_TO =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_SEND_TO ||
+  "AW-17703846603/mIhyCLPzxL8bEMuF7flB";
+
 type TrackCalendlyClickParams = {
   source: string;
   url?: string;
@@ -43,10 +49,12 @@ function attributionParams(attribution?: PpcAttribution) {
 }
 
 /**
- * Fire a sitewide Calendly-open conversion signal to dataLayer + gtag.
- * Mark `calendly_click` as a key event/conversion in GA4 (and import to Google Ads).
- * Optionally fires a Google Ads conversion if NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_SEND_TO is set
- * (format: AW-XXXXXXXXX/label).
+ * Fire sitewide Calendly-open signals:
+ * 1) GA4 / dataLayer event `calendly_click`
+ * 2) Google Ads conversion `AW-17703846603/mIhyCLPzxL8bEMuF7flB` ("Book appointment")
+ *
+ * Matches Google's gtag_report_conversion send_to; navigation is not blocked because
+ * Calendly opens in a new tab / window.open in our flows.
  */
 export function trackCalendlyClick({
   source,
@@ -73,17 +81,14 @@ export function trackCalendlyClick({
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: CALENDLY_EVENTS.click, ...payload });
 
-  if (typeof window.gtag === "function") {
-    window.gtag("event", CALENDLY_EVENTS.click, payload);
+  if (typeof window.gtag !== "function") return;
 
-    const adsSendTo = process.env.NEXT_PUBLIC_GOOGLE_ADS_CALENDLY_SEND_TO;
-    if (adsSendTo) {
-      window.gtag("event", "conversion", {
-        send_to: adsSendTo,
-        ...payload,
-      });
-    }
-  }
+  window.gtag("event", CALENDLY_EVENTS.click, payload);
+
+  window.gtag("event", "conversion", {
+    send_to: GOOGLE_ADS_CALENDLY_SEND_TO,
+    ...payload,
+  });
 }
 
 export function isCalendlyHref(href: string | null | undefined): boolean {
