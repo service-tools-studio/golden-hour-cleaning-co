@@ -7,6 +7,9 @@ import { HEADING_UPPER } from '../../helpers/typography.js';
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
 
+const PAGE_INTRO =
+  'Every home and every cleaning is different, but our goal is always the same: thoughtful service and a beautifully cared-for space. See what our clients have shared about their experiences with Golden Hour Cleaning Co.';
+
 // Set in .env.local: NEXT_PUBLIC_GOOGLE_PLACE_ID
 // To get it: open your place on Google Maps → Share → copy link; Place ID is in the URL (ChIJ...)
 // Or use: https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
@@ -88,14 +91,19 @@ function ReviewCard({ review, index, failedImageIndices, markImageFailed, fullTe
   );
 }
 
-function ReviewsFallback({ titleAs: TitleTag = 'h2', message }) {
+function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = false }) {
   return (
     <section id="reviews" className="bg-amber-50/50">
       <div className="mx-auto max-w-7xl px-6 py-14">
         <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
           What our clients say
         </TitleTag>
-        <p className="mt-2 text-center text-sm text-stone-600">
+        {showPageIntro ? (
+          <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-stone-700">
+            {PAGE_INTRO}
+          </p>
+        ) : null}
+        <p className={`${showPageIntro ? 'mt-4' : 'mt-2'} text-center text-sm text-stone-600`}>
           {message || 'Read our reviews on Google'}
         </p>
         <div className="mt-8 flex justify-center">
@@ -212,7 +220,7 @@ export default function GoogleReviews({ variant = 'carousel' }) {
   }, [apiKey, placeId]);
 
   if (!placeId) {
-    return <ReviewsFallback titleAs={TitleTag} />;
+    return <ReviewsFallback titleAs={TitleTag} showPageIntro={isPage} />;
   }
 
   if (loading) {
@@ -222,6 +230,11 @@ export default function GoogleReviews({ variant = 'carousel' }) {
           <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
             What our clients say
           </TitleTag>
+          {isPage ? (
+            <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-stone-700">
+              {PAGE_INTRO}
+            </p>
+          ) : null}
           <div className="mt-8 flex justify-center py-12">
             <p className="text-stone-500">Loading reviews…</p>
           </div>
@@ -232,37 +245,43 @@ export default function GoogleReviews({ variant = 'carousel' }) {
 
   if (error || reviews.length === 0) {
     return (
-      <ReviewsFallback titleAs={TitleTag} message={error || 'No reviews to show yet.'} />
+      <ReviewsFallback
+        titleAs={TitleTag}
+        message={error || 'No reviews to show yet.'}
+        showPageIntro={isPage}
+      />
     );
   }
 
   return (
     <section id="reviews" className="bg-amber-50/50" aria-label="Google reviews">
       <div className={`mx-auto max-w-7xl px-6 ${isPage ? 'py-10 md:py-14' : 'py-14'}`}>
-        <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
-          <div>
-            <TitleTag className={`text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
-              What our clients say
-            </TitleTag>
-            <p className="mt-1 text-sm text-stone-600 md:text-base">
-              {isPage
-                ? 'Recent 5-star Google reviews from Portland-area clients.'
-                : 'Our reviews on Google'}
+        <div className="text-center">
+          <TitleTag className={`text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
+            What our clients say
+          </TitleTag>
+          {isPage ? (
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-700">
+              {PAGE_INTRO}
             </p>
-          </div>
-          <div className="mt-4 flex items-center gap-2 sm:mt-0">
-            {rating != null && (
-              <div className="flex items-center gap-1">
-                <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-                <span className="font-semibold text-stone-800">{Number(rating).toFixed(1)}</span>
-              </div>
-            )}
-            {totalRatings != null && (
-              <span className="text-sm text-stone-600">
-                ({totalRatings} {totalRatings === 1 ? 'review' : 'reviews'})
-              </span>
-            )}
-          </div>
+          ) : (
+            <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
+          )}
+          {(rating != null || totalRatings != null) && (
+            <div className="mt-4 flex items-center justify-center gap-2">
+              {rating != null && (
+                <div className="flex items-center gap-1">
+                  <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+                  <span className="font-semibold text-stone-800">{Number(rating).toFixed(1)}</span>
+                </div>
+              )}
+              {totalRatings != null && (
+                <span className="text-sm text-stone-600">
+                  ({totalRatings} {totalRatings === 1 ? 'review' : 'reviews'})
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {isPage ? (
