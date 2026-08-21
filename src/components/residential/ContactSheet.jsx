@@ -9,8 +9,49 @@ import {
 } from "../../helpers/contactHelpers";
 import { LEVEL_COPY } from "../../constants.js";
 
+/**
+ * @typedef {object} ContactSheetContext
+ * @property {string} level
+ * @property {number} [sqftLow]
+ * @property {number} [sqftHigh]
+ * @property {number} [sqftInput]
+ * @property {number} bedrooms
+ * @property {number} bathrooms
+ * @property {number} [total]
+ * @property {number} [totalLow]
+ * @property {boolean} [ecoProducts]
+ * @property {number} [cleaners]
+ * @property {number} [billableHoursLow]
+ * @property {number} [billableHours]
+ * @property {number} [ratePerSqftLow]
+ * @property {number} [ratePerSqftHigh]
+ * @property {{ fridge?: boolean, oven?: boolean, secondKitchen?: boolean }} [addons]
+ * @property {{ code: string, amount: number } | null} [promo]
+ */
+
+/**
+ * @type {import("react").ForwardRefExoticComponent<{
+ *   phone: string,
+ *   sms: string,
+ *   email: string,
+ *   context: ContactSheetContext,
+ *   className?: string,
+ *   buttonLabel?: string,
+ *   buttonClassName?: string,
+ *   onKeyDown?: (e: import("react").KeyboardEvent<HTMLButtonElement>) => void,
+ * } & import("react").RefAttributes<HTMLButtonElement>>}
+ */
 const ContactSheet = forwardRef(function ContactSheet(
-  { phone, sms, email, context, className = "", onKeyDown },
+  {
+    phone,
+    sms,
+    email,
+    context,
+    className = "",
+    buttonLabel = "Questions? Call / Text / Email",
+    buttonClassName,
+    onKeyDown,
+  },
   ref
 ) {
   const [open, setOpen] = useState(false);
@@ -114,9 +155,12 @@ const ContactSheet = forwardRef(function ContactSheet(
         onKeyDown={onKeyDown}
         aria-expanded={open}
         aria-controls="contact-sheet"
-        className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className={
+          buttonClassName ??
+          "uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-300"
+        }
       >
-        Questions? Call / Text / Email
+        {buttonLabel}
       </button>
 
       {open && (

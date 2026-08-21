@@ -25,7 +25,7 @@ export default function Hero() {
         <div className="relative flex items-center px-4 pt-4 pb-16 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
           <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
             <h1 className={`text-center text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
-              Professional cleaners with high standards, intentional care & consistent results.
+              Professional house cleaners with high standards, intentional care & consistent results.
             </h1>
 
             <p className="mt-3 text-center text-stone-700 lg:text-base">

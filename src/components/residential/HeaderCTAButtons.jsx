@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { Phone } from "lucide-react";
 import { CONTACT } from "../../constants.js";
 import { trackInstantQuoteClick } from "../../helpers/instantQuoteAnalytics";
 import { scrollToId } from "../../helpers/scrollToId.js";
@@ -20,7 +21,7 @@ export default function HeaderCTAButtons({ compact = false, quoteHref }) {
   const router = useRouter();
   const pathname = usePathname();
   const buttonLocation = compact ? "header_mobile_sticky" : "header_desktop";
-  const linkClass = `${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50 whitespace-nowrap ${compact ? "min-w-0 flex-1 shrink px-3 py-2 text-xs font-medium" : `shrink-0 ${SHARED_WIDTH} px-5 py-3 text-sm font-medium`}`;
+  const linkClass = `${BTN_UPPER} inline-flex items-center justify-center gap-1.5 rounded-2xl border border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50 whitespace-nowrap ${compact ? "min-w-0 flex-1 shrink px-3 py-2 text-xs font-medium" : `shrink-0 ${SHARED_WIDTH} px-5 py-3 text-sm font-medium`}`;
   const buttonClass = `${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300 whitespace-nowrap ${compact ? "min-w-0 flex-1 shrink px-3 py-2 text-xs font-semibold" : `shrink-0 ${SHARED_WIDTH} px-4 py-2.5 text-sm font-semibold lg:px-5 lg:py-3`}`;
 
   function goToQuote(e) {
@@ -66,6 +67,10 @@ export default function HeaderCTAButtons({ compact = false, quoteHref }) {
         className={linkClass}
         aria-label="Call us"
       >
+        <Phone
+          className={compact ? "h-3 w-3 shrink-0" : "h-3.5 w-3.5 shrink-0"}
+          aria-hidden
+        />
         Call Us
       </a>
       <button

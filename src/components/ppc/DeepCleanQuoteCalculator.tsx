@@ -12,6 +12,7 @@ import {
   QUOTE_SECTION_LABEL,
 } from "@/helpers/typography.js";
 import NumberField from "@/components/Fields/NumberField.jsx";
+import ContactSheet from "@/components/residential/ContactSheet.jsx";
 import DeepCleanConditionRange from "@/components/ppc/DeepCleanConditionRange";
 import {
   ADDON_FRIDGE_PRICE,
@@ -465,7 +466,7 @@ export default function DeepCleanQuoteCalculator({
 
       <section
         id="ppc-booking"
-        className="mt-8 scroll-mt-[var(--header-height,120px)]"
+        className="mt-8 scroll-mt-[var(--header-height,120px)] space-y-4"
       >
         <div className="rounded-2xl border border-[#a7eff1]/70 bg-white p-6 shadow-sm md:p-8">
           <h3 className={`text-xl font-semibold text-stone-900 ${HEADING_UPPER}`}>
@@ -497,6 +498,47 @@ export default function DeepCleanQuoteCalculator({
               Choose My Cleaning Time
             </a>
           )}
+        </div>
+
+        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm md:p-8">
+          <h3 className={`text-xl font-semibold text-stone-900 ${HEADING_UPPER}`}>
+            Questions?
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-stone-700 md:text-base">
+            Prefer to talk it through? Reach us by phone, text, or email — we
+            can help with your quote or booking.
+          </p>
+          <div className="mt-6">
+            <ContactSheet
+              phone={CONTACT.phone}
+              sms={CONTACT.sms}
+              email={CONTACT.email}
+              buttonLabel="Call / Text / Email"
+              buttonClassName={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-sm font-medium text-white hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+              context={{
+                level: "deep" as const,
+                sqftLow: result.sqftLow,
+                sqftHigh: result.sqftHigh,
+                sqftInput: result.sqftInput,
+                bedrooms,
+                bathrooms,
+                total: result.totalAfterPromoHigh,
+                totalLow: result.totalAfterPromoLow,
+                ecoProducts: true,
+                cleaners: result.time.cleaners,
+                billableHoursLow: result.billableHoursLow,
+                billableHours: result.billableHours,
+                ratePerSqftLow: result.ratePerSqftLow,
+                ratePerSqftHigh: result.ratePerSqftHigh,
+                addons: {
+                  fridge: result.addonFridge,
+                  oven: result.addonOven,
+                  secondKitchen: result.addonSecondKitchen,
+                },
+                promo: null,
+              }}
+            />
+          </div>
         </div>
       </section>
     </div>

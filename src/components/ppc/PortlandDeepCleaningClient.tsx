@@ -9,6 +9,7 @@ import {
   CalendarDays,
   Home,
   MapPin,
+  Phone,
   ShieldCheck,
   Stars,
 } from "lucide-react";
@@ -261,8 +262,9 @@ export default function PortlandDeepCleaningClient({
             </button>
             <a
               href={`tel:${CONTACT.phone}`}
-              className={`${SECONDARY_BTN} w-auto px-4 py-2 text-xs sm:text-sm`}
+              className={`${SECONDARY_BTN} w-auto gap-1.5 px-4 py-2 text-xs sm:text-sm`}
             >
+              <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
               Call Us
             </a>
           </div>
@@ -455,7 +457,7 @@ export default function PortlandDeepCleaningClient({
           </div>
         </section>
 
-        <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
+        <article className="mx-auto max-w-3xl px-6 pt-6 pb-12 md:pt-8 md:pb-16">
           <Section
             id="whats-included"
             title="What's Included in a Deep Clean"
