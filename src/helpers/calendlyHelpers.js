@@ -1,4 +1,13 @@
-export function buildCalendlyUrlWithUtm(baseUrl, result, promo = {}) {
+import { getPpcAttribution } from "./ppcAttribution";
+
+const CLICK_ID_KEYS = ["gclid", "gbraid", "wbraid"];
+
+export function buildCalendlyUrlWithUtm(
+  baseUrl,
+  result,
+  promo = {},
+  attribution = null
+) {
   // Build timestamp (local)
   const now = new Date();
   const mm = String(now.getMonth() + 1).padStart(2, "0");
@@ -24,7 +33,9 @@ export function buildCalendlyUrlWithUtm(baseUrl, result, promo = {}) {
       result?.addonFridge ? "Fr" : "",
       result?.addonOven ? "Ov" : "",
       result?.addonSecondKitchen ? "2Kit" : "",
-    ].filter(Boolean).join("") || "none";
+    ]
+      .filter(Boolean)
+      .join("") || "none";
 
   // Promo
   const promoApplied = Boolean(promo?.applied);
@@ -55,6 +66,19 @@ export function buildCalendlyUrlWithUtm(baseUrl, result, promo = {}) {
   u.searchParams.set("utm_medium", "website");
   u.searchParams.set("utm_campaign", "cleaning_quote");
   u.searchParams.set("utm_content", contentParts);
+
+  // Attach Google Ads click IDs when available (all Calendly entry points).
+  const attrs =
+    attribution && typeof attribution === "object"
+      ? attribution
+      : typeof window !== "undefined"
+        ? getPpcAttribution()
+        : {};
+
+  for (const key of CLICK_ID_KEYS) {
+    const value = attrs?.[key];
+    if (value) u.searchParams.set(key, value);
+  }
 
   return u.toString();
 }

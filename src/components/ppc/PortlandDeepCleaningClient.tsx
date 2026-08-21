@@ -35,6 +35,7 @@ import {
   PPC_DEEP_CLEAN_EVENTS,
   trackPpcDeepCleanEvent,
 } from "@/helpers/ppcDeepCleanAnalytics";
+import { trackCalendlyClick } from "@/helpers/calendlyAnalytics";
 import { calculateQuote } from "@/lib/quotePricing";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 
@@ -224,6 +225,12 @@ export default function PortlandDeepCleaningClient({
     setPhase((current) => (current === "done" ? current : "book"));
     if (calendlyOpenedRef.current) return;
     calendlyOpenedRef.current = true;
+    trackCalendlyClick({
+      source: "ppc_deep_clean",
+      url: calendlyUrl || undefined,
+      cleanType: "deep",
+      attribution,
+    });
     trackPpcDeepCleanEvent(
       PPC_DEEP_CLEAN_EVENTS.calendlyClick,
       undefined,
@@ -642,6 +649,8 @@ export default function PortlandDeepCleaningClient({
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-calendly-source="ppc_deep_clean"
+              data-calendly-skip-auto="true"
               className={`${GOLD_BTN} w-full normal-case tracking-normal`}
               onClick={handleCalendlyOpened}
             >

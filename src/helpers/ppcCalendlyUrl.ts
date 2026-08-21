@@ -80,7 +80,10 @@ export function buildPpcCalendlyUrl(
     attribution.gbraid ? `gbraid=${attribution.gbraid}` : "",
     attribution.wbraid ? `wbraid=${attribution.wbraid}` : "",
     attribution.utm_content ? `ad_content=${attribution.utm_content}` : "",
-    "lp=portland-deep-cleaning",
+    attribution.landing_path
+      ? `lp=${attribution.landing_path.replace(/^\//, "")}`
+      : "lp=portland-deep-cleaning",
+    attribution.captured_at ? `clicked_at=${attribution.captured_at}` : "",
   ]
     .filter(Boolean)
     .join("~");

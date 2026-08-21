@@ -5,7 +5,7 @@ import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { HEADING_UPPER } from '../../helpers/typography.js';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
-const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
+export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
 
 // Set in .env.local: NEXT_PUBLIC_GOOGLE_PLACE_ID
 // To get it: open your place on Google Maps → Share → copy link; Place ID is in the URL (ChIJ...)
@@ -31,9 +31,97 @@ function isFiveStarReview(review) {
   return Number(review?.rating) === 5;
 }
 
-export default function GoogleReviews() {
+function ReviewCard({ review, index, failedImageIndices, markImageFailed, fullText = false }) {
+  return (
+    <a
+      href={review.reviewUrl || GOOGLE_MAPS_REVIEWS_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex h-full cursor-pointer flex-col rounded-2xl border border-amber-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300"
+      aria-label={`Read review by ${review.author_name} on Google`}
+    >
+      <div className="flex items-center gap-3">
+        {review.profile_photo_url && !failedImageIndices.has(index) ? (
+          <img
+            src={review.profile_photo_url}
+            alt=""
+            className="h-10 w-10 rounded-full object-cover"
+            referrerPolicy="no-referrer"
+            onError={() => markImageFailed(index)}
+          />
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-medium text-stone-600">
+            {(review.author_name || '?')[0]}
+          </div>
+        )}
+        <div className="min-w-0">
+          <p className="truncate font-medium text-stone-800">{review.author_name}</p>
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Star
+                key={star}
+                className={`h-4 w-4 shrink-0 ${
+                  star <= (review.rating ?? 0)
+                    ? 'fill-amber-400 text-amber-400'
+                    : 'text-stone-200'
+                }`}
+              />
+            ))}
+            {review.relative_time_description && (
+              <span className="ml-1 text-xs text-stone-500">
+                {review.relative_time_description}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+      {review.text && (
+        <p
+          className={`mt-4 flex-1 text-sm leading-relaxed text-stone-700 ${
+            fullText ? '' : 'line-clamp-5'
+          }`}
+        >
+          {review.text}
+        </p>
+      )}
+    </a>
+  );
+}
+
+function ReviewsFallback({ titleAs: TitleTag = 'h2', message }) {
+  return (
+    <section id="reviews" className="bg-amber-50/50">
+      <div className="mx-auto max-w-7xl px-6 py-14">
+        <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
+          What our clients say
+        </TitleTag>
+        <p className="mt-2 text-center text-sm text-stone-600">
+          {message || 'Read our reviews on Google'}
+        </p>
+        <div className="mt-8 flex justify-center">
+          <a
+            href={GOOGLE_MAPS_REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
+          >
+            <Star className="h-5 w-5 fill-current" />
+            View all reviews on Google
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * @param {{ variant?: "carousel" | "page" }} props
+ */
+export default function GoogleReviews({ variant = 'carousel' }) {
+  const isPage = variant === 'page';
+  const TitleTag = isPage ? 'h1' : 'h2';
+
   const [reviews, setReviews] = useState([]);
-  const [placeName, setPlaceName] = useState('');
   const [rating, setRating] = useState(null);
   const [totalRatings, setTotalRatings] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +155,7 @@ export default function GoogleReviews() {
   };
 
   useEffect(() => {
-    if (reviews.length <= 1) return;
+    if (isPage || reviews.length <= 1) return;
     const el = scrollRef.current;
     if (!el) return;
     autoScrollRef.current = setInterval(() => {
@@ -83,7 +171,7 @@ export default function GoogleReviews() {
     return () => {
       if (autoScrollRef.current) clearInterval(autoScrollRef.current);
     };
-  }, [reviews.length]);
+  }, [reviews.length, isPage]);
 
   const markImageFailed = (i) => {
     setFailedImageIndices((prev) => new Set(prev).add(i));
@@ -111,8 +199,6 @@ export default function GoogleReviews() {
         return res.json();
       })
       .then((place) => {
-        const name = place.displayName;
-        setPlaceName(typeof name === 'string' ? name : name?.text ?? '');
         setRating(place.rating ?? null);
         setTotalRatings(place.userRatingCount ?? null);
         setReviews(
@@ -126,38 +212,16 @@ export default function GoogleReviews() {
   }, [apiKey, placeId]);
 
   if (!placeId) {
-    return (
-      <section id="reviews" className="bg-amber-50/50">
-        <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
-            What our clients say
-          </h2>
-          <p className="mt-2 text-center text-sm text-stone-600">
-            Read our reviews on Google
-          </p>
-          <div className="mt-8 flex justify-center">
-            <a
-              href={GOOGLE_MAPS_REVIEWS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
-            >
-              <Star className="h-5 w-5 fill-current" />
-              See reviews on Google
-            </a>
-          </div>
-        </div>
-      </section>
-    );
+    return <ReviewsFallback titleAs={TitleTag} />;
   }
 
   if (loading) {
     return (
       <section id="reviews" className="bg-amber-50/50">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
+          <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
             What our clients say
-          </h2>
+          </TitleTag>
           <div className="mt-8 flex justify-center py-12">
             <p className="text-stone-500">Loading reviews…</p>
           </div>
@@ -168,39 +232,23 @@ export default function GoogleReviews() {
 
   if (error || reviews.length === 0) {
     return (
-      <section id="reviews" className="bg-amber-50/50">
-        <div className="mx-auto max-w-7xl px-6 py-14">
-          <h2 className={`text-center text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
-            What our clients say
-          </h2>
-          <p className="mt-2 text-center text-sm text-stone-600">
-            {error || 'No reviews to show yet.'}
-          </p>
-          <div className="mt-8 flex justify-center">
-            <a
-              href={GOOGLE_MAPS_REVIEWS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
-            >
-              <Star className="h-5 w-5 fill-current" />
-              See reviews on Google
-            </a>
-          </div>
-        </div>
-      </section>
+      <ReviewsFallback titleAs={TitleTag} message={error || 'No reviews to show yet.'} />
     );
   }
 
   return (
     <section id="reviews" className="bg-amber-50/50" aria-label="Google reviews">
-      <div className="mx-auto max-w-7xl px-6 py-14">
+      <div className={`mx-auto max-w-7xl px-6 ${isPage ? 'py-10 md:py-14' : 'py-14'}`}>
         <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-6 sm:items-end">
           <div>
-            <h2 className={`text-2xl font-semibold text-stone-800 ${HEADING_UPPER}`}>
+            <TitleTag className={`text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
               What our clients say
-            </h2>
-            <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
+            </TitleTag>
+            <p className="mt-1 text-sm text-stone-600 md:text-base">
+              {isPage
+                ? 'Recent 5-star Google reviews from Portland-area clients.'
+                : 'Our reviews on Google'}
+            </p>
           </div>
           <div className="mt-4 flex items-center gap-2 sm:mt-0">
             {rating != null && (
@@ -217,96 +265,75 @@ export default function GoogleReviews() {
           </div>
         </div>
 
-        <div className="mt-8 relative mx-auto w-full max-w-xl [container-type:inline-size]">
-          <div
-            ref={scrollRef}
-            className="flex overflow-x-auto overflow-y-hidden py-2 pb-4 scroll-smooth"
-            style={{
-              gap: CARD_GAP,
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch',
-            }}
-            aria-label="Reviews carousel"
-          >
+        {isPage ? (
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review, i) => (
-              <a
+              <ReviewCard
                 key={i}
-                href={review.reviewUrl || GOOGLE_MAPS_REVIEWS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex w-[100cqw] min-w-[100cqw] shrink-0 cursor-pointer flex-col rounded-2xl border border-amber-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300"
-                style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-                aria-label={`Read review by ${review.author_name} on Google`}
-              >
-                <div className="flex items-center gap-3">
-                  {review.profile_photo_url && !failedImageIndices.has(i) ? (
-                    <img
-                      src={review.profile_photo_url}
-                      alt=""
-                      className="h-10 w-10 rounded-full object-cover"
-                      referrerPolicy="no-referrer"
-                      onError={() => markImageFailed(i)}
-                    />
-                  ) : (
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-medium text-stone-600">
-                      {(review.author_name || '?')[0]}
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-stone-800">{review.author_name}</p>
-                    <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`h-4 w-4 shrink-0 ${star <= (review.rating ?? 0)
-                            ? 'fill-amber-400 text-amber-400'
-                            : 'text-stone-200'
-                            }`}
-                        />
-                      ))}
-                      {review.relative_time_description && (
-                        <span className="ml-1 text-xs text-stone-500">
-                          {review.relative_time_description}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {review.text && (
-                  <p className="mt-4 flex-1 text-sm leading-relaxed text-stone-700 line-clamp-5">
-                    {review.text}
-                  </p>
-                )}
-              </a>
+                review={review}
+                index={i}
+                failedImageIndices={failedImageIndices}
+                markImageFailed={markImageFailed}
+                fullText
+              />
             ))}
           </div>
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={() => scroll('prev')}
-              aria-label="Previous reviews"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200 bg-white text-stone-700 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:opacity-50"
+        ) : (
+          <div className="mt-8 relative mx-auto w-full max-w-xl [container-type:inline-size]">
+            <div
+              ref={scrollRef}
+              className="flex overflow-x-auto overflow-y-hidden py-2 pb-4 scroll-smooth"
+              style={{
+                gap: CARD_GAP,
+                scrollSnapType: 'x mandatory',
+                WebkitOverflowScrolling: 'touch',
+              }}
+              aria-label="Reviews carousel"
             >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scroll('next')}
-              aria-label="Next reviews"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200 bg-white text-stone-700 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:opacity-50"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+              {reviews.map((review, i) => (
+                <div
+                  key={i}
+                  className="w-[100cqw] min-w-[100cqw] shrink-0"
+                  style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+                >
+                  <ReviewCard
+                    review={review}
+                    index={i}
+                    failedImageIndices={failedImageIndices}
+                    markImageFailed={markImageFailed}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => scroll('prev')}
+                aria-label="Previous reviews"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200 bg-white text-stone-700 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:opacity-50"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('next')}
+                aria-label="Next reviews"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200 bg-white text-stone-700 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-300 disabled:opacity-50"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <a
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 shadow-sm hover:bg-amber-50"
+            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
           >
+            <Star className="h-5 w-5 fill-current" />
             View all reviews on Google
           </a>
         </div>

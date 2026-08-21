@@ -9,6 +9,8 @@ import NumberField from "../Fields/NumberField.jsx";
 import { CFG, CONTACT, LEVEL_COPY, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
 import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
+import { trackCalendlyClick } from "../../helpers/calendlyAnalytics";
+import { getPpcAttribution } from "../../helpers/ppcAttribution";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
@@ -865,10 +867,23 @@ export default function QuoteCalculator({
   function onScheduleClick(e) {
     e.preventDefault();
 
-    const calendlyUrl = buildCalendlyUrlWithUtm(CONTACT.bookingUrl, result, {
-      applied: promoValid,
-      code: promoCode.trim().toUpperCase(),
-      amount: promoValid ? 50 : 0,
+    const attribution = getPpcAttribution();
+    const calendlyUrl = buildCalendlyUrlWithUtm(
+      CONTACT.bookingUrl,
+      result,
+      {
+        applied: promoValid,
+        code: promoCode.trim().toUpperCase(),
+        amount: promoValid ? 50 : 0,
+      },
+      attribution
+    );
+
+    trackCalendlyClick({
+      source: "quote_calculator",
+      url: calendlyUrl,
+      cleanType: cleanType,
+      attribution,
     });
 
     sessionStorage.setItem("calendlyUrl", calendlyUrl);

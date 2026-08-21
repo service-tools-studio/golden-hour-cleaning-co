@@ -160,7 +160,7 @@ export default function DeepCleanQuoteCalculator({
         code: "",
         amount: 0,
       },
-      getPpcAttribution()
+      { ...getPpcAttribution(), ...attribution }
     );
     event.currentTarget.href = url;
     onCalendlyUrlChange?.(url);
@@ -492,6 +492,8 @@ export default function DeepCleanQuoteCalculator({
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-calendly-source="ppc_deep_clean"
+              data-calendly-skip-auto="true"
               className={`${GOLD_BTN} mt-6`}
               onClick={openCalendly}
             >

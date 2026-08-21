@@ -25,12 +25,19 @@ export type PpcAttribution = {
   utm_content?: string;
   utm_id?: string;
   landing_path?: string;
+  /** ISO timestamp of the advertising touch currently stored. */
+  captured_at?: string;
 };
+
+function hasAttributionTouch(value: PpcAttribution) {
+  return ATTRIBUTION_KEYS.some((key) => Boolean(value[key]));
+}
 
 function readStored(): PpcAttribution {
   if (typeof window === "undefined") return {};
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
+    const raw =
+      localStorage.getItem(STORAGE_KEY) ?? sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return {};
     const parsed = JSON.parse(raw) as PpcAttribution;
     return parsed && typeof parsed === "object" ? parsed : {};
@@ -42,13 +49,19 @@ function readStored(): PpcAttribution {
 function writeStored(value: PpcAttribution) {
   if (typeof window === "undefined") return;
   try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    // Drop the old session-only copy once we've persisted durably.
+    sessionStorage.removeItem(STORAGE_KEY);
   } catch {
     // Ignore quota / private-mode failures; in-memory value still works for this visit.
   }
 }
 
-/** Capture inbound Ads/UTM params once and keep them for the in-page booking flow. */
+/**
+ * Capture inbound Ads/UTM params and keep them for later booking.
+ * New paid/UTM params overwrite prior ones (last-click). landing_path and
+ * captured_at update whenever a new attribution touch arrives.
+ */
 export function capturePpcAttribution(): PpcAttribution {
   if (typeof window === "undefined") return {};
 
@@ -61,13 +74,30 @@ export function capturePpcAttribution(): PpcAttribution {
     if (value) fromUrl[key] = value;
   }
 
+  const hasNewAttribution = Object.keys(fromUrl).length > 0;
+
   const merged: PpcAttribution = {
     ...stored,
     ...fromUrl,
-    landing_path: stored.landing_path || window.location.pathname,
+    landing_path: hasNewAttribution
+      ? window.location.pathname
+      : stored.landing_path || window.location.pathname,
   };
 
-  if (Object.keys(fromUrl).length > 0 || !stored.landing_path) {
+  if (hasNewAttribution) {
+    merged.captured_at = new Date().toISOString();
+  } else if (stored.captured_at) {
+    merged.captured_at = stored.captured_at;
+  } else if (hasAttributionTouch(merged)) {
+    // Backfill older stored records that predate captured_at.
+    merged.captured_at = new Date().toISOString();
+  }
+
+  if (
+    hasNewAttribution ||
+    !stored.landing_path ||
+    (hasAttributionTouch(merged) && !stored.captured_at)
+  ) {
     writeStored(merged);
   }
 

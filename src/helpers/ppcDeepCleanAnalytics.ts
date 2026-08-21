@@ -29,6 +29,7 @@ function attributionParams(attribution?: PpcAttribution): EventParams {
     utm_campaign: attrs.utm_campaign,
     utm_term: attrs.utm_term,
     landing_path: attrs.landing_path,
+    captured_at: attrs.captured_at,
   };
 }
 

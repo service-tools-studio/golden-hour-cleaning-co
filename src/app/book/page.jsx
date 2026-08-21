@@ -34,7 +34,17 @@ export default function BookPage() {
         Taking you back to residential in a moment.
       </p>
       <p className="text-gray-500 text-sm">
-        If it doesn't open automatically, <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">click here</a>.
+        If it doesn't open automatically,{" "}
+        <a
+          href={calendlyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-calendly-source="book_fallback"
+          className="underline text-blue-600"
+        >
+          click here
+        </a>
+        .
       </p>
     </div>
   );
