@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import DeepCleanChecklist from "./DeepCleanChecklist";
 import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function DeepCleanPageContent({
@@ -53,98 +54,7 @@ export default function DeepCleanPageContent({
       </Section>
 
       <Section id="whats-included" title="What's Included in Our Deep Cleaning Service?">
-        <p className="text-base leading-relaxed text-stone-700">
-          Our deep cleaning includes everything in our{" "}
-          <Link
-            href="/residential/services/standard"
-            className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
-          >
-            Standard Cleaning
-          </Link>{" "}
-          service, plus additional detailed attention throughout your home.
-        </p>
-
-        <div className="mt-6 space-y-6 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Kitchen
-            </h3>
-            <BulletList
-              items={[
-                "Clean and sanitize countertops",
-                "Clean backsplash",
-                "Clean stovetop",
-                "Clean inside and outside of the microwave",
-                "Clean exterior of appliances",
-                "Wipe cabinet fronts to remove fingerprints and buildup",
-                "Detail sink and faucet",
-                "Spot clean walls as needed",
-                "Vacuum and mop floors",
-                "Empty trash",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Bathrooms
-            </h3>
-            <BulletList
-              items={[
-                "Scrub showers, tubs, and tile",
-                "Remove soap scum and buildup",
-                "Clean and disinfect toilets",
-                "Clean sinks and countertops",
-                "Polish mirrors and fixtures",
-                "Wipe cabinet fronts",
-                "Spot clean walls",
-                "Vacuum and mop floors",
-                "Empty trash",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Bedrooms &amp; Living Areas
-            </h3>
-            <BulletList
-              items={[
-                "Dust all accessible surfaces",
-                "Dust furniture and décor",
-                "Dust baseboards",
-                "Clean window sills",
-                "Spot clean doors and door frames",
-                "Clean light switches",
-                "Wipe reachable trim",
-                "Vacuum carpets, rugs, and furniture edges",
-                "Mop hard floors",
-                "Empty trash",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Throughout the Home
-            </h3>
-            <BulletList
-              items={[
-                "Dust ceiling fan blades (within reach)",
-                "Dust vents (within reach)",
-                "Dust baseboards throughout",
-                "Clean window sills and tracks (light detail)",
-                "Spot clean walls",
-                "Wipe doors and door frames",
-                "Clean light switches",
-                "Remove cobwebs",
-                "Vacuum under accessible furniture",
-                "Vacuum edges and corners",
-                "Mop all hard flooring",
-              ]}
-            />
-          </div>
-        </div>
+        <DeepCleanChecklist />
       </Section>
 
       <Section title="What Makes a Deep Clean Different from a Standard Clean?">
