@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import Script from "next/script";
 import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
+import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import "./globals.css";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className={`${josefinSans.className} antialiased`}>
         <ScrollToTopOnNavigate />
         <CalendlyClickTracker />
+        <ClickToCallTracker />
         {children}
       </body>
     </html>
