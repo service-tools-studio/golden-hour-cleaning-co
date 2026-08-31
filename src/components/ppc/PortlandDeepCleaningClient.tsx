@@ -271,6 +271,7 @@ export default function PortlandDeepCleaningClient({
             <a
               href={`tel:${CONTACT.phone}`}
               className={`${SECONDARY_BTN} w-auto gap-1.5 px-4 py-2 text-xs sm:text-sm`}
+              data-call-source="ppc_header_call_us"
             >
               <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
               Call Us

@@ -5,6 +5,7 @@ import { getPpcAttribution, type PpcAttribution } from "./ppcAttribution";
 export const PPC_DEEP_CLEAN_EVENTS = {
   landingView: "deep_clean_landing_view",
   quoteStarted: "deep_clean_quote_started",
+  quoteViewed: "deep_clean_quote_viewed",
   quoteCompleted: "deep_clean_quote_completed",
   quoteLow: "deep_clean_quote_low",
   quoteHigh: "deep_clean_quote_high",

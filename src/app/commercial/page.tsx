@@ -77,6 +77,7 @@ export default function CommercialPage() {
               <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto sm:gap-3">
                 <a
                   href="tel:+15038934795"
+                  data-call-source="commercial_call_now"
                   className={`flex-1 rounded-xl border border-stone-300 bg-white px-3 py-2.5 text-center text-xs font-semibold text-stone-900 shadow-sm transition hover:bg-stone-50 sm:flex-none sm:rounded-2xl sm:px-4 sm:py-2 sm:text-sm ${BTN_UPPER}`}
                 >
                   Call now

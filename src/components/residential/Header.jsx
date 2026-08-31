@@ -221,7 +221,7 @@ export default function Header() {
               {text === phoneAnnouncement ? (
                 <>
                   Questions?{" "}
-                  <a href={`tel:${CONTACT.phone}`} className="underline underline-offset-2">
+                  <a href={`tel:${CONTACT.phone}`} data-call-source="header_banner_call" className="underline underline-offset-2">
                     Call
                   </a>{" "}
                   or{" "}
@@ -229,7 +229,7 @@ export default function Header() {
                     Text
                   </a>{" "}
                   us:{" "}
-                  <a href={`tel:${CONTACT.phone}`} className="underline underline-offset-2">
+                  <a href={`tel:${CONTACT.phone}`} data-call-source="header_banner_phone" className="underline underline-offset-2">
                     (503) 893-4795
                   </a>
                 </>

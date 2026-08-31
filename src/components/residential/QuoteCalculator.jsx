@@ -11,6 +11,8 @@ import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
 import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
 import { trackCalendlyClick } from "../../helpers/calendlyAnalytics";
 import { getPpcAttribution } from "../../helpers/ppcAttribution";
+import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
+import { useQuoteResultsInView } from "../../helpers/useQuoteResultsInView";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
@@ -793,6 +795,14 @@ export default function QuoteCalculator({
     [result.totalAfterPromoLow, result.totalAfterPromoHigh]
   );
 
+  const quoteResultsRef = useQuoteResultsInView(() => {
+    trackQuoteViewed({
+      quoteLow: result.totalAfterPromoLow,
+      quoteHigh: result.totalAfterPromoHigh,
+      cleanType,
+    });
+  });
+
   const summaryA11yText = useMemo(() => {
     const parts = [];
 
@@ -1185,6 +1195,7 @@ export default function QuoteCalculator({
       </div>
 
       <div
+        ref={quoteResultsRef}
         id="quote-results"
         tabIndex={-1}
         aria-labelledby={quoteResultsHeadingId}
@@ -1432,6 +1443,7 @@ export default function QuoteCalculator({
                 <a
                   ref={quoteScheduleBtnRef}
                   href={`tel:${CONTACT.phone}`}
+                  data-call-source="quote_call_to_book"
                   onKeyDown={focusQuoteContactButton}
                   className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
                   aria-label={`Call to book this clean at ${CONTACT.phone}`}

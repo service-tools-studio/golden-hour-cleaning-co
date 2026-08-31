@@ -159,6 +159,7 @@ export default function DeepCleanPageContent({
           and help you choose the service that&apos;s right for your home. Call{" "}
           <a
             href={`tel:${CONTACT.phone}`}
+            data-call-source="deep_clean_page_phone"
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
             (503) 893-4795

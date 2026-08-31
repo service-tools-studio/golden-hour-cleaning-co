@@ -201,6 +201,7 @@ const ContactSheet = forwardRef(function ContactSheet(
             <a
               ref={firstActionRef}
               href={`tel:${phone}`}
+              data-call-source="contact_sheet_call"
               className="flex items-start justify-between gap-3 rounded-lg border px-3 py-2 hover:bg-stone-50"
             >
               <div className="min-w-0">

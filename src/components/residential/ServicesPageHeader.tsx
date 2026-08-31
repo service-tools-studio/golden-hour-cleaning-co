@@ -8,6 +8,7 @@ type ServicesPageHeaderProps = {
   backLabel?: string;
   backHref?: string;
   onBack?: () => void;
+  /** @deprecated Ignored — header Instant Quote always goes to the regular calculator. */
   quoteHref?: string;
   showCtas?: boolean;
 };
@@ -16,7 +17,6 @@ export default function ServicesPageHeader({
   backLabel,
   backHref,
   onBack,
-  quoteHref,
   showCtas = true,
 }: ServicesPageHeaderProps) {
   const backClassName =
@@ -53,7 +53,7 @@ export default function ServicesPageHeader({
           </div>
           {showCtas ? (
             <div className="hidden lg:flex shrink-0 items-center gap-2">
-              <HeaderCTAButtons quoteHref={quoteHref} />
+              <HeaderCTAButtons />
             </div>
           ) : null}
         </div>
@@ -65,7 +65,7 @@ export default function ServicesPageHeader({
           aria-label="Quick actions"
         >
           <div className="mx-auto flex max-w-7xl items-center justify-center gap-2">
-            <HeaderCTAButtons compact quoteHref={quoteHref} />
+            <HeaderCTAButtons compact />
           </div>
         </div>
       ) : null}

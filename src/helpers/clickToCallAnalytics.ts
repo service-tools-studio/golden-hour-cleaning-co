@@ -16,11 +16,6 @@ type TrackClickToCallParams = {
   url?: string;
   attribution?: PpcAttribution;
   extra?: Record<string, string | number | boolean | undefined>;
-  /**
-   * Optional navigation after the Ads ping (Google's gtag_report_conversion pattern).
-   * For tel: links, pass the href so the dialer still opens if we preventDefault.
-   */
-  navigateTo?: string;
 };
 
 const recentKeys = new Map<string, number>();
@@ -50,29 +45,28 @@ function attributionParams(attribution?: PpcAttribution) {
 }
 
 /**
- * Fire click-to-call conversion:
+ * Fire click-to-call conversion for any phone CTA:
  * 1) GA4 / dataLayer `click_to_call`
  * 2) Google Ads `AW-17703846603/Ct_7CNe1nOYcEMuF7flB` (value 1 USD)
  *
- * Matches Google's gtag_report_conversion for "Click to call".
+ * Does not block the dialer — call this from a click listener without preventDefault.
  */
 export function trackClickToCall({
-  source = "link",
+  source = "tel_link",
   url,
   attribution,
   extra,
-  navigateTo,
-}: TrackClickToCallParams) {
-  if (typeof window === "undefined") return;
+}: TrackClickToCallParams): boolean {
+  if (typeof window === "undefined") return false;
 
-  const dedupeKey = `${source}|${url || navigateTo || window.location.pathname}`;
-  if (!shouldTrack(dedupeKey)) return;
+  const dedupeKey = `${source}|${url || window.location.pathname}`;
+  if (!shouldTrack(dedupeKey)) return false;
 
   const payload = {
     event_category: "phone",
     page_path: window.location.pathname,
     call_source: source,
-    call_url: url || navigateTo,
+    call_url: url,
     ...attributionParams(attribution),
     ...extra,
   };
@@ -80,43 +74,26 @@ export function trackClickToCall({
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: CLICK_TO_CALL_EVENTS.click, ...payload });
 
-  const navigate = () => {
-    if (navigateTo) window.location.href = navigateTo;
-  };
-
-  if (typeof window.gtag !== "function") {
-    navigate();
-    return;
+  if (typeof window.gtag === "function") {
+    window.gtag("event", CLICK_TO_CALL_EVENTS.click, payload);
+    window.gtag("event", "conversion", {
+      ...payload,
+      send_to: GOOGLE_ADS_CLICK_TO_CALL_SEND_TO,
+      value: 1.0,
+      currency: "USD",
+    });
   }
 
-  window.gtag("event", CLICK_TO_CALL_EVENTS.click, payload);
-
-  let navigated = false;
-  const done = () => {
-    if (navigated) return;
-    navigated = true;
-    navigate();
-  };
-
-  window.gtag("event", "conversion", {
-    send_to: GOOGLE_ADS_CLICK_TO_CALL_SEND_TO,
-    value: 1.0,
-    currency: "USD",
-    event_callback: done,
-    ...payload,
-  });
-
-  // Fallback if the Ads ping never calls back (ad blockers, offline).
-  if (navigateTo) {
-    window.setTimeout(done, 2000);
-  }
+  return true;
 }
 
 export function isTelHref(href: string | null | undefined): boolean {
   if (!href) return false;
+  const trimmed = href.trim();
+  if (/^tel:/i.test(trimmed)) return true;
   try {
-    return new URL(href, window.location.origin).protocol === "tel:";
+    return new URL(trimmed, window.location.origin).protocol === "tel:";
   } catch {
-    return /^tel:/i.test(href);
+    return false;
   }
 }

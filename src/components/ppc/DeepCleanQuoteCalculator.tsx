@@ -31,6 +31,12 @@ import {
   readQuoteDraft,
   writeQuoteDraft,
 } from "@/helpers/quoteDraftStorage";
+import { trackQuoteViewed } from "@/helpers/quoteViewAnalytics";
+import { useQuoteResultsInView } from "@/helpers/useQuoteResultsInView";
+import {
+  PPC_DEEP_CLEAN_EVENTS,
+  trackPpcDeepCleanEvent,
+} from "@/helpers/ppcDeepCleanAnalytics";
 
 const QUOTE_CARD =
   "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm md:p-8";
@@ -120,6 +126,22 @@ export default function DeepCleanQuoteCalculator({
       ),
     [result, attribution]
   );
+
+  const quoteResultsRef = useQuoteResultsInView(() => {
+    const quoteLow = result.totalAfterPromoLow;
+    const quoteHigh = result.totalAfterPromoHigh;
+    trackQuoteViewed({
+      quoteLow,
+      quoteHigh,
+      cleanType: "deep",
+      attribution,
+    });
+    trackPpcDeepCleanEvent(
+      PPC_DEEP_CLEAN_EVENTS.quoteViewed,
+      { quote_low: quoteLow, quote_high: quoteHigh },
+      attribution
+    );
+  });
 
   const skipQuoteDraftSave = useRef(true);
   useEffect(() => {
@@ -303,6 +325,7 @@ export default function DeepCleanQuoteCalculator({
       </div>
 
       <div
+        ref={quoteResultsRef}
         id="quote-results"
         className="mt-8 scroll-mt-[var(--header-height,120px)]"
       >
@@ -482,6 +505,7 @@ export default function DeepCleanQuoteCalculator({
             <a
               href={`tel:${CONTACT.phone}`}
               className={`${GOLD_BTN} mt-6`}
+              data-call-source="ppc_call_us_to_book"
               onClick={() => onQuoteCompleted?.(result)}
             >
               Call Us to Book

@@ -9,15 +9,15 @@ import { BTN_UPPER } from "../../helpers/typography.js";
 
 const SHARED_WIDTH = "w-[220px]";
 
-function stripLevelFromHref(href) {
-  const url = new URL(href, "https://goldenhour.local");
-  url.searchParams.delete("level");
-  const search = url.searchParams.toString();
-  const hash = url.hash || "#quote";
-  return `${url.pathname}${search ? `?${search}` : ""}${hash}`;
-}
+/** Canonical regular (non-PPC) quote calculator. */
+export const REGULAR_QUOTE_HREF = "/residential/services#quote";
+const REGULAR_QUOTE_PATH = "/residential/services";
 
-export default function HeaderCTAButtons({ compact = false, quoteHref }) {
+export default function HeaderCTAButtons({
+  compact = false,
+  // Kept for call-site compatibility; header Instant Quote always uses the regular calculator.
+  quoteHref: _quoteHref,
+} = {}) {
   const router = useRouter();
   const pathname = usePathname();
   const buttonLocation = compact ? "header_mobile_sticky" : "header_desktop";
@@ -27,9 +27,7 @@ export default function HeaderCTAButtons({ compact = false, quoteHref }) {
   function goToQuote(e) {
     e.preventDefault();
 
-    const destination = quoteHref
-      ? stripLevelFromHref(quoteHref)
-      : `${pathname}#quote`;
+    const destination = REGULAR_QUOTE_HREF;
 
     trackInstantQuoteClick({
       buttonLocation,
@@ -37,12 +35,11 @@ export default function HeaderCTAButtons({ compact = false, quoteHref }) {
       destination,
     });
 
-    const targetPath = quoteHref
-      ? new URL(quoteHref, "https://goldenhour.local").pathname
-      : pathname;
-    const isSamePath = targetPath === pathname;
+    const onRegularQuotePage =
+      pathname === REGULAR_QUOTE_PATH ||
+      pathname === `${REGULAR_QUOTE_PATH}/`;
 
-    if (isSamePath) {
+    if (onRegularQuotePage) {
       const url = new URL(window.location.href);
       if (url.searchParams.has("level")) {
         url.searchParams.delete("level");
@@ -66,6 +63,7 @@ export default function HeaderCTAButtons({ compact = false, quoteHref }) {
         href={`tel:${CONTACT.phone}`}
         className={linkClass}
         aria-label="Call us"
+        data-call-source="header_call_us"
       >
         <Phone
           className={compact ? "h-3 w-3 shrink-0" : "h-3.5 w-3.5 shrink-0"}
