@@ -48,6 +48,289 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-much-does-post-construction-cleaning-cost-in-portland",
+    title: "How Much Does Post-Construction Cleaning Cost in Portland?",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-08-31",
+    excerpt:
+      "Post-construction cleaning in Portland commonly runs $0.20–$0.75 per square foot, but the actual price depends heavily on dust levels, construction type, and scope. Here's what drives the cost and how to get an accurate quote.",
+    heroImage: {
+      src: "/assets/post-construction-cleaning.png",
+      alt: "A Golden Hour cleaner wiping down a kitchen island during a post-construction cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "You've finished the remodel, renovation, or construction project. The contractors are wrapping up, the new finishes look beautiful—and there's a layer of fine construction dust on just about everything.",
+          "So, how much should you expect to pay for professional post-construction cleaning in Portland?",
+          "Post-construction cleaning in the Portland area commonly costs around $0.20 to $0.75 per square foot, but the actual price can vary significantly depending on the condition of the space, the type of construction performed, and exactly what needs to be cleaned.",
+          "A relatively clean new build that has already received a contractor rough clean may fall toward the lower end of that range. A renovation with heavy drywall dust, paint or adhesive residue, detailed cabinetry, windows, fixtures, and dust throughout the property can cost substantially more.",
+          "That's why reputable cleaning companies typically need more information about the project before providing an accurate price.",
+        ],
+      },
+      {
+        heading: "Typical Post-Construction Cleaning Costs in Portland",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Current Portland and Oregon pricing guides show a fairly wide range for post-construction cleaning. Residential projects are commonly quoted by the square foot, while larger or more complicated projects may be priced based on the estimated labor and scope of work.",
+          },
+          {
+            type: "paragraph",
+            text: "As a general starting point, you might see pricing like:",
+          },
+          {
+            type: "table",
+            headers: ["Size of Area", "Approximate Price at $0.20–$0.75/sq. ft."],
+            align: ["left", "right"],
+            rows: [
+              ["1,000 sq. ft.", "$200–$750"],
+              ["1,500 sq. ft.", "$300–$1,125"],
+              ["2,000 sq. ft.", "$400–$1,500"],
+              ["2,500 sq. ft.", "$500–$1,875"],
+              ["3,000 sq. ft.", "$600–$2,250"],
+              ["5,000 sq. ft.", "$1,000–$3,750"],
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "These numbers are best used as a starting point rather than a guaranteed quote.",
+          },
+          {
+            type: "paragraph",
+            text: "Two 2,000-square-foot properties can require dramatically different amounts of work.",
+          },
+          {
+            type: "paragraph",
+            text: "For example, cleaning an empty newly constructed home where the contractors have already removed debris and completed a basic cleanup is very different from cleaning a 2,000-square-foot home after months of remodeling while the homeowners continued living there.",
+          },
+        ],
+      },
+      {
+        heading:
+          "Why Does Post-Construction Cleaning Cost More Than Regular House Cleaning?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Post-construction cleaning isn't the same as a standard or even typical deep cleaning.",
+          },
+          {
+            type: "paragraph",
+            text: "The biggest difference is construction dust.",
+          },
+          {
+            type: "paragraph",
+            text: "Drywall, sanding, cutting, drilling, flooring installation, and other construction work can produce extremely fine particles that travel far beyond the immediate work area. Dust can settle on walls, trim, doors, cabinets, window tracks, fixtures, shelving, floors, and other surfaces throughout the property.",
+          },
+          {
+            type: "paragraph",
+            text: "And once you wipe it away, you may discover another layer underneath.",
+          },
+          {
+            type: "paragraph",
+            text: "A professional post-construction cleaning can involve detailed dust removal from surfaces that wouldn't ordinarily require attention during routine house cleaning.",
+          },
+          {
+            type: "paragraph",
+            text: "Depending on the project, cleaners may also be dealing with:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Drywall and construction dust",
+              "Sawdust",
+              "Stickers and labels on new fixtures",
+              "Adhesive residue",
+              "Paint splatter or overspray",
+              "Dust inside cabinets and drawers",
+              "Window and door tracks",
+              "Baseboards and trim",
+              "Newly installed fixtures",
+              "Interior glass",
+              "Dust on walls, doors, and other vertical surfaces",
+              "Construction debris left behind by contractors",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "All of that additional detail translates into more labor.",
+          },
+        ],
+      },
+      {
+        heading: "What Affects the Cost of Post-Construction Cleaning?",
+        paragraphs: [
+          "Square footage matters, but the condition of the property is often even more important.",
+          "Here are some of the biggest factors that can affect your quote.",
+        ],
+      },
+      {
+        heading: "1. The Amount of Construction Dust",
+        headingLevel: 3,
+        paragraphs: [
+          "A project involving significant drywall work, sanding, demolition, or cutting can leave an enormous amount of fine dust behind.",
+          "A renovation that involved mostly replacing fixtures or painting may require considerably less cleanup.",
+          "The more dust there is—and the more surfaces it has reached—the more time the cleaning will take.",
+        ],
+      },
+      {
+        heading: "2. Whether the Contractor Has Already Completed a Rough Clean",
+        headingLevel: 3,
+        paragraphs: [
+          "Ideally, the construction crew removes large debris, scraps, packaging, and excess building materials before the professional cleaning crew arrives.",
+          "If the cleaners have to begin by picking up construction debris throughout the property, the project can take significantly longer.",
+          "It's worth asking your contractor exactly what cleanup is included in their contract.",
+        ],
+      },
+      {
+        heading: "3. New Construction vs. Remodeling",
+        headingLevel: 3,
+        paragraphs: [
+          "Empty new construction can sometimes be easier to clean because cleaners have unobstructed access to the entire property.",
+          "Remodels can be more complicated.",
+          "If construction occurred while the home was occupied, dust may have traveled into furnished rooms, closets, belongings, or other areas that weren't technically part of the construction zone.",
+        ],
+      },
+      {
+        heading: "4. Windows",
+        headingLevel: 3,
+        paragraphs: [
+          "Windows can be one of the most labor-intensive parts of a construction clean.",
+          "New windows may have stickers, adhesive, dust, fingerprints, paint, or construction residue that requires considerably more work than normal window cleaning.",
+          "The number, size, accessibility, and condition of the windows can therefore have a noticeable impact on price.",
+        ],
+      },
+      {
+        heading: "5. Paint, Adhesive, Grout, and Other Residue",
+        headingLevel: 3,
+        paragraphs: [
+          "Removing ordinary dust is one thing.",
+          "Removing dried paint, adhesive, caulk, grout haze, or other construction residue without damaging brand-new surfaces is another.",
+          "These issues can require additional time and specialized techniques, and some types of residue removal may fall outside a cleaning company's standard post-construction scope.",
+        ],
+      },
+      {
+        heading: "6. Cabinets, Shelving, and Built-Ins",
+        headingLevel: 3,
+        paragraphs: [
+          "A newly remodeled kitchen can contain dozens of surfaces before you even get to the floors.",
+          "Cabinet fronts, cabinet interiors, drawers, shelving, hardware, countertops, backsplashes, appliances, trim, and fixtures may all need individual attention.",
+          "That's why a relatively small kitchen renovation can sometimes require more cleaning labor per square foot than a much larger open space.",
+        ],
+      },
+      {
+        heading: "7. How Many Cleaning Phases Are Needed",
+        headingLevel: 3,
+        paragraphs: [
+          "Large construction projects may involve more than one cleaning.",
+          "A rough clean happens earlier in the construction process and focuses on larger debris and initial cleanup.",
+          "A final clean is much more detailed and prepares the property for occupancy, turnover, inspection, or presentation.",
+          "Some projects also require a final touch-up clean after contractors return to complete punch-list items.",
+          "If you're comparing quotes, make sure you're comparing the same scope of work. One company's inexpensive quote may cover a single cleaning phase while another includes considerably more.",
+        ],
+      },
+      {
+        heading: "Residential vs. Commercial Post-Construction Cleaning",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Commercial construction cleaning can be priced differently from residential cleaning.",
+          },
+          {
+            type: "paragraph",
+            text: "Large commercial projects may involve thousands—or tens of thousands—of square feet, strict deadlines, multiple cleaning phases, coordination with a general contractor, larger crews, specialized equipment, and insurance or site-access requirements.",
+          },
+          {
+            type: "paragraph",
+            text: "Because of this, commercial post-construction cleaning is generally best quoted based on the plans and scope of the individual project rather than a simple online price estimate.",
+          },
+          {
+            type: "paragraph",
+            text: "For contractors and property managers, providing the cleaning company with square footage, project plans, expected completion date, cleaning specifications, and photos can make the bidding process much more accurate.",
+          },
+        ],
+      },
+      {
+        heading: "Is Post-Construction Cleaning Worth Paying For?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "After spending thousands—or hundreds of thousands—of dollars on construction or remodeling, professional cleaning can feel like one more expense at the end of an already expensive project.",
+          },
+          {
+            type: "paragraph",
+            text: "But construction dust is surprisingly difficult to remove completely.",
+          },
+          {
+            type: "paragraph",
+            text: "You may clean the floors and countertops only to notice dust appearing again the next day. That's often because particles remain on trim, walls, cabinets, window tracks, fixtures, and other surfaces throughout the space.",
+          },
+          {
+            type: "paragraph",
+            text: "There is also the issue of protecting the investment you've just made.",
+          },
+          {
+            type: "paragraph",
+            text: "Brand-new flooring, countertops, appliances, cabinetry, and fixtures should be cleaned carefully. Aggressive scraping or using the wrong cleaning product on a new finish can cause permanent damage.",
+          },
+          {
+            type: "paragraph",
+            text: "A thorough final cleaning is what transforms a construction site back into a home—or turns a completed commercial project into a space that's actually ready to hand over to the client.",
+          },
+        ],
+      },
+      {
+        heading: "How to Get an Accurate Post-Construction Cleaning Quote",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "When requesting a quote, provide as much information about the project as possible.",
+          },
+          {
+            type: "paragraph",
+            text: "Helpful information includes:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Property square footage",
+              "Residential or commercial property",
+              "Type of construction or renovation",
+              "Areas where construction occurred",
+              "Whether the property is occupied or empty",
+              "Amount of visible construction dust",
+              "Whether contractors will remove debris",
+              "Number of windows",
+              "Whether interior cabinets and drawers need cleaning",
+              "Any paint, adhesive, grout, or other residue that needs removal",
+              "Desired completion date",
+              "Photos or videos of the property",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "For larger projects, an on-site walkthrough may be the best way to establish an accurate scope and price.",
+          },
+        ],
+      },
+      {
+        heading: "Post-Construction Cleaning in Portland, Oregon",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we provide detailed post-construction cleaning for homes, remodels, new construction, and commercial spaces throughout the Portland metro area.",
+          "Because construction projects vary so widely, we price post-construction cleaning based on the actual scope of the project rather than assuming every property of the same size will require the same amount of work.",
+          "Our goal is simple: remove the construction mess so your finished space actually feels finished.",
+          "If your construction or renovation project is nearing completion, contact Golden Hour Cleaning Co. for a personalized post-construction cleaning quote.",
+        ],
+        link: {
+          href: "/residential/services#quote",
+          label: "Get a Personalized Quote",
+        },
+      },
+    ],
+  },
+  {
     slug: "homeowners-nightmare-reviving-severely-neglected-rental-property",
     title:
       "A Homeowner's Nightmare: How We Helped Revive a Severely Neglected Rental Property",
