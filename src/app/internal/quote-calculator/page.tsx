@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import InternalQuoteCalculatorClient from "./InternalQuoteCalculatorClient";
 
 export const metadata: Metadata = {
-  title: "Preserved quote calculator | Golden Hour Cleaning Co.",
+  title: "Internal quote calculator | Golden Hour Cleaning Co.",
   robots: {
     index: false,
     follow: false,
