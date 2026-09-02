@@ -9,6 +9,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CalendarDetailsPage() {
+export default function InternalCalendarDetailsPage() {
   return <CalendarDetailsClient />;
 }

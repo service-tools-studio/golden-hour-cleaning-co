@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
         destination: "/cities/house-cleaning-happy-valley",
         permanent: true,
       },
+      {
+        source: "/calendar-details",
+        destination: "/internal/calendar-details",
+        permanent: true,
+      },
     ];
   },
 };

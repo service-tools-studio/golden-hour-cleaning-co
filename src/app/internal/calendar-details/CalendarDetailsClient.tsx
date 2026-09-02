@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { formatUtmContent } from "@/helpers/parseUtmContent.mjs";
+import InternalBreadcrumbs from "@/components/internal/InternalBreadcrumbs";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 const EXAMPLE =
@@ -32,9 +33,7 @@ export default function CalendarDetailsClient() {
   return (
     <main className="min-h-screen bg-amber-50 text-stone-900">
       <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
-          Internal tool
-        </p>
+        <InternalBreadcrumbs currentPage="Calendar details" />
         <h1 className={`mt-3 text-3xl md:text-4xl ${HEADING_UPPER}`}>
           Calendar details
         </h1>
