@@ -1,0 +1,35 @@
+---
+description: Keep /internal/quote-calculator frozen; never merge production calculator changes into it
+alwaysApply: true
+---
+
+# Preserved internal quote calculator
+
+The residential quote calculator at **`/internal/quote-calculator`** is a **permanent archive** of the Sept 2026 Instant Quote + Book flow. Preserve it indefinitely unless the user explicitly asks to replace the archive with a new baseline.
+
+## Do not modify when changing production calculators
+
+When updating live quote flows, apply changes only to production files, for example:
+
+- `src/components/residential/QuoteCalculator.jsx`
+- `src/components/ppc/DeepCleanQuoteCalculator.tsx`
+- `src/lib/quotePricing.js`
+- `src/helpers/calendlyHelpers.js`
+- `src/helpers/quoteDraftStorage.ts`
+- Header CTA / booking routing tied to the live flow
+
+**Never** edit these for production work:
+
+- `src/components/internal/PreservedQuoteCalculator.jsx`
+- `src/components/internal/preserved/**`
+- `src/app/internal/quote-calculator/**` (except intentional internal UX like breadcrumbs/footer)
+
+## Isolation rules
+
+- `PreservedQuoteCalculator` must **only** be imported from `/internal/quote-calculator`.
+- It uses frozen copies under `src/components/internal/preserved/` (constants, pricing heuristic, Calendly UTM builder, draft storage) — do not wire it back to shared production modules.
+- Do not re-export or reuse preserved components on public routes.
+
+## Replacing the archive (rare)
+
+Only when the user explicitly requests a new preserved baseline: copy the then-current production calculator + its dependencies into `PreservedQuoteCalculator.jsx` and `preserved/`, update the header comment date, and keep isolation intact.

@@ -3,7 +3,8 @@
 /**
  * Frozen snapshot of the residential quote calculator (Sept 2026).
  * Served at /internal/quote-calculator — do not import from production pages.
- * Update only when intentionally archiving a new baseline.
+ * Uses ./preserved/* for pricing, constants, Calendly UTM, and draft storage.
+ * Do not edit when changing production calculators unless archiving a new baseline.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -12,9 +13,14 @@ import { formatCurrency } from "../../helpers/contactHelpers.js";
 import ContactSheet from "../residential/ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
-import { CFG, CONTACT, LEVEL_COPY, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
-import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
-import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
+import {
+  CFG,
+  CONTACT,
+  LEVEL_COPY,
+  WALKTHROUGH_ARRIVAL_HOURS,
+} from "./preserved/preservedConstants.js";
+import { sqftHeuristicForBedrooms } from "./preserved/preservedQuotePricing.js";
+import { buildCalendlyUrlWithUtm } from "./preserved/preservedCalendlyHelpers.js";
 import { trackCalendlyClick } from "../../helpers/calendlyAnalytics";
 import { getPpcAttribution } from "../../helpers/ppcAttribution";
 import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
@@ -27,7 +33,7 @@ import {
   asFiniteNumber,
   readQuoteDraft,
   writeQuoteDraft,
-} from "../../helpers/quoteDraftStorage";
+} from "./preserved/preservedQuoteDraftStorage";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator
