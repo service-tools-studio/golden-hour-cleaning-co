@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import PreservedQuoteCalculator from "@/components/internal/PreservedQuoteCalculator";
 import InternalBreadcrumbs from "@/components/internal/InternalBreadcrumbs";
+import InternalFooter from "@/components/internal/InternalFooter";
 import { scrollToId } from "@/helpers/scrollToId";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
@@ -32,7 +33,8 @@ export default function InternalQuoteCalculatorClient({
   }, [level]);
 
   return (
-    <main className="min-h-screen bg-amber-50 text-stone-900">
+    <>
+      <main className="min-h-screen bg-amber-50 text-stone-900">
       <div className="border-b border-amber-200 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-5">
           <InternalBreadcrumbs currentPage="Quote calculator" />
@@ -51,6 +53,8 @@ export default function InternalQuoteCalculatorClient({
           hideHeader
         />
       </section>
-    </main>
+      </main>
+      <InternalFooter />
+    </>
   );
 }
