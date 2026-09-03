@@ -1,16 +1,29 @@
 "use client";
 
+import { useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import StandardCleanPageContent from "@/components/residential/StandardCleanPageContent";
 import DeepCleanPageContent from "@/components/residential/DeepCleanPageContent";
 import MoveOutCleanPageContent from "@/components/residential/MoveOutCleanPageContent";
+import {
+  PricingGuideCTA,
+  ServicePagePricing,
+} from "@/components/residential/ResidentialPricingGuide";
 import { BackToServicesLink } from "@/components/residential/servicePageParts";
 import type { ResidentialService } from "@/data/residentialServices";
+import { SERVICES_PRICING_HREF } from "@/helpers/ctaLabels.js";
+import { scrollToId } from "@/helpers/scrollToId";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
-function GenericServiceContent({ service }: { service: ResidentialService }) {
+function GenericServiceContent({
+  service,
+  afterHero,
+}: {
+  service: ResidentialService;
+  afterHero?: ReactNode;
+}) {
   return (
     <>
       <BackToServicesLink />
@@ -38,6 +51,8 @@ function GenericServiceContent({ service }: { service: ResidentialService }) {
         </ul>
       </section>
 
+      {afterHero}
+
       <section className="mt-8 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
         <h2 className={`text-lg font-semibold ${HEADING_UPPER}`}>
           Best for
@@ -62,26 +77,45 @@ export default function ServiceDetailClient({
 }: {
   service: ResidentialService;
 }) {
-  const quoteHref = `/residential/services?level=${encodeURIComponent(service.levelKey)}#quote`;
+  const quoteHref = "#pricing";
+
+  useEffect(() => {
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    if (
+      hash === "#quote" ||
+      hash === "#pricing" ||
+      hash === "#quote-calculator-heading"
+    ) {
+      scrollToId("#pricing", 8, { focus: true });
+    }
+  }, [service.slug]);
+
+  const pricingSection = (
+    <ServicePagePricing
+      serviceSlug={service.slug}
+      serviceTitle={service.title}
+      className="mt-8 md:mt-10"
+    />
+  );
 
   const richContent =
     service.slug === "standard" ? (
-      <StandardCleanPageContent quoteHref={quoteHref} />
+      <StandardCleanPageContent quoteHref={quoteHref} afterHero={pricingSection} />
     ) : service.slug === "deep" ? (
-      <DeepCleanPageContent quoteHref={quoteHref} />
+      <DeepCleanPageContent quoteHref={quoteHref} afterHero={pricingSection} />
     ) : service.slug === "move-out" ? (
-      <MoveOutCleanPageContent quoteHref={quoteHref} />
+      <MoveOutCleanPageContent quoteHref={quoteHref} afterHero={pricingSection} />
     ) : null;
 
   return (
     <>
-      <ServicesPageHeader quoteHref="/residential/services#quote" />
+      <ServicesPageHeader quoteHref={SERVICES_PRICING_HREF} />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
           {richContent ?? (
             <>
-              <GenericServiceContent service={service} />
+              <GenericServiceContent service={service} afterHero={pricingSection} />
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href={quoteHref}
@@ -104,6 +138,10 @@ export default function ServiceDetailClient({
             </>
           )}
         </article>
+
+        <section className="mx-auto max-w-3xl px-6 pb-10 md:pb-14">
+          <PricingGuideCTA />
+        </section>
 
         <Footer />
       </main>

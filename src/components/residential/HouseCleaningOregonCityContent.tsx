@@ -40,7 +40,7 @@ const SERVICE_CARDS = [
   {
     title: "Post-Construction Cleaning",
     desc: "Fine construction dust settles everywhere—even after contractors finish. We remove dust and debris throughout your home so it's ready to enjoy.",
-    href: "/residential/services#quote",
+    href: "/residential/services#services",
   },
 ];
 
@@ -306,10 +306,10 @@ export default function HouseCleaningOregonCityContent() {
           <TrackedInstantQuoteLink
             href="#quote"
             buttonLocation="landing_trust_section"
-            buttonLabel="Get an Instant Quote and Book Online"
+            buttonLabel="See Pricing + Book"
             className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
           >
-            Get an Instant Quote and Book Online
+            See Pricing + Book
           </TrackedInstantQuoteLink>
         </div>
       </section>

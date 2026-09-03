@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
 import { trackInstantQuoteClick } from "@/helpers/instantQuoteAnalytics";
 import { scrollToId } from "@/helpers/scrollToId";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
@@ -84,14 +85,14 @@ export default function ServicesPreviewSection() {
             onClick={() => {
               trackInstantQuoteClick({
                 buttonLocation: "landing_trust_section",
-                buttonLabel: "Get an Instant Quote & Book Online",
+                buttonLabel: SEE_PRICING_BOOK_LABEL,
                 destination: "#quote",
               });
               scrollToId("#quote", 8, { focus: true });
             }}
             className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
           >
-            Get an Instant Quote & Book Online
+            {SEE_PRICING_BOOK_LABEL}
           </button>
         </div>
       </div>

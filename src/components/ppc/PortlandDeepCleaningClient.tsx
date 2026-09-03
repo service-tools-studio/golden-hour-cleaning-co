@@ -3,16 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import {
   BadgeCheck,
   CalendarDays,
   Home,
   MapPin,
-  Phone,
   ShieldCheck,
   Stars,
 } from "lucide-react";
+import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
+import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
 import Footer from "@/components/residential/Footer";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import DeepCleanChecklist from "@/components/residential/DeepCleanChecklist";
@@ -36,17 +36,9 @@ import {
   PPC_DEEP_CLEAN_EVENTS,
   trackPpcDeepCleanEvent,
 } from "@/helpers/ppcDeepCleanAnalytics";
-import { trackCalendlyClick } from "@/helpers/calendlyAnalytics";
-import { calculateQuote } from "@/lib/quotePricing";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 
-const DeepCleanQuoteCalculator = dynamic(
-  () => import("@/components/ppc/DeepCleanQuoteCalculator"),
-  { ssr: false }
-);
-
 const GOLD_BTN = `${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`;
-const SECONDARY_BTN = `${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 shadow-sm hover:bg-stone-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`;
 
 const TRUST_VALUES = [
   {
@@ -128,7 +120,6 @@ const FAQS = [
   },
 ];
 
-type FunnelPhase = "quote" | "book" | "done";
 
 export default function PortlandDeepCleaningClient({
   initialRating = null,
@@ -138,12 +129,7 @@ export default function PortlandDeepCleaningClient({
   initialReviewCount?: number | null;
 }) {
   const [attribution, setAttribution] = useState<PpcAttribution>({});
-  const [phase, setPhase] = useState<FunnelPhase>("quote");
-  const [calendlyUrl, setCalendlyUrl] = useState("");
-  const startedRef = useRef(false);
-  const completedRef = useRef(false);
   const viewedRef = useRef(false);
-  const calendlyOpenedRef = useRef(false);
   const [quoteInView, setQuoteInView] = useState(false);
   const updateQuoteVisibilityRef = useRef(() => {});
   const { rating, reviewCount } = useGooglePlaceSummary({
@@ -189,56 +175,6 @@ export default function PortlandDeepCleaningClient({
     };
   }, []);
 
-  function handleQuoteStarted() {
-    if (startedRef.current) return;
-    startedRef.current = true;
-    trackPpcDeepCleanEvent(
-      PPC_DEEP_CLEAN_EVENTS.quoteStarted,
-      undefined,
-      attribution
-    );
-  }
-
-  function handleQuoteCompleted(result: ReturnType<typeof calculateQuote>) {
-    if (completedRef.current) return;
-    completedRef.current = true;
-    const quoteLow = result.totalAfterPromoLow;
-    const quoteHigh = result.totalAfterPromoHigh;
-    trackPpcDeepCleanEvent(
-      PPC_DEEP_CLEAN_EVENTS.quoteCompleted,
-      { quote_low: quoteLow, quote_high: quoteHigh },
-      attribution
-    );
-    trackPpcDeepCleanEvent(
-      PPC_DEEP_CLEAN_EVENTS.quoteLow,
-      { value: quoteLow },
-      attribution
-    );
-    trackPpcDeepCleanEvent(
-      PPC_DEEP_CLEAN_EVENTS.quoteHigh,
-      { value: quoteHigh },
-      attribution
-    );
-    setPhase((current) => (current === "done" ? current : "book"));
-  }
-
-  function handleCalendlyOpened() {
-    setPhase((current) => (current === "done" ? current : "book"));
-    if (calendlyOpenedRef.current) return;
-    calendlyOpenedRef.current = true;
-    trackCalendlyClick({
-      source: "ppc_deep_clean",
-      url: calendlyUrl || undefined,
-      cleanType: "deep",
-      attribution,
-    });
-    trackPpcDeepCleanEvent(
-      PPC_DEEP_CLEAN_EVENTS.calendlyClick,
-      undefined,
-      attribution
-    );
-  }
-
   function scrollToQuote() {
     scrollToId("#quote", 8, { focus: true });
     window.setTimeout(() => updateQuoteVisibilityRef.current(), 200);
@@ -246,9 +182,9 @@ export default function PortlandDeepCleaningClient({
   }
 
   return (
-    <div className={`min-h-screen bg-amber-50 text-stone-900 ${phase !== "done" ? "pb-20 md:pb-0" : ""}`}>
+    <div className="min-h-screen bg-amber-50 pb-20 text-stone-900 md:pb-0">
       <header className="sticky top-0 z-[100001] w-full border-b border-amber-200 bg-[#a7eff1]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center px-4 py-3 sm:px-6">
           <a href="/" aria-label="Go to homepage">
             <Image
               src="/assets/Golden Hour - commercial.png"
@@ -260,23 +196,6 @@ export default function PortlandDeepCleaningClient({
               sizes="(max-width: 640px) 160px, 200px"
             />
           </a>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={scrollToQuote}
-              className={`${GOLD_BTN} max-md:hidden w-auto px-4 py-2 text-xs sm:text-sm`}
-            >
-              Instant Quote + Book
-            </button>
-            <a
-              href={`tel:${CONTACT.phone}`}
-              className={`${SECONDARY_BTN} w-auto gap-1.5 px-4 py-2 text-xs sm:text-sm`}
-              data-call-source="ppc_header_call_us"
-            >
-              <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              Call Us
-            </a>
-          </div>
         </div>
       </header>
 
@@ -302,7 +221,7 @@ export default function PortlandDeepCleaningClient({
               </p>
               <div className="mt-6 flex justify-center">
                 <button type="button" onClick={scrollToQuote} className={`${GOLD_BTN} w-full sm:w-auto`}>
-                  Get My Instant Quote
+                  {SEE_PRICING_BOOK_LABEL}
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-stone-700">
@@ -404,66 +323,9 @@ export default function PortlandDeepCleaningClient({
 
         <section
           id="quote"
-          className="scroll-mt-[var(--header-height,88px)] bg-amber-50 pb-12 md:pb-16"
+          className="scroll-mt-[var(--header-height,88px)] bg-amber-50 px-4 pb-12 pt-10 md:pb-16 md:pt-12"
         >
-          <div className="border-y border-amber-300 bg-amber-400 px-4 py-8 text-center md:py-10">
-            <div className="mx-auto max-w-3xl">
-              <p
-                className={`text-xs font-semibold text-stone-600 md:text-sm ${HEADING_UPPER}`}
-              >
-                Your Personalized Estimate
-              </p>
-              <h2
-                id="quote-calculator-heading"
-                tabIndex={-1}
-                className={`mt-3 text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER} focus:outline-none`}
-              >
-                Get Your Instant Deep Clean Quote
-              </h2>
-              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-stone-700 md:text-base">
-                Tell us a little about your home to see your personalized pricing
-                range. It only takes about 30 seconds.
-              </p>
-              <div
-                className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-wide text-stone-700 sm:text-xs"
-                aria-label="Quote steps: home details, your estimate, then book"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/80 text-[10px] text-stone-800">
-                    1
-                  </span>
-                  Home Details
-                </span>
-                <span aria-hidden="true" className="text-amber-700/50">
-                  →
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] text-stone-800">
-                    2
-                  </span>
-                  Your Estimate
-                </span>
-                <span aria-hidden="true" className="text-amber-700/50">
-                  →
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] text-stone-800">
-                    3
-                  </span>
-                  Book
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <DeepCleanQuoteCalculator
-              attribution={attribution}
-              onQuoteStarted={handleQuoteStarted}
-              onQuoteCompleted={handleQuoteCompleted}
-              onCalendlyOpened={handleCalendlyOpened}
-              onCalendlyUrlChange={setCalendlyUrl}
-            />
-          </div>
+          <ResidentialPricingGuide />
         </section>
 
         <article className="mx-auto max-w-3xl px-6 pt-6 pb-12 md:pt-8 md:pb-16">
@@ -549,7 +411,7 @@ export default function PortlandDeepCleaningClient({
           </Section>
           <div className="mt-10 text-center">
             <button type="button" onClick={scrollToQuote} className={GOLD_BTN}>
-              Get My Instant Quote
+              {SEE_PRICING_BOOK_LABEL}
             </button>
           </div>
         </section>
@@ -557,29 +419,15 @@ export default function PortlandDeepCleaningClient({
         <Footer />
       </main>
 
-      {phase !== "done" && !quoteInView && (
+      {!quoteInView && (
         <div className="fixed inset-x-0 bottom-0 z-[100000] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm md:hidden">
-          {phase === "book" && calendlyUrl ? (
-            <a
-              href={calendlyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-calendly-source="ppc_deep_clean"
-              data-calendly-skip-auto="true"
-              className={`${GOLD_BTN} w-full normal-case tracking-normal`}
-              onClick={handleCalendlyOpened}
-            >
-              Choose My Cleaning Time
-            </a>
-          ) : (
-            <button
-              type="button"
-              onClick={scrollToQuote}
-              className={`${GOLD_BTN} w-full normal-case tracking-normal`}
-            >
-              Get My Instant Quote
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={scrollToQuote}
+            className={`${GOLD_BTN} w-full normal-case tracking-normal`}
+          >
+            {SEE_PRICING_BOOK_LABEL}
+          </button>
         </div>
       )}
     </div>

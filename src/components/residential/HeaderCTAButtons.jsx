@@ -4,13 +4,19 @@ import { usePathname, useRouter } from "next/navigation";
 import { Phone } from "lucide-react";
 import { CONTACT } from "../../constants.js";
 import { trackInstantQuoteClick } from "../../helpers/instantQuoteAnalytics";
+import {
+  SEE_PRICING_BOOK_ARIA,
+  SEE_PRICING_BOOK_LABEL,
+  SERVICES_PRICING_HASH,
+  SERVICES_PRICING_HREF,
+} from "../../helpers/ctaLabels.js";
 import { scrollToId } from "../../helpers/scrollToId.js";
 import { BTN_UPPER } from "../../helpers/typography.js";
 
 const SHARED_WIDTH = "w-[220px]";
 
-/** Canonical regular (non-PPC) quote calculator. */
-export const REGULAR_QUOTE_HREF = "/residential/services#quote";
+/** Canonical regular (non-PPC) pricing section on the services page. */
+export const REGULAR_QUOTE_HREF = SERVICES_PRICING_HREF;
 const REGULAR_QUOTE_PATH = "/residential/services";
 
 export default function HeaderCTAButtons({
@@ -31,25 +37,34 @@ export default function HeaderCTAButtons({
 
     trackInstantQuoteClick({
       buttonLocation,
-      buttonLabel: "Instant Quote + Book",
+      buttonLabel: SEE_PRICING_BOOK_LABEL,
       destination,
     });
 
-    const onRegularQuotePage =
+    const onPricingPage =
       pathname === REGULAR_QUOTE_PATH ||
-      pathname === `${REGULAR_QUOTE_PATH}/`;
+      pathname === `${REGULAR_QUOTE_PATH}/` ||
+      pathname?.startsWith(`${REGULAR_QUOTE_PATH}/`);
 
-    if (onRegularQuotePage) {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("level")) {
-        url.searchParams.delete("level");
-        const search = url.searchParams.toString();
-        router.replace(`${url.pathname}${search ? `?${search}` : ""}`, {
-          scroll: false,
-        });
+    if (onPricingPage) {
+      if (
+        pathname === REGULAR_QUOTE_PATH ||
+        pathname === `${REGULAR_QUOTE_PATH}/`
+      ) {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has("level")) {
+          url.searchParams.delete("level");
+          const search = url.searchParams.toString();
+          router.replace(`${url.pathname}${search ? `?${search}` : ""}`, {
+            scroll: false,
+          });
+        }
       }
       window.requestAnimationFrame(() => {
-        scrollToId("#quote-calculator-heading", 8, { focus: true });
+        const scrollTarget = pathname?.startsWith(`${REGULAR_QUOTE_PATH}/`)
+          ? "#pricing"
+          : SERVICES_PRICING_HASH;
+        scrollToId(scrollTarget, 8, { focus: true });
       });
       return;
     }
@@ -73,11 +88,11 @@ export default function HeaderCTAButtons({
       </a>
       <button
         type="button"
-        aria-label="Get an instant quote and see real-time availability"
+        aria-label={SEE_PRICING_BOOK_ARIA}
         onClick={goToQuote}
         className={buttonClass}
       >
-        Instant Quote + Book
+        {SEE_PRICING_BOOK_LABEL}
       </button>
     </>
   );

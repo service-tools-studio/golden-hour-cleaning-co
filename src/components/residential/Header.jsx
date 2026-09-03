@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CONTACT } from "../../constants.js";
-import HeaderCTAButtons from "./HeaderCTAButtons.jsx";
+import HeaderNav from "./HeaderNav.jsx";
 
 export default function Header() {
   const router = useRouter();
@@ -12,15 +12,11 @@ export default function Header() {
   const [compact, setCompact] = useState(false);
   const compactRef = useRef(compact);
   compactRef.current = compact;
-  const [isMobile, setIsMobile] = useState(false);
-
-  const DESKTOP_MIN_PX = 1024;
 
   // --- Size & timing ---
   const EXPANDED_H = 154;
   const COMPACT_H = 100;
   const BANNER_H = 36;
-  const CTA_ROW_H = 64; // mobile: sticky row below logo when hero text not overlaid
   const TRANS_MS = 420;
   const HYSTERESIS = 40;
   const TOP_EXPAND_Y = 2;
@@ -54,14 +50,6 @@ export default function Header() {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${COMPACT_H}px`);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia(`(min-width: ${DESKTOP_MIN_PX}px)`);
-    const update = () => setIsMobile(!mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
   }, []);
 
   useEffect(() => {
@@ -138,7 +126,7 @@ export default function Header() {
   }, []);
 
   const baseHeight = compact ? COMPACT_H : EXPANDED_H;
-  const height = baseHeight + (isMobile ? CTA_ROW_H : 0);
+  const height = baseHeight;
   const innerHeight = Math.max(0, baseHeight - BANNER_H);
   const logoHeight = Math.min(innerHeight * 0.8, 200);
   const logoScale = compact ? 0.98 : 1;
@@ -186,6 +174,7 @@ export default function Header() {
       }}
       className="backdrop-blur border-b border-amber-200 flex flex-col overflow-hidden"
       aria-label="Site header"
+      data-site-header
     >
       {/* --- Announcement bar --- */}
       <div
@@ -254,8 +243,11 @@ export default function Header() {
         `}</style>
       </div>
 
-      {/* --- Logo: centered on mobile, left + CTAs right on desktop --- */}
-      <div className="relative w-full flex items-center justify-center lg:justify-between gap-3 px-4" style={{ height: innerHeight }}>
+      {/* --- Logo + nav --- */}
+      <div
+        className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 lg:px-6"
+        style={{ height: innerHeight }}
+      >
         <button
           type="button"
           onClick={handleLogoClick}
@@ -274,7 +266,7 @@ export default function Header() {
               height: `${logoHeight}px`,
               width: "auto",
               transform: `scale(${logoScale})`,
-              transformOrigin: "center",
+              transformOrigin: "left center",
               transition: `transform ${TRANS_MS}ms cubic-bezier(0.16,1,0.3,1)`,
               objectFit: "contain",
               display: "block",
@@ -283,17 +275,7 @@ export default function Header() {
             className="w-auto object-contain"
           />
         </button>
-        {/* Buttons in header on desktop (overlay state) */}
-        <div className="hidden lg:flex flex-row flex-wrap items-center justify-end gap-2 min-w-0">
-          <HeaderCTAButtons />
-        </div>
-      </div>
-      {/* Mobile (hero text not overlaid): sticky CTA row below header; compact so both buttons stay side by side */}
-      <div
-        className="flex lg:hidden flex-nowrap items-center justify-center gap-2 border-t border-amber-200/60 bg-amber-50/95 px-3"
-        style={{ height: CTA_ROW_H }}
-      >
-        <HeaderCTAButtons compact />
+        <HeaderNav />
       </div>
     </header>
   );

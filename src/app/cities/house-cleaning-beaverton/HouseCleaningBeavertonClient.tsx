@@ -3,7 +3,7 @@
 import Footer from "@/components/residential/Footer";
 import Header from "@/components/residential/Header";
 import HouseCleaningBeavertonContent from "@/components/residential/HouseCleaningBeavertonContent";
-import QuoteCalculator from "@/components/residential/QuoteCalculator";
+import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 
 export default function HouseCleaningBeavertonClient() {
   return (
@@ -18,11 +18,7 @@ export default function HouseCleaningBeavertonClient() {
         <HouseCleaningBeavertonContent />
 
         <div className="pt-10 pb-16 md:pb-20" id="quote">
-          <QuoteCalculator
-            initialLevel="deep"
-            title="Get a Quote & Book Instantly"
-            subtitle="Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."
-          />
+          <ResidentialPricingGuide />
         </div>
 
         <Footer />

@@ -2,44 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Check, Home, PackageOpen } from "lucide-react";
+import { Check } from "lucide-react";
 import { trackInstantQuoteClick } from "../../helpers/instantQuoteAnalytics";
+import {
+  SEE_PRICING_BOOK_LABEL,
+  SERVICES_PRICING_HASH,
+} from "../../helpers/ctaLabels.js";
 import { HEADING_UPPER } from "../../helpers/typography.js";
 import { scrollToId } from "../../helpers/scrollToId.js";
-
-const SERVICE_THEMES = {
-  standard: {
-    border: "border-amber-200/80",
-    iconBg: "bg-amber-100",
-    iconColor: "text-[#c9a227]",
-    tagline: "text-[#c9a227]",
-    divider: "bg-amber-300/70",
-    check: "text-[#c9a227]",
-  },
-  deep: {
-    border: "border-[#a7eff1]/70",
-    iconBg: "bg-[#a7eff1]/35",
-    iconColor: "text-teal-700",
-    tagline: "text-teal-600",
-    divider: "bg-[#a7eff1]",
-    check: "text-teal-600",
-  },
-  "move-out": {
-    border: "border-orange-200/80",
-    iconBg: "bg-orange-100",
-    iconColor: "text-orange-600",
-    tagline: "text-orange-600",
-    divider: "bg-orange-300/70",
-    check: "text-orange-500",
-  },
-};
-
-function ServiceIcon({ slug, className }) {
-  if (slug === "move-out") {
-    return <PackageOpen className={className} strokeWidth={1.75} aria-hidden />;
-  }
-  return <Home className={className} strokeWidth={1.75} aria-hidden />;
-}
+import { ServiceIcon, SERVICE_THEMES } from "./serviceCardTheme";
 
 export default function ServiceCard({ service }) {
   const router = useRouter();
@@ -51,16 +22,16 @@ export default function ServiceCard({ service }) {
   const goToQuote = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("level", service.levelKey);
-    const destination = `${pathname}?${params.toString()}#quote`;
+    const destination = `${pathname}?${params.toString()}${SERVICES_PRICING_HASH}`;
     trackInstantQuoteClick({
       buttonLocation: "service_card",
-      buttonLabel: "Instant Quote + Book",
+      buttonLabel: SEE_PRICING_BOOK_LABEL,
       destination,
       serviceLevel: service.levelKey,
     });
     router.replace(destination, { scroll: false });
     window.requestAnimationFrame(() => {
-      scrollToId("#quote", 8, { focus: true });
+      scrollToId(SERVICES_PRICING_HASH, 8, { focus: true });
     });
   };
 
@@ -114,7 +85,7 @@ export default function ServiceCard({ service }) {
           onClick={goToQuote}
           className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-amber-300 bg-amber-400 px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-sm hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
         >
-          Instant Quote + Book
+          {SEE_PRICING_BOOK_LABEL}
         </button>
 
         <Link

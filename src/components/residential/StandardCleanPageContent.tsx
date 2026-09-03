@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
@@ -5,8 +6,10 @@ import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_ME
 
 export default function StandardCleanPageContent({
   quoteHref,
+  afterHero,
 }: {
   quoteHref: string;
+  afterHero?: ReactNode;
 }) {
   return (
     <>
@@ -43,6 +46,8 @@ export default function StandardCleanPageContent({
           attention to detail and reliability you deserve. We use eco-friendly products whenever possible.
         </p>
       </Section>
+
+      {afterHero}
 
       <Section id="whats-included" title="What's Included in Our Standard Cleaning Service?">
         <p className="text-base leading-relaxed text-stone-700">

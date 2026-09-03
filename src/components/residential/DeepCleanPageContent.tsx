@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
@@ -7,8 +8,10 @@ import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_ME
 
 export default function DeepCleanPageContent({
   quoteHref,
+  afterHero,
 }: {
   quoteHref: string;
+  afterHero?: ReactNode;
 }) {
   return (
     <>
@@ -52,6 +55,8 @@ export default function DeepCleanPageContent({
           a quick walkthrough.
         </p>
       </Section>
+
+      {afterHero}
 
       <Section id="whats-included" title="What's Included in Our Deep Cleaning Service?">
         <DeepCleanChecklist />

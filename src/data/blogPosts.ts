@@ -324,7 +324,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "If your construction or renovation project is nearing completion, contact Golden Hour Cleaning Co. for a personalized post-construction cleaning quote.",
         ],
         link: {
-          href: "/residential/services#quote",
+          href: "/residential/services#services",
           label: "Get a Personalized Quote",
         },
       },
@@ -394,7 +394,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "Your property may need repairs. It may need remodeling. But you don't have to handle the mess yourself.",
         ],
         link: {
-          href: "/residential/services#quote",
+          href: "/residential/services#services",
           label: "Get a Personalized Quote",
         },
       },
@@ -628,7 +628,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "If you're looking for a cleaning company that values clear communication, attention to detail, and respect for your home, we'd love to help.",
         ],
         link: {
-          href: "/residential/services#quote",
+          href: "/residential/services#services",
           label: "Request a Cleaning Quote",
         },
       },
@@ -853,8 +853,8 @@ export const BLOG_POSTS: BlogPost[] = [
           "If you're looking for a trusted professional cleaning company serving Portland, Lake Oswego, West Linn, Oregon City, Happy Valley, Beaverton, and the surrounding communities, we'd love the opportunity to earn your trust.",
         ],
         link: {
-          href: "/residential/services#quote",
-          label: "Get Your Instant Quote",
+          href: "/residential/services#services",
+          label: "See Pricing + Book",
         },
       },
     ],
@@ -951,7 +951,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "Need a professional post-construction cleaning? Contact Golden Hour Cleaning Co. today to schedule your cleaning in Portland, Beaverton, Lake Oswego, West Linn, Oregon City, or the surrounding communities.",
         ],
         link: {
-          href: "/residential/services#quote",
+          href: "/residential/services#services",
           label: "Get a Personalized Quote",
         },
       },
@@ -1240,8 +1240,8 @@ export const BLOG_POSTS: BlogPost[] = [
           "Whether you're scheduling your first deep cleaning or looking for recurring house cleaning in Portland, Beaverton, Lake Oswego, West Linn, Oregon City, or nearby communities, we're here to help you enjoy a cleaner home—and more time to enjoy it.",
         ],
         link: {
-          href: "/residential/services#quote",
-          label: "Get Your Instant Quote",
+          href: "/residential/services#services",
+          label: "See Pricing + Book",
         },
       },
     ],
@@ -1554,7 +1554,7 @@ export const BLOG_POSTS: BlogPost[] = [
           },
         ],
         link: {
-          href: "/residential/services#quote",
+          href: "/residential/services#services",
           label: "Get a Personalized Quote",
         },
       },
@@ -1595,8 +1595,8 @@ export const BLOG_POSTS: BlogPost[] = [
           "If you'd like a personalized quote, we'd be happy to learn about your home and recommend the service that's the best fit for your needs.",
         ],
         link: {
-          href: "/residential/services#quote",
-          label: "Get Your Instant Quote",
+          href: "/residential/services#services",
+          label: "See Pricing + Book",
         },
       },
     ],

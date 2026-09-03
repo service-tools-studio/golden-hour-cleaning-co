@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ReviewsPage() {
   return (
     <>
-      <ServicesPageHeader quoteHref="/residential/services#quote" />
+      <ServicesPageHeader quoteHref="/residential/services#services" />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <GoogleReviews variant="page" />

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
@@ -6,8 +7,10 @@ import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_ME
 
 export default function MoveOutCleanPageContent({
   quoteHref,
+  afterHero,
 }: {
   quoteHref: string;
+  afterHero?: ReactNode;
 }) {
   return (
     <>
@@ -52,6 +55,8 @@ export default function MoveOutCleanPageContent({
           walkthrough.
         </p>
       </Section>
+
+      {afterHero}
 
       <Section id="whats-included" title="What's Included in Our Move-In & Move-Out Cleaning?">
         <p className="text-base leading-relaxed text-stone-700">

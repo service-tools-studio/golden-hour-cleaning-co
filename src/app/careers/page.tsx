@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <>
-      <ServicesPageHeader showCtas={false} />
+      <ServicesPageHeader />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">

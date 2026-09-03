@@ -2,18 +2,15 @@
 import { motion } from "framer-motion";
 import { CalendarCheck2, BadgeCheck, ShieldCheck, Leaf, Stars } from "lucide-react";
 import Trust from '@/components/residential/Trust.jsx';
+import { SEE_PRICING_BOOK_LABEL } from '@/helpers/ctaLabels.js';
 import { trackInstantQuoteClick } from '@/helpers/instantQuoteAnalytics';
 import { scrollToQuote } from '@/helpers/scrollToQuote.js';
 import { Step, Badge } from '@/helpers/ui-elements.jsx'
 import Footer from '@/components/residential/Footer.jsx';
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 
-const QuoteCalculator = dynamic(
-  () => import("@/components/residential/QuoteCalculator"),
-  { ssr: false }
-);
+import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 
 /**
  * Golden Hour Cleaning Co. — Landing Page (React + Tailwind)
@@ -64,14 +61,14 @@ export default function InstantBookLanding() {
                 onClick={() => {
                   trackInstantQuoteClick({
                     buttonLocation: "landing_hero",
-                    buttonLabel: "Get Instant Quote & Book Now",
-                    destination: "#quote-calculator-heading",
+                    buttonLabel: SEE_PRICING_BOOK_LABEL,
+                    destination: "#quote-calculator",
                   });
                   scrollToQuote();
                 }}
                 className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
               >
-                <CalendarCheck2 className="mr-2 h-5 w-5" /> Get Instant Quote & Book Now
+                <CalendarCheck2 className="mr-2 h-5 w-5" /> {SEE_PRICING_BOOK_LABEL}
               </button>
               <a
                 href="#how-it-works"
@@ -114,14 +111,14 @@ export default function InstantBookLanding() {
             onClick={() => {
               trackInstantQuoteClick({
                 buttonLocation: "landing_hero",
-                buttonLabel: "Start Your Instant Quote",
-                destination: "#quote-calculator-heading",
+                buttonLabel: SEE_PRICING_BOOK_LABEL,
+                destination: "#quote-calculator",
               });
               scrollToQuote();
             }}
             className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-base font-semibold text-amber-50 shadow-lg shadow-stone-900/10 transition hover:translate-y-[-1px] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900"
           >
-            Start Your Instant Quote
+            {SEE_PRICING_BOOK_LABEL}
           </button>
           <p className="mt-2 text-sm text-stone-600">Secure an exact slot on our schedule in seconds.</p>
         </div>
@@ -151,14 +148,14 @@ export default function InstantBookLanding() {
                 onClick={() => {
                   trackInstantQuoteClick({
                     buttonLocation: "landing_final_cta",
-                    buttonLabel: "Get Instant Quote & Book Now",
-                    destination: "#quote-calculator-heading",
+                    buttonLabel: SEE_PRICING_BOOK_LABEL,
+                    destination: "#quote-calculator",
                   });
                   scrollToQuote();
                 }}
                 className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl bg-amber-200 px-5 py-3 text-base font-semibold text-stone-900 shadow-md transition hover:bg-amber-100"
               >
-                Get Instant Quote & Book Now
+                {SEE_PRICING_BOOK_LABEL}
               </button>
             </div>
             <p className="mt-2 text-xs text-amber-200">See live availability. Confirm in seconds.</p>
@@ -166,9 +163,8 @@ export default function InstantBookLanding() {
         </div>
       </section>
 
-      {/* QUOTE CALCULATOR MOUNT (placeholder) */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <QuoteCalculator title="Instant Quote & Booking" />
+      <section id="quote" className="mx-auto max-w-7xl px-6 py-16">
+        <ResidentialPricingGuide />
       </section>
 
       <Footer />

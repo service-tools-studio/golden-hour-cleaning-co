@@ -11,12 +11,12 @@ export default function Hero() {
       className="relative w-screen max-w-[100vw] overflow-hidden [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]"
     >
       <div className="lg:relative">
-        <div className="relative aspect-[5/3] w-full overflow-hidden bg-amber-50 lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-auto lg:w-1/2">
+        <div className="relative aspect-[2/1] w-full overflow-hidden bg-amber-50 sm:aspect-[5/3] lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-auto lg:w-1/2">
           <Image
             src="/assets/golden-hour-homepage.png"
             alt="A Golden Hour cleaner smiling while wiping a gold-framed bathroom mirror"
             fill
-            className="object-cover object-[center_20%]"
+            className="object-cover object-[center_32%] lg:object-[center_20%]"
             sizes="(min-width: 1024px) 50vw, 100vw"
             priority
           />
@@ -24,7 +24,7 @@ export default function Hero() {
 
         <div className="relative flex items-center px-4 pt-4 pb-16 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
           <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
-            <h1 className={`text-center text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
+            <h1 className={`text-center text-xl sm:text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
               Professional house cleaners with high standards, intentional care & consistent results.
             </h1>
 
@@ -41,9 +41,9 @@ export default function Hero() {
                   e.preventDefault();
                   scrollToId('#quote', 8);
                 }}
-                className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 shadow-sm hover:bg-stone-50 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
               >
-                Get My Instant Quote
+                See Pricing
               </button>
             </div>
 

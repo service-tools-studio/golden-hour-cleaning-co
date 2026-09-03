@@ -12,7 +12,7 @@ import GoogleMapsProvider from "@/components/residential/GoogleMapsProvider";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import Header from "@/components/residential/Header";
 import Hero from "@/components/residential/Hero";
-import QuoteCalculator from "@/components/residential/QuoteCalculator";
+import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
 import { scrollToId } from "@/helpers/scrollToId";
 
@@ -64,11 +64,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
         <BeforeAfter />
 
         <div className="pt-10 pb-16 md:pb-20" id="quote">
-          <QuoteCalculator
-            initialLevel={urlLevel ?? undefined}
-            title="Get a Quote & Book Instantly"
-            subtitle="Get an instant estimate based on your home’s size and clean type. Because every home is unique, we’ll confirm your final price after a quick walkthrough based on the condition and level of care needed."
-          />
+          <ResidentialPricingGuide />
         </div>
 
         <Footer />

@@ -1,4 +1,5 @@
 import { scrollToQuote } from '../../helpers/scrollToQuote';
+import { SEE_PRICING_BOOK_LABEL } from '../../helpers/ctaLabels.js';
 import { trackInstantQuoteClick } from '../../helpers/instantQuoteAnalytics';
 import { HEADING_UPPER } from '../../helpers/typography.js';
 
@@ -26,14 +27,14 @@ export default function Trust() {
                 onClick={() => {
                   trackInstantQuoteClick({
                     buttonLocation: "landing_trust_section",
-                    buttonLabel: "Get Instant Quote & See Availability",
+                    buttonLabel: SEE_PRICING_BOOK_LABEL,
                     destination: "#quote-calculator",
                   });
                   scrollToQuote();
                 }}
                 className="uppercase tracking-wide inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-base font-semibold text-stone-900 transition hover:bg-stone-50"
               >
-                Get Instant Quote & See Availability
+                {SEE_PRICING_BOOK_LABEL}
               </button>
             </div>
           </div>

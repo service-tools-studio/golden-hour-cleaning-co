@@ -298,7 +298,7 @@ export function QuoteCalculatorBookingHeader({ title }) {
   return (
     <>
       <h2
-        id="quote-calculator-heading"
+        id="pricing-guide-heading"
         tabIndex={-1}
         className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
       >
@@ -904,14 +904,14 @@ export default function QuoteCalculator({
   return (
     <section
       id="quote-calculator"
-      aria-labelledby="quote-calculator-heading"
+      aria-labelledby="pricing-guide-heading"
       className="mx-auto max-w-3xl px-4"
     >
       {!hideHeader &&
         (subtitle ? (
           <>
             <h2
-              id="quote-calculator-heading"
+              id="pricing-guide-heading"
               tabIndex={-1}
               className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
             >

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 
 export default function BlogCTA() {
@@ -34,12 +35,12 @@ export default function BlogCTA() {
           </Link>
 
           <TrackedInstantQuoteLink
-            href="/residential/services#quote"
+            href="/residential/services#services"
             buttonLocation="blog_cta"
-            buttonLabel="Get an Instant Quote"
+            buttonLabel={SEE_PRICING_BOOK_LABEL}
             className="inline-flex items-center justify-center rounded-full border border-[#333333]/15 bg-white px-8 py-4 font-medium text-[#333333] transition-all duration-200 hover:bg-[#a7eff1]/20"
           >
-            Get an Instant Quote
+            {SEE_PRICING_BOOK_LABEL}
           </TrackedInstantQuoteLink>
         </div>
       </div>
