@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CONTACT } from "../../constants.js";
 import HeaderNav from "./HeaderNav.jsx";
+import { syncFixedToVisualViewport } from "../../helpers/syncFixedToVisualViewport";
 
 export default function Header() {
   const router = useRouter();
@@ -52,6 +53,7 @@ export default function Header() {
     document.documentElement.style.setProperty("--header-height", `${EXPANDED_H}px`);
   }, []);
 
+  useEffect(() => syncFixedToVisualViewport(headerRef.current, "top"), []);
   useEffect(() => {
     const hero = document.querySelector("#hero");
     computeTrigger();

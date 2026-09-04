@@ -29,7 +29,7 @@
    */
   @media (max-width: 1279px) {
     body {
-      padding-bottom: 72px;
+      padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
     }
   }
 

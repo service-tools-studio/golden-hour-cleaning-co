@@ -56,7 +56,7 @@ export default function RootLayout({
         <ClickToCallTracker />
         {/* Clip horizontal overflow here — not on html/body — so position:fixed
             (Call Us bar) still anchors to the viewport in Chrome. */}
-        <div className="min-h-dvh overflow-x-clip">{children}</div>
+        <div className="min-h-screen overflow-x-clip">{children}</div>
         <MobileStickyCallBar />
       </body>
     </html>
