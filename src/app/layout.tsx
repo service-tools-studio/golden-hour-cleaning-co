@@ -4,6 +4,7 @@ import Script from "next/script";
 import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
 import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
+import MobileStickyCallBar from "@/components/residential/MobileStickyCallBar";
 import "./globals.css";
 
 const josefinSans = Josefin_Sans({
@@ -61,6 +62,7 @@ export default function RootLayout({
         <CalendlyClickTracker />
         <ClickToCallTracker />
         {children}
+        <MobileStickyCallBar />
       </body>
     </html>
   );

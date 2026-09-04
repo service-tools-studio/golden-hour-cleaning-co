@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
 import { CONTACT } from "../../constants.js";
 import { SERVICES_PRICING_HREF } from "../../helpers/ctaLabels.js";
-import { BTN_PRIMARY, BTN_UPPER } from "../../helpers/typography.js";
+import { BTN_PRIMARY, BTN_SECONDARY, BTN_UPPER } from "../../helpers/typography.js";
 
 const NAV_LINKS = [
   { label: "Services & Pricing", href: SERVICES_PRICING_HREF },
@@ -19,7 +19,8 @@ const NAV_LINKS = [
 
 const linkClass = `${BTN_UPPER} text-sm font-semibold text-slate-900 underline-offset-4 hover:text-slate-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`;
 const callNowClass = `${BTN_PRIMARY} ml-4 gap-1.5 whitespace-nowrap`;
-const mobileMenuCtaClass = `${BTN_PRIMARY} w-full`;
+const mobileMenuPrimaryCtaClass = `${BTN_PRIMARY} w-full`;
+const mobileMenuSecondaryCtaClass = `${BTN_SECONDARY} w-full`;
 
 function getSiteHeader() {
   return document.querySelector("[data-site-header]");
@@ -105,17 +106,19 @@ export default function HeaderNav() {
             >
               <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
                 {NAV_LINKS.map((link) => {
-                  const isCta =
-                    link.href === "/request-a-quote" ||
-                    link.href === "/book-online";
+                  const isPrimaryCta = link.href === "/request-a-quote";
+                  const isSecondaryCta = link.href === "/book-online";
+                  const isCta = isPrimaryCta || isSecondaryCta;
                   return (
                     <li key={link.href} className={isCta ? "mt-2" : undefined}>
                       <Link
                         href={link.href}
                         className={
-                          isCta
-                            ? mobileMenuCtaClass
-                            : `${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`
+                          isPrimaryCta
+                            ? mobileMenuPrimaryCtaClass
+                            : isSecondaryCta
+                              ? mobileMenuSecondaryCtaClass
+                              : `${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`
                         }
                         onClick={closeMenu}
                       >

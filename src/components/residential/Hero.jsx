@@ -4,7 +4,7 @@ import { BadgeCheck, Award, ShieldCheck, Stars } from "lucide-react";
 import { scrollToId } from "../../helpers/scrollToId";
 import { useGooglePlaceSummary } from "../../helpers/useGooglePlaceSummary";
 import {
-  BTN_PRIMARY,
+  BTN_PRIMARY_RESPONSIVE,
   HEADING_UPPER,
 } from "../../helpers/typography.js";
 import { Badge } from "../../helpers/ui-elements.jsx";
@@ -53,7 +53,7 @@ export default function Hero() {
                   e.preventDefault();
                   scrollToId("#quote", 8);
                 }}
-                className={`${BTN_PRIMARY} w-full sm:flex-1`}
+                className={`${BTN_PRIMARY_RESPONSIVE} w-full sm:flex-1`}
               >
                 See Pricing
               </button>

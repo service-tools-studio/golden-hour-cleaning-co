@@ -24,6 +24,13 @@
 
   /* Avoid overflow-x on html/body — it breaks position:fixed in Chrome. */
 
+  /* Reserve space for the fixed mobile Call Us bar from first paint. */
+  @media (max-width: 1279px) {
+    body {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
   h1,
   h2,
   h3,
