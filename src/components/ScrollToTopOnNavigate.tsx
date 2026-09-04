@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-function scrollWindowToTop() {
+export function scrollWindowToTop() {
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
@@ -47,15 +47,13 @@ export default function ScrollToTopOnNavigate() {
     scrollWindowToTop();
 
     const raf = window.requestAnimationFrame(scrollWindowToTop);
-    const t0 = window.setTimeout(scrollWindowToTop, 0);
-    const t1 = window.setTimeout(scrollWindowToTop, 50);
-    const t2 = window.setTimeout(scrollWindowToTop, 250);
+    const timers = [0, 50, 250, 800].map((ms) =>
+      window.setTimeout(scrollWindowToTop, ms)
+    );
 
     return () => {
       window.cancelAnimationFrame(raf);
-      window.clearTimeout(t0);
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
+      timers.forEach((id) => window.clearTimeout(id));
     };
   }, [pathname]);
 

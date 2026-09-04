@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import { useGoogleMaps } from './GoogleMapsProvider.jsx';
 import { HEADING_UPPER } from '../../helpers/typography.js';
@@ -44,11 +44,55 @@ const FALLBACK_SERVICE_AREA = [
 
 export default function ServiceAreaMap({ title = "Our service area" }) {
   const [map, setMap] = useState(null);
+  const [shouldMountMap, setShouldMountMap] = useState(false);
+  const sectionRef = useRef(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded, loadError } = useGoogleMaps();
 
+  // Defer map mount until near the viewport — Google Maps often scrolls itself
+  // into view when the canvas mounts / fitBounds runs on cold opens.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setShouldMountMap(true);
+      return;
+    }
+
+    let io;
+    // Wait for cold-open scroll-to-top to settle before observing, so a
+    // briefly restored mid-page position doesn't mount the map immediately.
+    const startId = window.setTimeout(() => {
+      io = new IntersectionObserver(
+        ([entry]) => {
+          if (entry?.isIntersecting) {
+            setShouldMountMap(true);
+            io?.disconnect();
+          }
+        },
+        { rootMargin: '200px 0px', threshold: 0.01 }
+      );
+      io.observe(el);
+    }, 700);
+
+    return () => {
+      window.clearTimeout(startId);
+      io?.disconnect();
+    };
+  }, []);
+
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);
+
+    const preserveWindowScroll = (fn) => {
+      const y = window.scrollY;
+      const x = window.scrollX;
+      fn();
+      // Google Maps fitBounds / canvas focus often scrolls the page to the map.
+      requestAnimationFrame(() => {
+        window.scrollTo(x, y);
+        requestAnimationFrame(() => window.scrollTo(x, y));
+      });
+    };
 
     async function loadCityBoundaries() {
       try {
@@ -73,7 +117,7 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
         mapInstance.data.forEach((feature) => {
           feature.getGeometry().forEachLatLng((latLng) => bounds.extend(latLng));
         });
-        mapInstance.fitBounds(bounds, 40);
+        preserveWindowScroll(() => mapInstance.fitBounds(bounds, 40));
       } catch {
         const fallback = new window.google.maps.Polygon({
           paths: FALLBACK_SERVICE_AREA,
@@ -85,7 +129,7 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
         fallback.setMap(mapInstance);
         const b = new window.google.maps.LatLngBounds();
         FALLBACK_SERVICE_AREA.forEach((p) => b.extend(p));
-        mapInstance.fitBounds(b, 40);
+        preserveWindowScroll(() => mapInstance.fitBounds(b, 40));
       }
     }
 
@@ -94,68 +138,63 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
 
   const onUnmount = useCallback(() => setMap(null), []);
 
-  if (loadError) {
-    return (
-      <section className="w-full bg-amber-50/50" aria-label="Service area map">
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
-            {title}
-          </h2>
-          <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City
-          </p>
-          <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
-            Unable to load the map. Check your connection.
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const citiesLine =
+    'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City';
 
-  if (!isLoaded) {
-    return (
-      <section className="w-full bg-amber-50/50" aria-label="Service area map">
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
-            {title}
-          </h2>
-          <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-            Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City
-          </p>
-          <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
-            {apiKey ? 'Loading map…' : 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'}
-          </div>
-        </div>
-      </section>
+  let mapBody;
+  if (loadError) {
+    mapBody = (
+      <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
+        Unable to load the map. Check your connection.
+      </div>
+    );
+  } else if (!shouldMountMap || !isLoaded) {
+    mapBody = (
+      <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
+        {!apiKey
+          ? 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'
+          : shouldMountMap
+            ? 'Loading map…'
+            : null}
+      </div>
+    );
+  } else {
+    mapBody = (
+      <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
+        <GoogleMap
+          mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
+          center={DEFAULT_CENTER}
+          zoom={10}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          options={{
+            scrollwheel: true,
+            streetViewControl: false,
+            mapTypeControl: true,
+            fullscreenControl: true,
+            zoomControl: true,
+          }}
+        />
+      </div>
     );
   }
 
   return (
-    <section className="w-full bg-amber-50/50" aria-label="Service area map">
+    <section
+      ref={sectionRef}
+      className="w-full bg-amber-50/50"
+      aria-label="Service area map"
+    >
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <h2 className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}>
+        <h2
+          className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}
+        >
           {title}
         </h2>
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-          Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City
+          {citiesLine}
         </p>
-        <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
-          <GoogleMap
-            mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
-            center={DEFAULT_CENTER}
-            zoom={10}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
-            options={{
-              scrollwheel: true,
-              streetViewControl: false,
-              mapTypeControl: true,
-              fullscreenControl: true,
-              zoomControl: true,
-            }}
-          >
-          </GoogleMap>
-        </div>
+        {mapBody}
       </div>
     </section>
   );
