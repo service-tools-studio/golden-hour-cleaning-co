@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
-import { useGoogleMaps } from './GoogleMapsProvider.jsx';
+import GoogleMapsProvider, { useGoogleMaps } from './GoogleMapsProvider.jsx';
 import { HEADING_UPPER } from '../../helpers/typography.js';
 
 // Exact CITYNAME values from Portland Metro City Boundaries (PDX::city-boundaries).
@@ -30,7 +30,6 @@ const MAP_CONTAINER_STYLE = {
 };
 const DEFAULT_CENTER = { lat: 45.48, lng: -122.68 };
 
-// Fallback single polygon if GeoJSON fetch fails (rough Portland metro outline)
 const FALLBACK_SERVICE_AREA = [
   { lat: 45.54, lng: -122.62 },
   { lat: 45.52, lng: -122.82 },
@@ -42,52 +41,18 @@ const FALLBACK_SERVICE_AREA = [
   { lat: 45.54, lng: -122.62 },
 ];
 
-export default function ServiceAreaMap({ title = "Our service area" }) {
-  const [map, setMap] = useState(null);
-  const [shouldMountMap, setShouldMountMap] = useState(false);
-  const sectionRef = useRef(null);
+const CITIES_LINE =
+  'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City';
+
+function MapCanvas() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded, loadError } = useGoogleMaps();
 
-  // Defer map mount until near the viewport — Google Maps often scrolls itself
-  // into view when the canvas mounts / fitBounds runs on cold opens.
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') {
-      setShouldMountMap(true);
-      return;
-    }
-
-    let io;
-    // Wait for cold-open scroll-to-top to settle before observing, so a
-    // briefly restored mid-page position doesn't mount the map immediately.
-    const startId = window.setTimeout(() => {
-      io = new IntersectionObserver(
-        ([entry]) => {
-          if (entry?.isIntersecting) {
-            setShouldMountMap(true);
-            io?.disconnect();
-          }
-        },
-        { rootMargin: '200px 0px', threshold: 0.01 }
-      );
-      io.observe(el);
-    }, 700);
-
-    return () => {
-      window.clearTimeout(startId);
-      io?.disconnect();
-    };
-  }, []);
-
   const onLoad = useCallback((mapInstance) => {
-    setMap(mapInstance);
-
     const preserveWindowScroll = (fn) => {
       const y = window.scrollY;
       const x = window.scrollX;
       fn();
-      // Google Maps fitBounds / canvas focus often scrolls the page to the map.
       requestAnimationFrame(() => {
         window.scrollTo(x, y);
         requestAnimationFrame(() => window.scrollTo(x, y));
@@ -136,48 +101,67 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
     loadCityBoundaries();
   }, []);
 
-  const onUnmount = useCallback(() => setMap(null), []);
-
-  const citiesLine =
-    'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City';
-
-  let mapBody;
   if (loadError) {
-    mapBody = (
+    return (
       <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
         Unable to load the map. Check your connection.
       </div>
     );
-  } else if (!shouldMountMap || !isLoaded) {
-    mapBody = (
+  }
+
+  if (!isLoaded) {
+    return (
       <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
-        {!apiKey
-          ? 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'
-          : shouldMountMap
-            ? 'Loading map…'
-            : null}
-      </div>
-    );
-  } else {
-    mapBody = (
-      <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
-        <GoogleMap
-          mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
-          center={DEFAULT_CENTER}
-          zoom={10}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-          options={{
-            scrollwheel: true,
-            streetViewControl: false,
-            mapTypeControl: true,
-            fullscreenControl: true,
-            zoomControl: true,
-          }}
-        />
+        {apiKey
+          ? 'Loading map…'
+          : 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'}
       </div>
     );
   }
+
+  return (
+    <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
+      <GoogleMap
+        mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
+        center={DEFAULT_CENTER}
+        zoom={10}
+        onLoad={onLoad}
+        options={{
+          scrollwheel: true,
+          streetViewControl: false,
+          mapTypeControl: true,
+          fullscreenControl: true,
+          zoomControl: true,
+        }}
+      />
+    </div>
+  );
+}
+
+export default function ServiceAreaMap({ title = 'Our service area' }) {
+  const [shouldLoadMaps, setShouldLoadMaps] = useState(false);
+  const sectionRef = useRef(null);
+
+  // Only load the Maps JS API when the section is near the viewport.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setShouldLoadMaps(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldLoadMaps(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '240px 0px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section
@@ -192,9 +176,15 @@ export default function ServiceAreaMap({ title = "Our service area" }) {
           {title}
         </h2>
         <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
-          {citiesLine}
+          {CITIES_LINE}
         </p>
-        {mapBody}
+        {shouldLoadMaps ? (
+          <GoogleMapsProvider>
+            <MapCanvas />
+          </GoogleMapsProvider>
+        ) : (
+          <div className="h-[320px] rounded-2xl border border-amber-200 bg-amber-100/40" aria-hidden />
+        )}
       </div>
     </section>
   );

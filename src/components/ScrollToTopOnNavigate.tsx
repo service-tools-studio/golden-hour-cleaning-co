@@ -9,18 +9,29 @@ export function scrollWindowToTop() {
   document.body.scrollTop = 0;
 }
 
-/** Only real in-page anchors should keep scroll; ignore bare `#` / junk from email trackers. */
+const KNOWN_SECTION_IDS = new Set([
+  "hero",
+  "reviews",
+  "services",
+  "quote",
+  "content",
+  "pricing",
+]);
+
+/** Only real in-page anchors should keep scroll; ignore bare `#`, text fragments, trackers. */
 export function hasIntentionalHash() {
   const hash = window.location.hash;
   if (!hash || hash === "#") return false;
+  if (hash.includes(":~:")) return false;
   const id = decodeURIComponent(hash.slice(1));
-  if (!id) return false;
+  if (!id || id.includes(":~:")) return false;
+  if (KNOWN_SECTION_IDS.has(id)) return true;
   return Boolean(document.getElementById(id));
 }
 
 /**
- * Soft navigations and cold opens (e.g. email signature links) can leave the
- * page mid-scroll. Force top unless a real section hash is present.
+ * Soft navigations: jump to top unless a real section hash is present.
+ * Avoid repeated scrollTo spam — that fights iOS visual viewport and causes jumps.
  */
 export default function ScrollToTopOnNavigate() {
   const pathname = usePathname();
@@ -43,18 +54,7 @@ export default function ScrollToTopOnNavigate() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (hasIntentionalHash()) return;
-
     scrollWindowToTop();
-
-    const raf = window.requestAnimationFrame(scrollWindowToTop);
-    const timers = [0, 50, 250, 800].map((ms) =>
-      window.setTimeout(scrollWindowToTop, ms)
-    );
-
-    return () => {
-      window.cancelAnimationFrame(raf);
-      timers.forEach((id) => window.clearTimeout(id));
-    };
   }, [pathname]);
 
   return null;

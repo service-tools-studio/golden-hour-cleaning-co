@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   useLayoutEffect(() => {
-    document.documentElement.style.setProperty("--header-height", `${COMPACT_H}px`);
+    document.documentElement.style.setProperty("--header-height", `${EXPANDED_H}px`);
   }, []);
 
   useEffect(() => {

@@ -22,8 +22,6 @@ const callNowClass = `${BTN_PRIMARY} ml-4 gap-1.5 whitespace-nowrap`;
 const mobileStickyCallClass = `${BTN_PRIMARY} w-full gap-2`;
 const mobileMenuCtaClass = `${BTN_PRIMARY} w-full`;
 
-const MOBILE_CALL_BAR_HEIGHT = "72px";
-
 function getSiteHeader() {
   return document.querySelector("[data-site-header]");
 }
@@ -45,30 +43,6 @@ export default function HeaderNav() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1279px)");
-    const syncCallBarPadding = () => {
-      if (mq.matches) {
-        document.documentElement.style.setProperty(
-          "--mobile-call-bar-height",
-          MOBILE_CALL_BAR_HEIGHT,
-        );
-        document.body.style.paddingBottom = MOBILE_CALL_BAR_HEIGHT;
-      } else {
-        document.documentElement.style.removeProperty("--mobile-call-bar-height");
-        document.body.style.paddingBottom = "";
-      }
-    };
-
-    syncCallBarPadding();
-    mq.addEventListener("change", syncCallBarPadding);
-    return () => {
-      mq.removeEventListener("change", syncCallBarPadding);
-      document.documentElement.style.removeProperty("--mobile-call-bar-height");
-      document.body.style.paddingBottom = "";
-    };
   }, []);
 
   useEffect(() => {
@@ -158,22 +132,21 @@ export default function HeaderNav() {
         )
       : null;
 
-  const mobileStickyCall = mounted
-      ? createPortal(
-          <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm xl:hidden">
-            <a
-              href={`tel:${CONTACT.phone}`}
-              className={mobileStickyCallClass}
-              aria-label="Call us"
-              data-call-source="header_nav_mobile_call_now"
-            >
-              <Phone className="h-4 w-4 shrink-0" aria-hidden />
-              Call Us
-            </a>
-          </div>,
-          document.body,
-        )
-      : null;
+  // Fixed bar is always in the tree (CSS hides on xl+). Space is reserved via
+  // body padding in globals.css so hydration doesn't shift scroll on iOS.
+  const mobileStickyCall = (
+    <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm xl:hidden">
+      <a
+        href={`tel:${CONTACT.phone}`}
+        className={mobileStickyCallClass}
+        aria-label="Call us"
+        data-call-source="header_nav_mobile_call_now"
+      >
+        <Phone className="h-4 w-4 shrink-0" aria-hidden />
+        Call Us
+      </a>
+    </div>
+  );
 
   return (
     <nav aria-label="Main navigation" className="relative shrink-0">
@@ -221,7 +194,7 @@ export default function HeaderNav() {
       </div>
 
       {mobileMenu}
-      {mobileStickyCall}
+      {mounted ? createPortal(mobileStickyCall, document.body) : null}
     </nav>
   );
 }

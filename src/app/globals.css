@@ -16,6 +16,21 @@
 @layer base {
   html {
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
+    overflow-anchor: none;
+  }
+
+  body {
+    overflow-anchor: none;
+  }
+
+  /*
+   * Reserve space for the fixed mobile Call Us bar from first paint.
+   * Setting this in JS after hydration was shifting the page down on iOS.
+   */
+  @media (max-width: 1279px) {
+    body {
+      padding-bottom: 72px;
+    }
   }
 
   h1,
