@@ -1,6 +1,5 @@
 "use client";
 
-import { useLayoutEffect } from "react";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
 import ServicesPreviewSection from "@/components/home/ServicesPreviewSection";
@@ -12,21 +11,12 @@ import Header from "@/components/residential/Header";
 import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
-import {
-  hasIntentionalHash,
-  scrollWindowToTop,
-} from "@/components/ScrollToTopOnNavigate";
 
 type Props = {
   pagePath: "/" | "/residential";
 };
 
 export default function MarketingLandingClient({ pagePath }: Props) {
-  useLayoutEffect(() => {
-    if (hasIntentionalHash()) return;
-    scrollWindowToTop();
-  }, [pagePath]);
-
   return (
     <div className="relative min-h-screen overflow-x-clip bg-amber-50 text-stone-900">
       <ScrollDepthTracker pagePath={pagePath} />

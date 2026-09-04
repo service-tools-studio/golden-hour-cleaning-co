@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BTN_PRIMARY, SECTION_HEADING, SECTION_PAD } from '../../helpers/typography.js';
-import { scrollWindowToTop } from '@/components/ScrollToTopOnNavigate';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
@@ -219,16 +218,6 @@ export default function GoogleReviews({ variant = 'carousel' }) {
       .catch(() => setError('Could not load reviews'))
       .finally(() => setLoading(false));
   }, [apiKey, placeId]);
-
-  // Chrome scroll-anchoring jumps when this block swaps loading → carousel.
-  useLayoutEffect(() => {
-    if (loading) return;
-    if (typeof window === 'undefined') return;
-    if (window.location.hash && window.location.hash !== '#') return;
-    if ((window.scrollY || 0) > 0 && (window.scrollY || 0) < 400) {
-      scrollWindowToTop();
-    }
-  }, [loading, reviews.length]);
 
   if (!placeId) {
     return <ReviewsFallback titleAs={TitleTag} showPageIntro={isPage} />;
