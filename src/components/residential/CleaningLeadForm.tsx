@@ -36,16 +36,16 @@ import {
 } from "@/lib/cleaningLead";
 
 const inputClass =
-  "mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-amber-300 focus:ring-2";
+  "mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-amber-300 focus:ring-2";
 
 const inputErrorClass =
-  "mt-2 w-full rounded-2xl border border-red-300 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-red-300 focus:ring-2";
+  "mt-2 w-full rounded-2xl border border-red-300 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-red-300 focus:ring-2";
 
 const selectClass =
-  "mt-2 w-full appearance-none rounded-2xl border border-stone-200 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-sm text-stone-900 outline-none ring-amber-300 focus:ring-2";
+  "mt-2 w-full appearance-none rounded-2xl border border-stone-200 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-base text-stone-900 outline-none ring-amber-300 focus:ring-2";
 
 const selectErrorClass =
-  "mt-2 w-full appearance-none rounded-2xl border border-red-300 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-sm text-stone-900 outline-none ring-red-300 focus:ring-2";
+  "mt-2 w-full appearance-none rounded-2xl border border-red-300 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-base text-stone-900 outline-none ring-red-300 focus:ring-2";
 
 const selectStyle = {
   backgroundImage:
@@ -99,8 +99,8 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   function focusField(key: keyof CleaningLeadFormState) {
     const el = document.getElementById(fieldDomId(key));
     if (el instanceof HTMLElement) {
-      el.focus();
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }
 

@@ -111,7 +111,7 @@ export default function CommercialLeadForm() {
           <input
             value={form.businessName}
             onChange={(e) => update("businessName", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="Example Co."
             required
           />
@@ -121,7 +121,7 @@ export default function CommercialLeadForm() {
           <input
             value={form.contactName}
             onChange={(e) => update("contactName", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="First + last"
             required
           />
@@ -132,7 +132,7 @@ export default function CommercialLeadForm() {
             type="email"
             value={form.email}
             onChange={(e) => update("email", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="you@company.com"
             required
           />
@@ -142,7 +142,7 @@ export default function CommercialLeadForm() {
           <input
             value={form.phone}
             onChange={(e) => update("phone", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="(503) 555-1234"
             required
           />
@@ -152,7 +152,7 @@ export default function CommercialLeadForm() {
           <input
             value={form.address}
             onChange={(e) => update("address", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="123 Main St, Portland, OR 97201"
             required
           />
@@ -162,7 +162,7 @@ export default function CommercialLeadForm() {
           <select
             value={form.spaceType}
             onChange={(e) => update("spaceType", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
           >
             <option>Office</option>
             <option>Wellness studio</option>
@@ -176,7 +176,7 @@ export default function CommercialLeadForm() {
           <select
             value={form.sqftRange}
             onChange={(e) => update("sqftRange", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
           >
             <option>Under 1,000</option>
             <option>1,000–3,000</option>
@@ -190,7 +190,7 @@ export default function CommercialLeadForm() {
           <select
             value={form.frequency}
             onChange={(e) => update("frequency", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
           >
             <option>Daily</option>
             <option>Weekly</option>
@@ -205,7 +205,7 @@ export default function CommercialLeadForm() {
           <select
             value={form.startTiming}
             onChange={(e) => update("startTiming", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
           >
             <option>Within 2 weeks</option>
             <option>2–4 weeks</option>
@@ -218,7 +218,7 @@ export default function CommercialLeadForm() {
           <input
             value={form.referral}
             onChange={(e) => update("referral", e.target.value)}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="Referral, Google, Facebook, etc."
           />
         </Field>
@@ -227,7 +227,7 @@ export default function CommercialLeadForm() {
           <textarea
             value={form.notes}
             onChange={(e) => update("notes", e.target.value)}
-            className="min-h-[120px] w-full resize-y rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none ring-stone-300 focus:ring-2"
+            className="min-h-[120px] w-full resize-y rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
             placeholder="Access instructions, restrooms count, kitchen, priorities, sensitivities, etc."
           />
         </Field>
