@@ -22,17 +22,20 @@ type Props = {
 };
 
 export default function MarketingLandingClient({ pagePath }: Props) {
-  // iOS Chrome sometimes nudges scroll after first paint; yank back to top shortly after load.
+  // iOS Chrome sometimes nudges scroll after first paint (often >500ms later).
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (hasIntentionalHash()) return;
 
     scrollWindowToTop();
-    const t = window.setTimeout(() => {
-      if (!hasIntentionalHash()) scrollWindowToTop();
-    }, 500);
+    const delays = [500, 1000, 1500, 2000, 3000];
+    const timers = delays.map((ms) =>
+      window.setTimeout(() => {
+        if (!hasIntentionalHash()) scrollWindowToTop();
+      }, ms),
+    );
 
-    return () => window.clearTimeout(t);
+    return () => timers.forEach((id) => window.clearTimeout(id));
   }, [pagePath]);
 
   return (
