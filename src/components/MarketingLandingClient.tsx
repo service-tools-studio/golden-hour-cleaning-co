@@ -39,11 +39,11 @@ export default function MarketingLandingClient({ pagePath }: Props) {
   }, [pagePath]);
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-amber-50 text-stone-900">
+    <div className="relative min-h-screen bg-amber-50 text-stone-900">
       <ScrollDepthTracker pagePath={pagePath} />
       <Header />
 
-      <main id="content" className="overflow-x-clip">
+      <main id="content">
         <Hero />
 
         <GoogleReviews />
