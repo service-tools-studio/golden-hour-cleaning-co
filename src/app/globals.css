@@ -16,12 +16,10 @@
 @layer base {
   html {
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
-    overflow-anchor: none;
     overflow-x: clip;
   }
 
   body {
-    overflow-anchor: none;
     overflow-x: clip;
   }
 
@@ -44,6 +42,17 @@
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
+}
+
+/*
+ * Chrome scroll-anchoring is NOT inherited. When late content (reviews, images,
+ * fonts) changes height, Blink adjusts scrollY — Safari usually does not.
+ * Disable on every element (unlayered so it always applies).
+ */
+*,
+*::before,
+*::after {
+  overflow-anchor: none;
 }
 
 /* Unlayered so it always ships — all buttons + link CTAs */
