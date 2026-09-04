@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import { BTN_PRIMARY, HEADING_UPPER } from "@/helpers/typography.js";
 import { buildMailto } from "@/helpers/contactHelpers";
 import { BulletList, Section } from "./servicePageParts";
 
@@ -105,10 +105,7 @@ export default function PartnershipsPageContent() {
           can support you.
         </p>
         <div className="mt-8">
-          <Link
-            href={inquiryMailto}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
-          >
+          <Link href={inquiryMailto} className={BTN_PRIMARY}>
             Inquire About Working With Us
           </Link>
         </div>

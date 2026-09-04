@@ -1,6 +1,6 @@
-import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from 'lucide-react';
+import { BadgeCheck, Award, ShieldCheck, Stars } from 'lucide-react';
 import { scrollToId } from '../../helpers/scrollToId';
-import { HEADING_UPPER } from '../../helpers/typography.js';
+import { BTN_PRIMARY_RESPONSIVE, HEADING_UPPER } from '../../helpers/typography.js';
 import { Badge } from '../../helpers/ui-elements.jsx';
 import Image from 'next/image';
 
@@ -22,16 +22,16 @@ export default function Hero() {
           />
         </div>
 
-        <div className="relative flex items-center px-4 pt-4 pb-16 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
+        <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
           <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
             <h1 className={`text-center text-xl sm:text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
               Professional house cleaners with high standards, intentional care & consistent results.
             </h1>
 
             <p className="mt-3 text-center text-stone-700 lg:text-base">
-              Golden Hour brings meticulous, non-toxic cleaning with a calm, grounded presence.
-              Designed for busy households and boutique rentals who value immaculate results,
-              instant online booking, and a team that treats your space like a sanctuary.
+              Meticulous, non-toxic cleaning for Portland-area homes. Thoughtful
+              service, consistent results, transparent pricing, and easy online
+              booking.
             </p>
 
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -41,7 +41,7 @@ export default function Hero() {
                   e.preventDefault();
                   scrollToId('#quote', 8);
                 }}
-                className="uppercase tracking-wide w-full sm:flex-1 inline-flex items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 shadow-sm hover:bg-stone-50 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                className={`${BTN_PRIMARY_RESPONSIVE} w-full sm:flex-1`}
               >
                 See Pricing
               </button>
@@ -63,7 +63,7 @@ export default function Hero() {
             <div className="mt-6 grid w-full grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4 lg:mt-10 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
               <Badge icon={<BadgeCheck />} label="Background-Checked" />
-              <Badge icon={<CalendarCheck2 />} label="Easy Online Booking" />
+              <Badge icon={<Award />} label="Satisfaction Guarantee" />
               <Badge
                 icon={<Stars />}
                 label="★★★★★ 5.0 Google Rating"

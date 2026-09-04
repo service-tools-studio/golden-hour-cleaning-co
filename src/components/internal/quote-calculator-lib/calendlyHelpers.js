@@ -1,4 +1,4 @@
-/** Frozen Sept 2026 — used only by PreservedQuoteCalculator. Do not import elsewhere. */
+/** Internal quote calculator only — do not import from public pages. */
 
 const CLICK_ID_KEYS = ["gclid", "gbraid", "wbraid"];
 

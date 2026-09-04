@@ -1,11 +1,10 @@
-/** Frozen Sept 2026 — used only by PreservedQuoteCalculator. Do not import elsewhere. */
+/** Internal quote calculator only — do not import from public pages. */
 
 export const CFG = {
   frequencyDiscount: { weekly: 0.18, bi_weekly: 0.12, monthly: 0.05, one_time: 0.0 },
   roomsToSqft: { perBathroom: 150 },
-  promos: {
-    GOLDENWELCOME: { amount: 50, level: "deep" },
-  },
+  // Promo UI removed; keep empty map for any residual validation paths.
+  promos: {},
 };
 
 export const WALKTHROUGH_ARRIVAL_HOURS = 2;

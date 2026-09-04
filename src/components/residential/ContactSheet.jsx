@@ -8,6 +8,7 @@ import {
   formatPhone,
 } from "../../helpers/contactHelpers";
 import { LEVEL_COPY } from "../../constants.js";
+import { BTN_SECONDARY } from "../../helpers/typography.js";
 
 /**
  * @typedef {object} ContactSheetContext
@@ -155,10 +156,7 @@ const ContactSheet = forwardRef(function ContactSheet(
         onKeyDown={onKeyDown}
         aria-expanded={open}
         aria-controls="contact-sheet"
-        className={
-          buttonClassName ??
-          "uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-300"
-        }
+        className={buttonClassName ?? `${BTN_SECONDARY} w-full`}
       >
         {buttonLabel}
       </button>

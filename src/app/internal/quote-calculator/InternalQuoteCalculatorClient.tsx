@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import PreservedQuoteCalculator from "@/components/internal/PreservedQuoteCalculator";
+import InternalQuoteCalculator from "@/components/internal/InternalQuoteCalculator";
 import InternalBreadcrumbs from "@/components/internal/InternalBreadcrumbs";
 import InternalFooter from "@/components/internal/InternalFooter";
 import { scrollToId } from "@/helpers/scrollToId";
@@ -48,7 +48,7 @@ export default function InternalQuoteCalculatorClient({
         id="quote"
         className="mx-auto max-w-7xl px-6 pt-6 pb-10 md:pt-8 md:pb-12"
       >
-        <PreservedQuoteCalculator
+        <InternalQuoteCalculator
           initialLevel={urlLevel ?? undefined}
           hideHeader
         />

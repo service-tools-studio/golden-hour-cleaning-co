@@ -1,22 +1,22 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   CalendarDays,
   Check,
   PackageOpen,
   Sparkles,
-  Tag,
 } from "lucide-react";
-import { formatPhone } from "@/helpers/contactHelpers.js";
-import ContactSheet from "./ContactSheet";
 import { SERVICE_THEMES } from "./serviceCardTheme";
-import { CONTACT } from "@/constants.js";
 import {
   RESIDENTIAL_SERVICES,
   type ServiceSlug,
 } from "@/data/residentialServices";
+import {
+  formatStartingAt,
+  STARTING_AT_TIERS,
+} from "@/lib/startingAtPricing.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 import { scrollToId } from "@/helpers/scrollToId";
 
@@ -30,8 +30,8 @@ type ServicePricingBlock = {
   displayTitle: string;
   subtitle?: string;
   tiers: PricingTierRow[];
-  typicalRange?: string;
-  showLargeHomeNote?: boolean;
+  /** e.g. "Home over 2,000 sq ft?" */
+  largeHomePrompt?: string;
 };
 
 const PRICING_CARD_THEMES = {
@@ -39,21 +39,18 @@ const PRICING_CARD_THEMES = {
     ...SERVICE_THEMES.standard,
     tableBorder: "border-amber-200",
     rowDivider: "border-amber-100",
-    tipBg: "bg-amber-50",
     accent: SERVICE_THEMES.standard.tagline,
   },
   deep: {
     ...SERVICE_THEMES.deep,
     tableBorder: "border-[#a7eff1]",
     rowDivider: "border-[#a7eff1]/40",
-    tipBg: "bg-[#a7eff1]/15",
     accent: SERVICE_THEMES.deep.tagline,
   },
   "move-out": {
     ...SERVICE_THEMES["move-out"],
     tableBorder: "border-orange-200",
     rowDivider: "border-orange-100",
-    tipBg: "bg-orange-50",
     accent: SERVICE_THEMES["move-out"].tagline,
   },
 } as const;
@@ -61,43 +58,38 @@ const PRICING_CARD_THEMES = {
 const LEARN_MORE_BUTTON_CLASS = {
   standard:
     "border-amber-200/80 bg-amber-50 hover:bg-amber-100 text-stone-900",
-  deep: "border-[#a7eff1]/50 bg-[#a7eff1]/25 hover:bg-[#a7eff1]/40 text-[#333333]",
+  deep: "border-[#a7eff1]/50 bg-[#a7eff1]/25 hover:bg-[#a7eff1]/40 text-stone-900",
   "move-out":
     "border-orange-200/80 bg-orange-50 hover:bg-orange-100 text-stone-900",
 } as const;
+
+function tiersForSlug(slug: ServiceSlug): PricingTierRow[] {
+  const key = slug === "move-out" ? "move_out" : slug;
+  return STARTING_AT_TIERS[key].map((tier) => ({
+    sqftLabel: tier.sqftLabel,
+    startingAt: formatStartingAt(tier.startingAt),
+  }));
+}
 
 const PRICING_BLOCKS: ServicePricingBlock[] = [
   {
     serviceSlug: "deep",
     displayTitle: "Deep Cleaning",
-    tiers: [
-      { sqftLabel: "Homes up to 1,000 sq ft", startingAt: "$250" },
-      { sqftLabel: "Homes up to 1,500 sq ft", startingAt: "$300" },
-      { sqftLabel: "Homes up to 2,000 sq ft", startingAt: "$429" },
-    ],
-    typicalRange: "Most deep cleans range from $350–$650.",
-    showLargeHomeNote: true,
+    tiers: tiersForSlug("deep"),
+    largeHomePrompt: "Home over 2,000 sq ft?",
   },
   {
     serviceSlug: "move-out",
     displayTitle: "Move-in/out Cleaning",
-    tiers: [
-      { sqftLabel: "Homes up to 1,000 sq ft", startingAt: "$350" },
-      { sqftLabel: "Homes up to 1,500 sq ft", startingAt: "$460" },
-      { sqftLabel: "Homes up to 2,000 sq ft", startingAt: "$660" },
-    ],
-    typicalRange: "Most moving cleans range from $450–$750.",
-    showLargeHomeNote: true,
+    tiers: tiersForSlug("move-out"),
+    largeHomePrompt: "Home over 2,000 sq ft?",
   },
   {
     serviceSlug: "standard",
     displayTitle: "Recurring Cleaning",
     subtitle: "Weekly or Bi-weekly",
-    tiers: [
-      { sqftLabel: "Homes up to 1,500 sq ft", startingAt: "$150" },
-      { sqftLabel: "Homes up to 2,000 sq ft", startingAt: "$222" },
-      { sqftLabel: "Homes up to 3,000 sq ft", startingAt: "$292" },
-    ],
+    tiers: tiersForSlug("standard"),
+    largeHomePrompt: "Home over 3,000 sq ft?",
   },
 ];
 
@@ -182,7 +174,7 @@ function ServicePricingCard({
     <article
       id={pricingCardId(block.serviceSlug)}
       tabIndex={-1}
-      className={`scroll-mt-[calc(var(--header-height,120px)+12px)] rounded-3xl border bg-white p-6 shadow-sm md:p-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 ${theme.border}`}
+      className={`scroll-mt-[calc(var(--header-height,120px)+var(--pricing-jump-nav-height,0px)+16px)] rounded-3xl border bg-white p-6 shadow-sm md:p-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 ${theme.border}`}
     >
       <div
         className={
@@ -240,44 +232,23 @@ function ServicePricingCard({
             ))}
           </div>
 
-          {block.showLargeHomeNote ? (
+          {block.largeHomePrompt ? (
             <p className="mt-3 text-xs leading-relaxed text-stone-600">
               <span className="font-semibold text-stone-800">
-                Home over 2,000 sq ft?
+                {block.largeHomePrompt}
               </span>{" "}
-              Larger homes are individually priced based on size and cleaning needs.{" "}
-              <a
-                href="#request-quote"
+              <Link
+                href="/request-a-quote"
                 className="font-semibold text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                onClick={(event) => {
-                  event.preventDefault();
-                  scrollToId("#request-quote", 8, { focus: true });
-                }}
               >
                 Request a personalized quote →
-              </a>
+              </Link>
             </p>
           ) : null}
 
-          {block.typicalRange ? (
-            <div
-              className={`mt-4 flex gap-3 rounded-2xl px-4 py-3 text-sm leading-relaxed text-stone-600 ${theme.tipBg}`}
-            >
-              <Tag
-                className={`mt-0.5 h-4 w-4 shrink-0 ${theme.iconColor}`}
-                aria-hidden
-              />
-              <p>
-                <span className="font-semibold text-stone-800">Typical range:</span>{" "}
-                {block.typicalRange} Final pricing depends on home size, condition
-                and cleaning needs.
-              </p>
-            </div>
-          ) : (
-            <p className="mt-4 text-sm leading-relaxed text-stone-600">
-              Final pricing depends on home size, condition and cleaning needs.
-            </p>
-          )}
+          <p className="mt-4 text-sm leading-relaxed text-stone-600">
+            Final pricing depends on home size, condition and cleaning needs.
+          </p>
         </div>
 
         {!hideIncluded ? (
@@ -291,7 +262,7 @@ function ServicePricingCard({
             <Link
               href={`/residential/services/${block.serviceSlug}`}
               aria-label={`Learn more about ${service.title}`}
-              className={`${BTN_UPPER} mt-6 inline-flex w-full items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${LEARN_MORE_BUTTON_CLASS[block.serviceSlug]}`}
+              className={`${BTN_UPPER} mt-6 inline-flex w-full items-center justify-center rounded-2xl border px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${LEARN_MORE_BUTTON_CLASS[block.serviceSlug]}`}
             >
               Learn more
             </Link>
@@ -307,6 +278,12 @@ type ResidentialPricingGuideProps = {
   showIntro?: boolean;
 };
 
+const JUMP_NAV_ACTIVE_CLASS = {
+  standard: "bg-amber-100 text-stone-900 shadow-sm",
+  deep: "bg-[#a7eff1]/50 text-teal-900 shadow-sm",
+  "move-out": "bg-orange-100 text-orange-950 shadow-sm",
+} as const;
+
 export function ServicePricingCards({
   className = "",
   serviceSlug,
@@ -320,39 +297,160 @@ export function ServicePricingCards({
     ? PRICING_BLOCKS.filter((block) => block.serviceSlug === serviceSlug)
     : PRICING_BLOCKS;
   const showJumpNav = blocks.length > 1;
+  const jumpNavRef = useRef<HTMLElement>(null);
+  const [activeSlug, setActiveSlug] = useState<ServiceSlug>(
+    blocks[0]?.serviceSlug ?? "deep",
+  );
+  const observedSlugs = blocks.map((block) => block.serviceSlug).join(",");
+
+  useLayoutEffect(() => {
+    const el = jumpNavRef.current;
+    if (!el) {
+      document.documentElement.style.removeProperty("--pricing-jump-nav-height");
+      return;
+    }
+
+    const syncHeight = () => {
+      document.documentElement.style.setProperty(
+        "--pricing-jump-nav-height",
+        `${el.offsetHeight}px`,
+      );
+    };
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--pricing-jump-nav-height");
+    };
+  }, [showJumpNav]);
+
+  useEffect(() => {
+    if (!showJumpNav) return;
+
+    const slugs = observedSlugs.split(",") as ServiceSlug[];
+    const elements = slugs
+      .map((slug) => document.getElementById(pricingCardId(slug)))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (!elements.length) return;
+
+    const ratios = new Map<string, number>();
+
+    const updateActive = () => {
+      let bestId: string | null = null;
+      let bestRatio = 0;
+      for (const [id, ratio] of ratios) {
+        if (ratio > bestRatio) {
+          bestRatio = ratio;
+          bestId = id;
+        }
+      }
+      if (!bestId || bestRatio <= 0) return;
+      const slug = bestId.replace(/^pricing-/, "") as ServiceSlug;
+      setActiveSlug(slug);
+    };
+
+    const stickyOffset = () => {
+      const header = Number.parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--header-height",
+        ),
+        10,
+      );
+      const nav = Number.parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--pricing-jump-nav-height",
+        ),
+        10,
+      );
+      return (
+        (Number.isFinite(header) ? header : 120) +
+        (Number.isFinite(nav) ? nav : 0)
+      );
+    };
+
+    let observer: IntersectionObserver | null = null;
+
+    const connect = () => {
+      observer?.disconnect();
+      ratios.clear();
+      const top = stickyOffset();
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            ratios.set(
+              entry.target.id,
+              entry.isIntersecting ? entry.intersectionRatio : 0,
+            );
+          }
+          updateActive();
+        },
+        {
+          root: null,
+          rootMargin: `-${Math.max(top, 0)}px 0px -45% 0px`,
+          threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 1],
+        },
+      );
+      for (const el of elements) observer.observe(el);
+    };
+
+    connect();
+    window.addEventListener("resize", connect);
+    return () => {
+      window.removeEventListener("resize", connect);
+      observer?.disconnect();
+    };
+  }, [observedSlugs, showJumpNav]);
 
   return (
     <div className={className?.trim() || undefined}>
       {showJumpNav ? (
         <nav
+          ref={jumpNavRef}
           aria-label="Jump to a service"
-          className="mb-6 flex flex-wrap items-center justify-center gap-y-2 text-center"
+          className="sticky top-[var(--header-height,120px)] z-30 -mx-4 mb-8 bg-amber-50/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-amber-50/80 md:-mx-0 md:px-0"
         >
-          {blocks.map((block, index) => (
-            <span key={block.serviceSlug} className="inline-flex items-center">
-              {index > 0 ? (
-                <span className="px-2 text-stone-400 select-none" aria-hidden>
-                  ·
-                </span>
-              ) : null}
-              <a
-                href={`#${pricingCardId(block.serviceSlug)}`}
-                className="text-sm font-semibold text-stone-700 underline-offset-4 hover:text-stone-900 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-                onClick={(event) => {
-                  event.preventDefault();
-                  scrollToId(`#${pricingCardId(block.serviceSlug)}`, 8, {
-                    focus: true,
-                  });
-                }}
-              >
-                {block.displayTitle.replace(/Cleaning$/, "Clean")}
-              </a>
-            </span>
-          ))}
+          <div className="flex justify-center">
+            <ul className="inline-flex max-w-full flex-wrap items-center justify-center gap-1 rounded-2xl border border-stone-200 bg-white p-1.5 shadow-sm">
+              {blocks.map((block) => {
+                const theme = PRICING_CARD_THEMES[block.serviceSlug];
+                const isActive = activeSlug === block.serviceSlug;
+                return (
+                  <li key={block.serviceSlug}>
+                    <a
+                      href={`#${pricingCardId(block.serviceSlug)}`}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`${BTN_UPPER} inline-flex items-center rounded-2xl px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 sm:px-4 ${
+                        isActive
+                          ? JUMP_NAV_ACTIVE_CLASS[block.serviceSlug]
+                          : "text-stone-700 hover:bg-stone-50"
+                      }`}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setActiveSlug(block.serviceSlug);
+                        const navH = jumpNavRef.current?.offsetHeight ?? 0;
+                        scrollToId(`#${pricingCardId(block.serviceSlug)}`, navH + 12, {
+                          focus: true,
+                        });
+                      }}
+                    >
+                      <span
+                        className={`mr-2 inline-block h-2 w-2 shrink-0 rounded-full ${theme.divider}`}
+                        aria-hidden
+                      />
+                      {block.displayTitle.replace(/Cleaning$/, "Clean")}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </nav>
       ) : null}
 
-      <div className="space-y-6">
+      <div className="space-y-12 md:space-y-14">
         {blocks.map((block) => (
           <ServicePricingCard
             key={block.serviceSlug}
@@ -402,56 +500,6 @@ export function ServicePagePricing({
   );
 }
 
-export function PricingGuideCTA() {
-  const contactBtnRef = useRef(null);
-
-  return (
-    <div
-      id="request-quote"
-      className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm md:flex md:items-center md:justify-between md:gap-8 md:p-8"
-    >
-      <div className="flex gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100">
-          <Sparkles
-            className="h-5 w-5 text-[#c9a227]"
-            strokeWidth={1.75}
-            aria-hidden
-          />
-        </div>
-        <div>
-          <h3
-            className={`text-lg font-bold text-stone-900 md:text-xl ${HEADING_UPPER}`}
-          >
-            Interested in Golden Hour?
-          </h3>
-          <p className="mt-1 max-w-md text-sm leading-relaxed text-stone-600">
-            Tell us a little about your home and we&apos;ll help you determine the
-            right cleaning and price.
-          </p>
-        </div>
-      </div>
-      <div className="mt-6 flex shrink-0 flex-col items-stretch gap-3 md:mt-0 md:items-end">
-        <ContactSheet
-          ref={contactBtnRef}
-          phone={CONTACT.phone}
-          sms={CONTACT.sms}
-          email={CONTACT.email}
-          context={{ level: "deep", bedrooms: 3, bathrooms: 2 }}
-          buttonLabel="Request a Personalized Quote →"
-          buttonClassName={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-md transition hover:shadow-lg active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300 md:w-auto md:min-w-[280px]`}
-        />
-        <a
-          href={`tel:${CONTACT.phone}`}
-          data-call-source="pricing_guide_call"
-          className="text-center text-sm font-semibold text-stone-600 underline underline-offset-4 hover:text-stone-900 md:text-right"
-        >
-          Or call {formatPhone(CONTACT.phone)}
-        </a>
-      </div>
-    </div>
-  );
-}
-
 export default function ResidentialPricingGuide({
   className = "",
   showIntro = true,
@@ -469,22 +517,17 @@ export default function ResidentialPricingGuide({
             tabIndex={-1}
             className={`text-2xl leading-tight text-stone-900 md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
           >
-            Know what to expect before you contact us.
+            Cleaning Services &amp; Pricing
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-stone-600 md:text-base">
-            We believe choosing a cleaning company shouldn&apos;t require making three
-            phone calls just to understand what it might cost. Browse our typical
-            pricing below, see exactly what&apos;s included, and reach out when
-            you&apos;re ready.
+            Choose the level of care that fits your home. Explore our starting
+            prices and what&apos;s included, then book online or request a
+            personalized quote when you&apos;re ready.
           </p>
         </header>
       ) : null}
 
       <ServicePricingCards className={showIntro ? "mt-10" : undefined} />
-
-      <div className={showIntro ? "mt-10" : undefined}>
-        <PricingGuideCTA />
-      </div>
     </section>
   );
 }

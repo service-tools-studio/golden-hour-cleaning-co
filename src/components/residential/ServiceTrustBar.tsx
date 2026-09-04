@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  BadgeCheck,
-  CalendarCheck2,
-  ShieldCheck,
-  Stars,
-} from "lucide-react";
+import { Award, BadgeCheck, ShieldCheck, Stars } from "lucide-react";
 import { Badge } from "../../helpers/ui-elements.jsx";
 import { scrollToId } from "../../helpers/scrollToId.js";
 
@@ -17,7 +12,7 @@ const TRUST_FEATURES = [
     title: "★★★★★ 5.0 Google Rating",
     onClick: () => scrollToId("#reviews", 8),
   },
-  { icon: CalendarCheck2, title: "Easy Online Booking" },
+  { icon: Award, title: "Satisfaction Guarantee" },
 ];
 
 export default function ServiceTrustBar() {

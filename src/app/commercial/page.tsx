@@ -11,7 +11,7 @@ import {
 import CommercialLeadForm from "@/components/commercial/CommercialLeadForm";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import Footer from "@/components/residential/Footer";
-import { BTN_UPPER } from "@/helpers/typography.js";
+import { BTN_PRIMARY, BTN_SECONDARY, SECTION_EYEBROW } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
   title: "Commercial Cleaning | Golden Hour Cleaning Co.",
@@ -57,7 +57,7 @@ function Feature({
 export default function CommercialPage() {
   return (
     <>
-      <main className="min-h-screen bg-[#fffbea] text-stone-900">
+      <main className="min-h-screen bg-amber-50 text-stone-900">
         <ScrollDepthTracker pagePath="/commercial" />
         <header className="sticky top-0 z-50 w-full border-b border-amber-200 bg-brand shadow-sm">
           <div className="mx-auto max-w-7xl px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-6">
@@ -76,18 +76,18 @@ export default function CommercialPage() {
         </header>
 
         <section className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#dcbb52]/15 via-[#fffbea] to-[#a7eff1]/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-amber-50 to-[#a7eff1]/20" />
 
           <div className="relative mx-auto max-w-7xl px-6 py-10">
             <div className="grid gap-12 lg:grid-cols-2 items-center">
               <div>
-                <div className="inline-flex rounded-full bg-[#dcbb52]/20 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-stone-800">
+                <div className={`inline-flex rounded-2xl bg-amber-400/20 px-4 py-2 ${SECTION_EYEBROW}`}>
                   Locally owned • Loving • Reliable
                 </div>
 
                 <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[0.95] tracking-tight">
                   Commercial cleaning that feels{" "}
-                  <span className="text-[#dcbb52]">warm, polished,</span>{" "}
+                  <span className="text-amber-600">warm, polished,</span>{" "}
                   and dependable.
                 </h1>
 
@@ -98,24 +98,18 @@ export default function CommercialPage() {
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <a
-                    href="#request-quote"
-                    className={`rounded-full bg-stone-900 px-8 py-4 text-white font-semibold shadow-lg ${BTN_UPPER}`}
-                  >
+                  <a href="#request-quote" className={BTN_PRIMARY}>
                     Request a Free Quote
                   </a>
 
-                  <a
-                    href="#spaces"
-                    className={`rounded-full border border-stone-300 bg-white px-8 py-4 font-semibold ${BTN_UPPER}`}
-                  >
+                  <a href="#spaces" className={BTN_SECONDARY}>
                     Spaces We Serve
                   </a>
                 </div>
               </div>
 
               <div className="relative">
-                <div className="absolute -inset-5 rounded-[3rem] bg-[#dcbb52]/20 blur-3xl" />
+                <div className="absolute -inset-5 rounded-[3rem] bg-amber-400/20 blur-3xl" />
 
                 <div className="relative overflow-hidden rounded-[3rem] border border-black/5 shadow-2xl">
                   <Image
@@ -161,7 +155,7 @@ export default function CommercialPage() {
         <section id="spaces" className="py-24">
           <div className="mx-auto max-w-7xl px-6 grid gap-8 lg:grid-cols-2">
             <div className="rounded-[40px] bg-white p-10 shadow-xl border border-black/5">
-              <p className="uppercase tracking-[0.25em] text-[#dcbb52] font-bold text-sm">
+              <p className={`${SECTION_EYEBROW}`}>
                 Spaces we serve
               </p>
 
@@ -173,7 +167,7 @@ export default function CommercialPage() {
                 {spaces.map((space) => (
                   <div
                     key={space}
-                    className="rounded-2xl bg-[#fffbea] border border-[#dcbb52]/20 px-4 py-4 font-medium"
+                    className="rounded-2xl bg-amber-50 border border-amber-200/40 px-4 py-4 font-medium"
                   >
                     ✓ {space}
                   </div>
@@ -181,8 +175,8 @@ export default function CommercialPage() {
               </div>
             </div>
 
-            <div className="rounded-[40px] bg-[#dcbb52] p-10 text-stone-900 shadow-xl">
-              <p className="uppercase tracking-[0.25em] font-bold text-sm">
+            <div className="rounded-[40px] bg-amber-400 p-10 text-stone-900 shadow-xl">
+              <p className="uppercase tracking-wide font-bold text-sm">
                 Local & Professional
               </p>
 

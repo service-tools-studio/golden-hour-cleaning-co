@@ -1,4 +1,4 @@
-import { BTN_UPPER, HEADING_UPPER } from "../../helpers/typography.js";
+import { BTN_SECONDARY, HEADING_UPPER } from "../../helpers/typography.js";
 import FooterCitiesMenu from "./FooterCitiesMenu";
 
 const COI_URL =
@@ -36,7 +36,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View certificate of insurance (opens in new tab)"
-            className={`mt-4 inline-flex rounded-full border border-amber-300 bg-white px-4 py-2 text-xs font-semibold text-amber-900 shadow-sm transition hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 ${BTN_UPPER}`}
+            className={`${BTN_SECONDARY} mt-4 px-4 py-2 text-xs`}
           >
             View Certificate of Insurance
           </a>
@@ -84,7 +84,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="/residential/quote"
+                href="/request-a-quote"
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Get a residential quote

@@ -1,36 +1,31 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
-import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
+import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
+import ServiceDetailHero from "./ServiceDetailHero";
+import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function StandardCleanPageContent({
   quoteHref,
-  afterHero,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
 }) {
+  const service = RESIDENTIAL_SERVICES.standard;
+
   return (
     <>
-      <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">Lighter upkeep</p>
-      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-        Standard House Cleaning Services in Portland, OR
-      </h1>
-
-      <figure className="mx-auto mt-6 max-w-xs overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm sm:max-w-sm">
-        <div className="relative aspect-[4/5] w-full bg-stone-100">
-          <Image
-            src="/assets/chateau-cleaning.webp"
-            alt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
-            fill
-            sizes="(max-width: 640px) 320px, 384px"
-            className="object-cover object-top"
-            priority
-          />
-        </div>
-      </figure>
+      <ServiceDetailHero
+        serviceSlug="standard"
+        tagline="Lighter upkeep"
+        title="Standard House Cleaning Services in Portland, OR"
+        intro="Our standard cleaning keeps a tidy home looking its best—ideal for recurring upkeep or homes professionally cleaned within the past 2–4 weeks."
+        imageSrc="/assets/chateau-cleaning.webp"
+        imageAlt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
+        includedItems={service.items}
+        checklistHref="#whats-included"
+        quoteHref={quoteHref}
+      />
 
       <Section title="Professional Standard Cleaning for a Home That Always Feels Fresh">
         <p className="text-base leading-relaxed text-stone-700">
@@ -46,8 +41,6 @@ export default function StandardCleanPageContent({
           attention to detail and reliability you deserve. We use eco-friendly products whenever possible.
         </p>
       </Section>
-
-      {afterHero}
 
       <Section id="whats-included" title="What's Included in Our Standard Cleaning Service?">
         <p className="text-base leading-relaxed text-stone-700">
@@ -209,7 +202,7 @@ export default function StandardCleanPageContent({
           />
           <FaqItem
             question="How is standard cleaning priced?"
-            answer="You'll get an instant estimate online based on your home's size and service type. We confirm your final price after a quick walkthrough."
+            answer="You can request a personalized quote online based on your home's size and service type. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="Who is Standard Cleaning for?"
@@ -234,7 +227,7 @@ export default function StandardCleanPageContent({
         </div>
       </Section>
 
-      <Section title="Get Your Free Instant Quote">
+      <Section title="Request a Personalized Quote">
         <p className="text-base leading-relaxed text-stone-700">
           Ready to spend less time cleaning and more time enjoying your home?
         </p>
@@ -245,16 +238,10 @@ export default function StandardCleanPageContent({
           many homeowners trust us to keep their homes beautifully maintained.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
-          >
+          <Link href={quoteHref} className={BTN_PRIMARY}>
             Get a quote for Standard Clean
           </Link>
-          <Link
-            href="/residential/services"
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 hover:bg-stone-50`}
-          >
+          <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
           </Link>
         </div>

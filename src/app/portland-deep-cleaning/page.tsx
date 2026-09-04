@@ -4,7 +4,7 @@ import PortlandDeepCleaningClient from "@/components/ppc/PortlandDeepCleaningCli
 export const metadata: Metadata = {
   title: "Deep Cleaning Services in Portland | Golden Hour Cleaning Co.",
   description:
-    "Get an instant deep cleaning quote for your Portland home and book live availability online. Licensed, insured, and locally owned.",
+    "Request a personalized deep cleaning quote for your Portland home and book live availability online. Licensed, insured, and locally owned.",
 };
 
 const PLACES_API_FIELDS = "id,displayName,rating,userRatingCount";

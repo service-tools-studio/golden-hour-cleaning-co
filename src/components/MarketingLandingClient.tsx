@@ -46,7 +46,6 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
       <main
         id="content"
-        className="overflow-x-hidden"
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
         <Hero />
@@ -63,7 +62,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
         <BeforeAfter />
 
-        <div className="pt-10 pb-16 md:pb-20" id="quote">
+        <div className="pt-10 pb-14 md:pb-16" id="quote">
           <ResidentialPricingGuide />
         </div>
 

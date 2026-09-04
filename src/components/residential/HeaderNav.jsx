@@ -6,18 +6,21 @@ import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
 import { CONTACT } from "../../constants.js";
 import { SERVICES_PRICING_HREF } from "../../helpers/ctaLabels.js";
-import { BTN_UPPER } from "../../helpers/typography.js";
+import { BTN_PRIMARY, BTN_UPPER } from "../../helpers/typography.js";
 
 const NAV_LINKS = [
   { label: "Services & Pricing", href: SERVICES_PRICING_HREF },
   { label: "Reviews", href: "/reviews" },
   { label: "Our Guarantee", href: "/satisfaction-guarantee" },
   { label: "About Us", href: "/about" },
+  { label: "Request a Quote", href: "/request-a-quote" },
+  { label: "Reserve Your Cleaning", href: "/book-online" },
 ];
 
 const linkClass = `${BTN_UPPER} text-sm font-semibold text-slate-900 underline-offset-4 hover:text-slate-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`;
-const callNowClass = `${BTN_UPPER} ml-4 inline-flex items-center justify-center gap-1.5 rounded-2xl border border-amber-300 bg-amber-400 px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 whitespace-nowrap`;
-const mobileStickyCallClass = `${BTN_UPPER} inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2`;
+const callNowClass = `${BTN_PRIMARY} ml-4 gap-1.5 whitespace-nowrap`;
+const mobileStickyCallClass = `${BTN_PRIMARY} w-full gap-2`;
+const mobileMenuCtaClass = `${BTN_PRIMARY} w-full`;
 
 const MOBILE_CALL_BAR_HEIGHT = "72px";
 
@@ -45,7 +48,7 @@ export default function HeaderNav() {
   }, []);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
+    const mq = window.matchMedia("(max-width: 1279px)");
     const syncCallBarPadding = () => {
       if (mq.matches) {
         document.documentElement.style.setProperty(
@@ -118,27 +121,36 @@ export default function HeaderNav() {
             <button
               type="button"
               aria-label="Close menu"
-              className="fixed inset-x-0 bottom-0 z-[100001] bg-black/25 lg:hidden"
+              className="fixed inset-x-0 bottom-0 z-[100001] bg-black/25 xl:hidden"
               style={{ top: menuTop }}
               onClick={closeMenu}
             />
             <div
               id={menuId}
-              className="fixed inset-x-0 z-[100002] border-b border-amber-200 bg-amber-50 shadow-lg lg:hidden"
+              className="fixed inset-x-0 z-[100002] border-b border-amber-200 bg-amber-50 shadow-lg xl:hidden"
               style={{ top: menuTop }}
             >
               <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={`${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`}
-                      onClick={closeMenu}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {NAV_LINKS.map((link) => {
+                  const isCta =
+                    link.href === "/request-a-quote" ||
+                    link.href === "/book-online";
+                  return (
+                    <li key={link.href} className={isCta ? "mt-2" : undefined}>
+                      <Link
+                        href={link.href}
+                        className={
+                          isCta
+                            ? mobileMenuCtaClass
+                            : `${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`
+                        }
+                        onClick={closeMenu}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </>,
@@ -148,7 +160,7 @@ export default function HeaderNav() {
 
   const mobileStickyCall = mounted
       ? createPortal(
-          <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm lg:hidden">
+          <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm xl:hidden">
             <a
               href={`tel:${CONTACT.phone}`}
               className={mobileStickyCallClass}
@@ -165,7 +177,7 @@ export default function HeaderNav() {
 
   return (
     <nav aria-label="Main navigation" className="relative shrink-0">
-      <ul className="hidden lg:flex items-center">
+      <ul className="hidden xl:flex items-center">
         {NAV_LINKS.map((link, index) => (
           <li key={link.href} className="flex items-center">
             {index > 0 ? (
@@ -191,7 +203,7 @@ export default function HeaderNav() {
         </li>
       </ul>
 
-      <div className="lg:hidden">
+      <div className="xl:hidden">
         <button
           type="button"
           aria-expanded={open}

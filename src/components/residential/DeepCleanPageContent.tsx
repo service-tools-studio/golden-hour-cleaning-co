@@ -1,38 +1,39 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
+import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import DeepCleanChecklist from "./DeepCleanChecklist";
-import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import ServiceDetailHero from "./ServiceDetailHero";
+import {
+  BulletList,
+  FaqItem,
+  HOURLY_CHARGE_FAQ,
+  PORTLAND_METRO_AREAS,
+  Section,
+} from "./servicePageParts";
 
 export default function DeepCleanPageContent({
   quoteHref,
-  afterHero,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
 }) {
+  const service = RESIDENTIAL_SERVICES.deep;
+
   return (
     <>
-      <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">Full-home reset</p>
-      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-        Deep House Cleaning Services in Portland, OR
-      </h1>
-
-      <figure className="mx-auto mt-6 max-w-xs overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm sm:max-w-sm">
-        <div className="relative aspect-[4/5] w-full bg-stone-100">
-          <Image
-            src="/assets/glass-cleaning.webp"
-            alt="Streak-free glass and mirrors after a Golden Hour deep cleaning"
-            fill
-            sizes="(max-width: 640px) 320px, 384px"
-            className="object-cover object-top"
-            priority
-          />
-        </div>
-      </figure>
+      <ServiceDetailHero
+        serviceSlug="deep"
+        tagline="Full-home reset"
+        title="Deep House Cleaning Services in Portland, OR"
+        intro="Our deep cleaning service is perfect when your home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new."
+        imageSrc="/assets/careful-cleaner.png"
+        imageAlt="Golden Hour cleaner smiling while holding supplies in a bright kitchen"
+        includedItems={service.items}
+        checklistHref="/deep-clean/whats-included"
+        quoteHref={quoteHref}
+      />
 
       <Section title="Professional Deep Cleaning for a Fresh Start">
         <p className="text-base leading-relaxed text-stone-700">
@@ -45,33 +46,34 @@ export default function DeepCleanPageContent({
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our deep cleaning service targets the buildup, dust, grime, and
           overlooked areas that naturally accumulate over time, leaving your home
-          feeling refreshed from top to bottom. We use eco-friendly products whenever
-          possible. Stronger conventional products may be used when heavy buildup
-          requires it.
+          feeling refreshed from top to bottom. We use eco-friendly products
+          whenever possible. Stronger conventional products may be used when
+          heavy buildup requires it.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Get an instant quote and book your cleaning directly on our
-          website—no phone call required. We&apos;ll confirm your final price after
-          a quick walkthrough.
+          Request a personalized quote and book your cleaning directly on our
+          website—no phone call required. We&apos;ll confirm your final price
+          after a quick walkthrough.
         </p>
       </Section>
 
-      {afterHero}
-
-      <Section id="whats-included" title="What's Included in Our Deep Cleaning Service?">
+      <Section
+        id="whats-included"
+        title="What's Included in Our Deep Cleaning Service?"
+      >
         <DeepCleanChecklist />
       </Section>
 
       <Section title="What Makes a Deep Clean Different from a Standard Clean?">
         <p className="text-base leading-relaxed text-stone-700">
-          Standard cleaning is reserved for recurring customers or
-          homes professionally cleaned within the past 2–4 weeks — it maintains a
-          home that&apos;s already in good shape.
+          Standard cleaning is reserved for recurring customers or homes
+          professionally cleaned within the past 2–4 weeks — it maintains a home
+          that&apos;s already in good shape.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          A deep cleaning goes much further by focusing on the detailed areas that
-          often get overlooked during routine cleaning. It&apos;s the ideal choice
-          if:
+          A deep cleaning goes much further by focusing on the detailed areas
+          that often get overlooked during routine cleaning. It&apos;s the ideal
+          choice if:
         </p>
         <BulletList
           items={[
@@ -128,7 +130,7 @@ export default function DeepCleanPageContent({
           />
           <FaqItem
             question="How is deep cleaning priced?"
-            answer="You'll get an instant estimate online based on your home's size and condition. We confirm your final price after a quick walkthrough."
+            answer="You can request a personalized quote online based on your home's size and condition. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="How long does a deep cleaning take?"
@@ -149,14 +151,14 @@ export default function DeepCleanPageContent({
         </div>
       </Section>
 
-      <Section title="Get an Instant Quote & Book Online">
+      <Section title="Request a Personalized Quote">
         <p className="text-base leading-relaxed text-stone-700">
           Ready to give your home the attention it deserves?
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Golden Hour Cleaning Co. makes it easy to get started. Simply click
-          below to receive an instant quote and book your deep cleaning online at
-          a time that works for you.
+          below to request a personalized quote and book your deep cleaning
+          online at a time that works for you.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Prefer to speak with someone? Our friendly Golden Hour Cleaning Co.
@@ -175,29 +177,17 @@ export default function DeepCleanPageContent({
           Whether you book online or give us a call, we&apos;re here to make the
           process simple, transparent, and stress-free.
         </p>
-        <p className="mt-4 text-base leading-relaxed text-stone-700">
-          We proudly provide professional deep cleaning services throughout
-          Portland, OR and the surrounding Portland metro area, delivering
-          exceptional attention to detail and dependable service with every
-          visit.
-        </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
-          >
+          <Link href={quoteHref} className={BTN_PRIMARY}>
             Get a quote for Deep Clean
           </Link>
-          <Link
-            href="/residential/services"
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 hover:bg-stone-50`}
-          >
+          <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">
-          Quotes are based on your home&apos;s size and service type. Final price is confirmed after
-          a quick walkthrough.
+          Quotes are based on your home&apos;s size and service type. Final
+          price is confirmed after a quick walkthrough.
         </p>
       </Section>
     </>

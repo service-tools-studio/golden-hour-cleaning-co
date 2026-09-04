@@ -5,10 +5,10 @@ export const SERVICE_THEMES = {
   standard: {
     border: "border-amber-200/80",
     iconBg: "bg-amber-100",
-    iconColor: "text-[#c9a227]",
-    tagline: "text-[#c9a227]",
+    iconColor: "text-amber-600",
+    tagline: "text-amber-600",
     divider: "bg-amber-300/70",
-    check: "text-[#c9a227]",
+    check: "text-amber-600",
   },
   deep: {
     border: "border-[#a7eff1]/70",

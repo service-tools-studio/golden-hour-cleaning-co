@@ -1,37 +1,32 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
-import { BulletList, BackToServicesLink, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
+import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
+import ServiceDetailHero from "./ServiceDetailHero";
+import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function MoveOutCleanPageContent({
   quoteHref,
-  afterHero,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
 }) {
+  const service = RESIDENTIAL_SERVICES["move-out"];
+
   return (
     <>
-      <BackToServicesLink />
-      <p className="text-sm font-medium text-stone-500">Most intensive</p>
-      <h1 className={`mt-2 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-        Move-In &amp; Move-Out Cleaning Services in Portland, OR
-      </h1>
-
-      <figure className="mx-auto mt-6 max-w-xs overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm sm:max-w-sm">
-        <div className="relative aspect-[4/5] w-full bg-stone-100">
-          <Image
-            src="/assets/move-out-clean.png"
-            alt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
-            fill
-            sizes="(max-width: 640px) 320px, 384px"
-            className="object-cover object-top"
-            priority
-          />
-        </div>
-      </figure>
+      <ServiceDetailHero
+        serviceSlug="move-out"
+        tagline="Most intensive"
+        title="Move-In & Move-Out Cleaning Services in Portland, OR"
+        intro="Our move-in/out cleaning is a detailed empty-home reset—so you can hand over keys or settle in with a truly clean start."
+        imageSrc="/assets/move-out-clean.png"
+        imageAlt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
+        includedItems={service.items}
+        checklistHref="#whats-included"
+        quoteHref={quoteHref}
+      />
 
       <Section title="Professional Move-In & Move-Out Cleaning for a Fresh Start">
         <p className="text-base leading-relaxed text-stone-700">
@@ -49,14 +44,12 @@ export default function MoveOutCleanPageContent({
           professional, we&apos;re here to make moving a little easier.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Get an instant quote and book your cleaning directly on our website,
+          Request a personalized quote and book your cleaning directly on our website,
           or give us a call to speak with a friendly Golden Hour Cleaning Co.
           representative. We&apos;ll confirm your final price after a quick
           walkthrough.
         </p>
       </Section>
-
-      {afterHero}
 
       <Section id="whats-included" title="What's Included in Our Move-In & Move-Out Cleaning?">
         <p className="text-base leading-relaxed text-stone-700">
@@ -211,7 +204,7 @@ export default function MoveOutCleanPageContent({
           />
           <FaqItem
             question="How is move-in / move-out cleaning priced?"
-            answer="You'll get an instant estimate online based on your home's size and condition. We confirm your final price after a quick walkthrough."
+            answer="You can request a personalized quote online based on your home's size and condition. We confirm your final price after a quick walkthrough."
           />
           <FaqItem
             question="Do I need to empty the home before the cleaning?"
@@ -235,17 +228,17 @@ export default function MoveOutCleanPageContent({
           />
           <FaqItem
             question="How do I get a quote?"
-            answer="Simply visit our website to receive an instant quote and book your cleaning online. If you'd rather speak with someone, our Golden Hour Cleaning Co. team is happy to answer your questions and help schedule your service."
+            answer="Simply visit our website to request a personalized quote and book your cleaning online. If you'd rather speak with someone, our Golden Hour Cleaning Co. team is happy to answer your questions and help schedule your service."
           />
         </div>
       </Section>
 
-      <Section title="Get an Instant Quote & Book Online">
+      <Section title="Request a Personalized Quote">
         <p className="text-base leading-relaxed text-stone-700">
           Moving is a big job—let us take the cleaning off your checklist.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Golden Hour Cleaning Co. makes it easy to receive an instant quote and
+          Golden Hour Cleaning Co. makes it easy to request a personalized quote and
           book your move-in or move-out cleaning online in just a few minutes.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
@@ -271,16 +264,10 @@ export default function MoveOutCleanPageContent({
           with professional move-in and move-out cleaning services.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href={quoteHref}
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
-          >
+          <Link href={quoteHref} className={BTN_PRIMARY}>
             Get a quote for Move-In &amp; Move-Out
           </Link>
-          <Link
-            href="/residential/services"
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-900 hover:bg-stone-50`}
-          >
+          <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
           </Link>
         </div>

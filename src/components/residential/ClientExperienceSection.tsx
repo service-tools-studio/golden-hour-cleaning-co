@@ -1,8 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { scrollToId } from "../../helpers/scrollToId";
 import { ArrowRight, Check } from "lucide-react";
+import { scrollToId } from "../../helpers/scrollToId";
+import {
+  BTN_PRIMARY,
+  HEADING_UPPER,
+  QUOTE_SECTION_LABEL,
+  SECTION_PAD,
+} from "../../helpers/typography.js";
 
 const POINTS = [
   {
@@ -37,20 +43,21 @@ export default function ClientExperienceSection() {
           />
         </div>
 
-        <div className="relative px-5 py-16 md:px-10 lg:w-1/2 lg:px-10 lg:py-20 xl:px-16">
+        <div
+          className={`relative px-5 md:px-10 lg:w-1/2 lg:px-10 xl:px-16 ${SECTION_PAD}`}
+        >
           <div className="mx-auto max-w-xl text-center lg:mx-0">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
+            <p className={`mb-4 text-amber-700 ${QUOTE_SECTION_LABEL}`}>
               The Golden Hour Difference
             </p>
 
-            <h2 className="text-4xl font-semibold uppercase leading-tight tracking-[0.08em] text-[#333333] md:text-5xl">
-              A Cleaning Experience Built Around{" "}
-              <span className="underline decoration-[#a7eff1] decoration-[0.2em] underline-offset-[0.15em]">
-                You
-              </span>
+            <h2
+              className={`text-3xl font-semibold leading-tight text-stone-900 sm:text-4xl ${HEADING_UPPER}`}
+            >
+              A Cleaning Experience Built Around You
             </h2>
 
-            <p className="mt-6 text-lg leading-8 text-[#333333]/75">
+            <p className="mt-5 text-base leading-relaxed text-stone-700 sm:text-lg">
               Your home isn&apos;t just another appointment on our schedule. We know
               inviting someone into your home requires trust, and we work hard to
               earn it every visit.
@@ -60,14 +67,14 @@ export default function ClientExperienceSection() {
               {POINTS.map(({ title, desc }) => (
                 <li
                   key={title}
-                  className="flex items-start gap-3 rounded-2xl border border-[#dcbb52]/30 bg-[#fffbea] px-5 py-5"
+                  className="flex items-start gap-3 rounded-3xl border border-amber-200 bg-amber-50/60 px-5 py-5 shadow-sm"
                 >
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#a7eff1] text-[#333333]">
+                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800">
                     <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-[#333333]">{title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#333333]/75">
+                    <h3 className="font-semibold text-stone-900">{title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-stone-600">
                       {desc}
                     </p>
                   </div>
@@ -78,7 +85,7 @@ export default function ClientExperienceSection() {
             <button
               type="button"
               onClick={() => scrollToId("#services", 8)}
-              className="mt-10 inline-flex items-center justify-center rounded-xl bg-[#333333] px-8 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[#dcbb52] hover:text-[#333333] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+              className={`${BTN_PRIMARY} mt-10`}
             >
               Explore Services
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />

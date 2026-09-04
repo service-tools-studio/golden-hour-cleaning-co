@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: "Deep House Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
       description:
-        "Thorough deep cleaning in Portland and the metro area. Top-to-bottom reset for homes that need more than routine upkeep. Instant online quotes and booking.",
+        "Thorough deep cleaning in Portland and the metro area. Top-to-bottom reset for homes that need more than routine upkeep. Request a personalized quote online.",
     };
   }
 
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: "Move-In & Move-Out Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
       description:
-        "Detailed move-in and move-out cleaning for empty homes in Portland and the metro area. Cabinets, oven, fridge, and more. Instant online quotes and booking.",
+        "Detailed move-in and move-out cleaning for empty homes in Portland and the metro area. Cabinets, oven, fridge, and more. Request a personalized quote online.",
     };
   }
 

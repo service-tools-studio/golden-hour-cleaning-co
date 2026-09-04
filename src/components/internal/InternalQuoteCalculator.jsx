@@ -1,14 +1,30 @@
 "use client";
 
+/**
+ * Internal residential quote calculator.
+ * Served only at /internal/quote-calculator — do not import on public pages.
+ * Local deps live in ./quote-calculator-lib/.
+ */
+
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, Check, Info } from "lucide-react";
+import { AlertTriangle, Check } from "lucide-react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
-import ContactSheet from "./ContactSheet";
+import ContactSheet from "../residential/ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
-import { CFG, CONTACT, LEVEL_COPY, WALKTHROUGH_ARRIVAL_HOURS } from "../../constants.js";
-import { sqftHeuristicForBedrooms } from "../../lib/quotePricing.js";
-import { buildCalendlyUrlWithUtm } from "../../helpers/calendlyHelpers.js";
+import {
+  CFG,
+  CONTACT,
+  LEVEL_COPY,
+  WALKTHROUGH_ARRIVAL_HOURS,
+} from "./quote-calculator-lib/constants.js";
+import { sqftHeuristicForBedrooms } from "./quote-calculator-lib/quotePricing.js";
+import { buildCalendlyUrlWithUtm } from "./quote-calculator-lib/calendlyHelpers.js";
+import {
+  formatStartingAt,
+  typicalPhoneRangeHigh,
+} from "../../lib/startingAtPricing.js";
+import { getInternalStartingAtTier } from "./quote-calculator-lib/internalStartingAt.js";
 import { trackCalendlyClick } from "../../helpers/calendlyAnalytics";
 import { getPpcAttribution } from "../../helpers/ppcAttribution";
 import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
@@ -21,7 +37,7 @@ import {
   asFiniteNumber,
   readQuoteDraft,
   writeQuoteDraft,
-} from "../../helpers/quoteDraftStorage";
+} from "./quote-calculator-lib/quoteDraftStorage";
 
 /**
  * Golden Hour Cleaning Co. — Quote Calculator
@@ -286,7 +302,7 @@ function QuoteCalculatorIntro() {
         then choose a cleaning time that works for you.
       </p>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-stone-600">
-        <span>⚡ Instant estimate</span>
+        <span>⚡ Personalized quote</span>
         <span>📅 Live availability</span>
         <span>🔒 Secure booking</span>
       </div>
@@ -298,7 +314,7 @@ export function QuoteCalculatorBookingHeader({ title }) {
   return (
     <>
       <h2
-        id="pricing-guide-heading"
+        id="quote-calculator-heading"
         tabIndex={-1}
         className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
       >
@@ -317,7 +333,7 @@ export function QuoteCalculatorBookingHeader({ title }) {
  *   hideHeader?: boolean,
  * }} props
  */
-export default function QuoteCalculator({
+export default function InternalQuoteCalculator({
   title = "",
   subtitle = '',
   initialLevel,
@@ -342,11 +358,9 @@ export default function QuoteCalculator({
   const [includeOven, setIncludeOven] = useState(false);
   const [includeSecondKitchen, setIncludeSecondKitchen] = useState(false);
 
-  // Promo code state
-  const [promoCode, setPromoCode] = useState("");
-  const [promoValid, setPromoValid] = useState(false);
-  const [promoError, setPromoError] = useState(null);
-  const [showMobileValueDetails, setShowMobileValueDetails] = useState(false);
+  // Promo UI removed — keep zero-discount values for quote payload shape.
+  const promoCode = "";
+  const promoValid = false;
 
   useEffect(() => {
     if (VALID_LEVELS.has(initialLevel)) {
@@ -354,7 +368,7 @@ export default function QuoteCalculator({
       return;
     }
 
-    // Header Instant Quote clears `level` from the URL — use storage, else deep.
+    // Header quote CTA clears `level` from the URL — use storage, else deep.
     const draft = readQuoteDraft();
     if (draft && VALID_LEVELS.has(draft.cleanType)) {
       setCleanType(draft.cleanType);
@@ -371,32 +385,6 @@ export default function QuoteCalculator({
     }
   }, [cleanType]);
 
-  // Promo validation (client-side UX)
-  useEffect(() => {
-    if (!promoCode) {
-      setPromoValid(false);
-      setPromoError(null);
-      return;
-    }
-
-    const code = promoCode.trim().toUpperCase();
-    if (!(code in CFG.promos)) {
-      setPromoValid(false);
-      setPromoError("Invalid promo code.");
-      return;
-    }
-
-    const rule = CFG.promos[code];
-    if (rule.level && rule.level !== cleanType) {
-      setPromoValid(false);
-      setPromoError("This code only applies to a Deep Clean.");
-      return;
-    }
-
-    setPromoValid(true);
-    setPromoError(null);
-  }, [promoCode, cleanType]);
-
   useEffect(() => {
     const draft = readQuoteDraft();
     if (!draft) return;
@@ -404,7 +392,7 @@ export default function QuoteCalculator({
     if (draft.bedrooms != null) setBedrooms(asFiniteNumber(draft.bedrooms, 3));
     if (draft.bathrooms != null) setBathrooms(asFiniteNumber(draft.bathrooms, 2));
     if (draft.sqft != null) setSqft(asFiniteNumber(draft.sqft, 0));
-    // URL/prop level wins over a saved draft (e.g. service card Instant Quote)
+    // URL/prop level wins over a saved draft (e.g. service card quote CTA)
     if (!VALID_LEVELS.has(initialLevel) && VALID_LEVELS.has(draft.cleanType)) {
       setCleanType(draft.cleanType);
     }
@@ -413,7 +401,6 @@ export default function QuoteCalculator({
     if (typeof draft.includeSecondKitchen === "boolean") {
       setIncludeSecondKitchen(draft.includeSecondKitchen);
     }
-    if (typeof draft.promoCode === "string") setPromoCode(draft.promoCode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -431,7 +418,7 @@ export default function QuoteCalculator({
       includeFridge,
       includeOven,
       includeSecondKitchen,
-      promoCode,
+      promoCode: "",
     });
   }, [
     bedrooms,
@@ -441,7 +428,6 @@ export default function QuoteCalculator({
     includeFridge,
     includeOven,
     includeSecondKitchen,
-    promoCode,
   ]);
 
   // -----------------------------
@@ -772,6 +758,19 @@ export default function QuoteCalculator({
       : cleanType === "standard"
         ? "standard"
         : "deep";
+  const startingAtTier = getInternalStartingAtTier(
+    cleanType,
+    result.sqftInput > 0 ? result.sqftInput : result.estSqft,
+  );
+  const quoteSqftLabel = (
+    result.sqftInput > 0 ? result.sqftInput : result.estSqft
+  ).toLocaleString();
+  const cleanTypePhrase =
+    cleanType === "move_out"
+      ? "move-in/out cleans"
+      : cleanType === "standard"
+        ? "standard cleans"
+        : "deep cleans";
   const bathCountLabel =
     result.bathrooms === 1 ? "1 bath" : `${result.bathrooms} baths`;
 
@@ -846,13 +845,9 @@ export default function QuoteCalculator({
   const quoteResultsA11yText = summaryA11yText;
 
   const roomsHintId = "quote-rooms-hint";
-  const sqftHintId = "quote-sqft-hint";
   const cleanTypeLabelId = "quote-clean-type-label";
   const cleanTypeTipId = "quote-clean-type-tip";
   const cleanTypeNoteId = "quote-clean-type-note";
-  const promoHintId = "quote-promo-hint";
-  const promoErrorId = "quote-promo-error";
-  const promoSuccessId = "quote-promo-success";
   const quoteHeadingId = "quote-summary-heading";
   const quoteResultsHeadingId = "quote-results-heading";
   const quoteResultsDescId = "quote-results-a11y-desc";
@@ -904,14 +899,14 @@ export default function QuoteCalculator({
   return (
     <section
       id="quote-calculator"
-      aria-labelledby="pricing-guide-heading"
+      aria-labelledby="quote-calculator-heading"
       className="mx-auto max-w-3xl px-4"
     >
       {!hideHeader &&
         (subtitle ? (
           <>
             <h2
-              id="pricing-guide-heading"
+              id="quote-calculator-heading"
               tabIndex={-1}
               className={`text-center text-2xl md:text-3xl ${HEADING_UPPER} focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`}
             >
@@ -976,11 +971,7 @@ export default function QuoteCalculator({
               setValue={setSqft}
               min={0}
               step={50}
-              describedBy={sqftHintId}
             />
-            <p id={sqftHintId} className="mt-4 text-sm leading-snug text-stone-500">
-              Please enter your home&apos;s square footage as accurately as possible so we can provide a reliable quote and plan appropriate staffing. Your home&apos;s size and condition will be confirmed during the initial walkthrough, and your online quote is subject to change based on that assessment.
-            </p>
           </div>
         </fieldset>
 
@@ -1037,47 +1028,6 @@ export default function QuoteCalculator({
                 </p>
               </div>
             )}
-
-            <div className="mt-6 border-t border-stone-200 pt-6">
-              <label htmlFor="promo-code" className={`${QUOTE_FIELD_LABEL} block`}>
-                Promo code
-              </label>
-              <div className="mt-2">
-                <input
-                  id="promo-code"
-                  type="text"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="Enter code"
-                  className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                  inputMode="text"
-                  autoCapitalize="characters"
-                  aria-invalid={promoError ? true : undefined}
-                  aria-describedby={
-                    [
-                      promoHintId,
-                      promoError ? promoErrorId : null,
-                      promoValid && !promoError ? promoSuccessId : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" ") || undefined
-                  }
-                />
-              </div>
-              {promoError && (
-                <p id={promoErrorId} role="alert" className="mt-2 text-xs text-red-600">
-                  {promoError}
-                </p>
-              )}
-              {promoValid && !promoError && (
-                <p id={promoSuccessId} className="mt-2 text-xs text-green-700">
-                  Code applied: minus $50
-                </p>
-              )}
-              <p id={promoHintId} className="mt-2 text-sm text-stone-500">
-                Applies to Deep Clean only. Discount reduces the estimated total.
-              </p>
-            </div>
           </div>
         </fieldset>
 
@@ -1215,121 +1165,79 @@ export default function QuoteCalculator({
         <section
           aria-labelledby={quoteHeadingId}
           aria-describedby={quoteSummaryA11yId}
-          className={`${QUOTE_CARD} relative bg-[#fffbea]`}
+          className={`${QUOTE_CARD} bg-[#fffbea]`}
         >
           <p id={quoteSummaryA11yId} className="sr-only">
             {summaryA11yText}
           </p>
 
-          <button
-            type="button"
-            className="absolute top-2 right-1 inline-flex flex-col items-start justify-center rounded-xl border border-[#a7eff1]/80 bg-[#a7eff1]/20 py-1 pl-1.5 pr-1 text-left text-xs font-bold leading-tight !normal-case !tracking-normal text-stone-800 md:hidden"
-            style={{ textTransform: "none", letterSpacing: "normal" }}
-            onClick={() => setShowMobileValueDetails((current) => !current)}
-            aria-expanded={showMobileValueDetails}
-          >
-            <span>
-              Comparing another
-              <br />
-              <span className="inline-flex items-center gap-1.5">
-                quote?
-                <Info className="h-3 w-3 shrink-0" aria-hidden />
-              </span>
-            </span>
-          </button>
-
-          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-5 md:gap-8">
-            <div className="md:col-span-3">
-              <div className="pr-24 md:pr-0">
-                <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
-                  Your estimated
-                  <br className="md:hidden" />
-                  <span className="hidden md:inline"> </span>{estimatedTypeLabel} clean
-                </h3>
-                <p className="mt-3 whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl" aria-hidden="true">
-                  {result.totalAfterPromoLow === result.totalAfterPromoHigh
-                    ? formatCurrency(result.totalAfterPromoHigh)
-                    : `${formatCurrency(
-                      result.totalAfterPromoLow
-                    )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
-                </p>
-                <p className="mt-2 text-sm text-stone-500">
-                  {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
-                  {" · "}
-                  {result.bathrooms}{" "}
-                  {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
-                  {" · "}
-                  <span className="whitespace-nowrap">
-                    {(result.sqftInput > 0
-                      ? result.sqftInput
-                      : result.estSqft
-                    ).toLocaleString()} sq ft
-                    {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+          <div>
+            <div>
+              <h3 id={quoteHeadingId} className={QUOTE_SECTION_LABEL}>
+                Your estimated
+                <br className="md:hidden" />
+                <span className="hidden md:inline"> </span>{estimatedTypeLabel} clean
+              </h3>
+              {startingAtTier ? (
+                <p className="mt-3 text-sm text-stone-500">
+                  Starting at{" "}
+                  <span className="font-semibold text-stone-800">
+                    {formatStartingAt(startingAtTier.startingAt)}
+                  </span>
+                  <span className="text-stone-400">
+                    {" "}
+                    ({startingAtTier.sqftLabel.toLowerCase()})
                   </span>
                 </p>
-              </div>
-              <div className="md:hidden">
-                {showMobileValueDetails && (
-                  <div className="mt-2 space-y-2 rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 text-sm leading-relaxed text-stone-600">
-                    <p>
-                      Not all cleaning quotes include the same scope. Lower prices
-                      may reflect a more limited service or separately priced
-                      add-ons.
-                    </p>
-                    <p>
-                      Our {(LEVEL_COPY[cleanType]?.name ?? "deep clean").toLowerCase()} includes a comprehensive scope backed by our{" "}
-                      <Link
-                        href="/satisfaction-guarantee"
-                        className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                      >
-                        Satisfaction Guarantee
-                      </Link>
-                      .
-                    </p>
-                    <Link
-                      href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
-                      className="inline-block font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                    >
-                      Compare what&apos;s included &rarr;
-                    </Link>
-                  </div>
-                )}
-              </div>
-              <p className="mt-6 hidden text-sm leading-snug text-stone-600 md:block">
-                This online quote is based on the information provided and is
-                subject to change. We&apos;ll assess your home&apos;s{" "}
-                <strong className="font-bold">actual size and condition</strong>{" "}
-                during the initial walkthrough and confirm
-                your final price before cleaning begins.
+              ) : null}
+              <p
+                className={`${startingAtTier ? "mt-1" : "mt-3"} whitespace-nowrap text-3xl font-semibold tabular-nums md:text-4xl`}
+                aria-hidden="true"
+              >
+                {result.totalAfterPromoLow === result.totalAfterPromoHigh
+                  ? formatCurrency(result.totalAfterPromoHigh)
+                  : `${formatCurrency(
+                    result.totalAfterPromoLow
+                  )} – ${formatCurrency(result.totalAfterPromoHigh)}`}
               </p>
+              <p className="mt-2 text-sm text-stone-500">
+                {result.bedrooms} {result.bedrooms === 1 ? "bedroom" : "bedrooms"}
+                {" · "}
+                {result.bathrooms}{" "}
+                {result.bathrooms === 1 ? "bathroom" : "bathrooms"}
+                {" · "}
+                <span className="whitespace-nowrap">
+                  {(result.sqftInput > 0
+                    ? result.sqftInput
+                    : result.estSqft
+                  ).toLocaleString()} sq ft
+                  {result.sqftInput <= 0 && <span className="text-stone-400"> (est.)</span>}
+                </span>
+              </p>
+              {startingAtTier ? (
+                <div className="mt-6 rounded-xl border border-dashed border-[#a7eff1] bg-[#a7eff1]/35 px-4 py-3">
+                  <p className={`${QUOTE_FIELD_LABEL} text-teal-800`}>
+                    Phone script
+                  </p>
+                  <p className="mt-2 text-sm leading-snug text-stone-700">
+                    For a home around {quoteSqftLabel} square feet, our{" "}
+                    {cleanTypePhrase} start at{" "}
+                    {formatStartingAt(startingAtTier.startingAt)}, and most homes
+                    like yours are somewhere around{" "}
+                    {formatStartingAt(startingAtTier.startingAt)}–
+                    {formatStartingAt(
+                      typicalPhoneRangeHigh(startingAtTier.startingAt),
+                    )}{" "}
+                    depending on the condition of the home. When we arrive,
+                    we&apos;ll do a quick walkthrough with you and confirm the
+                    exact price before we start. If there&apos;s heavier buildup
+                    or anything that would put it above that range, we&apos;ll
+                    show you what we&apos;re seeing and go over the price with
+                    you first so that there are no surprises.
+                  </p>
+                </div>
+              ) : null}
             </div>
-
-            <aside className="hidden rounded-xl border border-[#a7eff1]/70 bg-[#a7eff1]/35 px-4 py-3 md:col-span-2 md:block">
-              <p className="text-base font-semibold text-stone-900">
-                Comparing another quote?
-              </p>
-              <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
-                Not all cleaning quotes include the same scope. Lower prices may
-                reflect a more limited service or separately priced add-ons.
-              </p>
-              <p className="mt-1.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">
-                Ours includes a detailed,{" "}
-                <Link
-                  href={`/residential/services/${cleanType === "move_out" ? "move-out" : cleanType}#whats-included`}
-                  className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                >
-                  comprehensive clean
-                </Link>{" "}
-                backed by our{" "}
-                <Link
-                  href="/satisfaction-guarantee"
-                  className="font-medium text-stone-800 underline underline-offset-2 hover:text-stone-950"
-                >
-                  Satisfaction Guarantee
-                </Link>
-                .
-              </p>
-            </aside>
           </div>
 
           <div aria-hidden="true">
@@ -1338,14 +1246,6 @@ export default function QuoteCalculator({
               high={result.totalAfterPromoHigh}
             />
           </div>
-
-          <p className="mt-6 text-sm leading-snug text-stone-600 md:hidden">
-            This online quote is based on the information provided and is
-            subject to change. We&apos;ll assess your home&apos;s{" "}
-            <strong className="font-bold">actual size and condition</strong>{" "}
-            during the initial walkthrough and confirm
-            your final price before cleaning begins.
-          </p>
 
           <div aria-hidden="true">
 

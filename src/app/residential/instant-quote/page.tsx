@@ -53,7 +53,7 @@ export default function InstantBookLanding() {
               <span className="mt-2 block text-stone-900">We take <em className="not-italic underline decoration-amber-300 decoration-4 underline-offset-4">2 seconds</em>.</span>
             </h1>
             <p className="mt-5 text-lg text-stone-700 sm:text-xl">
-              Get an <strong>instant quote</strong> and reserve your <strong>exact appointment time</strong> online — live availability, no back-and-forth, no waiting.
+              Request a <strong>personalized quote</strong> and reserve your <strong>exact appointment time</strong> online — live availability, no back-and-forth, no waiting.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -101,7 +101,7 @@ export default function InstantBookLanding() {
         </div>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
-          <Step number={1} title="Enter Your Details" desc="Answer a few quick questions and see your instant quote." />
+          <Step number={1} title="Enter Your Details" desc="Answer a few quick questions and request a personalized quote." />
           <Step number={2} title="Choose Your Time" desc="View our live calendar and select your exact appointment." />
           <Step number={3} title="Confirm & Relax" desc="Your booking is secured immediately — no back-and-forth calls or emails." />
         </div>
@@ -142,7 +142,7 @@ export default function InstantBookLanding() {
         <div className="mx-auto max-w-7xl px-6 py-14 text-amber-50">
           <div className="mx-auto max-w-3xl text-center">
             <h3 className="text-3xl font-semibold sm:text-4xl">Ready for your next clean without the wait?</h3>
-            <p className="mt-3 text-amber-100/90">Get your instant quote, choose your appointment, and let us handle the rest.</p>
+            <p className="mt-3 text-amber-100/90">Request a personalized quote, choose your appointment, and let us handle the rest.</p>
             <div className="mt-8">
               <button
                 onClick={() => {

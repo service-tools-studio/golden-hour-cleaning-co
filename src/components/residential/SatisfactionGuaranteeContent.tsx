@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
 import { Section } from "./servicePageParts";
 
 const STEPS = [
@@ -137,12 +137,12 @@ export default function SatisfactionGuaranteeContent() {
         <p className="mt-6 text-base font-semibold leading-relaxed text-stone-900">
           Ready for a fresh start?
         </p>
-        <div className="mt-8">
-          <Link
-            href="/residential/services#services"
-            className={`${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
-          >
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Link href="/residential/services#services" className={BTN_PRIMARY}>
             {SEE_PRICING_BOOK_LABEL}
+          </Link>
+          <Link href="/book-online" className={BTN_SECONDARY}>
+            Reserve Your Cleaning
           </Link>
         </div>
       </Section>

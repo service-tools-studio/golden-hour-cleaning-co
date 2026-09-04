@@ -1,0 +1,24 @@
+---
+description: Keep the quote calculator internal-only; do not add public calculators
+alwaysApply: true
+---
+
+# Internal quote calculator
+
+The only quote calculator lives at **`/internal/quote-calculator`**.
+
+## Single source
+
+- Component: `src/components/internal/InternalQuoteCalculator.jsx`
+- Local deps: `src/components/internal/quote-calculator-lib/**`
+- Route: `src/app/internal/quote-calculator/**`
+
+## Isolation rules
+
+- Do **not** import `InternalQuoteCalculator` (or its lib) from public/marketing pages.
+- Public pages use static pricing (`ResidentialPricingGuide`), not a live calculator.
+- Do **not** recreate parallel calculators under `src/components/residential/` or `src/components/ppc/`.
+
+## Shared pricing labels only
+
+Published “Starting at” tiers for the public pricing guide live in `src/lib/startingAtPricing.js` and may be read by the internal calculator for helper copy. Do not move calculator math back into shared public modules.

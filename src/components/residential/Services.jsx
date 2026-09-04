@@ -1,8 +1,5 @@
 import { HEADING_UPPER } from "../../helpers/typography.js";
-import {
-  PricingGuideCTA,
-  ServicePricingCards,
-} from "./ResidentialPricingGuide";
+import { ServicePricingCards } from "./ResidentialPricingGuide";
 
 export default function Services() {
   return (
@@ -20,10 +17,6 @@ export default function Services() {
 
       <div className="mt-6 md:mt-8">
         <ServicePricingCards />
-      </div>
-
-      <div className="mt-10">
-        <PricingGuideCTA />
       </div>
     </section>
   );

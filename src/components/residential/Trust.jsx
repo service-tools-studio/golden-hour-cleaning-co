@@ -52,7 +52,7 @@ export default function Trust() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-100">
-                  <Row label="Instant Quote" a="Yes" b="No" />
+                  <Row label="Personalized Quote" a="Yes" b="No" />
                   <Row label="Real-Time Online Booking" a="Yes" b="Contact form / Email" />
                   <Row label="Non-Toxic Products" a="Yes" b="Varies" />
                   <Row label="Licensed & Insured" a="Yes" b="Often" />

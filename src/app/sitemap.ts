@@ -33,6 +33,8 @@ const ROUTES: {
   { path: "/residential/services/standard", changeFrequency: "monthly", priority: 0.75 },
   { path: "/residential/services/deep", changeFrequency: "monthly", priority: 0.75 },
   { path: "/residential/services/move-out", changeFrequency: "monthly", priority: 0.75 },
+  { path: "/request-a-quote", changeFrequency: "monthly", priority: 0.85 },
+  { path: "/book-online", changeFrequency: "monthly", priority: 0.85 },
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
   { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
   { path: "/portland-deep-cleaning", changeFrequency: "monthly", priority: 0.8 },

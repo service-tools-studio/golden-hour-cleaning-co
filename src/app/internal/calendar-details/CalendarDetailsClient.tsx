@@ -8,7 +8,7 @@ import InternalFooter from "@/components/internal/InternalFooter";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
 const EXAMPLE =
-  "UTM_Content=type=deep~bed=3~ba=1.5~sf_heur=1500~sf_ent=1350~hours_est=5-6~onsite=2.5-3~cleaners=2~add=none~promo=none~est_after_promo=400-475~ts=08-08-26|12:50";
+  "https://calendly.com/golden-hour-cleaning-company/residential-cleaning?utm_source=book_online&utm_medium=website&utm_campaign=online_booking&utm_content=lead%3Dbook_online%7Etype%3DDeep%20Cleaning%7Ebed%3D3%7Eba%3D2%7Esf%3D1800%7Econd%3DModerate%7Elp%3Dbook-online&gclid=EXAMPLE123";
 
 export default function CalendarDetailsClient() {
   const [input, setInput] = useState("");
@@ -40,15 +40,25 @@ export default function CalendarDetailsClient() {
           Calendar details
         </h1>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Paste a Calendly URL,{" "}
+          Paste a Calendly URL (or any URL with UTM / click IDs), a{" "}
           <code className="rounded bg-white px-1.5 py-0.5 text-sm">
             utm_content
           </code>{" "}
-          query value, or raw{" "}
+          value, or a raw{" "}
           <code className="rounded bg-white px-1.5 py-0.5 text-sm">
             type=deep~bed=3~...
           </code>{" "}
-          payload to decode quote details.
+          payload. All{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">utm_*</code>,{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">gclid</code>,{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">gbraid</code>,
+          and{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">wbraid</code>{" "}
+          params are decoded, plus nested quote/booking details inside{" "}
+          <code className="rounded bg-white px-1.5 py-0.5 text-sm">
+            utm_content
+          </code>
+          .
         </p>
 
         <label

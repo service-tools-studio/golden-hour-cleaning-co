@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HEADING_UPPER } from '../../helpers/typography.js';
+import { BTN_PRIMARY, SECTION_HEADING, SECTION_PAD } from '../../helpers/typography.js';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
@@ -40,7 +40,7 @@ function ReviewCard({ review, index, failedImageIndices, markImageFailed, fullTe
       href={review.reviewUrl || GOOGLE_MAPS_REVIEWS_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex h-full cursor-pointer flex-col rounded-2xl border border-amber-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300"
+      className="flex h-full cursor-pointer flex-col rounded-3xl border border-amber-200 bg-white p-5 shadow-sm transition hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300"
       aria-label={`Read review by ${review.author_name} on Google`}
     >
       <div className="flex items-center gap-3">
@@ -94,8 +94,8 @@ function ReviewCard({ review, index, failedImageIndices, markImageFailed, fullTe
 function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = false }) {
   return (
     <section id="reviews" className="bg-amber-50/50">
-      <div className="mx-auto max-w-7xl px-6 py-14">
-        <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
+      <div className={`mx-auto max-w-7xl px-6 ${SECTION_PAD}`}>
+        <TitleTag className={SECTION_HEADING}>
           What our clients say
         </TitleTag>
         {showPageIntro ? (
@@ -111,9 +111,9 @@ function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = fa
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
+            className={BTN_PRIMARY}
           >
-            <Star className="h-5 w-5 fill-current" />
+            <Star className="mr-2 h-5 w-5 fill-current" />
             View all reviews on Google
           </a>
         </div>
@@ -226,8 +226,8 @@ export default function GoogleReviews({ variant = 'carousel' }) {
   if (loading) {
     return (
       <section id="reviews" className="bg-amber-50/50">
-        <div className="mx-auto max-w-7xl px-6 py-14">
-          <TitleTag className={`text-center text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
+        <div className={`mx-auto max-w-7xl px-6 ${SECTION_PAD}`}>
+          <TitleTag className={SECTION_HEADING}>
             What our clients say
           </TitleTag>
           {isPage ? (
@@ -255,9 +255,9 @@ export default function GoogleReviews({ variant = 'carousel' }) {
 
   return (
     <section id="reviews" className="bg-amber-50/50" aria-label="Google reviews">
-      <div className={`mx-auto max-w-7xl px-6 ${isPage ? 'py-10 md:py-14' : 'py-14'}`}>
+      <div className={`mx-auto max-w-7xl px-6 ${isPage ? 'py-10 md:py-14' : SECTION_PAD}`}>
         <div className="text-center">
-          <TitleTag className={`text-2xl font-semibold text-stone-800 md:text-3xl ${HEADING_UPPER}`}>
+          <TitleTag className={SECTION_HEADING}>
             What our clients say
           </TitleTag>
           {isPage ? (
@@ -350,9 +350,9 @@ export default function GoogleReviews({ variant = 'carousel' }) {
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="uppercase tracking-wide inline-flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-md hover:bg-amber-300"
+            className={BTN_PRIMARY}
           >
-            <Star className="h-5 w-5 fill-current" />
+            <Star className="mr-2 h-5 w-5 fill-current" />
             View all reviews on Google
           </a>
         </div>

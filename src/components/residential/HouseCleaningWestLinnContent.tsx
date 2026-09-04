@@ -3,7 +3,13 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import {
+  BTN_PRIMARY,
+  BTN_SECONDARY,
+  HEADING_UPPER,
+  SECTION_EYEBROW,
+  SECTION_EYEBROW_ON_DARK,
+} from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import { FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
 
@@ -47,8 +53,8 @@ const SERVICE_CARDS = [
 const PROCESS_STEPS = [
   {
     step: "01",
-    title: "Get an instant quote and book your cleaning",
-    desc: "Tell us about your home, cleaning needs, and book online instantly.",
+    title: "Request a personalized quote and book your cleaning",
+    desc: "Tell us about your home, cleaning needs, and we'll follow up quickly.",
   },
   {
     step: "02",
@@ -114,7 +120,7 @@ export default function HouseCleaningWestLinnContent() {
         <div className="relative px-4 pt-4 pb-10 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-between lg:gap-8 lg:px-8 lg:pt-[calc(154px+0.75rem)] lg:pb-8 xl:px-12 lg:pointer-events-none">
           <div className="mx-auto w-full max-w-6xl lg:pointer-events-auto">
             <div className="lg:max-w-4xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52] lg:text-amber-200">
+              <p className={`${SECTION_EYEBROW} lg:text-amber-200`}>
                 West Linn Residential Cleaning Services
               </p>
               <h1
@@ -128,7 +134,7 @@ export default function HouseCleaningWestLinnContent() {
               <div className="mt-6">
                 <a
                   href="#services"
-                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-[#333333] bg-[#333333] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#444444] sm:w-auto lg:border-white/80 lg:bg-white/10 lg:text-white lg:hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                  className={`${BTN_PRIMARY} w-full sm:w-auto`}
                 >
                   Explore Services
                 </a>
@@ -137,7 +143,7 @@ export default function HouseCleaningWestLinnContent() {
 
             <div className="mt-8 flex w-screen max-w-[100vw] justify-center [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]">
               <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-center text-sm font-medium text-stone-700 lg:border-white/25 lg:bg-white/10 lg:text-white/95 lg:drop-shadow-md">
-                <BadgeCheck className="h-4 w-4 shrink-0 text-[#dcbb52] lg:text-amber-300" aria-hidden />
+                <BadgeCheck className="h-4 w-4 shrink-0 text-amber-600 lg:text-amber-300" aria-hidden />
                 Trusted by Busy West Linn Professionals and Families.
               </p>
             </div>
@@ -165,7 +171,7 @@ export default function HouseCleaningWestLinnContent() {
 
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
+          <p className={SECTION_EYEBROW}>
             Thoughtfully Caring for Homes Across West Linn
           </p>
           <h2 className={`mt-3 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
@@ -194,7 +200,7 @@ export default function HouseCleaningWestLinnContent() {
               <Link
                 href={href}
                 aria-label={`Learn more about ${title}`}
-                className={`${BTN_UPPER} mt-5 inline-flex w-full items-center justify-center rounded-xl border border-[#a7eff1]/40 bg-[#a7eff1]/30 px-4 py-2 text-sm font-semibold text-[#333333] transition hover:bg-[#a7eff1]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                className={`${BTN_SECONDARY} mt-5 w-full`}
               >
                 Learn more
               </Link>
@@ -204,23 +210,23 @@ export default function HouseCleaningWestLinnContent() {
       </section>
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
-        <div className="rounded-3xl border border-[#dcbb52]/25 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#333333]">
+        <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
+          <p className={`${SECTION_EYEBROW} text-stone-900`}>
             Why West Linn homeowners choose us
           </p>
           <h2 className={`mt-3 text-2xl md:text-3xl ${HEADING_UPPER}`}>
             A 5-star experience from booking to final walkthrough.
           </h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#333333]/80">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-stone-700">
             We combine meticulous cleaning standards with a nurturing, human approach. From your first quote to your final walkthrough, you&apos;ll experience responsive communication, seamless online booking, and a team that treats your home with the same care and respect we&apos;d want for our own.
           </p>
           <TrackedInstantQuoteLink
             href="#quote"
             buttonLocation="landing_trust_section"
-            buttonLabel="See Pricing + Book"
-            className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            buttonLabel="See Pricing"
+            className={`${BTN_PRIMARY} mt-8`}
           >
-            See Pricing + Book
+            See Pricing
           </TrackedInstantQuoteLink>
         </div>
       </section>
@@ -252,7 +258,7 @@ export default function HouseCleaningWestLinnContent() {
               key={step}
               className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
             >
-              <p className="text-2xl font-semibold text-[#dcbb52]">{step}</p>
+              <p className="text-2xl font-semibold text-amber-600">{step}</p>
               <h3 className={`mt-2 text-lg font-semibold ${HEADING_UPPER}`}>{title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-stone-700">{desc}</p>
             </div>
@@ -260,7 +266,7 @@ export default function HouseCleaningWestLinnContent() {
         </div>
       </section>
 
-      <section className="bg-[#333333] px-5 py-16 text-center text-white md:px-10">
+      <section className="bg-stone-900 px-5 py-16 text-center text-white md:px-10">
         <div className="mx-auto max-w-2xl">
           <h2 className={`text-3xl md:text-4xl ${HEADING_UPPER}`}>
             Ready for a cleaner, calmer home?
@@ -270,7 +276,7 @@ export default function HouseCleaningWestLinnContent() {
           </p>
           <Link
             href="/residential/quote"
-            className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            className={`${BTN_PRIMARY} mt-8`}
           >
             Get Your Quote
           </Link>

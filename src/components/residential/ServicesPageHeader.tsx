@@ -49,16 +49,16 @@ export default function ServicesPageHeader({
       data-site-header
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:py-5">
-        <div className="min-w-0">
-          <Link href="/" aria-label="Go to homepage">
+        <div className="shrink-0">
+          <Link href="/" aria-label="Go to homepage" className="inline-block shrink-0">
             <Image
               src="/assets/Golden Hour - commercial.png"
               alt="Golden Hour Cleaning Co."
               width={200}
               height={100}
               priority
-              className="h-16 w-auto sm:h-20"
-              sizes="(max-width: 640px) 200px, 240px"
+              className="h-14 w-auto max-w-none object-contain sm:h-16 md:h-20"
+              sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 240px"
             />
           </Link>
           {showBack && backHref ? (

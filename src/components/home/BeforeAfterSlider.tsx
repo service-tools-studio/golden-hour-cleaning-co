@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
-import { HEADING_UPPER } from "@/helpers/typography.js";
+import { SECTION_HEADING, SECTION_PAD } from "@/helpers/typography.js";
 
 const CARD_GAP = 24;
 
@@ -30,13 +30,10 @@ export default function BeforeAfterSlider() {
     <section
       id="before-after"
       aria-labelledby="before-after-heading"
-      className="border-t border-amber-200/60 bg-white py-20 sm:py-24"
+      className={`border-t border-amber-200/60 bg-white ${SECTION_PAD}`}
     >
       <div className="mx-auto max-w-6xl px-6">
-        <h2
-          id="before-after-heading"
-          className={`text-center text-3xl font-semibold text-stone-900 sm:text-4xl ${HEADING_UPPER}`}
-        >
+        <h2 id="before-after-heading" className={SECTION_HEADING}>
           Before &amp; After
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600">

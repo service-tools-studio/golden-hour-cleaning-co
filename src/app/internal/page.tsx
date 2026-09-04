@@ -16,13 +16,13 @@ const INTERNAL_TOOLS = [
     href: "/internal/quote-calculator",
     title: "Quote calculator",
     description:
-      "Residential Instant Quote + Book flow preserved for reference while the live CTA is updated.",
+      "Residential quote calculator for internal team use.",
   },
   {
     href: "/internal/calendar-details",
     title: "Calendar details",
     description:
-      "Paste a Calendly URL or utm_content payload to decode quote details from a booking.",
+      "Paste a Calendly URL or UTM payload to decode attribution and quote details from a booking.",
   },
 ] as const;
 

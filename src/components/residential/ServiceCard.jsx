@@ -8,7 +8,7 @@ import {
   SEE_PRICING_BOOK_LABEL,
   SERVICES_PRICING_HASH,
 } from "../../helpers/ctaLabels.js";
-import { HEADING_UPPER } from "../../helpers/typography.js";
+import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "../../helpers/typography.js";
 import { scrollToId } from "../../helpers/scrollToId.js";
 import { ServiceIcon, SERVICE_THEMES } from "./serviceCardTheme";
 
@@ -83,7 +83,7 @@ export default function ServiceCard({ service }) {
         <button
           type="button"
           onClick={goToQuote}
-          className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-amber-300 bg-amber-400 px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-sm hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+          className={`${BTN_PRIMARY} w-full px-4 py-2.5`}
         >
           {SEE_PRICING_BOOK_LABEL}
         </button>
@@ -91,7 +91,7 @@ export default function ServiceCard({ service }) {
         <Link
           href={detailHref}
           aria-label={`Learn more about ${service.title}`}
-          className="uppercase tracking-wide inline-flex w-full items-center justify-center rounded-xl border border-[#a7eff1]/50 bg-[#a7eff1]/25 px-4 py-2.5 text-sm font-semibold text-[#333333] hover:bg-[#a7eff1]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+          className={`${BTN_SECONDARY} w-full px-4 py-2.5`}
         >
           Learn more
         </Link>

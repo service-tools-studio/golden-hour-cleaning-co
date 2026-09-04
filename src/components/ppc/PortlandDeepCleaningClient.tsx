@@ -20,7 +20,7 @@ import { Badge } from "@/helpers/ui-elements.jsx";
 import { scrollToId } from "@/helpers/scrollToId";
 import { CONTACT } from "@/constants.js";
 import {
-  BTN_UPPER,
+  BTN_PRIMARY,
   HEADING_UPPER,
 } from "@/helpers/typography.js";
 import {
@@ -37,8 +37,6 @@ import {
   trackPpcDeepCleanEvent,
 } from "@/helpers/ppcDeepCleanAnalytics";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
-
-const GOLD_BTN = `${BTN_UPPER} inline-flex items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`;
 
 const TRUST_VALUES = [
   {
@@ -61,7 +59,7 @@ const TRUST_VALUES = [
 const PROCESS_STEPS = [
   {
     step: "01",
-    title: "Get your instant quote",
+    title: "Request a personalized quote",
     desc: "Tell us about your Portland home and see your personalized deep-clean range in about 30 seconds.",
   },
   {
@@ -81,7 +79,7 @@ const FAQS = [
   {
     question: "How much does deep cleaning cost in Portland?",
     answer:
-      "Your instant quote is based on your home's size, bathrooms, and any add-ons you select. For a typical Portland home, you'll see a range rather than a single number because condition affects the work required. We confirm your final price after a walkthrough, before cleaning begins.",
+      "You can request a personalized quote based on your home's size, bathrooms, and any add-ons you select. For a typical Portland home, you'll see a range rather than a single number because condition affects the work required. We confirm your final price after a walkthrough, before cleaning begins.",
   },
   {
     question: "Why is my quote shown as a range?",
@@ -220,7 +218,7 @@ export default function PortlandDeepCleaningClient({
                 or back-and-forth required.
               </p>
               <div className="mt-6 flex justify-center">
-                <button type="button" onClick={scrollToQuote} className={`${GOLD_BTN} w-full sm:w-auto`}>
+                <button type="button" onClick={scrollToQuote} className={`${BTN_PRIMARY} w-full sm:w-auto`}>
                   {SEE_PRICING_BOOK_LABEL}
                 </button>
               </div>
@@ -364,7 +362,7 @@ export default function PortlandDeepCleaningClient({
                 key={step}
                 className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
               >
-                <p className="text-2xl font-semibold text-[#dcbb52]">{step}</p>
+                <p className="text-2xl font-semibold text-amber-600">{step}</p>
                 <h3 className={`mt-2 text-lg font-semibold ${HEADING_UPPER}`}>
                   {title}
                 </h3>
@@ -410,7 +408,7 @@ export default function PortlandDeepCleaningClient({
             </div>
           </Section>
           <div className="mt-10 text-center">
-            <button type="button" onClick={scrollToQuote} className={GOLD_BTN}>
+            <button type="button" onClick={scrollToQuote} className={BTN_PRIMARY}>
               {SEE_PRICING_BOOK_LABEL}
             </button>
           </div>
@@ -424,7 +422,7 @@ export default function PortlandDeepCleaningClient({
           <button
             type="button"
             onClick={scrollToQuote}
-            className={`${GOLD_BTN} w-full normal-case tracking-normal`}
+            className={`${BTN_PRIMARY} w-full`}
           >
             {SEE_PRICING_BOOK_LABEL}
           </button>

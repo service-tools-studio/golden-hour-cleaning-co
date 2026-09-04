@@ -3,7 +3,13 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
-import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
+import {
+  BTN_PRIMARY,
+  BTN_SECONDARY,
+  HEADING_UPPER,
+  SECTION_EYEBROW,
+  SECTION_EYEBROW_ON_DARK,
+} from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
 
@@ -160,7 +166,7 @@ export default function HouseCleaningOregonCityContent() {
         <div className="relative px-4 pt-4 pb-10 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-between lg:gap-8 lg:px-8 lg:pt-[calc(154px+0.75rem)] lg:pb-8 xl:px-12 lg:pointer-events-none">
           <div className="mx-auto w-full max-w-6xl lg:pointer-events-auto">
             <div className="lg:max-w-4xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52] lg:text-amber-200">
+              <p className={`${SECTION_EYEBROW} lg:text-amber-200`}>
                 Oregon City Residential Cleaning Services
               </p>
               <h1
@@ -179,13 +185,13 @@ export default function HouseCleaningOregonCityContent() {
                   href="#quote"
                   buttonLocation="landing_hero"
                   buttonLabel="Get your free quote"
-                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-[#333333] bg-[#333333] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#444444] sm:w-auto lg:border-white/80 lg:bg-white lg:text-stone-900 lg:hover:bg-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                  className={`${BTN_PRIMARY} w-full sm:w-auto`}
                 >
                   Get your free quote
                 </TrackedInstantQuoteLink>
                 <a
                   href="#services"
-                  className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-2xl border border-[#333333] bg-transparent px-5 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-900/5 sm:w-auto lg:border-white/80 lg:bg-white/10 lg:text-white lg:hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                  className={`${BTN_SECONDARY} w-full sm:w-auto`}
                 >
                   Explore Services
                 </a>
@@ -195,7 +201,7 @@ export default function HouseCleaningOregonCityContent() {
             <div className="mt-8 flex w-screen max-w-[100vw] justify-center [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]">
               <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-center text-sm font-medium text-stone-700 lg:border-white/25 lg:bg-white/10 lg:text-white/95 lg:drop-shadow-md">
                 <BadgeCheck
-                  className="h-4 w-4 shrink-0 text-[#dcbb52] lg:text-amber-300"
+                  className="h-4 w-4 shrink-0 text-amber-600 lg:text-amber-300"
                   aria-hidden
                 />
                 Trusted House Cleaning in Oregon City
@@ -225,7 +231,7 @@ export default function HouseCleaningOregonCityContent() {
 
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#dcbb52]">
+          <p className={SECTION_EYEBROW}>
             Trusted House Cleaning in Oregon City
           </p>
           <h2 className={`mt-3 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
@@ -266,7 +272,7 @@ export default function HouseCleaningOregonCityContent() {
               <Link
                 href={href}
                 aria-label={`Learn more about ${title}`}
-                className={`${BTN_UPPER} mt-5 inline-flex w-full items-center justify-center rounded-xl border border-[#a7eff1]/40 bg-[#a7eff1]/30 px-4 py-2 text-sm font-semibold text-[#333333] transition hover:bg-[#a7eff1]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+                className={`${BTN_SECONDARY} mt-5 w-full`}
               >
                 Learn more
               </Link>
@@ -276,14 +282,14 @@ export default function HouseCleaningOregonCityContent() {
       </section>
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
-        <div className="rounded-3xl border border-[#dcbb52]/25 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#333333]">
+        <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
+          <p className={`${SECTION_EYEBROW} text-stone-900`}>
             Why Oregon City homeowners choose us
           </p>
           <h2 className={`mt-3 text-2xl md:text-3xl ${HEADING_UPPER}`}>
             Why Oregon City Homeowners Choose Golden Hour Cleaning Co.
           </h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#333333]/80">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-stone-700">
             We know inviting someone into your home requires trust. We
             don&apos;t believe in rushing through homes. We believe every
             cleaning should leave your space feeling refreshed, comfortable, and
@@ -293,10 +299,10 @@ export default function HouseCleaningOregonCityContent() {
             {WHY_US.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-2 text-sm font-medium text-[#333333]"
+                className="flex items-start gap-2 text-sm font-medium text-stone-900"
               >
                 <BadgeCheck
-                  className="mt-0.5 h-4 w-4 shrink-0 text-[#dcbb52]"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-amber-600"
                   aria-hidden
                 />
                 {item}
@@ -306,10 +312,10 @@ export default function HouseCleaningOregonCityContent() {
           <TrackedInstantQuoteLink
             href="#quote"
             buttonLocation="landing_trust_section"
-            buttonLabel="See Pricing + Book"
-            className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            buttonLabel="See Pricing"
+            className={`${BTN_PRIMARY} mt-8`}
           >
-            See Pricing + Book
+            See Pricing
           </TrackedInstantQuoteLink>
         </div>
       </section>
@@ -384,13 +390,13 @@ export default function HouseCleaningOregonCityContent() {
               href="#quote"
               buttonLocation="landing_pricing_section"
               buttonLabel="Get a free estimate"
-              className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+              className={BTN_PRIMARY}
             >
               Get a free estimate
             </TrackedInstantQuoteLink>
             <Link
               href="/blog/how-much-does-house-cleaning-cost-in-portland-2026"
-              className={`${BTN_UPPER} inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+              className={BTN_SECONDARY}
             >
               Read our pricing guide
             </Link>
@@ -419,7 +425,7 @@ export default function HouseCleaningOregonCityContent() {
         </div>
       </section>
 
-      <section className="bg-[#333333] px-5 py-16 text-center text-white md:px-10">
+      <section className="bg-stone-900 px-5 py-16 text-center text-white md:px-10">
         <div className="mx-auto max-w-2xl">
           <h2 className={`text-3xl md:text-4xl ${HEADING_UPPER}`}>
             Schedule Your Oregon City House Cleaning Today
@@ -435,7 +441,7 @@ export default function HouseCleaningOregonCityContent() {
             href="#quote"
             buttonLocation="landing_final_cta"
             buttonLabel="Request your free quote"
-            className={`${BTN_UPPER} mt-8 inline-flex items-center justify-center rounded-xl bg-amber-400 px-8 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300`}
+            className={`${BTN_PRIMARY} mt-8`}
           >
             Request your free quote
           </TrackedInstantQuoteLink>

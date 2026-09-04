@@ -854,7 +854,7 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
         link: {
           href: "/residential/services#services",
-          label: "See Pricing + Book",
+          label: "See Pricing",
         },
       },
     ],
@@ -1241,7 +1241,7 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
         link: {
           href: "/residential/services#services",
-          label: "See Pricing + Book",
+          label: "See Pricing",
         },
       },
     ],
@@ -1596,7 +1596,7 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
         link: {
           href: "/residential/services#services",
-          label: "See Pricing + Book",
+          label: "See Pricing",
         },
       },
     ],
@@ -2119,7 +2119,7 @@ export const BLOG_POSTS: BlogPost[] = [
         paragraphs: [
           "If you're not sure which cleaning schedule is right for your home, we're happy to help.",
           "At Golden Hour Cleaning Co., we provide recurring cleaning, deep cleaning, move-in and move-out cleaning, and one-time services throughout the Portland metro area.",
-          "You can receive an instant quote and book online in just a few minutes, or give us a call if you'd prefer to talk through your options with one of our team members.",
+          "You can request a personalized quote and book online in just a few minutes, or give us a call if you'd prefer to talk through your options with one of our team members.",
         ],
       },
     ],
