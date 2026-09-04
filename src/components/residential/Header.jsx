@@ -152,7 +152,7 @@ export default function Header() {
     e.preventDefault();
     e.stopPropagation();
     router.push("/");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
@@ -31,6 +31,15 @@ type Props = {
 export default function MarketingLandingClient({ pagePath }: Props) {
   const searchParams = useSearchParams();
   const urlLevel = levelFromUrl(searchParams.get("level"));
+
+  // Home/residential landings are client-mounted; force top unless a hash targets a section.
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash) return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pagePath]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
