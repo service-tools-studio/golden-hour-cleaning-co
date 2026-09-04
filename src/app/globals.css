@@ -16,16 +16,16 @@
 @layer base {
   html {
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
-    overflow-x: clip;
-  }
-
-  body {
-    overflow-x: clip;
   }
 
   /*
+   * Do NOT set overflow-x on html/body. In Chrome, overflow-x: clip|hidden on
+   * the root forces a scroll containment that breaks position:fixed — the
+   * mobile Call Us bar then sits at the document bottom until you scroll to it.
+   */
+
+  /*
    * Reserve space for the fixed mobile Call Us bar from first paint.
-   * Setting this in JS after hydration was shifting the page down on iOS.
    */
   @media (max-width: 1279px) {
     body {
