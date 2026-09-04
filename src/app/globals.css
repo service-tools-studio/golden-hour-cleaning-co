@@ -18,20 +18,7 @@
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
   }
 
-  /*
-   * Do NOT set overflow-x on html/body. In Chrome, overflow-x: clip|hidden on
-   * the root forces a scroll containment that breaks position:fixed — the
-   * mobile Call Us bar then sits at the document bottom until you scroll to it.
-   */
-
-  /*
-   * Reserve space for the fixed mobile Call Us bar from first paint.
-   */
-  @media (max-width: 1279px) {
-    body {
-      padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-    }
-  }
+  /* Avoid overflow-x on html/body — it breaks position:fixed in Chrome. */
 
   h1,
   h2,
@@ -45,9 +32,8 @@
 }
 
 /*
- * Chrome scroll-anchoring is NOT inherited. When late content (reviews, images,
- * fonts) changes height, Blink adjusts scrollY — Safari usually does not.
- * Disable on every element (unlayered so it always applies).
+ * Chrome scroll-anchoring is NOT inherited. Disable on every element so late
+ * content (reviews, images) doesn't nudge scrollY.
  */
 *,
 *::before,

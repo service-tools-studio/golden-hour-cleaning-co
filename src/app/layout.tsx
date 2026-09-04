@@ -4,7 +4,6 @@ import Script from "next/script";
 import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
 import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
-import MobileStickyCallBar from "@/components/residential/MobileStickyCallBar";
 import "./globals.css";
 
 const josefinSans = Josefin_Sans({
@@ -54,10 +53,7 @@ export default function RootLayout({
         <ScrollToTopOnNavigate />
         <CalendlyClickTracker />
         <ClickToCallTracker />
-        {/* Clip horizontal overflow here — not on html/body — so position:fixed
-            (Call Us bar) still anchors to the viewport in Chrome. */}
         <div className="min-h-screen overflow-x-clip">{children}</div>
-        <MobileStickyCallBar />
       </body>
     </html>
   );
