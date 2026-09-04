@@ -18,6 +18,10 @@
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
   }
 
+  body {
+    position: relative;
+  }
+
   /* Avoid overflow-x on html/body — it breaks position:fixed in Chrome. */
 
   h1,
