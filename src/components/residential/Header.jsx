@@ -10,6 +10,9 @@ export default function Header() {
   const router = useRouter();
 
   const [compact, setCompact] = useState(false);
+  // Avoid enabling sticky during the first moments of an iOS Chrome cold open —
+  // sticky + browser chrome settling is a common source of a "fake scroll" jump.
+  const [stickReady, setStickReady] = useState(false);
   const compactRef = useRef(compact);
   compactRef.current = compact;
 
@@ -50,6 +53,11 @@ export default function Header() {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty("--header-height", `${EXPANDED_H}px`);
+  }, []);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setStickReady(true), 2500);
+    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {
@@ -166,7 +174,7 @@ export default function Header() {
           box-shadow 300ms ease
         `,
         boxShadow: compact ? "0 2px 12px rgba(0,0,0,0.08)" : "none",
-        position: "sticky",
+        position: stickReady ? "sticky" : "relative",
         top: 0,
         zIndex: 100000,
       }}

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
+import ScrollDebugOverlay from "@/components/ScrollDebugOverlay";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
 import ServicesPreviewSection from "@/components/home/ServicesPreviewSection";
 import BeforeAfter from "@/components/residential/BeforeAfter";
@@ -22,7 +23,6 @@ type Props = {
 };
 
 export default function MarketingLandingClient({ pagePath }: Props) {
-  // iOS Chrome sometimes nudges scroll after first paint (often >500ms later).
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (hasIntentionalHash()) return;
@@ -40,6 +40,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
   return (
     <div className="relative min-h-screen bg-amber-50 text-stone-900">
+      <ScrollDebugOverlay />
       <ScrollDepthTracker pagePath={pagePath} />
       <Header />
 

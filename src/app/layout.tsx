@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Josefin_Sans } from "next/font/google";
 import Script from "next/script";
 import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
@@ -15,6 +15,13 @@ const josefinSans = Josefin_Sans({
 export const metadata: Metadata = {
   title: "Golden Hour Cleaning Co.",
   description: "Residential and Commercial Cleaning by Golden Hour Cleaning Co.",
+};
+
+/** Reduce iOS Chrome jumpiness when browser chrome shows/hides. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({
