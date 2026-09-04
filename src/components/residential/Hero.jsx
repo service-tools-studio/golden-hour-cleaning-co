@@ -17,7 +17,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-screen max-w-[100vw] overflow-hidden [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]"
+      className="relative overflow-hidden"
     >
       <div className="lg:relative">
         <div className="relative aspect-[2/1] w-full overflow-hidden bg-amber-50 sm:aspect-[5/3] lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-auto lg:w-1/2">

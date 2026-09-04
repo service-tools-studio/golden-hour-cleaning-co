@@ -31,7 +31,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}",
+              "try{if('scrollRestoration' in history)history.scrollRestoration='manual';var h=location.hash;if(!h||h==='#'||h.indexOf(':~:')!==-1){scrollTo(0,0);document.documentElement.scrollTop=0;}}catch(e){}",
           }}
         />
         {/* Google tag (gtag.js) — Google Ads */}

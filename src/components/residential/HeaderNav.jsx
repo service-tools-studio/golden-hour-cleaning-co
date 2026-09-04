@@ -132,8 +132,8 @@ export default function HeaderNav() {
         )
       : null;
 
-  // Fixed bar is always in the tree (CSS hides on xl+). Space is reserved via
-  // body padding in globals.css so hydration doesn't shift scroll on iOS.
+  // Render in-tree (not portaled) so it's in the first HTML paint.
+  // Portaling after mount was appearing post-hydration and nudging iOS scroll.
   const mobileStickyCall = (
     <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm xl:hidden">
       <a
@@ -194,7 +194,7 @@ export default function HeaderNav() {
       </div>
 
       {mobileMenu}
-      {mounted ? createPortal(mobileStickyCall, document.body) : null}
+      {mobileStickyCall}
     </nav>
   );
 }

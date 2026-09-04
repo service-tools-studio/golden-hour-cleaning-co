@@ -17,10 +17,12 @@
   html {
     font-family: var(--font-josefin-sans), ui-sans-serif, system-ui, sans-serif;
     overflow-anchor: none;
+    overflow-x: clip;
   }
 
   body {
     overflow-anchor: none;
+    overflow-x: clip;
   }
 
   /*

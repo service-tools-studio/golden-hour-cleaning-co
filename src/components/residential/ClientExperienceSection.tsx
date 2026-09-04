@@ -31,7 +31,7 @@ const POINTS = [
 
 export default function ClientExperienceSection() {
   return (
-    <section className="relative w-screen max-w-[100vw] overflow-hidden bg-white [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]">
+    <section className="relative overflow-hidden bg-white">
       <div className="lg:relative">
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-amber-50 lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-1/2">
           <Image
