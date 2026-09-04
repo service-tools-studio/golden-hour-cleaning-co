@@ -156,26 +156,27 @@ export default function Header() {
   };
 
   return (
-    <header
-      ref={headerRef}
-      style={{
-        backgroundColor: "#a7eff1",
-        height,
-        transition: `
-          height ${TRANS_MS}ms cubic-bezier(0.16,1,0.3,1),
-          box-shadow 300ms ease
-        `,
-        boxShadow: compact ? "0 2px 12px rgba(0,0,0,0.08)" : "none",
-        willChange: "height",
-        contain: "layout paint",
-        position: "sticky",
-        top: 0,
-        zIndex: 100000,
-      }}
-      className="backdrop-blur border-b border-amber-200 flex flex-col overflow-hidden"
-      aria-label="Site header"
-      data-site-header
-    >
+    <>
+      <header
+        ref={headerRef}
+        style={{
+          backgroundColor: "#a7eff1",
+          height,
+          transition: `
+            height ${TRANS_MS}ms cubic-bezier(0.16,1,0.3,1),
+            box-shadow 300ms ease
+          `,
+          boxShadow: compact ? "0 2px 12px rgba(0,0,0,0.08)" : "none",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100000,
+        }}
+        className="border-b border-amber-200 flex flex-col overflow-hidden"
+        aria-label="Site header"
+        data-site-header
+      >
       {/* --- Announcement bar --- */}
       <div
         className="relative w-full border-b border-amber-200 overflow-hidden"
@@ -277,6 +278,15 @@ export default function Header() {
         </button>
         <HeaderNav />
       </div>
-    </header>
+      </header>
+      {/* Spacer matches fixed header so content isn't covered; avoids sticky scroll quirks. */}
+      <div
+        aria-hidden
+        style={{
+          height,
+          transition: `height ${TRANS_MS}ms cubic-bezier(0.16,1,0.3,1)`,
+        }}
+      />
+    </>
   );
 }

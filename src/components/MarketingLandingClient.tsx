@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
 import ServicesPreviewSection from "@/components/home/ServicesPreviewSection";
@@ -22,22 +22,30 @@ type Props = {
 };
 
 /**
- * Correct small post-load scroll jumps (iOS visual viewport / late layout)
- * without fighting real user scrolls.
+ * Pin scroll to top on cold open. Undo unexpected jumps until the user
+ * intentionally scrolls (wheel / drag), including jumps larger than a nudge.
  */
-function usePreventSmallLoadJump() {
+function usePinTopUntilUserScrolls() {
+  const userMovedRef = useRef(false);
+
+  useLayoutEffect(() => {
+    if (hasIntentionalHash()) return;
+    scrollWindowToTop();
+  }, []);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (hasIntentionalHash()) return;
 
-    let userMoved = false;
+    userMovedRef.current = false;
+    scrollWindowToTop();
+
     let touchStartY: number | null = null;
     const started = performance.now();
-    const MAX_MS = 3500;
-    const MAX_JUMP = 200;
+    const WINDOW_MS = 5000;
 
     const markUser = () => {
-      userMoved = true;
+      userMovedRef.current = true;
     };
 
     const onTouchStart = (event: TouchEvent) => {
@@ -46,51 +54,49 @@ function usePreventSmallLoadJump() {
     const onTouchMove = (event: TouchEvent) => {
       if (touchStartY == null) return;
       const y = event.touches[0]?.clientY ?? touchStartY;
-      // Ignore the tap that opened the page; only unlock on a real drag.
-      if (Math.abs(y - touchStartY) > 10) markUser();
+      if (Math.abs(y - touchStartY) > 12) markUser();
+    };
+
+    const pinIfNeeded = () => {
+      if (userMovedRef.current || hasIntentionalHash()) return;
+      if (performance.now() - started > WINDOW_MS) return;
+      if ((window.scrollY || 0) > 0) scrollWindowToTop();
     };
 
     window.addEventListener("wheel", markUser, { passive: true });
     window.addEventListener("keydown", markUser);
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("scroll", pinIfNeeded, { passive: true });
 
-    const id = window.setInterval(() => {
-      if (userMoved || hasIntentionalHash()) return;
-      if (performance.now() - started > MAX_MS) return;
-      const y = window.scrollY || window.pageYOffset || 0;
-      if (y > 0 && y < MAX_JUMP) scrollWindowToTop();
-    }, 50);
-
+    const interval = window.setInterval(pinIfNeeded, 100);
     const stop = window.setTimeout(() => {
-      window.clearInterval(id);
-    }, MAX_MS + 50);
+      window.clearInterval(interval);
+      window.removeEventListener("scroll", pinIfNeeded);
+    }, WINDOW_MS);
 
     return () => {
-      userMoved = true;
-      window.clearInterval(id);
+      userMovedRef.current = true;
+      window.clearInterval(interval);
       window.clearTimeout(stop);
       window.removeEventListener("wheel", markUser);
       window.removeEventListener("keydown", markUser);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("scroll", pinIfNeeded);
     };
   }, []);
 }
 
 export default function MarketingLandingClient({ pagePath }: Props) {
-  usePreventSmallLoadJump();
+  usePinTopUntilUserScrolls();
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-amber-50 text-stone-900">
       <ScrollDepthTracker pagePath={pagePath} />
       <Header />
 
-      <main
-        id="content"
-        className="overflow-x-clip"
-        style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
-      >
+      <main id="content" className="overflow-x-clip">
         <Hero />
 
         <GoogleReviews />

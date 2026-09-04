@@ -19,7 +19,6 @@ const NAV_LINKS = [
 
 const linkClass = `${BTN_UPPER} text-sm font-semibold text-slate-900 underline-offset-4 hover:text-slate-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`;
 const callNowClass = `${BTN_PRIMARY} ml-4 gap-1.5 whitespace-nowrap`;
-const mobileStickyCallClass = `${BTN_PRIMARY} w-full gap-2`;
 const mobileMenuCtaClass = `${BTN_PRIMARY} w-full`;
 
 function getSiteHeader() {
@@ -132,22 +131,6 @@ export default function HeaderNav() {
         )
       : null;
 
-  // Render in-tree (not portaled) so it's in the first HTML paint.
-  // Portaling after mount was appearing post-hydration and nudging iOS scroll.
-  const mobileStickyCall = (
-    <div className="fixed inset-x-0 bottom-0 z-[100003] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm xl:hidden">
-      <a
-        href={`tel:${CONTACT.phone}`}
-        className={mobileStickyCallClass}
-        aria-label="Call us"
-        data-call-source="header_nav_mobile_call_now"
-      >
-        <Phone className="h-4 w-4 shrink-0" aria-hidden />
-        Call Us
-      </a>
-    </div>
-  );
-
   return (
     <nav aria-label="Main navigation" className="relative shrink-0">
       <ul className="hidden xl:flex items-center">
@@ -194,7 +177,6 @@ export default function HeaderNav() {
       </div>
 
       {mobileMenu}
-      {mobileStickyCall}
     </nav>
   );
 }
