@@ -28,16 +28,26 @@ export default function BookOnlinePage() {
             >
               <span className="text-amber-700">1</span>
               <span className="mx-1.5 font-normal text-stone-400">·</span>
-              Home details
+              Contact
               <span className="mx-2 font-normal text-stone-400" aria-hidden>
                 →
               </span>
               <span className="text-amber-700">2</span>
               <span className="mx-1.5 font-normal text-stone-400">·</span>
+              Home details
+              <span className="mx-2 font-normal text-stone-400" aria-hidden>
+                →
+              </span>
+              <span className="text-amber-700">3</span>
+              <span className="mx-1.5 font-normal text-stone-400">·</span>
               Pick a time
             </p>
             <p className="mt-5 inline-flex max-w-full items-center justify-center rounded-2xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-sm font-semibold text-amber-950 sm:text-base">
-              Daily availability, including same-day and next-day.
+              Daily availability, including same-day
+              <span className="mx-1.5 text-xs font-medium text-amber-800/75 sm:text-sm">
+                (submit by 12pm)
+              </span>
+              and next-day.
             </p>
             <p className="mt-4 text-base leading-relaxed text-stone-600 md:text-lg">
               Tell us a little about your home, then choose a time on our live

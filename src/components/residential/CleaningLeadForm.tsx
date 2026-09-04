@@ -16,6 +16,7 @@ import { getPpcAttribution } from "@/helpers/ppcAttribution";
 import { trackCalendlyClick } from "@/helpers/calendlyAnalytics";
 import {
   BTN_PRIMARY,
+  BTN_SECONDARY,
   HEADING_UPPER,
   QUOTE_FIELD_LABEL,
 } from "@/helpers/typography.js";
@@ -28,8 +29,9 @@ import {
   EMPTY_CLEANING_LEAD_FORM,
   TIMING_OPTIONS,
   fieldDomId,
-  firstErrorField,
-  validateCleaningLeadForm,
+  firstStepErrorField,
+  getLeadFormSteps,
+  validateCleaningLeadStep,
   type CleaningLeadFormState,
   type CleaningLeadMode,
   type FieldErrors,
@@ -60,6 +62,7 @@ type Props = {
 
 export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   const isQuote = mode === "quote";
+  const steps = getLeadFormSteps(mode);
   const [form, setForm] = useState<CleaningLeadFormState>(EMPTY_CLEANING_LEAD_FORM);
   const [submittedSnapshot, setSubmittedSnapshot] =
     useState<CleaningLeadFormState | null>(null);
@@ -68,7 +71,12 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [stepIndex, setStepIndex] = useState(0);
   const statusId = useId();
+
+  const lastStep = steps.length - 1;
+  const stepMeta = steps[stepIndex];
+  const stepId = stepMeta?.id ?? "";
 
   useEffect(() => {
     getPpcAttribution();
@@ -100,7 +108,6 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     const el = document.getElementById(fieldDomId(key));
     if (el instanceof HTMLElement) {
       el.focus({ preventScroll: true });
-      el.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }
 
@@ -134,21 +141,31 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     return attribution;
   }
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    if (!canAttemptSubmit) return;
+  function goToStep(next: number) {
+    setFieldErrors({});
+    setSubmitError(null);
+    setStepIndex(next);
+  }
 
-    const errors = validateCleaningLeadForm(form, mode);
+  function advanceStep() {
+    const errors = validateCleaningLeadStep(form, mode, stepIndex);
     setFieldErrors(errors);
-    const firstInvalid = firstErrorField(errors, mode);
+    const firstInvalid = firstStepErrorField(errors, mode, stepIndex);
     if (firstInvalid) {
       focusField(firstInvalid);
-      return;
+      return false;
     }
+    if (stepIndex < lastStep) {
+      goToStep(stepIndex + 1);
+      return false;
+    }
+    return true;
+  }
 
+  async function finishSubmit() {
+    if (!canAttemptSubmit) return;
     setIsSubmitting(true);
     setSubmitError(null);
-
     const snapshot = { ...form };
 
     try {
@@ -158,6 +175,7 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
         setSubmittedSnapshot(snapshot);
         setSubmitSuccess(true);
         setForm(EMPTY_CLEANING_LEAD_FORM);
+        setStepIndex(0);
         formLoadedAtRef.current = Date.now();
         setIsSubmitting(false);
         onSuccess?.();
@@ -176,7 +194,13 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
         attribution,
       });
 
-      window.location.assign(calendlyUrl);
+      setSubmittedSnapshot(snapshot);
+      setSubmitSuccess(true);
+      setForm(EMPTY_CLEANING_LEAD_FORM);
+      setStepIndex(0);
+      formLoadedAtRef.current = Date.now();
+      setIsSubmitting(false);
+      window.open(calendlyUrl, "_blank", "noopener,noreferrer");
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -187,23 +211,56 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     }
   }
 
-  function openCalendlyFromQuoteSuccess() {
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!canAttemptSubmit) return;
+    const ready = advanceStep();
+    if (!ready) return;
+    await finishSubmit();
+  }
+
+  function openCalendlyFromSuccess() {
     if (!submittedSnapshot) return;
     const attribution = getPpcAttribution();
     const calendlyUrl = buildBookingCalendlyUrl({
       form: submittedSnapshot,
-      leadPath: "Personalized Quote",
+      leadPath: isQuote ? "Personalized Quote" : "Book Online",
       attribution,
     });
     trackCalendlyClick({
-      source: "request_a_quote_post_submit",
+      source: isQuote
+        ? "request_a_quote_post_submit"
+        : "book_online_form_reopen",
       url: calendlyUrl,
       attribution,
     });
     window.open(calendlyUrl, "_blank", "noopener,noreferrer");
   }
 
-  if (isQuote && submitSuccess) {
+  if (submitSuccess) {
+    if (!isQuote) {
+      return (
+        <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+          <div aria-live="polite">
+            <h2 className={`text-xl font-bold text-stone-900 ${HEADING_UPPER}`}>
+              You&apos;re all set — pick a time in the new tab.
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-stone-700">
+              We&apos;ve saved your details. If the scheduling tab didn&apos;t
+              open, use the button below.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={openCalendlyFromSuccess}
+            className={`${BTN_PRIMARY} mt-6 w-full sm:w-auto`}
+          >
+            See Available Times →
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
         <div aria-live="polite">
@@ -227,7 +284,7 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
           </p>
           <button
             type="button"
-            onClick={openCalendlyFromQuoteSuccess}
+            onClick={openCalendlyFromSuccess}
             className={`${BTN_PRIMARY} mt-4 w-full sm:w-auto`}
           >
             See Available Times →
@@ -243,114 +300,114 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
       className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
       noValidate
     >
-      <section>
-        <h2 className={`text-lg font-bold text-stone-900 ${HEADING_UPPER}`}>
-          Contact information
-        </h2>
-
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <Field
-            label="First name *"
-            htmlFor={fieldDomId("firstName")}
-            error={fieldErrors.firstName}
-          >
-            <input
-              id={fieldDomId("firstName")}
-              name="firstName"
-              autoComplete="given-name"
-              value={form.firstName}
-              onChange={(e) => update("firstName", e.target.value)}
-              className={fieldErrors.firstName ? inputErrorClass : inputClass}
-              aria-invalid={Boolean(fieldErrors.firstName)}
-              required
+      <div className="flex items-center justify-between gap-3">
+        <p className={`text-xs font-semibold text-stone-500 ${HEADING_UPPER}`}>
+          Step {stepIndex + 1} of {steps.length}
+        </p>
+        <div className="flex flex-1 justify-end gap-1.5" aria-hidden>
+          {steps.map((step, index) => (
+            <span
+              key={step.id}
+              className={`h-1.5 w-5 rounded-full sm:w-7 ${
+                index <= stepIndex ? "bg-amber-400" : "bg-stone-200"
+              }`}
             />
-          </Field>
-
-          <Field
-            label="Last name *"
-            htmlFor={fieldDomId("lastName")}
-            error={fieldErrors.lastName}
-          >
-            <input
-              id={fieldDomId("lastName")}
-              name="lastName"
-              autoComplete="family-name"
-              value={form.lastName}
-              onChange={(e) => update("lastName", e.target.value)}
-              className={fieldErrors.lastName ? inputErrorClass : inputClass}
-              aria-invalid={Boolean(fieldErrors.lastName)}
-              required
-            />
-          </Field>
-
-          <Field
-            label="Mobile phone *"
-            htmlFor={fieldDomId("mobilePhone")}
-            error={fieldErrors.mobilePhone}
-          >
-            <input
-              id={fieldDomId("mobilePhone")}
-              name="mobilePhone"
-              type="tel"
-              autoComplete="tel"
-              value={form.mobilePhone}
-              onChange={(e) =>
-                update("mobilePhone", formatPhoneInput(e.target.value))
-              }
-              className={fieldErrors.mobilePhone ? inputErrorClass : inputClass}
-              placeholder="(503) 555-1234"
-              aria-invalid={Boolean(fieldErrors.mobilePhone)}
-              required
-            />
-          </Field>
-
-          <Field
-            label="Email *"
-            htmlFor={fieldDomId("email")}
-            error={fieldErrors.email}
-          >
-            <input
-              id={fieldDomId("email")}
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={(e) => update("email", e.target.value)}
-              className={fieldErrors.email ? inputErrorClass : inputClass}
-              aria-invalid={Boolean(fieldErrors.email)}
-              required
-            />
-          </Field>
+          ))}
         </div>
+      </div>
 
-        {!isQuote ? (
-          <div className="mt-4">
+      <h2 className={`mt-5 text-lg font-bold text-stone-900 ${HEADING_UPPER}`}>
+        {stepMeta.title}
+      </h2>
+
+      <div className="mt-5 space-y-4">
+        {stepId === "name" ? (
+          <div className="grid gap-4">
             <Field
-              label="Service address *"
-              htmlFor={fieldDomId("address")}
-              error={fieldErrors.address}
+              label="First name *"
+              htmlFor={fieldDomId("firstName")}
+              error={fieldErrors.firstName}
             >
               <input
-                id={fieldDomId("address")}
-                name="address"
-                autoComplete="street-address"
-                value={form.address}
-                onChange={(e) => update("address", e.target.value)}
-                className={fieldErrors.address ? inputErrorClass : inputClass}
-                placeholder="Street, city, ZIP"
-                aria-invalid={Boolean(fieldErrors.address)}
+                id={fieldDomId("firstName")}
+                name="firstName"
+                autoComplete="given-name"
+                value={form.firstName}
+                onChange={(e) => update("firstName", e.target.value)}
+                className={fieldErrors.firstName ? inputErrorClass : inputClass}
+                aria-invalid={Boolean(fieldErrors.firstName)}
+                required
+              />
+            </Field>
+            <Field
+              label="Last name *"
+              htmlFor={fieldDomId("lastName")}
+              error={fieldErrors.lastName}
+            >
+              <input
+                id={fieldDomId("lastName")}
+                name="lastName"
+                autoComplete="family-name"
+                value={form.lastName}
+                onChange={(e) => update("lastName", e.target.value)}
+                className={fieldErrors.lastName ? inputErrorClass : inputClass}
+                aria-invalid={Boolean(fieldErrors.lastName)}
                 required
               />
             </Field>
           </div>
         ) : null}
 
-        {isQuote ? (
-          <fieldset className="mt-5">
+        {stepId === "contact" ? (
+          <div className="grid gap-4">
+            <Field
+              label="Mobile phone *"
+              htmlFor={fieldDomId("mobilePhone")}
+              error={fieldErrors.mobilePhone}
+            >
+              <input
+                id={fieldDomId("mobilePhone")}
+                name="mobilePhone"
+                type="tel"
+                autoComplete="tel"
+                value={form.mobilePhone}
+                onChange={(e) =>
+                  update("mobilePhone", formatPhoneInput(e.target.value))
+                }
+                className={
+                  fieldErrors.mobilePhone ? inputErrorClass : inputClass
+                }
+                placeholder="(503) 555-1234"
+                aria-invalid={Boolean(fieldErrors.mobilePhone)}
+                required
+              />
+            </Field>
+            <Field
+              label="Email *"
+              htmlFor={fieldDomId("email")}
+              error={fieldErrors.email}
+            >
+              <input
+                id={fieldDomId("email")}
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
+                className={fieldErrors.email ? inputErrorClass : inputClass}
+                aria-invalid={Boolean(fieldErrors.email)}
+                required
+              />
+            </Field>
+          </div>
+        ) : null}
+
+        {stepId === "preference" ? (
+          <fieldset>
             <legend className={QUOTE_FIELD_LABEL}>
               How would you prefer we contact you? *
             </legend>
-            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-5">
+            <div className="mt-3 flex flex-col gap-2">
               {CONTACT_OPTIONS.map((option) => (
                 <label
                   key={option}
@@ -381,18 +438,31 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
             ) : null}
           </fieldset>
         ) : null}
-      </section>
 
-      <section className="mt-10 border-t border-stone-100 pt-10">
-        <h2 className={`text-lg font-bold text-stone-900 ${HEADING_UPPER}`}>
-          {isQuote ? "Tell us about your cleaning" : "About your home"}
-        </h2>
+        {stepId === "address" ? (
+          <Field
+            label="Service address *"
+            htmlFor={fieldDomId("address")}
+            error={fieldErrors.address}
+          >
+            <input
+              id={fieldDomId("address")}
+              name="address"
+              autoComplete="street-address"
+              value={form.address}
+              onChange={(e) => update("address", e.target.value)}
+              className={fieldErrors.address ? inputErrorClass : inputClass}
+              placeholder="Street, city, ZIP"
+              aria-invalid={Boolean(fieldErrors.address)}
+              required
+            />
+          </Field>
+        ) : null}
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        {stepId === "service" ? (
           <Field
             label="What type of cleaning do you need? *"
             htmlFor={fieldDomId("cleaningType")}
-            className="sm:col-span-2"
             error={fieldErrors.cleaningType}
           >
             <select
@@ -441,213 +511,232 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
               </div>
             ) : null}
           </Field>
+        ) : null}
 
-          <Field
-            label="Approximate home size *"
-            htmlFor={fieldDomId("homeSize")}
-            error={fieldErrors.homeSize}
-          >
-            <input
-              id={fieldDomId("homeSize")}
-              name="homeSize"
-              type="number"
-              min={1}
-              inputMode="numeric"
-              value={form.homeSize}
-              onChange={(e) => update("homeSize", e.target.value)}
-              className={fieldErrors.homeSize ? inputErrorClass : inputClass}
-              placeholder="e.g. 1800"
-              aria-invalid={Boolean(fieldErrors.homeSize)}
-              required
-            />
-          </Field>
-
-          <Field
-            label="Bedrooms *"
-            htmlFor={fieldDomId("bedrooms")}
-            error={fieldErrors.bedrooms}
-          >
-            <select
-              id={fieldDomId("bedrooms")}
-              name="bedrooms"
-              value={form.bedrooms}
-              onChange={(e) => update("bedrooms", e.target.value)}
-              className={fieldErrors.bedrooms ? selectErrorClass : selectClass}
-              style={selectStyle}
-              aria-invalid={Boolean(fieldErrors.bedrooms)}
-              required
-            >
-              <option value="" disabled>
-                Select bedrooms
-              </option>
-              {BEDROOM_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <Field
-            label="Bathrooms *"
-            htmlFor={fieldDomId("bathrooms")}
-            error={fieldErrors.bathrooms}
-          >
-            <select
-              id={fieldDomId("bathrooms")}
-              name="bathrooms"
-              value={form.bathrooms}
-              onChange={(e) => update("bathrooms", e.target.value)}
-              className={fieldErrors.bathrooms ? selectErrorClass : selectClass}
-              style={selectStyle}
-              aria-invalid={Boolean(fieldErrors.bathrooms)}
-              required
-            >
-              <option value="" disabled>
-                Select bathrooms
-              </option>
-              {BATHROOM_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
-
-        <fieldset className="mt-5">
-          <legend className={QUOTE_FIELD_LABEL}>
-            How would you describe the current condition? *
-          </legend>
-          <div className="mt-3 space-y-2">
-            {CONDITION_OPTIONS.map((option, index) => (
-              <label
-                key={option}
-                className="flex min-h-11 cursor-pointer items-start gap-2 text-sm text-stone-800"
-              >
-                <input
-                  id={index === 0 ? fieldDomId("condition") : undefined}
-                  type="radio"
-                  name="condition"
-                  value={option}
-                  checked={form.condition === option}
-                  onChange={() => update("condition", option)}
-                  className="mt-0.5 h-4 w-4 shrink-0 border-stone-300 text-amber-500 focus:ring-amber-300"
-                  required
-                />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-          {fieldErrors.condition ? (
-            <p className="mt-2 text-sm font-medium text-red-600">
-              {fieldErrors.condition}
-            </p>
-          ) : null}
-        </fieldset>
-
-        {isQuote ? (
-          <>
-            <fieldset className="mt-5">
-              <legend className={QUOTE_FIELD_LABEL}>
-                When are you hoping to have the cleaning done? *
-              </legend>
-              <div className="mt-3 space-y-2">
-                {TIMING_OPTIONS.map((option, index) => (
-                  <label
-                    key={option}
-                    className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-stone-800"
-                  >
-                    <input
-                      id={index === 0 ? fieldDomId("timing") : undefined}
-                      type="radio"
-                      name="timing"
-                      value={option}
-                      checked={form.timing === option}
-                      onChange={() => update("timing", option)}
-                      className="h-4 w-4 border-stone-300 text-amber-500 focus:ring-amber-300"
-                      required
-                    />
-                    {option}
-                    {option === "Specific date" ? ":" : null}
-                  </label>
-                ))}
-                {form.timing === "Specific date" ? (
-                  <input
-                    id={fieldDomId("specificDate")}
-                    name="specificDate"
-                    type="date"
-                    value={form.specificDate}
-                    onChange={(e) => update("specificDate", e.target.value)}
-                    className={`${fieldErrors.specificDate ? inputErrorClass : inputClass} ml-6 max-w-xs`}
-                    aria-invalid={Boolean(fieldErrors.specificDate)}
-                    required
-                  />
-                ) : null}
-              </div>
-              {fieldErrors.timing ? (
-                <p className="mt-2 text-sm font-medium text-red-600">
-                  {fieldErrors.timing}
-                </p>
-              ) : null}
-              {fieldErrors.specificDate ? (
-                <p className="mt-2 text-sm font-medium text-red-600">
-                  {fieldErrors.specificDate}
-                </p>
-              ) : null}
-            </fieldset>
-
+        {stepId === "home" ? (
+          <div className="grid gap-4">
             <Field
-              label="Anything you'd like us to know? (optional)"
-              htmlFor={fieldDomId("notes")}
-              className="mt-5"
+              label="Approximate home size *"
+              htmlFor={fieldDomId("homeSize")}
+              error={fieldErrors.homeSize}
             >
-              <textarea
-                id={fieldDomId("notes")}
-                name="notes"
-                value={form.notes}
-                onChange={(e) => update("notes", e.target.value)}
-                rows={5}
-                className={`${inputClass} min-h-[120px] resize-y`}
-                placeholder="Tell us about any areas that need extra attention, pets, special requests, or anything else that may help us estimate your cleaning."
+              <input
+                id={fieldDomId("homeSize")}
+                name="homeSize"
+                type="number"
+                min={1}
+                inputMode="numeric"
+                value={form.homeSize}
+                onChange={(e) => update("homeSize", e.target.value)}
+                className={fieldErrors.homeSize ? inputErrorClass : inputClass}
+                placeholder="e.g. 1800"
+                aria-invalid={Boolean(fieldErrors.homeSize)}
+                required
               />
             </Field>
-          </>
+            <Field
+              label="Bedrooms *"
+              htmlFor={fieldDomId("bedrooms")}
+              error={fieldErrors.bedrooms}
+            >
+              <select
+                id={fieldDomId("bedrooms")}
+                name="bedrooms"
+                value={form.bedrooms}
+                onChange={(e) => update("bedrooms", e.target.value)}
+                className={
+                  fieldErrors.bedrooms ? selectErrorClass : selectClass
+                }
+                style={selectStyle}
+                aria-invalid={Boolean(fieldErrors.bedrooms)}
+                required
+              >
+                <option value="" disabled>
+                  Select bedrooms
+                </option>
+                {BEDROOM_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field
+              label="Bathrooms *"
+              htmlFor={fieldDomId("bathrooms")}
+              error={fieldErrors.bathrooms}
+            >
+              <select
+                id={fieldDomId("bathrooms")}
+                name="bathrooms"
+                value={form.bathrooms}
+                onChange={(e) => update("bathrooms", e.target.value)}
+                className={
+                  fieldErrors.bathrooms ? selectErrorClass : selectClass
+                }
+                style={selectStyle}
+                aria-invalid={Boolean(fieldErrors.bathrooms)}
+                required
+              >
+                <option value="" disabled>
+                  Select bathrooms
+                </option>
+                {BATHROOM_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          </div>
         ) : null}
-      </section>
 
-      <div className="mt-8 flex flex-col gap-3 border-t border-stone-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-2" aria-live="polite" id={statusId}>
-          {isQuote ? (
+        {stepId === "condition" ? (
+          <fieldset>
+            <legend className={QUOTE_FIELD_LABEL}>
+              How would you describe the current condition? *
+            </legend>
+            <div className="mt-3 space-y-2">
+              {CONDITION_OPTIONS.map((option, index) => (
+                <label
+                  key={option}
+                  className="flex min-h-11 cursor-pointer items-start gap-2 text-sm text-stone-800"
+                >
+                  <input
+                    id={index === 0 ? fieldDomId("condition") : undefined}
+                    type="radio"
+                    name="condition"
+                    value={option}
+                    checked={form.condition === option}
+                    onChange={() => update("condition", option)}
+                    className="mt-0.5 h-4 w-4 shrink-0 border-stone-300 text-amber-500 focus:ring-amber-300"
+                    required
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+            {fieldErrors.condition ? (
+              <p className="mt-2 text-sm font-medium text-red-600">
+                {fieldErrors.condition}
+              </p>
+            ) : null}
+          </fieldset>
+        ) : null}
+
+        {stepId === "timing" ? (
+          <fieldset>
+            <legend className={QUOTE_FIELD_LABEL}>
+              When are you hoping to have the cleaning done? *
+            </legend>
+            <div className="mt-3 space-y-2">
+              {TIMING_OPTIONS.map((option, index) => (
+                <label
+                  key={option}
+                  className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-stone-800"
+                >
+                  <input
+                    id={index === 0 ? fieldDomId("timing") : undefined}
+                    type="radio"
+                    name="timing"
+                    value={option}
+                    checked={form.timing === option}
+                    onChange={() => update("timing", option)}
+                    className="h-4 w-4 border-stone-300 text-amber-500 focus:ring-amber-300"
+                    required
+                  />
+                  {option}
+                  {option === "Specific date" ? ":" : null}
+                </label>
+              ))}
+              {form.timing === "Specific date" ? (
+                <input
+                  id={fieldDomId("specificDate")}
+                  name="specificDate"
+                  type="date"
+                  value={form.specificDate}
+                  onChange={(e) => update("specificDate", e.target.value)}
+                  className={`${fieldErrors.specificDate ? inputErrorClass : inputClass} max-w-xs`}
+                  aria-invalid={Boolean(fieldErrors.specificDate)}
+                  required
+                />
+              ) : null}
+            </div>
+            {fieldErrors.timing ? (
+              <p className="mt-2 text-sm font-medium text-red-600">
+                {fieldErrors.timing}
+              </p>
+            ) : null}
+            {fieldErrors.specificDate ? (
+              <p className="mt-2 text-sm font-medium text-red-600">
+                {fieldErrors.specificDate}
+              </p>
+            ) : null}
+          </fieldset>
+        ) : null}
+
+        {stepId === "notes" ? (
+          <Field
+            label="Anything you'd like us to know? (optional)"
+            htmlFor={fieldDomId("notes")}
+          >
+            <textarea
+              id={fieldDomId("notes")}
+              name="notes"
+              value={form.notes}
+              onChange={(e) => update("notes", e.target.value)}
+              rows={5}
+              className={`${inputClass} min-h-[120px] resize-y`}
+              placeholder="Tell us about any areas that need extra attention, pets, special requests, or anything else that may help us estimate your cleaning."
+            />
+          </Field>
+        ) : null}
+      </div>
+
+      <div className="mt-8 space-y-3 border-t border-stone-100 pt-6">
+        <div aria-live="polite" id={statusId}>
+          {stepIndex === lastStep ? (
             <p className="text-xs leading-relaxed text-stone-500">
-              We&apos;ll review your details and get back to you within 1-2
-              business hours.
+              {isQuote
+                ? "We'll review your details and get back to you within 1-2 business hours."
+                : "Next you'll choose an available cleaning time. We'll confirm your final price before cleaning begins."}
             </p>
-          ) : (
-            <p className="text-xs leading-relaxed text-stone-500">
-              Next you&apos;ll choose an available cleaning time. We&apos;ll
-              confirm your final price before cleaning begins.
-            </p>
-          )}
+          ) : null}
           {submitError ? (
             <p className="text-sm font-medium text-red-600">{submitError}</p>
           ) : null}
         </div>
 
-        <button
-          type="submit"
-          disabled={!canAttemptSubmit}
-          aria-describedby={statusId}
-          className={`${BTN_PRIMARY} disabled:cursor-not-allowed disabled:opacity-50`}
-        >
-          {isSubmitting
-            ? isQuote
-              ? "Sending…"
-              : "Loading available times…"
-            : isQuote
-              ? "Submit quote request"
-              : "See Available Times →"}
-        </button>
+        <div className="flex flex-col gap-3 sm:flex-row-reverse sm:items-center">
+          <button
+            type="submit"
+            disabled={!canAttemptSubmit}
+            aria-describedby={statusId}
+            className={`${BTN_PRIMARY} w-full disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-[12rem]`}
+          >
+            {isSubmitting
+              ? isQuote
+                ? "Sending…"
+                : "Loading available times…"
+              : stepIndex === lastStep
+                ? isQuote
+                  ? "Submit quote request"
+                  : "See Available Times →"
+                : stepId === "notes"
+                  ? "Continue"
+                  : "Continue"}
+          </button>
+          {stepIndex > 0 ? (
+            <button
+              type="button"
+              onClick={() => goToStep(stepIndex - 1)}
+              disabled={isSubmitting}
+              className={`${BTN_SECONDARY} w-full sm:w-auto`}
+            >
+              Back
+            </button>
+          ) : null}
+        </div>
       </div>
     </form>
   );

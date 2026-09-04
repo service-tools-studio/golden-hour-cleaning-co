@@ -220,6 +220,138 @@ export function firstErrorField(
   return null;
 }
 
+/** Step-through flow used on /book-online. */
+export const BOOKING_FORM_STEPS = [
+  {
+    id: "name",
+    title: "Your name",
+    fields: ["firstName", "lastName"],
+  },
+  {
+    id: "contact",
+    title: "Contact details",
+    fields: ["mobilePhone", "email"],
+  },
+  {
+    id: "address",
+    title: "Service address",
+    fields: ["address"],
+  },
+  {
+    id: "service",
+    title: "Cleaning type",
+    fields: ["cleaningType"],
+  },
+  {
+    id: "home",
+    title: "About your home",
+    fields: ["homeSize", "bedrooms", "bathrooms"],
+  },
+  {
+    id: "condition",
+    title: "Home condition",
+    fields: ["condition"],
+  },
+] as const;
+
+/** Step-through flow used on /request-a-quote. */
+export const QUOTE_FORM_STEPS = [
+  {
+    id: "name",
+    title: "Your name",
+    fields: ["firstName", "lastName"],
+  },
+  {
+    id: "contact",
+    title: "Contact details",
+    fields: ["mobilePhone", "email"],
+  },
+  {
+    id: "preference",
+    title: "Contact preference",
+    fields: ["contactPreference"],
+  },
+  {
+    id: "service",
+    title: "Cleaning type",
+    fields: ["cleaningType"],
+  },
+  {
+    id: "home",
+    title: "About your home",
+    fields: ["homeSize", "bedrooms", "bathrooms"],
+  },
+  {
+    id: "condition",
+    title: "Home condition",
+    fields: ["condition"],
+  },
+  {
+    id: "timing",
+    title: "Preferred timing",
+    fields: ["timing", "specificDate"],
+  },
+  {
+    id: "notes",
+    title: "Anything else?",
+    fields: ["notes"],
+  },
+] as const;
+
+export function getLeadFormSteps(mode: CleaningLeadMode) {
+  return mode === "quote" ? QUOTE_FORM_STEPS : BOOKING_FORM_STEPS;
+}
+
+export function validateCleaningLeadStep(
+  form: CleaningLeadFormState,
+  mode: CleaningLeadMode,
+  stepIndex: number,
+): FieldErrors {
+  const steps = getLeadFormSteps(mode);
+  const step = steps[stepIndex];
+  if (!step) return {};
+  const all = validateCleaningLeadForm(form, mode);
+  const errors: FieldErrors = {};
+  for (const key of step.fields) {
+    if (all[key as keyof CleaningLeadFormState]) {
+      errors[key as keyof CleaningLeadFormState] =
+        all[key as keyof CleaningLeadFormState];
+    }
+  }
+  return errors;
+}
+
+export function firstStepErrorField(
+  errors: FieldErrors,
+  mode: CleaningLeadMode,
+  stepIndex: number,
+): keyof CleaningLeadFormState | null {
+  const steps = getLeadFormSteps(mode);
+  const step = steps[stepIndex];
+  if (!step) return null;
+  for (const key of step.fields) {
+    const field = key as keyof CleaningLeadFormState;
+    if (errors[field]) return field;
+  }
+  return null;
+}
+
+/** @deprecated Prefer validateCleaningLeadStep */
+export function validateCleaningLeadBookingStep(
+  form: CleaningLeadFormState,
+  stepIndex: number,
+): FieldErrors {
+  return validateCleaningLeadStep(form, "booking", stepIndex);
+}
+
+/** @deprecated Prefer firstStepErrorField */
+export function firstBookingStepErrorField(
+  errors: FieldErrors,
+  stepIndex: number,
+): keyof CleaningLeadFormState | null {
+  return firstStepErrorField(errors, "booking", stepIndex);
+}
+
 export function fieldDomId(key: keyof CleaningLeadFormState): string {
   return `cl-${key}`;
 }
