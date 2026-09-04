@@ -1,10 +1,19 @@
-import { BadgeCheck, Award, ShieldCheck, Stars } from 'lucide-react';
-import { scrollToId } from '../../helpers/scrollToId';
-import { BTN_PRIMARY_RESPONSIVE, HEADING_UPPER } from '../../helpers/typography.js';
-import { Badge } from '../../helpers/ui-elements.jsx';
-import Image from 'next/image';
+"use client";
+
+import { BadgeCheck, Award, ShieldCheck, Stars } from "lucide-react";
+import { scrollToId } from "../../helpers/scrollToId";
+import { useGooglePlaceSummary } from "../../helpers/useGooglePlaceSummary";
+import {
+  BTN_PRIMARY_RESPONSIVE,
+  HEADING_UPPER,
+} from "../../helpers/typography.js";
+import { Badge } from "../../helpers/ui-elements.jsx";
+import Image from "next/image";
 
 export default function Hero() {
+  const { rating } = useGooglePlaceSummary();
+  const googleRatingLabel = `★★★★★ ${(rating ?? 5).toFixed(1)} Google Rating`;
+
   return (
     <section
       id="hero"
@@ -24,8 +33,11 @@ export default function Hero() {
 
         <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
           <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
-            <h1 className={`text-center text-xl sm:text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}>
-              Professional house cleaners with high standards, intentional care & consistent results.
+            <h1
+              className={`text-center text-xl sm:text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}
+            >
+              Professional house cleaners with high standards, intentional care
+              & consistent results.
             </h1>
 
             <p className="mt-3 text-center text-stone-700 lg:text-base">
@@ -39,7 +51,7 @@ export default function Hero() {
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToId('#quote', 8);
+                  scrollToId("#quote", 8);
                 }}
                 className={`${BTN_PRIMARY_RESPONSIVE} w-full sm:flex-1`}
               >
@@ -52,7 +64,7 @@ export default function Hero() {
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToId('#services', 8);
+                  scrollToId("#services", 8);
                 }}
                 className="text-sm text-stone-600 underline underline-offset-4 hover:text-stone-900"
               >
@@ -66,8 +78,8 @@ export default function Hero() {
               <Badge icon={<Award />} label="Satisfaction Guarantee" />
               <Badge
                 icon={<Stars />}
-                label="★★★★★ 5.0 Google Rating"
-                onClick={() => scrollToId('#reviews', 8)}
+                label={googleRatingLabel}
+                onClick={() => scrollToId("#reviews", 8)}
               />
             </div>
           </div>
