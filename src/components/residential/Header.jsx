@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CONTACT } from "../../constants.js";
 import HeaderNav from "./HeaderNav.jsx";
 
@@ -23,6 +24,7 @@ const phoneAnnouncement = "Questions? Call or Text us: (503) 893-4795";
 
 export default function Header() {
   const headerRef = useRef(null);
+  const pathname = usePathname();
 
   useLayoutEffect(() => {
     const el = headerRef.current;
@@ -127,7 +129,19 @@ export default function Header() {
 
       {/* Logo + nav — same static sizing as ServicesPageHeader */}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:py-5">
-        <Link href="/" aria-label="Go to homepage" className="inline-block shrink-0">
+        <Link
+          href="/"
+          aria-label="Go to homepage"
+          className="inline-block shrink-0"
+          onClick={(e) => {
+            if (pathname !== "/" && pathname !== "/residential") return;
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            document
+              .getElementById("page-top")
+              ?.scrollIntoView({ block: "start", behavior: "smooth" });
+          }}
+        >
           <Image
             src="/assets/Golden Hour - commercial.png"
             alt="Golden Hour Cleaning Co."
