@@ -67,6 +67,7 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   const [submittedSnapshot, setSubmittedSnapshot] =
     useState<CleaningLeadFormState | null>(null);
   const formLoadedAtRef = useRef(Date.now());
+  const formCardRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -88,6 +89,27 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   }, [isQuote, submitSuccess]);
 
   const canAttemptSubmit = useMemo(() => !isSubmitting, [isSubmitting]);
+
+  function scrollWizardBelowHeader() {
+    const el = formCardRef.current;
+    if (!el) return;
+
+    const headerHeight =
+      Number.parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--header-height",
+        ),
+        10,
+      ) || 100;
+    const gapBelowHeader = 12;
+    const targetTop =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      gapBelowHeader;
+
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+  }
 
   function update<K extends keyof CleaningLeadFormState>(
     key: K,
@@ -145,6 +167,9 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     setFieldErrors({});
     setSubmitError(null);
     setStepIndex(next);
+    window.requestAnimationFrame(() => {
+      scrollWizardBelowHeader();
+    });
   }
 
   function advanceStep() {
@@ -296,6 +321,7 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
 
   return (
     <form
+      ref={formCardRef}
       onSubmit={onSubmit}
       className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
       noValidate
