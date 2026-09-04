@@ -15,6 +15,7 @@ import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
 import { scrollToId } from "@/helpers/scrollToId";
+import { hasIntentionalHash } from "@/components/ScrollToTopOnNavigate";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
@@ -32,10 +33,10 @@ export default function MarketingLandingClient({ pagePath }: Props) {
   const searchParams = useSearchParams();
   const urlLevel = levelFromUrl(searchParams.get("level"));
 
-  // Home/residential landings are client-mounted; force top unless a hash targets a section.
+  // Cold opens (email signature, in-app browsers) often restore a mid-page scroll.
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.location.hash) return;
+    if (hasIntentionalHash()) return;
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -45,8 +46,19 @@ export default function MarketingLandingClient({ pagePath }: Props) {
     if (typeof window === "undefined") return;
     if (window.location.hash === "#quote") {
       scrollToId("#quote", 8, { focus: true });
+      return;
     }
-  }, [urlLevel]);
+    if (hasIntentionalHash()) return;
+
+    const toTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    toTop();
+    const t = window.setTimeout(toTop, 100);
+    return () => window.clearTimeout(t);
+  }, [urlLevel, pagePath]);
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">

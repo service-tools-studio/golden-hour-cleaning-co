@@ -28,6 +28,12 @@ export default function RootLayout({
       className={josefinSans.variable}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}",
+          }}
+        />
         {/* Google tag (gtag.js) — Google Ads */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17703846603"

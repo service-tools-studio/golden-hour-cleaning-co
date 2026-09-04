@@ -9,9 +9,18 @@ function scrollWindowToTop() {
   document.body.scrollTop = 0;
 }
 
+/** Only real in-page anchors should keep scroll; ignore bare `#` / junk from email trackers. */
+export function hasIntentionalHash() {
+  const hash = window.location.hash;
+  if (!hash || hash === "#") return false;
+  const id = decodeURIComponent(hash.slice(1));
+  if (!id) return false;
+  return Boolean(document.getElementById(id));
+}
+
 /**
- * Next.js soft navigations can keep the previous scroll position on mobile,
- * especially with client-only pages (home) that mount after the route change.
+ * Soft navigations and cold opens (e.g. email signature links) can leave the
+ * page mid-scroll. Force top unless a real section hash is present.
  */
 export default function ScrollToTopOnNavigate() {
   const pathname = usePathname();
@@ -21,19 +30,26 @@ export default function ScrollToTopOnNavigate() {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted && !hasIntentionalHash()) {
+        scrollWindowToTop();
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.location.hash) return;
+    if (hasIntentionalHash()) return;
 
     scrollWindowToTop();
 
-    // Client-only routes (e.g. home) mount after navigation; retry once layout settles.
     const raf = window.requestAnimationFrame(scrollWindowToTop);
     const t0 = window.setTimeout(scrollWindowToTop, 0);
     const t1 = window.setTimeout(scrollWindowToTop, 50);
-    const t2 = window.setTimeout(scrollWindowToTop, 200);
+    const t2 = window.setTimeout(scrollWindowToTop, 250);
 
     return () => {
       window.cancelAnimationFrame(raf);
