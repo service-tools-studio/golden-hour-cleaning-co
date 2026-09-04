@@ -60,9 +60,7 @@ export default function RootLayout({
         <ScrollToTopOnNavigate />
         <CalendlyClickTracker />
         <ClickToCallTracker />
-        <div id="page-top" className="min-h-screen">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

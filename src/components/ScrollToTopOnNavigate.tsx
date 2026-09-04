@@ -3,35 +3,38 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-/** Reset every likely scrollport — iOS Chrome often isn't on `window`. */
+/** Reset every scrollport — iOS Chrome often scrolls an inner element, not `window`. */
 export function scrollWindowToTop() {
   if (typeof window === "undefined") return;
 
-  const zero = (el: Element | null | undefined) => {
+  const zeroEl = (el: Element | null | undefined) => {
     if (!el || !(el instanceof HTMLElement)) return;
     if (el.scrollTop) el.scrollTop = 0;
     if (el.scrollLeft) el.scrollLeft = 0;
   };
 
-  // Nudge first — some iOS Chrome builds ignore a no-op scrollTo(0) when
-  // the visual viewport is offset but window.scrollY is already 0.
   window.scrollTo(0, 1);
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  zero(document.scrollingElement);
-  zero(document.documentElement);
-  zero(document.body);
+  zeroEl(document.scrollingElement);
+  zeroEl(document.documentElement);
+  zeroEl(document.body);
 
-  document.querySelectorAll("div, main, section, aside").forEach((el) => {
-    if (el.scrollTop > 0) zero(el);
+  document.querySelectorAll("*").forEach((el) => {
+    if (el instanceof HTMLElement && el.scrollTop > 0) zeroEl(el);
   });
 
   const vv = window.visualViewport;
   if (vv && vv.offsetTop > 0) {
-    window.scrollTo({ top: Math.max(0, window.scrollY + vv.offsetTop), behavior: "auto" });
+    window.scrollTo({
+      top: Math.max(0, window.scrollY + vv.offsetTop),
+      behavior: "auto",
+    });
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
 
-  document.getElementById("page-top")?.scrollIntoView({ block: "start", behavior: "auto" });
+  document
+    .getElementById("page-top")
+    ?.scrollIntoView({ block: "start", behavior: "auto" });
 }
 
 const KNOWN_SECTION_IDS = new Set([
@@ -41,7 +44,6 @@ const KNOWN_SECTION_IDS = new Set([
   "quote",
   "content",
   "pricing",
-  "page-top",
 ]);
 
 /** Only real in-page anchors should keep scroll; ignore bare `#`, text fragments, trackers. */
