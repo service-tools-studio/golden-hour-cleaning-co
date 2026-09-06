@@ -138,7 +138,7 @@ export default function SatisfactionGuaranteeContent() {
           Ready for a fresh start?
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Link href="/residential/services#services" className={BTN_PRIMARY}>
+          <Link href="/residential/services" className={BTN_PRIMARY}>
             {SEE_PRICING_BOOK_LABEL}
           </Link>
           <Link href="/book-online" className={BTN_SECONDARY}>

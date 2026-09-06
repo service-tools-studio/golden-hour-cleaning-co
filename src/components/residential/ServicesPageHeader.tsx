@@ -48,7 +48,7 @@ export default function ServicesPageHeader({
       className="sticky top-0 z-[100000] w-full border-b border-amber-200 bg-brand"
       data-site-header
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:py-5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
         <div className="shrink-0">
           <Link href="/" aria-label="Go to homepage" className="inline-block shrink-0">
             <Image
@@ -57,8 +57,8 @@ export default function ServicesPageHeader({
               width={200}
               height={100}
               priority
-              className="h-14 w-auto max-w-none object-contain sm:h-16 md:h-20"
-              sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 240px"
+              className="h-12 w-auto max-w-none object-contain sm:h-14 md:h-16"
+              sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 200px"
             />
           </Link>
           {showBack && backHref ? (

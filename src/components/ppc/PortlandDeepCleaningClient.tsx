@@ -5,22 +5,27 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   BadgeCheck,
+  Award,
   CalendarDays,
   Home,
   MapPin,
+  Phone,
   ShieldCheck,
   Stars,
 } from "lucide-react";
-import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
-import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
+import CleaningLeadForm from "@/components/residential/CleaningLeadForm";
 import Footer from "@/components/residential/Footer";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import DeepCleanChecklist from "@/components/residential/DeepCleanChecklist";
+import { ServicePricingCards } from "@/components/residential/ResidentialPricingGuide";
+import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
+import { CONTACT } from "@/constants.js";
+import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import { scrollToId } from "@/helpers/scrollToId";
-import { CONTACT } from "@/constants.js";
 import {
   BTN_PRIMARY,
+  BTN_SECONDARY,
   HEADING_UPPER,
 } from "@/helpers/typography.js";
 import {
@@ -31,7 +36,7 @@ import {
   Section,
 } from "@/components/residential/servicePageParts";
 import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
-import { capturePpcAttribution, type PpcAttribution } from "@/helpers/ppcAttribution";
+import { capturePpcAttribution } from "@/helpers/ppcAttribution";
 import {
   PPC_DEEP_CLEAN_EVENTS,
   trackPpcDeepCleanEvent,
@@ -47,25 +52,25 @@ const TRUST_VALUES = [
   {
     icon: BadgeCheck,
     title: "Your Price Before We Begin",
-    desc: "See your estimated range online. We'll confirm your final price during a quick walkthrough before cleaning starts.",
+    desc: "See starting prices below, then request a personalized quote. We'll confirm your final price during a quick walkthrough before cleaning starts.",
   },
   {
     icon: CalendarDays,
-    title: "Book Entirely Online",
-    desc: "See your estimate, choose an available time, and reserve your cleaning without waiting for calls or quotes.",
+    title: "Reserve When You're Ready",
+    desc: "After you submit your quote request, you can reserve an available cleaning time online — or reserve your deep clean anytime.",
   },
 ];
 
 const PROCESS_STEPS = [
   {
     step: "01",
-    title: "Request a personalized quote",
-    desc: "Tell us about your Portland home and see your personalized deep-clean range in about 30 seconds.",
+    title: "See pricing & request a quote",
+    desc: "Review deep clean starting prices, then tell us about your Portland home for a personalized estimate.",
   },
   {
     step: "02",
-    title: "Choose a cleaning time",
-    desc: "Book a time that works for you. We'll confirm your final price during the walkthrough before we begin.",
+    title: "Reserve your cleaning",
+    desc: "Once your request is in, you can reserve an available time right away. We'll still confirm your final price before we begin.",
   },
   {
     step: "03",
@@ -79,7 +84,7 @@ const FAQS = [
   {
     question: "How much does deep cleaning cost in Portland?",
     answer:
-      "You can request a personalized quote based on your home's size, bathrooms, and any add-ons you select. For a typical Portland home, you'll see a range rather than a single number because condition affects the work required. We confirm your final price after a walkthrough, before cleaning begins.",
+      "You can review starting prices by home size on this page, then request a personalized quote based on bathrooms and any add-ons. For a typical Portland home, you'll see a range rather than a single number because condition affects the work required. We confirm your final price after a walkthrough, before cleaning begins.",
   },
   {
     question: "Why is my quote shown as a range?",
@@ -90,6 +95,11 @@ const FAQS = [
     question: "When is my final price confirmed?",
     answer:
       "We assess the home during your walkthrough and confirm the final price before cleaning begins. You'll know the exact amount before we start.",
+  },
+  {
+    question: "Can I reserve a cleaning before I get my estimate?",
+    answer:
+      "Yes. You can reserve your deep clean anytime, and after you submit a personalized quote request you'll also see an option to pick an available time. We'll still confirm your final price with you before cleaning begins.",
   },
   {
     question: "Do you bring supplies?",
@@ -118,7 +128,6 @@ const FAQS = [
   },
 ];
 
-
 export default function PortlandDeepCleaningClient({
   initialRating = null,
   initialReviewCount = null,
@@ -126,10 +135,8 @@ export default function PortlandDeepCleaningClient({
   initialRating?: number | null;
   initialReviewCount?: number | null;
 }) {
-  const [attribution, setAttribution] = useState<PpcAttribution>({});
   const viewedRef = useRef(false);
-  const [quoteInView, setQuoteInView] = useState(false);
-  const updateQuoteVisibilityRef = useRef(() => {});
+  const [quoteSubmitted, setQuoteSubmitted] = useState(false);
   const { rating, reviewCount } = useGooglePlaceSummary({
     rating: initialRating,
     reviewCount: initialReviewCount,
@@ -137,65 +144,26 @@ export default function PortlandDeepCleaningClient({
 
   useEffect(() => {
     const attrs = capturePpcAttribution();
-    setAttribution(attrs);
     if (viewedRef.current) return;
     viewedRef.current = true;
     trackPpcDeepCleanEvent(PPC_DEEP_CLEAN_EVENTS.landingView, undefined, attrs);
   }, []);
 
-  useEffect(() => {
-    const updateQuoteVisibility = () => {
-      const section = document.getElementById("quote");
-      if (!section) {
-        setQuoteInView(false);
-        return;
-      }
-
-      const rect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || 0;
-      const headerOffset = 88;
-      setQuoteInView(rect.top < viewportHeight && rect.bottom > headerOffset);
-    };
-
-    updateQuoteVisibilityRef.current = updateQuoteVisibility;
-    updateQuoteVisibility();
-    window.addEventListener("scroll", updateQuoteVisibility, { passive: true });
-    window.addEventListener("resize", updateQuoteVisibility);
-    document.addEventListener("scroll", updateQuoteVisibility, {
-      passive: true,
-      capture: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", updateQuoteVisibility);
-      window.removeEventListener("resize", updateQuoteVisibility);
-      document.removeEventListener("scroll", updateQuoteVisibility, true);
-    };
-  }, []);
-
-  function scrollToQuote() {
+  function scrollToPricing() {
     scrollToId("#quote", 8, { focus: true });
-    window.setTimeout(() => updateQuoteVisibilityRef.current(), 200);
-    window.setTimeout(() => updateQuoteVisibilityRef.current(), 700);
+  }
+
+  function scrollToRequestQuote() {
+    scrollToId("#request-quote", 8, { focus: true });
+  }
+
+  function scrollToWhatsIncluded() {
+    scrollToId("#whats-included", 8, { focus: true });
   }
 
   return (
-    <div className="min-h-screen bg-amber-50 pb-20 text-stone-900 md:pb-0">
-      <header className="sticky top-0 z-[100001] w-full border-b border-amber-200 bg-[#a7eff1]">
-        <div className="mx-auto flex max-w-7xl items-center px-4 py-3 sm:px-6">
-          <a href="/" aria-label="Go to homepage">
-            <Image
-              src="/assets/Golden Hour - commercial.png"
-              alt="Golden Hour Cleaning Co."
-              width={200}
-              height={100}
-              priority
-              className="h-16 w-auto sm:h-20"
-              sizes="(max-width: 640px) 160px, 200px"
-            />
-          </a>
-        </div>
-      </header>
+    <div className="min-h-screen bg-amber-50 text-stone-900">
+      <ServicesPageHeader />
 
       <main>
         <section
@@ -214,17 +182,40 @@ export default function PortlandDeepCleaningClient({
                 home from top to bottom.
               </p>
               <p className="mt-3 text-center text-sm leading-relaxed text-stone-600 md:text-left md:text-base">
-                Get your price and book your cleaning online in seconds—no calls
-                or back-and-forth required.
+                See starting prices online, request a personalized quote, or
+                call if you&apos;d rather talk it through. When you&apos;re
+                ready, you can reserve your deep clean online.
               </p>
-              <div className="mt-6 flex justify-center">
-                <button type="button" onClick={scrollToQuote} className={`${BTN_PRIMARY} w-full sm:w-auto`}>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:justify-start">
+                <a
+                  href={`tel:${CONTACT.phone}`}
+                  className={`${BTN_PRIMARY} w-full gap-2 sm:w-auto`}
+                  aria-label="Call us at (503) 893-4795"
+                  data-call-source="ppc_deep_clean_hero_call"
+                >
+                  <Phone className="h-4 w-4 shrink-0" aria-hidden />
+                  Call (503) 893-4795
+                </a>
+                <button
+                  type="button"
+                  onClick={scrollToPricing}
+                  className={`${BTN_SECONDARY} w-full sm:w-auto`}
+                >
                   {SEE_PRICING_BOOK_LABEL}
                 </button>
               </div>
+              <p className="mt-3 text-center text-sm text-stone-600 md:text-left">
+                Prefer to book online?{" "}
+                <Link
+                  href="/book-online"
+                  className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+                >
+                  Reserve your deep clean →
+                </Link>
+              </p>
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-stone-700">
                 <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
-                <Badge icon={<BadgeCheck />} label="Background-Checked" />
+                <Badge icon={<Award />} label="Satisfaction Guarantee" />
                 <Badge icon={<Home />} label="Women-Owned & Local" />
                 <button
                   type="button"
@@ -239,7 +230,8 @@ export default function PortlandDeepCleaningClient({
                       <>
                         ★★★★★ {(rating ?? 5).toFixed(1)} on Google
                         <span className="mt-0.5 block text-[12px] text-stone-600">
-                          {reviewCount} {reviewCount === 1 ? "review" : "reviews"}
+                          {reviewCount}{" "}
+                          {reviewCount === 1 ? "review" : "reviews"}
                         </span>
                       </>
                     ) : (
@@ -270,7 +262,9 @@ export default function PortlandDeepCleaningClient({
                 className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm"
               >
                 <Icon className="h-5 w-5 text-stone-800" aria-hidden />
-                <p className={`mt-3 text-sm font-semibold text-stone-900 ${HEADING_UPPER}`}>
+                <p
+                  className={`mt-3 text-sm font-semibold text-stone-900 ${HEADING_UPPER}`}
+                >
                   {title}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-stone-600">
@@ -280,6 +274,8 @@ export default function PortlandDeepCleaningClient({
             ))}
           </ul>
         </section>
+
+        <GoogleReviews />
 
         <section
           className="border-t border-amber-200/60 bg-white py-10"
@@ -321,16 +317,90 @@ export default function PortlandDeepCleaningClient({
 
         <section
           id="quote"
-          className="scroll-mt-[var(--header-height,88px)] bg-amber-50 px-4 pb-12 pt-10 md:pb-16 md:pt-12"
+          tabIndex={-1}
+          className="scroll-mt-[var(--header-height,100px)] bg-amber-50 px-4 pb-12 pt-10 outline-none md:pb-16 md:pt-12"
         >
-          <ResidentialPricingGuide />
+          <div className="mx-auto max-w-5xl">
+            <header className="mx-auto max-w-2xl text-center">
+              <h2
+                className={`text-2xl leading-tight text-stone-900 md:text-3xl ${HEADING_UPPER}`}
+              >
+                Deep Cleaning Pricing
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-stone-600 md:text-lg">
+                Starting rates by home size. Need a tailored number? Request a
+                personalized quote below — then reserve when you&apos;re ready.
+              </p>
+            </header>
+
+            <ServicePricingCards
+              serviceSlug="deep"
+              className="mt-10"
+              learnMoreLabel="See more details"
+              onLearnMore={scrollToWhatsIncluded}
+              onRequestQuote={scrollToRequestQuote}
+            />
+
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                onClick={scrollToRequestQuote}
+                className={`${BTN_PRIMARY} w-full sm:w-auto`}
+              >
+                Request a Personalized Quote
+              </button>
+              <Link
+                href="/book-online"
+                className={`${BTN_SECONDARY} w-full sm:w-auto`}
+              >
+                Reserve Your Deep Clean
+              </Link>
+            </div>
+            <p className="mt-4 text-center text-sm text-stone-600">
+              Or call{" "}
+              <a
+                href={`tel:${CONTACT.phone}`}
+                data-call-source="ppc_deep_clean_pricing_call"
+                className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+              >
+                (503) 893-4795
+              </a>{" "}
+              to talk through your home.
+            </p>
+          </div>
+
+          <div
+            id="request-quote"
+            tabIndex={-1}
+            className="mx-auto mt-14 max-w-3xl scroll-mt-[var(--header-height,100px)] outline-none"
+          >
+            {!quoteSubmitted ? (
+              <header className="text-center">
+                <h2
+                  className={`text-2xl leading-tight text-stone-900 md:text-3xl ${HEADING_UPPER}`}
+                >
+                  Request a personalized quote
+                </h2>
+                <p className="mt-3 text-base leading-relaxed text-stone-600 md:text-lg">
+                  Share a few details about your Portland home and we&apos;ll
+                  help you find the right deep clean and price. After you
+                  submit, you can reserve an available cleaning time online.
+                </p>
+              </header>
+            ) : null}
+
+            <div className={quoteSubmitted ? undefined : "mt-10"}>
+              <CleaningLeadForm
+                mode="quote"
+                initialCleaningType="Deep Cleaning"
+                onSuccess={() => setQuoteSubmitted(true)}
+              />
+            </div>
+          </div>
         </section>
 
         <article className="mx-auto max-w-3xl px-6 pt-6 pb-12 md:pt-8 md:pb-16">
-          <Section
-            id="whats-included"
-            title="What's Included in a Deep Clean"
-          >
+          <Section id="whats-included" title="What's Included in a Deep Clean">
             <DeepCleanChecklist />
           </Section>
 
@@ -350,10 +420,10 @@ export default function PortlandDeepCleaningClient({
           </Section>
         </article>
 
-        <GoogleReviews />
-
         <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-          <h2 className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}>
+          <h2
+            className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}
+          >
             How Deep Cleaning Works
           </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -375,11 +445,16 @@ export default function PortlandDeepCleaningClient({
         </section>
 
         <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-          <h2 className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}>
+          <h2
+            className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}
+          >
             Portland Service Area
           </h2>
           <p className="mt-3 flex items-start gap-2 text-base leading-relaxed text-stone-700">
-            <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-stone-800" aria-hidden />
+            <MapPin
+              className="mt-0.5 h-5 w-5 shrink-0 text-stone-800"
+              aria-hidden
+            />
             Golden Hour Cleaning Co. provides deep house cleaning throughout
             Portland and nearby communities.
           </p>
@@ -393,6 +468,15 @@ export default function PortlandDeepCleaningClient({
               </span>
             ))}
           </div>
+          <p className="mt-6 text-sm text-stone-600">
+            Comparing options?{" "}
+            <Link
+              href="/residential/services"
+              className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+            >
+              See all residential cleaning services →
+            </Link>
+          </p>
         </section>
 
         <section className="mx-auto max-w-3xl px-4 py-12 md:px-6">
@@ -407,27 +491,37 @@ export default function PortlandDeepCleaningClient({
               ))}
             </div>
           </Section>
-          <div className="mt-10 text-center">
-            <button type="button" onClick={scrollToQuote} className={BTN_PRIMARY}>
+          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a
+              href={`tel:${CONTACT.phone}`}
+              className={`${BTN_PRIMARY} w-full gap-2 sm:w-auto`}
+              aria-label="Call us at (503) 893-4795"
+              data-call-source="ppc_deep_clean_faq_call"
+            >
+              <Phone className="h-4 w-4 shrink-0" aria-hidden />
+              Call (503) 893-4795
+            </a>
+            <button
+              type="button"
+              onClick={scrollToPricing}
+              className={`${BTN_SECONDARY} w-full sm:w-auto`}
+            >
               {SEE_PRICING_BOOK_LABEL}
             </button>
           </div>
+          <p className="mt-3 text-center text-sm text-stone-600">
+            Ready to schedule?{" "}
+            <Link
+              href="/book-online"
+              className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+            >
+              Reserve your deep clean →
+            </Link>
+          </p>
         </section>
 
         <Footer />
       </main>
-
-      {!quoteInView && (
-        <div className="fixed inset-x-0 bottom-0 z-[100000] border-t border-amber-200 bg-amber-50/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm md:hidden">
-          <button
-            type="button"
-            onClick={scrollToQuote}
-            className={`${BTN_PRIMARY} w-full`}
-          >
-            {SEE_PRICING_BOOK_LABEL}
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -29,9 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (slug === "deep") {
     return {
-      title: "Deep House Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
+      title:
+        "Deep House Cleaning in Portland | What's Included & Pricing",
       description:
-        "Thorough deep cleaning in Portland and the metro area. Top-to-bottom reset for homes that need more than routine upkeep. Request a personalized quote online.",
+        "What's included in a deep house cleaning in Portland and the metro area, plus typical starting prices. Compare residential services and request a quote when you're ready.",
     };
   }
 

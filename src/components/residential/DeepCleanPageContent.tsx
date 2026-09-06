@@ -26,8 +26,8 @@ export default function DeepCleanPageContent({
       <ServiceDetailHero
         serviceSlug="deep"
         tagline="Full-home reset"
-        title="Deep House Cleaning Services in Portland, OR"
-        intro="Our deep cleaning service is perfect when your home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new."
+        title="Deep House Cleaning in Portland: What's Included & Pricing"
+        intro="Our deep cleaning service is perfect when your home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new. Explore what's included and typical pricing below — or get started with a quote when you're ready."
         imageSrc="/assets/careful-cleaner.png"
         imageAlt="Golden Hour cleaner smiling while holding supplies in a bright kitchen"
         includedItems={service.items}
@@ -51,11 +51,21 @@ export default function DeepCleanPageContent({
           heavy buildup requires it.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Request a personalized quote and book your cleaning directly on our
-          website—no phone call required. We&apos;ll confirm your final price
-          after a quick walkthrough.
+          Request a personalized quote and book your cleaning online, or call
+          if you&apos;d rather talk it through. We&apos;ll confirm your final
+          price after a quick walkthrough.
         </p>
       </Section>
+
+      <p className="mt-6 rounded-2xl border border-amber-200 bg-white px-4 py-3 text-sm leading-relaxed text-stone-700 shadow-sm">
+        Looking to get started in Portland?{" "}
+        <Link
+          href="/portland-deep-cleaning"
+          className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+        >
+          See pricing, request a quote, or call →
+        </Link>
+      </p>
 
       <Section
         id="whats-included"
@@ -177,8 +187,11 @@ export default function DeepCleanPageContent({
           Whether you book online or give us a call, we&apos;re here to make the
           process simple, transparent, and stress-free.
         </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link href={quoteHref} className={BTN_PRIMARY}>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Link href="/portland-deep-cleaning" className={BTN_PRIMARY}>
+            See pricing &amp; get started
+          </Link>
+          <Link href={quoteHref} className={BTN_SECONDARY}>
             Get a quote for Deep Clean
           </Link>
           <Link href="/residential/services" className={BTN_SECONDARY}>

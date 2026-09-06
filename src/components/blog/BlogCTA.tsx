@@ -33,7 +33,7 @@ export default function BlogCTA() {
           </Link>
 
           <TrackedInstantQuoteLink
-            href="/residential/services#services"
+            href="/residential/services"
             buttonLocation="blog_cta"
             buttonLabel={SEE_PRICING_BOOK_LABEL}
             className={BTN_SECONDARY}

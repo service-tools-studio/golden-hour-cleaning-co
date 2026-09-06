@@ -163,12 +163,21 @@ function pricingCardId(slug: ServiceSlug) {
 function ServicePricingCard({
   block,
   hideIncluded = false,
+  learnMoreLabel = "Learn more",
+  onLearnMore,
+  quoteHref = "/request-a-quote",
+  onRequestQuote,
 }: {
   block: ServicePricingBlock;
   hideIncluded?: boolean;
+  learnMoreLabel?: string;
+  onLearnMore?: () => void;
+  quoteHref?: string;
+  onRequestQuote?: () => void;
 }) {
   const service = RESIDENTIAL_SERVICES[block.serviceSlug];
   const theme = PRICING_CARD_THEMES[block.serviceSlug];
+  const learnMoreClass = `${BTN_UPPER} mt-6 inline-flex w-full items-center justify-center rounded-2xl border px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${LEARN_MORE_BUTTON_CLASS[block.serviceSlug]}`;
 
   return (
     <article
@@ -237,12 +246,22 @@ function ServicePricingCard({
               <span className="font-semibold text-stone-800">
                 {block.largeHomePrompt}
               </span>{" "}
-              <Link
-                href="/request-a-quote"
-                className="font-semibold text-stone-800 underline underline-offset-2 hover:text-stone-950"
-              >
-                Request a personalized quote →
-              </Link>
+              {onRequestQuote ? (
+                <button
+                  type="button"
+                  onClick={onRequestQuote}
+                  className="font-semibold text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                >
+                  Request a personalized quote →
+                </button>
+              ) : (
+                <Link
+                  href={quoteHref}
+                  className="font-semibold text-stone-800 underline underline-offset-2 hover:text-stone-950"
+                >
+                  Request a personalized quote →
+                </Link>
+              )}
             </p>
           ) : null}
 
@@ -259,13 +278,27 @@ function ServicePricingCard({
               What&apos;s included:
             </h4>
             <ServiceItemsList items={service.items} checkClass={theme.check} />
-            <Link
-              href={`/residential/services/${block.serviceSlug}`}
-              aria-label={`Learn more about ${service.title}`}
-              className={`${BTN_UPPER} mt-6 inline-flex w-full items-center justify-center rounded-2xl border px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${LEARN_MORE_BUTTON_CLASS[block.serviceSlug]}`}
-            >
-              Learn more
-            </Link>
+            <p className="mt-3 text-sm text-stone-600">
+              And more — see full details for the complete list.
+            </p>
+            {onLearnMore ? (
+              <button
+                type="button"
+                onClick={onLearnMore}
+                aria-label={`${learnMoreLabel} about ${service.title}`}
+                className={learnMoreClass}
+              >
+                {learnMoreLabel}
+              </button>
+            ) : (
+              <Link
+                href={`/residential/services/${block.serviceSlug}`}
+                aria-label={`${learnMoreLabel} about ${service.title}`}
+                className={learnMoreClass}
+              >
+                {learnMoreLabel}
+              </Link>
+            )}
           </div>
         ) : null}
       </div>
@@ -288,10 +321,18 @@ export function ServicePricingCards({
   className = "",
   serviceSlug,
   hideIncluded = false,
+  learnMoreLabel,
+  onLearnMore,
+  quoteHref,
+  onRequestQuote,
 }: {
   className?: string;
   serviceSlug?: ServiceSlug;
   hideIncluded?: boolean;
+  learnMoreLabel?: string;
+  onLearnMore?: () => void;
+  quoteHref?: string;
+  onRequestQuote?: () => void;
 }) {
   const blocks = serviceSlug
     ? PRICING_BLOCKS.filter((block) => block.serviceSlug === serviceSlug)
@@ -456,6 +497,10 @@ export function ServicePricingCards({
             key={block.serviceSlug}
             block={block}
             hideIncluded={hideIncluded}
+            learnMoreLabel={learnMoreLabel}
+            onLearnMore={onLearnMore}
+            quoteHref={quoteHref}
+            onRequestQuote={onRequestQuote}
           />
         ))}
       </div>

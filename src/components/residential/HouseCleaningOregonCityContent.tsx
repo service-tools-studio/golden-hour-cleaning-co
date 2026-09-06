@@ -46,7 +46,7 @@ const SERVICE_CARDS = [
   {
     title: "Post-Construction Cleaning",
     desc: "Fine construction dust settles everywhere—even after contractors finish. We remove dust and debris throughout your home so it's ready to enjoy.",
-    href: "/residential/services#services",
+    href: "/residential/services",
   },
 ];
 

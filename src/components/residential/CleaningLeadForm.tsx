@@ -58,16 +58,26 @@ type Props = {
   mode: CleaningLeadMode;
   /** Called after a successful quote submit (before scroll). */
   onSuccess?: () => void;
+  /** Prefill cleaning type (e.g. PPC deep-clean landing). */
+  initialCleaningType?: string;
 };
 
-export default function CleaningLeadForm({ mode, onSuccess }: Props) {
+export default function CleaningLeadForm({
+  mode,
+  onSuccess,
+  initialCleaningType,
+}: Props) {
   const isQuote = mode === "quote";
   const steps = getLeadFormSteps(mode);
-  const [form, setForm] = useState<CleaningLeadFormState>(EMPTY_CLEANING_LEAD_FORM);
+  const [form, setForm] = useState<CleaningLeadFormState>(() => ({
+    ...EMPTY_CLEANING_LEAD_FORM,
+    ...(initialCleaningType ? { cleaningType: initialCleaningType } : {}),
+  }));
   const [submittedSnapshot, setSubmittedSnapshot] =
     useState<CleaningLeadFormState | null>(null);
   const formLoadedAtRef = useRef(Date.now());
   const formCardRef = useRef<HTMLFormElement>(null);
+  const successCardRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -83,15 +93,7 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     getPpcAttribution();
   }, []);
 
-  useEffect(() => {
-    if (!isQuote || !submitSuccess) return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [isQuote, submitSuccess]);
-
-  const canAttemptSubmit = useMemo(() => !isSubmitting, [isSubmitting]);
-
-  function scrollWizardBelowHeader() {
-    const el = formCardRef.current;
+  function scrollElementBelowHeader(el: HTMLElement | null) {
     if (!el) return;
 
     const headerHeight =
@@ -109,6 +111,19 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
       gapBelowHeader;
 
     window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+  }
+
+  useEffect(() => {
+    if (!isQuote || !submitSuccess) return;
+    window.requestAnimationFrame(() => {
+      scrollElementBelowHeader(successCardRef.current);
+    });
+  }, [isQuote, submitSuccess]);
+
+  const canAttemptSubmit = useMemo(() => !isSubmitting, [isSubmitting]);
+
+  function scrollWizardBelowHeader() {
+    scrollElementBelowHeader(formCardRef.current);
   }
 
   function update<K extends keyof CleaningLeadFormState>(
@@ -199,7 +214,10 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
       if (isQuote) {
         setSubmittedSnapshot(snapshot);
         setSubmitSuccess(true);
-        setForm(EMPTY_CLEANING_LEAD_FORM);
+        setForm({
+          ...EMPTY_CLEANING_LEAD_FORM,
+          ...(initialCleaningType ? { cleaningType: initialCleaningType } : {}),
+        });
         setStepIndex(0);
         formLoadedAtRef.current = Date.now();
         setIsSubmitting(false);
@@ -265,7 +283,10 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
   if (submitSuccess) {
     if (!isQuote) {
       return (
-        <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+        <div
+          ref={successCardRef}
+          className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
+        >
           <div aria-live="polite">
             <h2 className={`text-xl font-bold text-stone-900 ${HEADING_UPPER}`}>
               You&apos;re all set — pick a time in the new tab.
@@ -287,7 +308,10 @@ export default function CleaningLeadForm({ mode, onSuccess }: Props) {
     }
 
     return (
-      <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+      <div
+        ref={successCardRef}
+        className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
+      >
         <div aria-live="polite">
           <h2 className={`text-xl font-bold text-stone-900 ${HEADING_UPPER}`}>
             Thanks! We&apos;ll put together your personalized estimate.

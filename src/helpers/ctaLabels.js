@@ -4,6 +4,7 @@ export const SEE_PRICING_BOOK_LABEL = "See Pricing";
 export const SEE_PRICING_BOOK_ARIA =
   "See typical cleaning pricing and request a personalized quote";
 
-/** Scroll target on `/residential/services` for pricing + booking CTAs. */
+/** In-page services section id (homepage, city pages, `/residential/services`). */
 export const SERVICES_PRICING_HASH = "#services";
-export const SERVICES_PRICING_HREF = `/residential/services${SERVICES_PRICING_HASH}`;
+/** Hub URL — no hash; page opens at the top. */
+export const SERVICES_PRICING_HREF = "/residential/services";

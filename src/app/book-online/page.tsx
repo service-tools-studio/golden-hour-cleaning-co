@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function BookOnlinePage() {
   return (
     <>
-      <ServicesPageHeader quoteHref="/residential/services#services" />
+      <ServicesPageHeader quoteHref="/residential/services" />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
