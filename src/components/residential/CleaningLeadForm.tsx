@@ -6,6 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type FocusEvent,
   type FormEvent,
   type ReactNode,
 } from "react";
@@ -132,7 +133,27 @@ export default function CleaningLeadForm({
   const canAttemptSubmit = useMemo(() => !isSubmitting, [isSubmitting]);
 
   function scrollWizardBelowHeader() {
+    // Mobile/tablet only — desktop scroll on step change feels jumpy.
+    if (window.matchMedia("(min-width: 1280px)").matches) return;
     scrollElementBelowHeader(formCardRef.current);
+  }
+
+  function handleWizardFocusIn(e: FocusEvent<HTMLFormElement>) {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (!target.matches("input, select, textarea")) return;
+
+    const form = formCardRef.current;
+    if (!form) return;
+
+    // Only the active step's fields are mounted, so the first control is
+    // the first input on this card.
+    const firstField = form.querySelector<HTMLElement>(
+      'input:not([type="hidden"]), select, textarea',
+    );
+    if (target !== firstField) return;
+
+    scrollWizardBelowHeader();
   }
 
   function update<K extends keyof CleaningLeadFormState>(
@@ -401,6 +422,7 @@ export default function CleaningLeadForm({
       ref={formCardRef}
       data-lead-wizard={isQuote ? "quote" : "booking"}
       onSubmit={onSubmit}
+      onFocus={handleWizardFocusIn}
       className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
       noValidate
     >
