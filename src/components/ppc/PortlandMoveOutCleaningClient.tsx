@@ -27,21 +27,24 @@ import {
 } from "@/data/siteFaqs";
 import { capturePpcAttribution } from "@/helpers/ppcAttribution";
 import {
-  PPC_DEEP_CLEAN_EVENTS,
-  trackPpcDeepCleanEvent,
-} from "@/helpers/ppcDeepCleanAnalytics";
+  PPC_MOVE_OUT_EVENTS,
+  trackPpcMoveOutEvent,
+} from "@/helpers/ppcMoveOutAnalytics";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  siteFaq("deepPricing", "How much does deep cleaning cost in Portland?"),
+  siteFaq("moveOutPricing", "How much does move-out cleaning cost in Portland?"),
   siteFaq("finalPriceConfirmed", "When is my final price confirmed?"),
-  siteFaq("reserveBeforeEstimate", "Can I reserve a cleaning before I get my estimate?"),
-  siteFaq("deepIncluded", "What is included in a deep clean?"),
+  siteFaq(
+    "reserveBeforeEstimate",
+    "Can I reserve a cleaning before I get my estimate?",
+  ),
+  siteFaq("moveOutEmptyHome", "Does the home need to be empty?"),
   siteFaq("supplies", "Do you bring supplies?"),
 ];
 
-export default function PortlandDeepCleaningClient({
+export default function PortlandMoveOutCleaningClient({
   initialRating = null,
   initialReviewCount = null,
 }: {
@@ -59,7 +62,7 @@ export default function PortlandDeepCleaningClient({
     const attrs = capturePpcAttribution();
     if (viewedRef.current) return;
     viewedRef.current = true;
-    trackPpcDeepCleanEvent(PPC_DEEP_CLEAN_EVENTS.landingView, undefined, attrs);
+    trackPpcMoveOutEvent(PPC_MOVE_OUT_EVENTS.landingView, undefined, attrs);
   }, []);
 
   function scrollToPricing() {
@@ -84,18 +87,18 @@ export default function PortlandDeepCleaningClient({
               <h1
                 className={`text-center text-3xl leading-tight text-stone-900 md:text-left md:text-4xl ${HEADING_UPPER}`}
               >
-                Home Deep Cleaning Services in Portland
+                Move-Out Cleaning Services in Portland
               </h1>
               <p className="mt-4 text-center text-base leading-relaxed text-stone-700 md:text-left md:text-lg">
-                A comprehensive, detail-focused clean designed to refresh your
-                home from top to bottom.
+                A detailed empty-home reset so you can hand over keys or settle
+                in with a truly clean start.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:justify-start">
                 <a
                   href={`tel:${CONTACT.phone}`}
                   className={`${BTN_PRIMARY} w-full gap-2 sm:w-auto`}
                   aria-label="Call us at (503) 893-4795"
-                  data-call-source="ppc_deep_clean_hero_call"
+                  data-call-source="ppc_move_out_hero_call"
                 >
                   <Phone className="h-4 w-4 shrink-0" aria-hidden />
                   Call (503) 893-4795
@@ -114,7 +117,7 @@ export default function PortlandDeepCleaningClient({
                   href="/book-online"
                   className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                 >
-                  Reserve your deep clean →
+                  Reserve your move-out clean →
                 </Link>
               </p>
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-stone-700">
@@ -147,11 +150,11 @@ export default function PortlandDeepCleaningClient({
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm">
               <Image
-                src="/assets/golden-hour-homepage.png"
-                alt="A Golden Hour cleaner smiling while wiping a gold-framed bathroom mirror"
+                src="/assets/move-out-clean.png"
+                alt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
                 fill
                 priority
-                className="object-cover object-[center_20%]"
+                className="object-cover object-center"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>
@@ -208,7 +211,7 @@ export default function PortlandDeepCleaningClient({
               <h2
                 className={`text-2xl leading-tight text-stone-900 md:text-3xl ${HEADING_UPPER}`}
               >
-                Deep Cleaning Pricing
+                Move-Out Cleaning Pricing
               </h2>
               <p className="mt-3 text-base leading-relaxed text-stone-600 md:text-lg">
                 Starting rates by home size. Need a tailored number? Request a
@@ -217,7 +220,7 @@ export default function PortlandDeepCleaningClient({
             </header>
 
             <ServicePricingCards
-              serviceSlug="deep"
+              serviceSlug="move-out"
               className="mt-10"
               learnMoreLabel="See full checklist"
             />
@@ -234,7 +237,7 @@ export default function PortlandDeepCleaningClient({
                 Or call{" "}
                 <a
                   href={`tel:${CONTACT.phone}`}
-                  data-call-source="ppc_deep_clean_pricing_call"
+                  data-call-source="ppc_move_out_pricing_call"
                   className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                 >
                   (503) 893-4795
@@ -244,7 +247,7 @@ export default function PortlandDeepCleaningClient({
                   href="/book-online"
                   className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                 >
-                  Reserve your deep clean →
+                  Reserve your move-out clean →
                 </Link>
               </p>
             </div>
@@ -264,7 +267,7 @@ export default function PortlandDeepCleaningClient({
                 </h2>
                 <p className="mt-3 text-base leading-relaxed text-stone-600 md:text-lg">
                   Share a few details about your Portland home and we&apos;ll
-                  help you find the right deep clean and price. After you
+                  help you find the right move-out clean and price. After you
                   submit, you can reserve an available cleaning time online.
                 </p>
               </header>
@@ -273,7 +276,7 @@ export default function PortlandDeepCleaningClient({
             <div className={quoteSubmitted ? undefined : "mt-10"}>
               <CleaningLeadForm
                 mode="quote"
-                initialCleaningType="Deep Cleaning"
+                initialCleaningType="Move-in/out Cleaning"
                 onSuccess={() => setQuoteSubmitted(true)}
               />
             </div>
@@ -289,38 +292,45 @@ export default function PortlandDeepCleaningClient({
                   question={faq.question}
                   answer={
                     faq.question ===
-                    "How much does deep cleaning cost in Portland?" ? (
+                    "How much does move-out cleaning cost in Portland?" ? (
                       <>
                         You can review{" "}
                         <a
-                          href="#pricing-deep"
+                          href="#pricing-move-out"
                           className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                           onClick={(e) => {
                             e.preventDefault();
-                            scrollToId("#pricing-deep", 8, { focus: true });
+                            scrollToId("#pricing-move-out", 8, {
+                              focus: true,
+                            });
                           }}
                         >
                           starting prices
                         </a>{" "}
                         by home size on this page, then request a personalized
                         quote based on number of bedrooms, bathrooms, square
-                        footage, and any add-ons. For a typical Portland home,
-                        we&apos;ll send you a broad range quote rather than a
-                        single number because condition affects the work
-                        required. We confirm your final price after an in-person
-                        walkthrough, right before cleaning begins.
+                        footage, and any add-ons. We confirm your final price
+                        after an in-person walkthrough, right before cleaning
+                        begins.
                       </>
-                    ) : faq.question === "What is included in a deep clean?" ? (
+                    ) : faq.question ===
+                      "Can I reserve a cleaning before I get my estimate?" ? (
                       <>
-                        {FAQ_ANSWERS.deepIncluded.replace(
-                          /\s*See the full checklist above\.$/,
-                          "",
-                        )}{" "}
+                        Yes. You can reserve your move-out clean anytime, and
+                        after you submit a personalized quote request you&apos;ll
+                        also see an option to pick an available time. We&apos;ll
+                        still confirm your final price with you before cleaning
+                        begins.
+                      </>
+                    ) : faq.question === "Does the home need to be empty?" ? (
+                      <>
+                        {FAQ_ANSWERS.moveOutEmptyHome} For the full move-in /
+                        move-out list, see our{" "}
                         <Link
-                          href="/deep-clean/whats-included"
+                          href="/residential/services/move-out#whats-included"
                           className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                         >
-                          See the full checklist →
+                          what&apos;s included checklist →
                         </Link>
                       </>
                     ) : (
@@ -336,7 +346,7 @@ export default function PortlandDeepCleaningClient({
               href={`tel:${CONTACT.phone}`}
               className={`${BTN_PRIMARY} w-full gap-2 sm:w-auto`}
               aria-label="Call us at (503) 893-4795"
-              data-call-source="ppc_deep_clean_faq_call"
+              data-call-source="ppc_move_out_faq_call"
             >
               <Phone className="h-4 w-4 shrink-0" aria-hidden />
               Call (503) 893-4795
@@ -355,7 +365,7 @@ export default function PortlandDeepCleaningClient({
               href="/book-online"
               className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
             >
-              Reserve your deep clean →
+              Reserve your move-out clean →
             </Link>
           </p>
         </section>

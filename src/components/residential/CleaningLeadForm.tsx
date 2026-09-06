@@ -25,6 +25,11 @@ import {
   trackPpcDeepCleanEvent,
 } from "@/helpers/ppcDeepCleanAnalytics";
 import {
+  isPpcMoveOutPath,
+  PPC_MOVE_OUT_EVENTS,
+  trackPpcMoveOutEvent,
+} from "@/helpers/ppcMoveOutAnalytics";
+import {
   BTN_PRIMARY,
   BTN_SECONDARY,
   HEADING_UPPER,
@@ -241,17 +246,31 @@ export default function CleaningLeadForm({
     try {
       const attribution = await submitLead(snapshot);
       const cleanType = snapshot.cleaningType || undefined;
-      const onPpc = isPpcDeepCleanPath();
+      const onPpcDeep = isPpcDeepCleanPath();
+      const onPpcMoveOut = isPpcMoveOutPath();
+      const ppcSourcePrefix = onPpcDeep
+        ? "ppc_deep_clean"
+        : onPpcMoveOut
+          ? "ppc_move_out"
+          : null;
 
       if (isQuote) {
         trackQuoteRequestCompleted({
-          source: onPpc ? "ppc_deep_clean_quote" : "request_a_quote",
+          source: ppcSourcePrefix
+            ? `${ppcSourcePrefix}_quote`
+            : "request_a_quote",
           cleanType,
           attribution,
         });
-        if (onPpc) {
+        if (onPpcDeep) {
           trackPpcDeepCleanEvent(
             PPC_DEEP_CLEAN_EVENTS.quoteCompleted,
+            { clean_type: cleanType },
+            attribution,
+          );
+        } else if (onPpcMoveOut) {
+          trackPpcMoveOutEvent(
+            PPC_MOVE_OUT_EVENTS.quoteCompleted,
             { clean_type: cleanType },
             attribution,
           );
@@ -277,19 +296,29 @@ export default function CleaningLeadForm({
       });
 
       trackBookingWizardCompleted({
-        source: onPpc ? "ppc_deep_clean_booking" : "book_online_form",
+        source: ppcSourcePrefix
+          ? `${ppcSourcePrefix}_booking`
+          : "book_online_form",
         cleanType,
         attribution,
       });
       trackCalendlyClick({
-        source: onPpc ? "ppc_deep_clean_booking" : "book_online_form",
+        source: ppcSourcePrefix
+          ? `${ppcSourcePrefix}_booking`
+          : "book_online_form",
         url: calendlyUrl,
         cleanType,
         attribution,
       });
-      if (onPpc) {
+      if (onPpcDeep) {
         trackPpcDeepCleanEvent(
           PPC_DEEP_CLEAN_EVENTS.bookingCompleted,
+          { clean_type: cleanType },
+          attribution,
+        );
+      } else if (onPpcMoveOut) {
+        trackPpcMoveOutEvent(
+          PPC_MOVE_OUT_EVENTS.bookingCompleted,
           { clean_type: cleanType },
           attribution,
         );
@@ -324,17 +353,23 @@ export default function CleaningLeadForm({
     if (!submittedSnapshot) return;
     const attribution = getPpcAttribution();
     const cleanType = submittedSnapshot.cleaningType || undefined;
-    const onPpc = isPpcDeepCleanPath();
+    const onPpcDeep = isPpcDeepCleanPath();
+    const onPpcMoveOut = isPpcMoveOutPath();
+    const ppcSourcePrefix = onPpcDeep
+      ? "ppc_deep_clean"
+      : onPpcMoveOut
+        ? "ppc_move_out"
+        : null;
     const calendlyUrl = buildBookingCalendlyUrl({
       form: submittedSnapshot,
       leadPath: isQuote ? "Personalized Quote" : "Book Online",
       attribution,
     });
     trackCalendlyClick({
-      source: onPpc
+      source: ppcSourcePrefix
         ? isQuote
-          ? "ppc_deep_clean_post_quote"
-          : "ppc_deep_clean_booking_reopen"
+          ? `${ppcSourcePrefix}_post_quote`
+          : `${ppcSourcePrefix}_booking_reopen`
         : isQuote
           ? "request_a_quote_post_submit"
           : "book_online_form_reopen",
@@ -342,9 +377,15 @@ export default function CleaningLeadForm({
       cleanType,
       attribution,
     });
-    if (onPpc) {
+    if (onPpcDeep) {
       trackPpcDeepCleanEvent(
         PPC_DEEP_CLEAN_EVENTS.calendlyClick,
+        { clean_type: cleanType },
+        attribution,
+      );
+    } else if (onPpcMoveOut) {
+      trackPpcMoveOutEvent(
+        PPC_MOVE_OUT_EVENTS.calendlyClick,
         { clean_type: cleanType },
         attribution,
       );

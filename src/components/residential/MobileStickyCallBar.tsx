@@ -11,11 +11,17 @@ import {
 import { BTN_PRIMARY } from "@/helpers/typography.js";
 import { syncFixedToVisualViewport } from "@/helpers/syncFixedToVisualViewport";
 
-const PPC_DEEP_CLEAN_PATH = "/portland-deep-cleaning";
+const PPC_LANDING_PATHS = new Set([
+  "/portland-deep-cleaning",
+  "/portland-move-out-cleaning",
+]);
+
 /** In-page Call buttons that should suppress the sticky bar while visible. */
 const PAGE_CALL_SELECTOR = [
   '[data-call-source="ppc_deep_clean_hero_call"]',
   '[data-call-source="ppc_deep_clean_faq_call"]',
+  '[data-call-source="ppc_move_out_hero_call"]',
+  '[data-call-source="ppc_move_out_faq_call"]',
 ].join(", ");
 
 function isElementInViewport(el: Element) {
@@ -31,23 +37,23 @@ function isElementInViewport(el: Element) {
  * Must be a direct child of <body> (see layout.tsx). Synced to the visual
  * viewport so iOS Chrome doesn't hide it under the browser toolbar on load.
  *
- * Hidden while a quote/booking wizard is in view, and on the PPC deep-clean
- * page while any primary in-page Call CTA is visible.
+ * Hidden while a quote/booking wizard is in view, and on PPC landings while
+ * any primary in-page Call CTA is visible.
  */
 export default function MobileStickyCallBar() {
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
-  const isPpcDeepClean = pathname === PPC_DEEP_CLEAN_PATH;
-  const [pageCallInView, setPageCallInView] = useState(isPpcDeepClean);
+  const isPpcLanding = PPC_LANDING_PATHS.has(pathname);
+  const [pageCallInView, setPageCallInView] = useState(isPpcLanding);
   const [wizardInView, setWizardInView] = useState<LeadWizardMode | null>(null);
 
   const visible =
-    !wizardInView && (!isPpcDeepClean || !pageCallInView);
+    !wizardInView && (!isPpcLanding || !pageCallInView);
 
   useEffect(() => subscribeLeadWizardInView(setWizardInView), [pathname]);
 
   useEffect(() => {
-    if (!isPpcDeepClean) {
+    if (!isPpcLanding) {
       setPageCallInView(false);
       return;
     }
@@ -94,7 +100,7 @@ export default function MobileStickyCallBar() {
       intersecting.clear();
       watched.clear();
     };
-  }, [isPpcDeepClean, pathname]);
+  }, [isPpcLanding, pathname]);
 
   useLayoutEffect(() => {
     document.body.dataset.mobileCallBar = visible ? "1" : "0";
