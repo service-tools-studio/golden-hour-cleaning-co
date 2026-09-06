@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
+import {
+  BE_HOME_FAQ,
+  DEEP_PRICING_FAQ,
+  HOURLY_CHARGE_FAQ,
+  SUPPLIES_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
 import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import DeepCleanChecklist from "./DeepCleanChecklist";
@@ -8,7 +15,6 @@ import ServiceDetailHero from "./ServiceDetailHero";
 import {
   BulletList,
   FaqItem,
-  HOURLY_CHARGE_FAQ,
   PORTLAND_METRO_AREAS,
   Section,
 } from "./servicePageParts";
@@ -134,29 +140,18 @@ export default function DeepCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+          <FaqItem {...HOURLY_CHARGE_FAQ} />
+          <FaqItem {...DEEP_PRICING_FAQ} />
           <FaqItem
-            question={HOURLY_CHARGE_FAQ.question}
-            answer={HOURLY_CHARGE_FAQ.answer}
+            {...siteFaq("deepDuration", "How long does a deep cleaning take?")}
           />
+          <FaqItem {...BE_HOME_FAQ} />
+          <FaqItem {...SUPPLIES_FAQ} />
           <FaqItem
-            question="How is deep cleaning priced?"
-            answer="You can request a personalized quote online based on your home's size and condition. We confirm your final price after a quick walkthrough."
-          />
-          <FaqItem
-            question="How long does a deep cleaning take?"
-            answer="On-site time varies with your home's size and condition. We schedule enough cleaners to keep visits efficient (typically up to about 4 hours on site), and you'll see a time estimate with your quote."
-          />
-          <FaqItem
-            question="Do I need to be home during the cleaning?"
-            answer="Not at all. Many of our clients provide secure access while they're away. We'll coordinate the details with you before your appointment."
-          />
-          <FaqItem
-            question="Do you bring your own cleaning supplies?"
-            answer="Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our team arrives fully equipped with professional-grade cleaning products and equipment. If you have specific product preferences, just let us know."
-          />
-          <FaqItem
-            question="How often should I schedule a deep cleaning?"
-            answer="Many homeowners schedule a deep cleaning once or twice a year. Others begin with a deep cleaning and then maintain their home with recurring standard cleaning services."
+            {...siteFaq(
+              "deepHowOften",
+              "How often should I schedule a deep cleaning?",
+            )}
           />
         </div>
       </Section>

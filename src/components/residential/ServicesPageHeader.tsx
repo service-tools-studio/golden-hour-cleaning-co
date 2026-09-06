@@ -9,6 +9,10 @@ type ServicesPageHeaderProps = {
   backLabel?: string;
   backHref?: string;
   onBack?: () => void;
+  /** Hide main nav / hamburger (e.g. PPC landing pages). Default true. */
+  showNav?: boolean;
+  /** Logo click scrolls to top instead of navigating home. */
+  logoScrollsToTop?: boolean;
   /** @deprecated Ignored — kept for call-site compatibility. */
   quoteHref?: string;
   /** @deprecated Ignored — kept for call-site compatibility. */
@@ -19,6 +23,8 @@ export default function ServicesPageHeader({
   backLabel,
   backHref,
   onBack,
+  showNav = true,
+  logoScrollsToTop = false,
 }: ServicesPageHeaderProps) {
   const headerRef = useRef<HTMLElement>(null);
   const backClassName =
@@ -40,7 +46,19 @@ export default function ServicesPageHeader({
     const observer = new ResizeObserver(syncHeaderHeight);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [showBack]);
+  }, [showBack, showNav]);
+
+  const logo = (
+    <Image
+      src="/assets/Golden Hour - commercial.png"
+      alt="Golden Hour Cleaning Co."
+      width={200}
+      height={100}
+      priority
+      className="h-12 w-auto max-w-none object-contain sm:h-14 md:h-16"
+      sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 200px"
+    />
+  );
 
   return (
     <header
@@ -48,19 +66,32 @@ export default function ServicesPageHeader({
       className="sticky top-0 z-[100000] w-full border-b border-amber-200 bg-brand"
       data-site-header
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
+      <div
+        className={`mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 sm:py-3.5 ${
+          showNav ? "justify-between" : "justify-start"
+        }`}
+      >
         <div className="shrink-0">
-          <Link href="/" aria-label="Go to homepage" className="inline-block shrink-0">
-            <Image
-              src="/assets/Golden Hour - commercial.png"
-              alt="Golden Hour Cleaning Co."
-              width={200}
-              height={100}
-              priority
-              className="h-12 w-auto max-w-none object-contain sm:h-14 md:h-16"
-              sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 200px"
-            />
-          </Link>
+          {logoScrollsToTop ? (
+            <button
+              type="button"
+              aria-label="Back to top"
+              className="inline-block shrink-0"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              {logo}
+            </button>
+          ) : (
+            <Link
+              href="/"
+              aria-label="Go to homepage"
+              className="inline-block shrink-0"
+            >
+              {logo}
+            </Link>
+          )}
           {showBack && backHref ? (
             <Link href={backHref} className={backClassName}>
               <span aria-hidden>←</span>
@@ -73,7 +104,7 @@ export default function ServicesPageHeader({
             </button>
           ) : null}
         </div>
-        <HeaderNav />
+        {showNav ? <HeaderNav /> : null}
       </div>
     </header>
   );

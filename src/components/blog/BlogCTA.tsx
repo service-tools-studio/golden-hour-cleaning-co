@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SEE_PRICING_BOOK_LABEL } from "@/helpers/ctaLabels.js";
-import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 
 export default function BlogCTA() {
@@ -28,18 +26,13 @@ export default function BlogCTA() {
 
         <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
           <Link href="/residential/services" className={BTN_PRIMARY}>
-            Explore Residential Services
+            Explore Residential Services &amp; Pricing
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
 
-          <TrackedInstantQuoteLink
-            href="/residential/services"
-            buttonLocation="blog_cta"
-            buttonLabel={SEE_PRICING_BOOK_LABEL}
-            className={BTN_SECONDARY}
-          >
-            {SEE_PRICING_BOOK_LABEL}
-          </TrackedInstantQuoteLink>
+          <Link href="/book-online" className={BTN_SECONDARY}>
+            Reserve Your Cleaning
+          </Link>
         </div>
       </div>
     </section>

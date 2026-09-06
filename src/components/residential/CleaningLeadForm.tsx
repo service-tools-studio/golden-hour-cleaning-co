@@ -15,6 +15,15 @@ import { buildBookingCalendlyUrl } from "@/helpers/bookingCalendlyUrl";
 import { getPpcAttribution } from "@/helpers/ppcAttribution";
 import { trackCalendlyClick } from "@/helpers/calendlyAnalytics";
 import {
+  trackBookingWizardCompleted,
+  trackQuoteRequestCompleted,
+} from "@/helpers/leadFormAnalytics";
+import {
+  isPpcDeepCleanPath,
+  PPC_DEEP_CLEAN_EVENTS,
+  trackPpcDeepCleanEvent,
+} from "@/helpers/ppcDeepCleanAnalytics";
+import {
   BTN_PRIMARY,
   BTN_SECONDARY,
   HEADING_UPPER,
@@ -210,8 +219,23 @@ export default function CleaningLeadForm({
 
     try {
       const attribution = await submitLead(snapshot);
+      const cleanType = snapshot.cleaningType || undefined;
+      const onPpc = isPpcDeepCleanPath();
 
       if (isQuote) {
+        trackQuoteRequestCompleted({
+          source: onPpc ? "ppc_deep_clean_quote" : "request_a_quote",
+          cleanType,
+          attribution,
+        });
+        if (onPpc) {
+          trackPpcDeepCleanEvent(
+            PPC_DEEP_CLEAN_EVENTS.quoteCompleted,
+            { clean_type: cleanType },
+            attribution,
+          );
+        }
+
         setSubmittedSnapshot(snapshot);
         setSubmitSuccess(true);
         setForm({
@@ -231,11 +255,24 @@ export default function CleaningLeadForm({
         attribution,
       });
 
-      trackCalendlyClick({
-        source: "book_online_form",
-        url: calendlyUrl,
+      trackBookingWizardCompleted({
+        source: onPpc ? "ppc_deep_clean_booking" : "book_online_form",
+        cleanType,
         attribution,
       });
+      trackCalendlyClick({
+        source: onPpc ? "ppc_deep_clean_booking" : "book_online_form",
+        url: calendlyUrl,
+        cleanType,
+        attribution,
+      });
+      if (onPpc) {
+        trackPpcDeepCleanEvent(
+          PPC_DEEP_CLEAN_EVENTS.bookingCompleted,
+          { clean_type: cleanType },
+          attribution,
+        );
+      }
 
       setSubmittedSnapshot(snapshot);
       setSubmitSuccess(true);
@@ -265,18 +302,32 @@ export default function CleaningLeadForm({
   function openCalendlyFromSuccess() {
     if (!submittedSnapshot) return;
     const attribution = getPpcAttribution();
+    const cleanType = submittedSnapshot.cleaningType || undefined;
+    const onPpc = isPpcDeepCleanPath();
     const calendlyUrl = buildBookingCalendlyUrl({
       form: submittedSnapshot,
       leadPath: isQuote ? "Personalized Quote" : "Book Online",
       attribution,
     });
     trackCalendlyClick({
-      source: isQuote
-        ? "request_a_quote_post_submit"
-        : "book_online_form_reopen",
+      source: onPpc
+        ? isQuote
+          ? "ppc_deep_clean_post_quote"
+          : "ppc_deep_clean_booking_reopen"
+        : isQuote
+          ? "request_a_quote_post_submit"
+          : "book_online_form_reopen",
       url: calendlyUrl,
+      cleanType,
       attribution,
     });
+    if (onPpc) {
+      trackPpcDeepCleanEvent(
+        PPC_DEEP_CLEAN_EVENTS.calendlyClick,
+        { clean_type: cleanType },
+        attribution,
+      );
+    }
     window.open(calendlyUrl, "_blank", "noopener,noreferrer");
   }
 
@@ -285,6 +336,7 @@ export default function CleaningLeadForm({
       return (
         <div
           ref={successCardRef}
+          data-lead-wizard="booking"
           className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
         >
           <div aria-live="polite">
@@ -310,6 +362,7 @@ export default function CleaningLeadForm({
     return (
       <div
         ref={successCardRef}
+        data-lead-wizard="quote"
         className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
       >
         <div aria-live="polite">
@@ -346,6 +399,7 @@ export default function CleaningLeadForm({
   return (
     <form
       ref={formCardRef}
+      data-lead-wizard={isQuote ? "quote" : "booking"}
       onSubmit={onSubmit}
       className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
       noValidate

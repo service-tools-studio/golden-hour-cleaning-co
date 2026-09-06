@@ -6,6 +6,9 @@ import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
 import { CONTACT } from "../../constants.js";
 import { SERVICES_PRICING_HREF } from "../../helpers/ctaLabels.js";
+import {
+  subscribeLeadWizardInView,
+} from "../../helpers/leadWizardVisibility";
 import { BTN_PRIMARY, BTN_SECONDARY, BTN_UPPER } from "../../helpers/typography.js";
 
 const NAV_LINKS = [
@@ -21,6 +24,7 @@ const linkClass = `${BTN_UPPER} text-sm font-semibold text-slate-900 underline-o
 const callNowClass = `${BTN_PRIMARY} ml-4 gap-1.5 whitespace-nowrap`;
 const mobileMenuPrimaryCtaClass = `${BTN_PRIMARY} w-full`;
 const mobileMenuSecondaryCtaClass = `${BTN_SECONDARY} w-full`;
+const mobileMenuCallClass = `${BTN_PRIMARY} w-full gap-2`;
 
 function getSiteHeader() {
   return document.querySelector("[data-site-header]");
@@ -39,11 +43,14 @@ export default function HeaderNav() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menuTop, setMenuTop] = useState(100);
+  const [wizardInView, setWizardInView] = useState(null);
   const menuId = useId();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => subscribeLeadWizardInView(setWizardInView), []);
 
   useEffect(() => {
     if (!open) return;
@@ -109,6 +116,27 @@ export default function HeaderNav() {
                   const isPrimaryCta = link.href === "/request-a-quote";
                   const isSecondaryCta = link.href === "/book-online";
                   const isCta = isPrimaryCta || isSecondaryCta;
+                  const replaceWithCall =
+                    (isPrimaryCta && wizardInView === "quote") ||
+                    (isSecondaryCta && wizardInView === "booking");
+
+                  if (replaceWithCall) {
+                    return (
+                      <li key={link.href} className="mt-2">
+                        <a
+                          href={`tel:${CONTACT.phone}`}
+                          className={mobileMenuCallClass}
+                          aria-label="Call us at (503) 893-4795"
+                          data-call-source="header_nav_mobile_menu_call_wizard"
+                          onClick={closeMenu}
+                        >
+                          <Phone className="h-4 w-4 shrink-0" aria-hidden />
+                          Call (503) 893-4795
+                        </a>
+                      </li>
+                    );
+                  }
+
                   return (
                     <li key={link.href} className={isCta ? "mt-2" : undefined}>
                       <Link
@@ -127,6 +155,19 @@ export default function HeaderNav() {
                     </li>
                   );
                 })}
+                {!wizardInView ? (
+                  <li>
+                    <a
+                      href={`tel:${CONTACT.phone}`}
+                      className={`${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`}
+                      aria-label="Call us at (503) 893-4795"
+                      data-call-source="header_nav_mobile_menu_call"
+                      onClick={closeMenu}
+                    >
+                      Call Us (503) 893-4795
+                    </a>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </>,

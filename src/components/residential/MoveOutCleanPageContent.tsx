@@ -4,7 +4,13 @@ import { CONTACT } from "@/constants.js";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
 import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
 import ServiceDetailHero from "./ServiceDetailHero";
-import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import {
+  HOURLY_CHARGE_FAQ,
+  MOVE_OUT_PRICING_FAQ,
+  SUPPLIES_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
+import { BulletList, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function MoveOutCleanPageContent({
   quoteHref,
@@ -198,38 +204,31 @@ export default function MoveOutCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+          <FaqItem {...HOURLY_CHARGE_FAQ} />
+          <FaqItem {...MOVE_OUT_PRICING_FAQ} />
           <FaqItem
-            question={HOURLY_CHARGE_FAQ.question}
-            answer={HOURLY_CHARGE_FAQ.answer}
+            {...siteFaq(
+              "moveOutEmptyHome",
+              "Do I need to empty the home before the cleaning?",
+            )}
           />
           <FaqItem
-            question="How is move-in / move-out cleaning priced?"
-            answer="You can request a personalized quote online based on your home's size and condition. We confirm your final price after a quick walkthrough."
+            {...siteFaq(
+              "moveOutCabinets",
+              "Do you clean inside cabinets and drawers?",
+            )}
           />
           <FaqItem
-            question="Do I need to empty the home before the cleaning?"
-            answer="For the most thorough results, we recommend the home be completely empty or nearly empty before our arrival. This allows us to clean every accessible surface efficiently."
+            {...siteFaq("moveOutOven", "Do you clean inside the oven?")}
           />
           <FaqItem
-            question="Do you clean inside cabinets and drawers?"
-            answer="Yes. For move-in and move-out cleanings, we clean the interiors of empty cabinets and drawers."
+            {...siteFaq(
+              "moveOutFridge",
+              "Do you clean inside the refrigerator?",
+            )}
           />
-          <FaqItem
-            question="Do you clean inside the oven?"
-            answer="Yes. Cleaning the inside of the oven is included in our move-in and move-out cleaning service."
-          />
-          <FaqItem
-            question="Do you clean inside the refrigerator?"
-            answer="Yes. Cleaning the inside of the refrigerator is included in our move-in and move-out cleaning service."
-          />
-          <FaqItem
-            question="Do you bring your own cleaning supplies?"
-            answer="Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. We arrive with professional-grade equipment and supplies, and you're welcome to share any product preferences."
-          />
-          <FaqItem
-            question="How do I get a quote?"
-            answer="Simply visit our website to request a personalized quote and book your cleaning online. If you'd rather speak with someone, our Golden Hour Cleaning Co. team is happy to answer your questions and help schedule your service."
-          />
+          <FaqItem {...SUPPLIES_FAQ} />
+          <FaqItem {...siteFaq("howToGetQuote", "How do I get a quote?")} />
         </div>
       </Section>
 

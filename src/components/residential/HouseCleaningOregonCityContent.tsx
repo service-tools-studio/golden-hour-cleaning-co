@@ -11,7 +11,14 @@ import {
   SECTION_EYEBROW_ON_DARK,
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
-import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
+import {
+  BE_HOME_FAQ,
+  HOURLY_CHARGE_FAQ,
+  INSURED_FAQ,
+  SUPPLIES_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
+import { BulletList, FaqItem, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
   "Historic Downtown Oregon City",
@@ -116,26 +123,10 @@ const PRICING_FACTORS = [
 
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  {
-    question: "Do I need to be home during the cleaning?",
-    answer:
-      "Not at all. Many of our clients provide a garage code, lockbox, or key so we can clean while they're away.",
-  },
-  {
-    question: "Do you bring your own cleaning supplies?",
-    answer:
-      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. We arrive with professional-grade cleaning products and equipment.",
-  },
-  {
-    question: "Are you insured?",
-    answer:
-      "Yes. Golden Hour Cleaning Co. is fully insured for your peace of mind.",
-  },
-  {
-    question: "How long does a house cleaning take?",
-    answer:
-      "It depends on the size and condition of your home, but we'll provide an estimated timeframe when scheduling your service.",
-  },
+  BE_HOME_FAQ,
+  SUPPLIES_FAQ,
+  INSURED_FAQ,
+  siteFaq("generalDuration", "How long does a house cleaning take?"),
 ];
 
 export default function HouseCleaningOregonCityContent() {

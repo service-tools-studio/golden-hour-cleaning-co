@@ -11,7 +11,14 @@ import {
   SECTION_EYEBROW_ON_DARK,
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
-import { FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
+import {
+  cityApartmentsFaq,
+  cityHouseCleaningCostFaq,
+  cityRecurringFaq,
+  HOURLY_CHARGE_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
+import { FaqItem, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
   "Central Beaverton",
@@ -72,26 +79,10 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  {
-    question: "How much does house cleaning cost in Beaverton?",
-    answer:
-      "Pricing depends on the size of your home, condition, frequency, and type of cleaning. Recurring cleaning is typically less than a first-time deep clean.",
-  },
-  {
-    question: "Do you bring your own supplies?",
-    answer:
-      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our cleaners bring professional supplies and equipment unless you prefer we use specific products in your home.",
-  },
-  {
-    question: "Do you offer recurring cleaning?",
-    answer:
-      "Yes. We offer weekly, biweekly, and custom recurring cleaning options for Beaverton-area homes.",
-  },
-  {
-    question: "Do you clean apartments and condos?",
-    answer:
-      "Yes. We clean houses, apartments, condos, townhomes, and residential properties throughout the Beaverton area.",
-  },
+  cityHouseCleaningCostFaq("Beaverton"),
+  siteFaq("supplies", "Do you bring your own supplies?"),
+  cityRecurringFaq("Beaverton-area homes"),
+  cityApartmentsFaq("the Beaverton area"),
 ];
 
 export default function HouseCleaningBeavertonContent() {

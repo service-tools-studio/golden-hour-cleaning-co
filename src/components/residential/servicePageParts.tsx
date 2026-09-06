@@ -2,6 +2,9 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
+export { HOURLY_CHARGE_FAQ } from "@/data/siteFaqs";
+export type { SiteFaq } from "@/data/siteFaqs";
+
 export function BackToServicesLink() {
   return (
     <Link
@@ -13,11 +16,11 @@ export function BackToServicesLink() {
   );
 }
 
-export function BulletList({ items }: { items: string[] }) {
+export function BulletList({ items }: { items: ReactNode[] }) {
   return (
     <ul className="mt-3 space-y-2 text-stone-700">
-      {items.map((item) => (
-        <li key={item} className="flex gap-2 text-sm leading-relaxed">
+      {items.map((item, index) => (
+        <li key={index} className="flex gap-2 text-sm leading-relaxed">
           <span aria-hidden className="text-amber-600">
             •
           </span>
@@ -53,25 +56,33 @@ export function Section({
   );
 }
 
-export const HOURLY_CHARGE_FAQ = {
-  question: "What do you charge hourly?",
-  answer:
-    "We don't charge by the hour. Our pricing is based on the size, condition and scope of your home, so you're paying for the completed cleaning—not how long it takes us to get there.\n\nOur experienced team works efficiently, and we don't believe you should pay more simply because a cleaning takes longer—or that our team's efficiency should make the service worth less. Your quoted price reflects completion of the agreed-upon cleaning scope, regardless of the exact time required.",
-};
-
-export function FaqItem({ question, answer }: { question: string; answer: string }) {
-  const paragraphs = answer.trim().split(/\n\n+/);
-
+export function FaqItem({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: ReactNode;
+}) {
   return (
     <div className="border-t border-amber-100 pt-4 first:border-t-0 first:pt-0">
       <h3 className={`text-sm font-semibold text-stone-900 ${HEADING_UPPER}`}>
         {question}
       </h3>
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph} className="mt-2 text-sm leading-relaxed text-stone-700">
-          {paragraph}
-        </p>
-      ))}
+      {typeof answer === "string" ? (
+        answer
+          .trim()
+          .split(/\n\n+/)
+          .map((paragraph) => (
+            <p
+              key={paragraph}
+              className="mt-2 text-sm leading-relaxed text-stone-700"
+            >
+              {paragraph}
+            </p>
+          ))
+      ) : (
+        <div className="mt-2 text-sm leading-relaxed text-stone-700">{answer}</div>
+      )}
     </div>
   );
 }

@@ -3,20 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  BadgeCheck,
-  Award,
-  CalendarDays,
-  Home,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Stars,
-} from "lucide-react";
+import { Award, Home, Phone, ShieldCheck, Stars } from "lucide-react";
 import CleaningLeadForm from "@/components/residential/CleaningLeadForm";
-import Footer from "@/components/residential/Footer";
+import PpcLandingFooter from "@/components/ppc/PpcLandingFooter";
 import GoogleReviews from "@/components/residential/GoogleReviews";
-import DeepCleanChecklist from "@/components/residential/DeepCleanChecklist";
 import { ServicePricingCards } from "@/components/residential/ResidentialPricingGuide";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import { CONTACT } from "@/constants.js";
@@ -28,14 +18,13 @@ import {
   BTN_SECONDARY,
   HEADING_UPPER,
 } from "@/helpers/typography.js";
-import {
-  BulletList,
-  FaqItem,
-  HOURLY_CHARGE_FAQ,
-  PORTLAND_METRO_AREAS,
-  Section,
-} from "@/components/residential/servicePageParts";
+import { FaqItem, Section } from "@/components/residential/servicePageParts";
 import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
+import {
+  FAQ_ANSWERS,
+  HOURLY_CHARGE_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
 import { capturePpcAttribution } from "@/helpers/ppcAttribution";
 import {
   PPC_DEEP_CLEAN_EVENTS,
@@ -43,89 +32,13 @@ import {
 } from "@/helpers/ppcDeepCleanAnalytics";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 
-const TRUST_VALUES = [
-  {
-    icon: Home,
-    title: "A True Top-to-Bottom Reset",
-    desc: "Detailed care throughout your home, with extra attention to buildup and areas that need a more intensive clean.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Your Price Before We Begin",
-    desc: "See starting prices below, then request a personalized quote. We'll confirm your final price during a quick walkthrough before cleaning starts.",
-  },
-  {
-    icon: CalendarDays,
-    title: "Reserve When You're Ready",
-    desc: "After you submit your quote request, you can reserve an available cleaning time online — or reserve your deep clean anytime.",
-  },
-];
-
-const PROCESS_STEPS = [
-  {
-    step: "01",
-    title: "See pricing & request a quote",
-    desc: "Review deep clean starting prices, then tell us about your Portland home for a personalized estimate.",
-  },
-  {
-    step: "02",
-    title: "Reserve your cleaning",
-    desc: "Once your request is in, you can reserve an available time right away. We'll still confirm your final price before we begin.",
-  },
-  {
-    step: "03",
-    title: "Enjoy a deeper reset",
-    desc: "Our team arrives ready to restore kitchens, bathrooms, floors, and the details that routine cleaning misses.",
-  },
-];
-
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  {
-    question: "How much does deep cleaning cost in Portland?",
-    answer:
-      "You can review starting prices by home size on this page, then request a personalized quote based on bathrooms and any add-ons. For a typical Portland home, you'll see a range rather than a single number because condition affects the work required. We confirm your final price after a walkthrough, before cleaning begins.",
-  },
-  {
-    question: "Why is my quote shown as a range?",
-    answer:
-      "Homes of the same size can need very different levels of cleaning depending on buildup. The range covers light, moderate, and heavy buildup using the same Golden Hour deep-clean pricing. You don't choose a condition level yourself.",
-  },
-  {
-    question: "When is my final price confirmed?",
-    answer:
-      "We assess the home during your walkthrough and confirm the final price before cleaning begins. You'll know the exact amount before we start.",
-  },
-  {
-    question: "Can I reserve a cleaning before I get my estimate?",
-    answer:
-      "Yes. You can reserve your deep clean anytime, and after you submit a personalized quote request you'll also see an option to pick an available time. We'll still confirm your final price with you before cleaning begins.",
-  },
-  {
-    question: "Do you bring supplies?",
-    answer:
-      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our team arrives with professional-grade products and equipment. If you have product preferences, let us know.",
-  },
-  {
-    question: "Do I need to be home?",
-    answer:
-      "Not necessarily. Many clients provide secure access while they're away. We'll coordinate access details with you before your appointment.",
-  },
-  {
-    question: "Are your cleaners background-checked?",
-    answer:
-      "Yes. Golden Hour cleaners are background-checked, and the company is licensed and insured in Oregon.",
-  },
-  {
-    question: "What is included in a deep clean?",
-    answer:
-      "A deep clean includes kitchens, bathrooms, bedrooms, living areas, and detailed work throughout the home — baseboards, window sills, light switches, reachable trim, edges, and more. See the full checklist above.",
-  },
-  {
-    question: "Can I start recurring cleaning afterward?",
-    answer:
-      "Yes. Many clients begin with a deep clean, then move to recurring standard cleaning. We can help you plan that after your first visit.",
-  },
+  siteFaq("deepPricing", "How much does deep cleaning cost in Portland?"),
+  siteFaq("finalPriceConfirmed", "When is my final price confirmed?"),
+  siteFaq("reserveBeforeEstimate", "Can I reserve a cleaning before I get my estimate?"),
+  siteFaq("deepIncluded", "What is included in a deep clean?"),
+  siteFaq("supplies", "Do you bring supplies?"),
 ];
 
 export default function PortlandDeepCleaningClient({
@@ -157,13 +70,9 @@ export default function PortlandDeepCleaningClient({
     scrollToId("#request-quote", 8, { focus: true });
   }
 
-  function scrollToWhatsIncluded() {
-    scrollToId("#whats-included", 8, { focus: true });
-  }
-
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900">
-      <ServicesPageHeader />
+      <ServicesPageHeader showNav={false} logoScrollsToTop />
 
       <main>
         <section
@@ -180,11 +89,6 @@ export default function PortlandDeepCleaningClient({
               <p className="mt-4 text-center text-base leading-relaxed text-stone-700 md:text-left md:text-lg">
                 A comprehensive, detail-focused clean designed to refresh your
                 home from top to bottom.
-              </p>
-              <p className="mt-3 text-center text-sm leading-relaxed text-stone-600 md:text-left md:text-base">
-                See starting prices online, request a personalized quote, or
-                call if you&apos;d rather talk it through. When you&apos;re
-                ready, you can reserve your deep clean online.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:justify-start">
                 <a
@@ -254,27 +158,6 @@ export default function PortlandDeepCleaningClient({
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-4 py-10" aria-label="Why Golden Hour">
-          <ul className="grid gap-4 sm:grid-cols-3">
-            {TRUST_VALUES.map(({ icon: Icon, title, desc }) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm"
-              >
-                <Icon className="h-5 w-5 text-stone-800" aria-hidden />
-                <p
-                  className={`mt-3 text-sm font-semibold text-stone-900 ${HEADING_UPPER}`}
-                >
-                  {title}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                  {desc}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <GoogleReviews />
 
         <section
@@ -336,12 +219,10 @@ export default function PortlandDeepCleaningClient({
             <ServicePricingCards
               serviceSlug="deep"
               className="mt-10"
-              learnMoreLabel="See more details"
-              onLearnMore={scrollToWhatsIncluded}
-              onRequestQuote={scrollToRequestQuote}
+              learnMoreLabel="See full checklist"
             />
 
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <div className="mt-8 flex flex-col items-center gap-3">
               <button
                 type="button"
                 onClick={scrollToRequestQuote}
@@ -349,24 +230,24 @@ export default function PortlandDeepCleaningClient({
               >
                 Request a Personalized Quote
               </button>
-              <Link
-                href="/book-online"
-                className={`${BTN_SECONDARY} w-full sm:w-auto`}
-              >
-                Reserve Your Deep Clean
-              </Link>
+              <p className="text-center text-sm text-stone-600">
+                Or call{" "}
+                <a
+                  href={`tel:${CONTACT.phone}`}
+                  data-call-source="ppc_deep_clean_pricing_call"
+                  className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+                >
+                  (503) 893-4795
+                </a>
+                {" · "}
+                <Link
+                  href="/book-online"
+                  className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+                >
+                  Reserve your deep clean →
+                </Link>
+              </p>
             </div>
-            <p className="mt-4 text-center text-sm text-stone-600">
-              Or call{" "}
-              <a
-                href={`tel:${CONTACT.phone}`}
-                data-call-source="ppc_deep_clean_pricing_call"
-                className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
-              >
-                (503) 893-4795
-              </a>{" "}
-              to talk through your home.
-            </p>
           </div>
 
           <div
@@ -399,86 +280,6 @@ export default function PortlandDeepCleaningClient({
           </div>
         </section>
 
-        <article className="mx-auto max-w-3xl px-6 pt-6 pb-12 md:pt-8 md:pb-16">
-          <Section id="whats-included" title="What's Included in a Deep Clean">
-            <DeepCleanChecklist />
-          </Section>
-
-          <Section title="Why Portland Homeowners Choose Golden Hour">
-            <BulletList
-              items={[
-                "Friendly, professional cleaners",
-                "Meticulous attention to detail",
-                "Reliable communication",
-                "Respect for your home and belongings",
-                "Consistent, high-quality results",
-                "Convenient online booking",
-                "Transparent pricing with no hidden fees",
-                "Women owned and locally operated",
-              ]}
-            />
-          </Section>
-        </article>
-
-        <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-          <h2
-            className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}
-          >
-            How Deep Cleaning Works
-          </h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {PROCESS_STEPS.map(({ step, title, desc }) => (
-              <div
-                key={step}
-                className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
-              >
-                <p className="text-2xl font-semibold text-amber-600">{step}</p>
-                <h3 className={`mt-2 text-lg font-semibold ${HEADING_UPPER}`}>
-                  {title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-stone-700">
-                  {desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-          <h2
-            className={`text-2xl font-semibold text-stone-900 md:text-3xl ${HEADING_UPPER}`}
-          >
-            Portland Service Area
-          </h2>
-          <p className="mt-3 flex items-start gap-2 text-base leading-relaxed text-stone-700">
-            <MapPin
-              className="mt-0.5 h-5 w-5 shrink-0 text-stone-800"
-              aria-hidden
-            />
-            Golden Hour Cleaning Co. provides deep house cleaning throughout
-            Portland and nearby communities.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {PORTLAND_METRO_AREAS.map((area) => (
-              <span
-                key={area}
-                className="rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-medium text-stone-800 shadow-sm"
-              >
-                {area}
-              </span>
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-stone-600">
-            Comparing options?{" "}
-            <Link
-              href="/residential/services"
-              className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
-            >
-              See all residential cleaning services →
-            </Link>
-          </p>
-        </section>
-
         <section className="mx-auto max-w-3xl px-4 py-12 md:px-6">
           <Section title="FAQ">
             <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
@@ -486,7 +287,46 @@ export default function PortlandDeepCleaningClient({
                 <FaqItem
                   key={faq.question}
                   question={faq.question}
-                  answer={faq.answer}
+                  answer={
+                    faq.question ===
+                    "How much does deep cleaning cost in Portland?" ? (
+                      <>
+                        You can review{" "}
+                        <a
+                          href="#pricing-deep"
+                          className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToId("#pricing-deep", 8, { focus: true });
+                          }}
+                        >
+                          starting prices
+                        </a>{" "}
+                        by home size on this page, then request a personalized
+                        quote based on number of bedrooms, bathrooms, square
+                        footage, and any add-ons. For a typical Portland home,
+                        we&apos;ll send you a broad range quote rather than a
+                        single number because condition affects the work
+                        required. We confirm your final price after an in-person
+                        walkthrough, right before cleaning begins.
+                      </>
+                    ) : faq.question === "What is included in a deep clean?" ? (
+                      <>
+                        {FAQ_ANSWERS.deepIncluded.replace(
+                          /\s*See the full checklist above\.$/,
+                          "",
+                        )}{" "}
+                        <Link
+                          href="/deep-clean/whats-included"
+                          className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+                        >
+                          See the full checklist →
+                        </Link>
+                      </>
+                    ) : (
+                      faq.answer
+                    )
+                  }
                 />
               ))}
             </div>
@@ -520,7 +360,7 @@ export default function PortlandDeepCleaningClient({
           </p>
         </section>
 
-        <Footer />
+        <PpcLandingFooter />
       </main>
     </div>
   );

@@ -57,7 +57,10 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${josefinSans.className} antialiased`}>
+      <body
+        className={`${josefinSans.className} antialiased`}
+        data-mobile-call-bar="1"
+      >
         <ScrollToTopOnNavigate />
         <CalendlyClickTracker />
         <ClickToCallTracker />

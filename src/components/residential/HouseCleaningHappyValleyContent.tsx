@@ -11,7 +11,12 @@ import {
   SECTION_EYEBROW_ON_DARK,
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
-import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, Section } from "./servicePageParts";
+import {
+  HOURLY_CHARGE_FAQ,
+  INSURED_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
+import { BulletList, FaqItem, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
   "Happy Valley",
@@ -119,26 +124,10 @@ const PRICING_FACTORS = [
 
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  {
-    question: "Do I need to be home?",
-    answer:
-      "No. Many of our clients provide a garage code, lockbox, or key so we can clean while they're away.",
-  },
-  {
-    question: "Do you bring your own supplies?",
-    answer:
-      "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. We provide professional-grade cleaning products and equipment.",
-  },
-  {
-    question: "Are you insured?",
-    answer:
-      "Absolutely. Golden Hour Cleaning Co. is fully insured for your peace of mind.",
-  },
-  {
-    question: "How long does a cleaning take?",
-    answer:
-      "Every home is different. We'll provide an estimated timeframe when scheduling your service.",
-  },
+  siteFaq("beHome", "Do I need to be home?"),
+  siteFaq("supplies", "Do you bring your own supplies?"),
+  INSURED_FAQ,
+  siteFaq("generalDuration", "How long does a cleaning take?"),
 ];
 
 export default function HouseCleaningHappyValleyContent() {

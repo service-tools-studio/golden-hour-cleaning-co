@@ -41,7 +41,7 @@ function attributionParams(attribution?: PpcAttribution): EventParams {
 export function trackPpcDeepCleanEvent(
   eventName: PpcDeepCleanEvent,
   params: EventParams = {},
-  attribution?: PpcAttribution
+  attribution?: PpcAttribution,
 ) {
   if (typeof window === "undefined") return;
 
@@ -58,4 +58,8 @@ export function trackPpcDeepCleanEvent(
   if (typeof window.gtag === "function") {
     window.gtag("event", eventName, payload);
   }
+}
+
+export function isPpcDeepCleanPath(pathname = window.location.pathname) {
+  return pathname === "/portland-deep-cleaning";
 }

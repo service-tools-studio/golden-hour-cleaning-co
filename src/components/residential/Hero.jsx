@@ -20,7 +20,7 @@ export default function Hero() {
       className="relative overflow-hidden"
     >
       <div className="lg:relative">
-        <div className="relative aspect-[2/1] w-full overflow-hidden bg-amber-50 sm:aspect-[5/3] lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-auto lg:w-1/2">
+        <div className="relative aspect-[15/8] w-full overflow-hidden bg-amber-50 sm:aspect-[5/3] lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-auto lg:w-1/2">
           <Image
             src="/assets/golden-hour-homepage.png"
             alt="A Golden Hour cleaner smiling while wiping a gold-framed bathroom mirror"

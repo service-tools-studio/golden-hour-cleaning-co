@@ -3,7 +3,12 @@ import Link from "next/link";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
 import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
 import ServiceDetailHero from "./ServiceDetailHero";
-import { BulletList, FaqItem, HOURLY_CHARGE_FAQ, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import {
+  HOURLY_CHARGE_FAQ,
+  STANDARD_PRICING_FAQ,
+  siteFaq,
+} from "@/data/siteFaqs";
+import { BulletList, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
 
 export default function StandardCleanPageContent({
   quoteHref,
@@ -196,33 +201,24 @@ export default function StandardCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+          <FaqItem {...HOURLY_CHARGE_FAQ} />
+          <FaqItem {...STANDARD_PRICING_FAQ} />
           <FaqItem
-            question={HOURLY_CHARGE_FAQ.question}
-            answer={HOURLY_CHARGE_FAQ.answer}
+            {...siteFaq("standardWhoFor", "Who is Standard Cleaning for?")}
           />
           <FaqItem
-            question="How is standard cleaning priced?"
-            answer="You can request a personalized quote online based on your home's size and service type. We confirm your final price after a quick walkthrough."
+            {...siteFaq(
+              "standardDuration",
+              "How long does a standard cleaning take?",
+            )}
           />
+          <FaqItem {...siteFaq("beHome", "Do I need to be home?")} />
+          <FaqItem {...siteFaq("supplies", "Do you bring your own supplies?")} />
           <FaqItem
-            question="Who is Standard Cleaning for?"
-            answer="Standard cleans are reserved for recurring customers or homes that have had a professional cleaning within the past 2–4 weeks. If it's been longer, we usually recommend starting with a Deep Clean."
-          />
-          <FaqItem
-            question="How long does a standard cleaning take?"
-            answer="On-site time varies with your home's size and condition. We schedule enough cleaners to keep visits efficient, and you'll see an estimate when you get your quote."
-          />
-          <FaqItem
-            question="Do I need to be home?"
-            answer="No. Many of our clients provide secure access while they're at work or away. We'll discuss the option that works best for you."
-          />
-          <FaqItem
-            question="Do you bring your own supplies?"
-            answer="Yes. We use eco-friendly products whenever possible. We arrive with professional-grade equipment and supplies, and you're welcome to share any product preferences."
-          />
-          <FaqItem
-            question="How often should I schedule cleaning?"
-            answer="Most homeowners choose bi-weekly service, while others prefer weekly or monthly visits depending on their household and lifestyle."
+            {...siteFaq(
+              "standardHowOften",
+              "How often should I schedule cleaning?",
+            )}
           />
         </div>
       </Section>

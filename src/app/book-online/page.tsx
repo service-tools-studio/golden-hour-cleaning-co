@@ -24,29 +24,29 @@ export default function BookOnlinePage() {
               Reserve Your Cleaning
             </h1>
             <p
-              className={`mt-4 text-sm font-semibold text-stone-800 ${HEADING_UPPER}`}
+              className={`mt-4 whitespace-nowrap text-[clamp(0.65rem,2.7vw,0.875rem)] font-semibold text-stone-800 ${HEADING_UPPER}`}
             >
               <span className="text-amber-700">1</span>
-              <span className="mx-1.5 font-normal text-stone-400">·</span>
+              <span className="mx-[0.3em] font-normal text-stone-400">·</span>
               Contact
-              <span className="mx-2 font-normal text-stone-400" aria-hidden>
+              <span className="mx-[0.4em] font-normal text-stone-400" aria-hidden>
                 →
               </span>
               <span className="text-amber-700">2</span>
-              <span className="mx-1.5 font-normal text-stone-400">·</span>
+              <span className="mx-[0.3em] font-normal text-stone-400">·</span>
               Home details
-              <span className="mx-2 font-normal text-stone-400" aria-hidden>
+              <span className="mx-[0.4em] font-normal text-stone-400" aria-hidden>
                 →
               </span>
               <span className="text-amber-700">3</span>
-              <span className="mx-1.5 font-normal text-stone-400">·</span>
+              <span className="mx-[0.3em] font-normal text-stone-400">·</span>
               Pick a time
             </p>
-            <p className="mt-5 inline-flex max-w-full items-center justify-center rounded-2xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-sm font-semibold text-amber-950 sm:text-base">
-              Daily availability, including same-day
-              <span className="mx-1.5 text-xs font-medium text-amber-800/75 sm:text-sm">
+            <p className="mx-auto mt-5 max-w-md rounded-2xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-center text-sm font-semibold leading-snug text-amber-950 text-pretty sm:max-w-none sm:text-base sm:leading-normal">
+              Daily availability, including same-day{" "}
+              <span className="font-medium text-amber-800/80">
                 (submit by 12pm)
-              </span>
+              </span>{" "}
               and next-day.
             </p>
             <p className="mt-4 text-base leading-relaxed text-stone-600 md:text-lg">
