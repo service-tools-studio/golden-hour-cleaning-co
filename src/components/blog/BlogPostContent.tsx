@@ -163,7 +163,8 @@ function BlogSections({ post }: { post: BlogPost }) {
           Boolean(section.blocks?.length) ||
           Boolean(section.paragraphs?.length) ||
           Boolean(section.review) ||
-          Boolean(section.link);
+          Boolean(section.link) ||
+          Boolean(section.links?.length);
 
         return (
           <section key={section.heading ?? `intro-${index}`}>
@@ -185,6 +186,20 @@ function BlogSections({ post }: { post: BlogPost }) {
                       {section.link.label}
                     </Link>
                   </p>
+                ) : null}
+                {section.links?.length ? (
+                  <ul className="mt-4 space-y-3">
+                    {section.links.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
               </div>
             ) : null}

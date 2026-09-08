@@ -26,6 +26,8 @@ export type BlogSection = {
   blocks?: BlogSectionBlock[];
   /** Optional CTA link after the section body */
   link?: { href: string; label: string };
+  /** Optional stacked CTA links (e.g. related client stories) */
+  links?: Array<{ href: string; label: string }>;
   /** Optional embedded Google review card */
   review?: BlogGoogleReview;
 };
@@ -47,6 +49,78 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "this-business-is-more-than-cleaning",
+    title: "This Business Is More Than Cleaning to Me",
+    author: "Kelsey Collins",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-09-07",
+    excerpt:
+      "Cleaning is about more than spotless kitchens and bathrooms. Golden Hour Co-Founder Kelsey Collins on trust, vulnerability, and the people who make this work meaningful.",
+    heroImage: {
+      src: "/assets/kelsey-baseboards.png",
+      alt: "Kelsey Collins carefully cleaning baseboards in a Portland home",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "This business is more than cleaning to me.",
+          "It's about helping people, being of service, and tapping into true nurturing and love. Cleaning gives me an outlet for that part of myself. Yes, we're there to make someone's home feel clean and beautiful, but I've realized that the work is often about so much more than that.",
+          "There's a vulnerability that comes with allowing someone into your home. Your home is one of your most personal spaces. It holds the everyday pieces of your life—the things you're proud of, the things you haven't gotten around to, the seasons when life feels put together, and the seasons when it doesn't.",
+          "When someone invites us into that space and trusts us to care for it, I don't take that lightly.",
+          "We get to see inside somebody's life. What an honor that is.",
+          "And almost instantly, that creates a connection. They become more than just a client. They become someone we care about.",
+        ],
+      },
+      {
+        heading: "Sometimes, cleaning is really about taking care of someone",
+        paragraphs: [
+          "I've learned that people call us during all kinds of moments in their lives.",
+          "Sometimes they're simply busy and want their home to feel good again. But sometimes there's something much bigger happening underneath the request.",
+          "Someone may be overwhelmed and finally asking for help. Someone may be preparing their home for a new baby, moving into a new chapter of their life, recovering from a difficult season, caring for an aging parent, or trying to create some sense of calm when everything else feels chaotic.",
+          "We may be coming in to clean a kitchen or scrub a bathroom, but what we're really being trusted with is a small part of that person's life.",
+          "That changes the way I approach the work.",
+          "I want people to feel that we're not there to judge them. We're there to help. I want them to feel comfortable telling us what they need and trusting that we'll treat their home with care.",
+          "Sometimes that means listening. Sometimes it means noticing the little things. Sometimes it means going a little slower with someone who needs reassurance. And sometimes it simply means doing the work well so they can walk back into their home, look around, and feel a little lighter.",
+        ],
+      },
+      {
+        heading: "The people I've met through Golden Hour",
+        paragraphs: [
+          "Some of my favorite memories from building Golden Hour have nothing to do with the size of the job or how much we made from it. They're the moments when I felt a real connection with someone and remembered exactly why I wanted to do this in the first place.",
+          "There are a few stories that have stayed especially close to me:",
+        ],
+        links: [
+          {
+            href: "/blog/client-story-bringing-their-baby-home",
+            label: "Client Story: Bringing Their Baby Home →",
+          },
+          {
+            href: "/blog/helping-a-family-return-home-after-mold-remediation",
+            label:
+              "Client Story: Helping a Family Return Home After Mold Remediation →",
+          },
+          {
+            href: "/blog/homeowners-nightmare-reviving-severely-neglected-rental-property",
+            label:
+              "Client Story: Reviving a Severely Neglected Rental Property →",
+          },
+        ],
+      },
+      {
+        paragraphs: [
+          "Those experiences have shaped the kind of company I want Golden Hour to be.",
+          "Of course I want us to be excellent cleaners. I want us to be reliable, professional, detailed, and really good at what we do.",
+          "But I also want people to feel cared for.",
+          "I want Golden Hour to be the kind of company where you can open your front door and feel safe letting us into your world for a little while. Where you know that the people entering your home understand that it isn't just another job site.",
+          "It's your space. It's your life.",
+          "And being trusted with it is something I'll never stop feeling grateful for.",
+          "— Kelsey",
+        ],
+      },
+    ],
+  },
   {
     slug: "how-much-does-post-construction-cleaning-cost-in-portland",
     title: "How Much Does Post-Construction Cleaning Cost in Portland?",
