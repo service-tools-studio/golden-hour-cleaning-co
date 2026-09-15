@@ -395,7 +395,10 @@ function attributionLines(attrs?: CleaningLeadAttribution): string[] {
     .map(([label, value]) => `${label}: ${value!.trim()}`);
 }
 
-export function buildCleaningLeadEmailBody(data: CleaningLeadPayload): string {
+export function buildCleaningLeadEmailBody(
+  data: CleaningLeadPayload,
+  options?: { calendlyUrl?: string },
+): string {
   const isQuote = data.leadPath === "Personalized Quote";
   const header =
     data.leadPath === "Book Online"
@@ -442,6 +445,10 @@ export function buildCleaningLeadEmailBody(data: CleaningLeadPayload): string {
 
   if (isQuote) {
     lines.push("", "CUSTOMER NOTES", data.notes?.trim() || "(none)");
+  }
+
+  if (isQuote && options?.calendlyUrl) {
+    lines.push("", "SCHEDULING", `Calendly link: ${options.calendlyUrl}`);
   }
 
   const attrBody = attributionLines(data.attribution);

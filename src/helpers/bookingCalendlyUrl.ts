@@ -11,17 +11,16 @@
  *   a4 = Preferences / special requests (optional notes on quote form)
  *
  * Home details also go in utm_content for the internal calendar-details tool.
+ *
+ * Safe for client and server (API email) use.
  */
 
 import { CONTACT } from "@/constants.js";
 import {
   fullNameFromLead,
+  type CleaningLeadAttribution,
   type CleaningLeadFormState,
 } from "@/lib/cleaningLead";
-import {
-  getPpcAttribution,
-  type PpcAttribution,
-} from "@/helpers/ppcAttribution";
 
 /** Standard Calendly invitee query params. */
 export const CALENDLY_STANDARD_FIELD_MAP = {
@@ -48,7 +47,7 @@ export type BookingCalendlyInput = {
   form: CleaningLeadFormState;
   leadPath: "Personalized Quote" | "Book Online";
   baseUrl?: string;
-  attribution?: PpcAttribution | null;
+  attribution?: CleaningLeadAttribution | null;
 };
 
 function compactCondition(condition: string): string {
@@ -106,11 +105,7 @@ export function buildBookingCalendlyUrl({
   }
 
   const attrs =
-    attribution && typeof attribution === "object"
-      ? attribution
-      : typeof window !== "undefined"
-        ? getPpcAttribution()
-        : {};
+    attribution && typeof attribution === "object" ? attribution : {};
 
   const utmSource =
     leadPath === "Book Online" ? "book_online" : "request_a_quote";

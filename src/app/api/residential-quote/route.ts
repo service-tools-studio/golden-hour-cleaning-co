@@ -11,6 +11,7 @@ import {
   type CleaningLeadMode,
   type CleaningLeadPayload,
 } from "@/lib/cleaningLead";
+import { buildBookingCalendlyUrl } from "@/helpers/bookingCalendlyUrl";
 import {
   createGmailTransporter,
   formatSmtpError,
@@ -90,6 +91,15 @@ export async function POST(request: Request) {
     );
   }
 
+  const calendlyUrl =
+    leadPath === "Personalized Quote"
+      ? buildBookingCalendlyUrl({
+          form: normalized,
+          leadPath,
+          attribution: normalized.attribution ?? null,
+        })
+      : undefined;
+
   try {
     const transporter = createGmailTransporter();
     await transporter.verify();
@@ -99,7 +109,7 @@ export async function POST(request: Request) {
       to: creds.to,
       replyTo: normalized.email,
       subject: buildCleaningLeadEmailSubject(normalized),
-      text: buildCleaningLeadEmailBody(normalized),
+      text: buildCleaningLeadEmailBody(normalized, { calendlyUrl }),
     });
 
     return NextResponse.json({ ok: true });
