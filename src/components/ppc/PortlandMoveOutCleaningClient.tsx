@@ -327,7 +327,7 @@ export default function PortlandMoveOutCleaningClient({
                         {FAQ_ANSWERS.moveOutEmptyHome} For the full move-in /
                         move-out list, see our{" "}
                         <Link
-                          href="/residential/services/move-out#whats-included"
+                          href="/move-out-clean/whats-included"
                           className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
                         >
                           what&apos;s included checklist →

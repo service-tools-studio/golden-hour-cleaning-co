@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
-import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
+import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import ServiceDetailHero from "./ServiceDetailHero";
+import MoveOutCleanChecklist from "./MoveOutCleanChecklist";
 import {
   HOURLY_CHARGE_FAQ,
   MOVE_OUT_PRICING_FAQ,
@@ -30,7 +31,7 @@ export default function MoveOutCleanPageContent({
         imageSrc="/assets/move-out-clean.png"
         imageAlt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
         includedItems={service.items}
-        checklistHref="#whats-included"
+        checklistHref="/move-out-clean/whats-included"
         quoteHref={quoteHref}
       />
 
@@ -58,89 +59,7 @@ export default function MoveOutCleanPageContent({
       </Section>
 
       <Section id="whats-included" title="What's Included in Our Move-In & Move-Out Cleaning?">
-        <p className="text-base leading-relaxed text-stone-700">
-          Our move-in and move-out cleaning is one of our most detailed services,
-          designed to clean areas that are often overlooked during routine
-          housekeeping.
-        </p>
-
-        <div className="mt-6 space-y-6 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Kitchen
-            </h3>
-            <BulletList
-              items={[
-                "Clean inside and outside of cabinets and drawers",
-                "Clean countertops and backsplash",
-                "Clean sink and faucet",
-                "Clean stovetop",
-                "Clean inside and outside of the oven",
-                "Clean inside and outside of the microwave",
-                "Clean exterior of appliances",
-                "Wipe doors, trim, and baseboards",
-                "Vacuum and mop floors",
-                "Empty trash",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Bathrooms
-            </h3>
-            <BulletList
-              items={[
-                "Scrub showers, tubs, and tile",
-                "Remove soap scum and mineral buildup",
-                "Clean and disinfect toilets",
-                "Clean sinks and countertops",
-                "Polish mirrors and fixtures",
-                "Clean inside cabinets and drawers",
-                "Wipe doors, trim, and baseboards",
-                "Vacuum and mop floors",
-                "Empty trash",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Bedrooms &amp; Living Areas
-            </h3>
-            <BulletList
-              items={[
-                "Dust all accessible surfaces",
-                "Dust baseboards, trim, and window sills",
-                "Spot clean walls as needed",
-                "Clean doors and door frames",
-                "Clean light switches",
-                "Vacuum carpets and hard-to-reach edges",
-                "Mop hard floors",
-                "Remove cobwebs",
-              ]}
-            />
-          </div>
-
-          <div>
-            <h3 className={`text-base font-semibold ${HEADING_UPPER}`}>
-              Throughout the Home
-            </h3>
-            <BulletList
-              items={[
-                "Dust ceiling fans (within reach)",
-                "Dust vents (within reach)",
-                "Clean baseboards throughout",
-                "Clean window sills and tracks",
-                "Spot clean walls",
-                "Wipe doors and trim",
-                "Vacuum closets",
-                "Vacuum under accessible areas",
-                "Mop all hard flooring",
-              ]}
-            />
-          </div>
-        </div>
+        <MoveOutCleanChecklist />
       </Section>
 
       <Section title="Designed for Empty Homes">
