@@ -149,9 +149,7 @@ export function validateCleaningLeadForm(
     }
   }
 
-  if (mode === "booking") {
-    if (!form.address.trim()) errors.address = "Enter the service address.";
-  }
+  if (!form.address.trim()) errors.address = "Enter the service address.";
 
   if (!form.cleaningType || !SET.cleaning.has(form.cleaningType)) {
     errors.cleaningType = "Select a cleaning type.";
@@ -192,6 +190,7 @@ export function firstErrorField(
           "mobilePhone",
           "email",
           "contactPreference",
+          "address",
           "cleaningType",
           "homeSize",
           "bedrooms",
@@ -270,6 +269,11 @@ export const QUOTE_FORM_STEPS = [
     id: "preference",
     title: "Contact preference",
     fields: ["contactPreference"],
+  },
+  {
+    id: "address",
+    title: "Service address",
+    fields: ["address"],
   },
   {
     id: "service",
@@ -425,7 +429,7 @@ export function buildCleaningLeadEmailBody(
     lines.push(`Preferred contact: ${data.contactPreference}`);
   }
 
-  if (!isQuote && data.address?.trim()) {
+  if (data.address?.trim()) {
     lines.push(`Address: ${data.address.trim()}`);
   }
 
