@@ -147,11 +147,11 @@ export default function PortlandDeepCleaningClient({
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm">
               <Image
-                src="/assets/golden-hour-homepage.png"
-                alt="A Golden Hour cleaner smiling while wiping a gold-framed bathroom mirror"
+                src="/assets/vacuuming.PNG"
+                alt="A Golden Hour cleaner smiling while vacuuming a living room rug"
                 fill
                 priority
-                className="object-cover object-[center_20%]"
+                className="object-cover object-center"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>

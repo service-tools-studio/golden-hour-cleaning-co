@@ -28,8 +28,9 @@ export default function MoveOutCleanPageContent({
         tagline="Most intensive"
         title="Move-In & Move-Out Cleaning Services in Portland, OR"
         intro="Our move-in/out cleaning is a detailed empty-home reset—so you can hand over keys or settle in with a truly clean start."
-        imageSrc="/assets/move-out-clean.png"
-        imageAlt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
+        imageSrc="/assets/move-out-shutters.jpg"
+        imageAlt="A Golden Hour cleaner smiling while wiping white shutters during a move-out clean"
+        imageClassName="object-cover object-center"
         includedItems={service.items}
         checklistHref="/move-out-clean/whats-included"
         quoteHref={quoteHref}

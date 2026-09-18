@@ -43,6 +43,8 @@ export type ServiceDetailHeroProps = {
   intro: string;
   imageSrc: string;
   imageAlt: string;
+  /** Extra classes for the hero Image (defaults to object-cover object-top). */
+  imageClassName?: string;
   includedItems: string[];
   includedLeadIn?: string;
   checklistHref: string;
@@ -56,6 +58,7 @@ export default function ServiceDetailHero({
   intro,
   imageSrc,
   imageAlt,
+  imageClassName = "object-cover object-top",
   includedItems,
   includedLeadIn,
   checklistHref,
@@ -209,7 +212,7 @@ export default function ServiceDetailHero({
                 alt={imageAlt}
                 fill
                 sizes="(max-width: 1023px) 50vw, 40vw"
-                className="object-cover object-top"
+                className={imageClassName}
                 priority
               />
             </div>

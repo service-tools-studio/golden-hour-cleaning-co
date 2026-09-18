@@ -34,8 +34,9 @@ export default function DeepCleanPageContent({
         tagline="Full-home reset"
         title="Deep House Cleaning in Portland: What's Included & Pricing"
         intro="Our deep cleaning service is perfect when your home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new. Explore what's included and typical pricing below — or get started with a quote when you're ready."
-        imageSrc="/assets/careful-cleaner.png"
-        imageAlt="Golden Hour cleaner smiling while holding supplies in a bright kitchen"
+        imageSrc="/assets/vacuuming.PNG"
+        imageAlt="A Golden Hour cleaner smiling while vacuuming a living room rug"
+        imageClassName="object-cover object-center"
         includedItems={service.items}
         checklistHref="/deep-clean/whats-included"
         quoteHref={quoteHref}

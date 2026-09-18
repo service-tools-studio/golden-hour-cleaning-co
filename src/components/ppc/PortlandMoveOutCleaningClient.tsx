@@ -150,8 +150,8 @@ export default function PortlandMoveOutCleaningClient({
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-sm">
               <Image
-                src="/assets/move-out-clean.png"
-                alt="Golden Hour cleaner wiping inside an empty kitchen cabinet during a move-out cleaning"
+                src="/assets/move-out-shutters.jpg"
+                alt="A Golden Hour cleaner smiling while wiping white shutters during a move-out clean"
                 fill
                 priority
                 className="object-cover object-center"

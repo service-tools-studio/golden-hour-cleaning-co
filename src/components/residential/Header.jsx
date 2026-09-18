@@ -127,8 +127,8 @@ export default function Header() {
         `}</style>
       </div>
 
-      {/* Logo + nav — same static sizing as ServicesPageHeader */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-5">
+      {/* Logo + nav */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5 sm:px-6 sm:py-3">
         <Link
           href="/"
           aria-label="Go to homepage"
@@ -148,8 +148,8 @@ export default function Header() {
             width={200}
             height={100}
             priority
-            className="h-11 w-auto max-w-none object-contain sm:h-16 md:h-20"
-            sizes="(max-width: 640px) 140px, (max-width: 768px) 200px, 240px"
+            className="h-7 w-auto max-w-none object-contain sm:h-9 md:h-[45px]"
+            sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, 160px"
           />
         </Link>
         <HeaderNav />
