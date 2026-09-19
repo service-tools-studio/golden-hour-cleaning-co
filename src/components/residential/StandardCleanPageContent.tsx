@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
 import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
+import ReviewStartingPricesFaqAnswer from "./ReviewStartingPricesFaqAnswer";
 import ServiceDetailHero from "./ServiceDetailHero";
 import {
   HOURLY_CHARGE_FAQ,
@@ -202,7 +203,14 @@ export default function StandardCleanPageContent({
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem {...HOURLY_CHARGE_FAQ} />
-          <FaqItem {...STANDARD_PRICING_FAQ} />
+          <FaqItem
+            question={STANDARD_PRICING_FAQ.question}
+            answer={
+              <ReviewStartingPricesFaqAnswer
+                answer={STANDARD_PRICING_FAQ.answer}
+              />
+            }
+          />
           <FaqItem
             {...siteFaq("standardWhoFor", "Who is Standard Cleaning for?")}
           />

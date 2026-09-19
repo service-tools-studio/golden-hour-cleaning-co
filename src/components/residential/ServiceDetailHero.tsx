@@ -136,7 +136,11 @@ export default function ServiceDetailHero({
             begin the cleaning.
           </p>
 
-          <section id="pricing" className="mt-10 scroll-mt-[var(--header-height,120px)]">
+          <section
+            id="pricing"
+            tabIndex={-1}
+            className="mt-10 scroll-mt-[var(--header-height,120px)] focus:outline-none"
+          >
             <h2 className={`text-sm font-bold ${HEADING_UPPER} ${theme.tagline}`}>
               Starting Prices
             </h2>

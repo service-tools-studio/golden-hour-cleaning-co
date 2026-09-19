@@ -11,6 +11,7 @@ import {
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
 import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import DeepCleanChecklist from "./DeepCleanChecklist";
+import ReviewStartingPricesFaqAnswer from "./ReviewStartingPricesFaqAnswer";
 import ServiceDetailHero from "./ServiceDetailHero";
 import {
   BulletList,
@@ -142,7 +143,12 @@ export default function DeepCleanPageContent({
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
           <FaqItem {...HOURLY_CHARGE_FAQ} />
-          <FaqItem {...DEEP_PRICING_FAQ} />
+          <FaqItem
+            question={DEEP_PRICING_FAQ.question}
+            answer={
+              <ReviewStartingPricesFaqAnswer answer={DEEP_PRICING_FAQ.answer} />
+            }
+          />
           <FaqItem
             {...siteFaq("deepDuration", "How long does a deep cleaning take?")}
           />
