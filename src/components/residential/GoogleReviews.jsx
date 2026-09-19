@@ -12,7 +12,7 @@ const PAGE_INTRO =
   'Every home and every cleaning is different, but our goal is always the same: thoughtful service and a beautifully cared-for space. See what our clients have shared about their experiences with Golden Hour Cleaning Co.';
 
 const REVIEWS_SIDE_IMAGE = {
-  src: '/assets/windows-extended-height.PNG',
+  src: '/assets/windows-extended-height-v2.PNG',
   alt: 'A Golden Hour cleaner wiping a sunlit living room window',
 };
 

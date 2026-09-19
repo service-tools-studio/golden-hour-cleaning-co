@@ -35,10 +35,10 @@ export default function ClientExperienceSection() {
       <div className="lg:relative">
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-amber-50 lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-1/2">
           <Image
-            src="/assets/windows-extended-height.PNG"
+            src="/assets/windows-extended-height-v2.PNG"
             alt="A Golden Hour cleaner wiping a sunlit living room window"
             fill
-            className="object-cover object-top"
+            className="object-cover object-[center_18%]"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>

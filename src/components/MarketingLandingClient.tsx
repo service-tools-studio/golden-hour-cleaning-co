@@ -14,20 +14,10 @@ import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
 
-const DETAIL_PHOTOS = [
-  {
-    src: "/assets/vacuuming.PNG",
-    alt: "A Golden Hour cleaner smiling while vacuuming a living room rug",
-  },
-  {
-    src: "/assets/shutters.PNG",
-    alt: "A Golden Hour cleaner wiping white plantation shutters by a sunny window",
-  },
-  {
-    src: "/assets/windows.PNG",
-    alt: "A Golden Hour cleaner wiping an upper window pane above plantation shutters",
-  },
-] as const;
+const DETAIL_PHOTO = {
+  src: "/assets/vacuuming.PNG",
+  alt: "A Golden Hour cleaner smiling while vacuuming a living room rug",
+} as const;
 
 type Props = {
   pagePath: "/" | "/residential";
@@ -58,27 +48,20 @@ export default function MarketingLandingClient({ pagePath }: Props) {
         </div>
 
         <section
-          className="border-t border-amber-200/60 bg-white py-16 md:py-20 lg:py-24"
+          className="border-t border-amber-200/60 bg-white py-12 md:py-16"
           aria-label="Golden Hour cleaners at work"
         >
-          <div className="mx-auto max-w-6xl px-6 lg:max-w-7xl">
-            <ul className="grid gap-6 sm:grid-cols-3">
-              {DETAIL_PHOTOS.map(({ src, alt }) => (
-                <li key={src}>
-                  <figure className="overflow-hidden rounded-2xl border border-amber-200 bg-stone-100 shadow-sm">
-                    <div className="relative aspect-[4/3] w-full">
-                      <Image
-                        src={src}
-                        alt={alt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 33vw"
-                        className="object-cover object-center"
-                      />
-                    </div>
-                  </figure>
-                </li>
-              ))}
-            </ul>
+          <div className="mx-auto max-w-5xl px-4 lg:max-w-6xl">
+            <figure className="overflow-hidden rounded-2xl border border-amber-200 bg-stone-100 shadow-sm">
+              <Image
+                src={DETAIL_PHOTO.src}
+                alt={DETAIL_PHOTO.alt}
+                width={1411}
+                height={1114}
+                sizes="(max-width: 1024px) 100vw, 72rem"
+                className="h-auto w-full object-contain"
+              />
+            </figure>
           </div>
         </section>
 

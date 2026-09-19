@@ -454,16 +454,16 @@ export function ServicePricingCards({
           className="sticky top-[var(--header-height,120px)] z-30 -mx-4 mb-8 bg-amber-50/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-amber-50/80 md:-mx-0 md:px-0"
         >
           <div className="flex justify-center">
-            <ul className="inline-flex max-w-full flex-wrap items-center justify-center gap-1 rounded-2xl border border-stone-200 bg-white p-1.5 shadow-sm">
+            <ul className="inline-flex max-w-full flex-nowrap items-center justify-center gap-0.5 rounded-2xl border border-stone-200 bg-white p-1 shadow-sm sm:gap-1 sm:p-1.5">
               {blocks.map((block) => {
                 const theme = PRICING_CARD_THEMES[block.serviceSlug];
                 const isActive = activeSlug === block.serviceSlug;
                 return (
-                  <li key={block.serviceSlug}>
+                  <li key={block.serviceSlug} className="min-w-0 shrink">
                     <a
                       href={`#${pricingCardId(block.serviceSlug)}`}
                       aria-current={isActive ? "true" : undefined}
-                      className={`${BTN_UPPER} inline-flex items-center rounded-2xl px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 sm:px-4 ${
+                      className={`${BTN_UPPER} inline-flex max-w-full items-center rounded-xl px-2 py-1.5 text-[11px] font-semibold leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 sm:rounded-2xl sm:px-4 sm:py-2 sm:text-sm ${
                         isActive
                           ? JUMP_NAV_ACTIVE_CLASS[block.serviceSlug]
                           : "text-stone-700 hover:bg-stone-50"
@@ -478,10 +478,15 @@ export function ServicePricingCards({
                       }}
                     >
                       <span
-                        className={`mr-2 inline-block h-2 w-2 shrink-0 rounded-full ${theme.divider}`}
+                        className={`mr-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full sm:mr-2 sm:h-2 sm:w-2 ${theme.divider}`}
                         aria-hidden
                       />
-                      {block.displayTitle.replace(/Cleaning$/, "Clean")}
+                      <span className="truncate">
+                        {block.displayTitle
+                          .replace(/Cleaning$/i, "")
+                          .replace(/Clean$/i, "")
+                          .trim()}
+                      </span>
                     </a>
                   </li>
                 );

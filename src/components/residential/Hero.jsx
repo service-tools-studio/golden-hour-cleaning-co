@@ -32,7 +32,7 @@ export default function Hero() {
         </div>
 
         <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-14 xl:px-16 xl:py-16">
-          <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-lg xl:max-w-xl">
+          <div className="mx-auto w-full max-w-6xl text-center lg:max-w-lg xl:max-w-xl">
             <h1
               className={`text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >

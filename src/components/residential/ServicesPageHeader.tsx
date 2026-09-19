@@ -55,8 +55,8 @@ export default function ServicesPageHeader({
       width={200}
       height={100}
       priority
-      className="h-12 w-auto max-w-none object-contain sm:h-14 md:h-16"
-      sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 200px"
+      className="h-7 w-auto max-w-none object-contain sm:h-8 md:h-10"
+      sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, 160px"
     />
   );
 
@@ -64,10 +64,11 @@ export default function ServicesPageHeader({
     <header
       ref={headerRef}
       className="sticky top-0 z-[100000] w-full border-b border-amber-200 bg-brand"
+      aria-label="Site header"
       data-site-header
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 sm:py-3.5 ${
+        className={`flex w-full items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-3 lg:px-8 ${
           showNav ? "justify-between" : "justify-start"
         }`}
       >
