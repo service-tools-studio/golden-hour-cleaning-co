@@ -55,8 +55,8 @@ export default function ServicesPageHeader({
       width={200}
       height={100}
       priority
-      className="h-7 w-auto max-w-none object-contain sm:h-8 md:h-10"
-      sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, 160px"
+      className="h-9 w-auto max-w-none object-contain sm:h-11 md:h-12"
+      sizes="(max-width: 640px) 110px, (max-width: 768px) 150px, 180px"
     />
   );
 
@@ -68,7 +68,7 @@ export default function ServicesPageHeader({
       data-site-header
     >
       <div
-        className={`flex w-full items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-3 lg:px-8 ${
+        className={`flex w-full items-center gap-3 px-4 py-1 sm:px-6 sm:py-1.5 lg:px-8 ${
           showNav ? "justify-between" : "justify-start"
         }`}
       >

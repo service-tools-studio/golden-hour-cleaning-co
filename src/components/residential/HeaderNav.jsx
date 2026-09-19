@@ -39,7 +39,7 @@ function getMenuTop() {
   return Number.parseInt(fallback, 10) || 100;
 }
 
-export default function HeaderNav() {
+export default function HeaderNav({ hamburgerOverlay = false } = {}) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menuTop, setMenuTop] = useState(100);
@@ -176,7 +176,10 @@ export default function HeaderNav() {
       : null;
 
   return (
-    <nav aria-label="Main navigation" className="relative shrink-0">
+    <nav
+      aria-label="Main navigation"
+      className={hamburgerOverlay ? "shrink-0" : "relative shrink-0"}
+    >
       <ul className="hidden xl:flex items-center">
         {NAV_LINKS.map((link, index) => (
           <li key={link.href} className="flex items-center">
@@ -203,7 +206,19 @@ export default function HeaderNav() {
         </li>
       </ul>
 
-      <div className="xl:hidden">
+      {/* In-flow spacer keeps nav row height when the button is absolutely overlaid */}
+      {hamburgerOverlay ? (
+        <div className="h-10 w-10 xl:hidden" aria-hidden />
+      ) : null}
+
+      {/* Overlay mode: same vertical span as logo (top-1 / bottom-1) so it floats over marquee + nav */}
+      <div
+        className={
+          hamburgerOverlay
+            ? "absolute right-3 top-1 bottom-1 z-30 flex items-center sm:right-4 lg:right-6 xl:hidden"
+            : "xl:hidden"
+        }
+      >
         <button
           type="button"
           aria-expanded={open}

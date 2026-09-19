@@ -46,13 +46,50 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-[100000] w-full border-b border-amber-200 bg-brand"
+      className="relative sticky top-0 z-[100000] w-full border-b border-amber-200 bg-brand"
       aria-label="Site header"
       data-site-header
     >
-      {/* Announcement marquee */}
+      {/* Mint veil: obscures marquee through transparent logo, fades soft to the right */}
       <div
-        className="relative w-full overflow-hidden border-b border-amber-200"
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 z-20 w-40 bg-gradient-to-r from-brand from-[42%] via-brand/70 via-[72%] to-transparent sm:w-44 md:w-52"
+      />
+
+      {/* Mint veil (right): mirrors logo treatment behind hamburger; marquee scrolls underneath */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 z-20 w-28 bg-gradient-to-l from-brand from-[42%] via-brand/70 via-[72%] to-transparent sm:w-32 md:w-36 xl:hidden"
+      />
+
+      {/* Logo spans marquee + nav; sits above both. Marquee scrolls full-width behind it. */}
+      <Link
+        href="/"
+        aria-label="Go to homepage"
+        className="absolute left-3 top-1 bottom-1 z-30 flex items-center sm:left-4 lg:left-6"
+        onClick={(e) => {
+          if (pathname !== "/" && pathname !== "/residential") return;
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          document
+            .getElementById("page-top")
+            ?.scrollIntoView({ block: "start", behavior: "smooth" });
+        }}
+      >
+        <Image
+          src="/assets/Golden Hour - commercial.png"
+          alt="Golden Hour Cleaning Co."
+          width={200}
+          height={100}
+          priority
+          className="h-full w-auto max-w-none object-contain object-left"
+          sizes="(max-width: 640px) 140px, 180px"
+        />
+      </Link>
+
+      {/* Announcement marquee — full width, behind logo */}
+      <div
+        className="relative z-10 w-full overflow-hidden border-b border-amber-200"
         style={{
           height: BANNER_H,
           background: "linear-gradient(to right, #fde68a, #a7eff1)",
@@ -127,32 +164,9 @@ export default function Header() {
         `}</style>
       </div>
 
-      {/* Logo + nav */}
-      <div className="flex w-full items-center justify-between gap-3 px-4 py-1.5 sm:px-6 sm:py-3 lg:px-8">
-        <Link
-          href="/"
-          aria-label="Go to homepage"
-          className="inline-block shrink-0"
-          onClick={(e) => {
-            if (pathname !== "/" && pathname !== "/residential") return;
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            document
-              .getElementById("page-top")
-              ?.scrollIntoView({ block: "start", behavior: "smooth" });
-          }}
-        >
-          <Image
-            src="/assets/Golden Hour - commercial.png"
-            alt="Golden Hour Cleaning Co."
-            width={200}
-            height={100}
-            priority
-            className="h-7 w-auto max-w-none object-contain sm:h-8 md:h-10"
-            sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, 160px"
-          />
-        </Link>
-        <HeaderNav />
+      {/* Nav row — left padding clears logo; right padding clears overlay hamburger (xl keeps normal inset) */}
+      <div className="flex w-full items-center justify-end gap-3 py-1 pl-32 pr-14 sm:py-1.5 sm:pl-36 sm:pr-16 lg:pl-40 lg:pr-16 xl:pr-8">
+        <HeaderNav hamburgerOverlay />
       </div>
     </header>
   );
