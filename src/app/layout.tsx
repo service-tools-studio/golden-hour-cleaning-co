@@ -5,6 +5,8 @@ import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
 import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import MobileStickyCallBar from "@/components/residential/MobileStickyCallBar";
+import LocalBusinessJsonLd from "@/components/seo/LocalBusinessJsonLd";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const josefinSans = Josefin_Sans({
@@ -14,8 +16,10 @@ const josefinSans = Josefin_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Golden Hour Cleaning Co.",
-  description: "Residential and Commercial Cleaning by Golden Hour Cleaning Co.",
+  metadataBase: new URL(SITE_URL),
+  title: "Golden Hour Cleaning Co. | House Cleaning in Portland, OR",
+  description:
+    "Professional house cleaning in Portland, Oregon and the surrounding metro area. Licensed, insured, and locally owned — deep cleans, recurring care, and move-out cleaning.",
 };
 
 /** Reduce iOS Chrome jumpiness when browser chrome shows/hides. */
@@ -42,6 +46,7 @@ export default function RootLayout({
               "try{if('scrollRestoration' in history)history.scrollRestoration='manual';var h=location.hash;if(!h||h==='#'||h.indexOf(':~:')!==-1){scrollTo(0,0);document.documentElement.scrollTop=0;}}catch(e){}",
           }}
         />
+        <LocalBusinessJsonLd />
         {/* Google tag (gtag.js) — Google Ads */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17703846603"

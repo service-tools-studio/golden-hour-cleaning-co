@@ -21,32 +21,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (slug === "standard") {
     return {
-      title: "Standard House Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
+      title:
+        "Recurring House Cleaning in Portland, OR | Golden Hour Cleaning Co.",
       description:
-        "Dependable standard house cleaning in Portland and the metro area. Weekly, bi-weekly, or monthly maintenance cleaning with eco-friendly products and online scheduling.",
+        "Dependable recurring house cleaning in Portland and the metro area. Weekly, bi-weekly, or monthly maintenance cleaning with eco-friendly products and online scheduling.",
+      alternates: { canonical: `/residential/services/${slug}` },
     };
   }
 
   if (slug === "deep") {
     return {
       title:
-        "Deep House Cleaning in Portland | What's Included & Pricing",
+        "Deep Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
       description:
-        "What's included in a deep house cleaning in Portland and the metro area, plus typical starting prices. Compare residential services and request a quote when you're ready.",
+        "Professional deep house cleaning in Portland and the metro area — what's included, typical starting prices, and how to request a personalized quote.",
+      alternates: { canonical: `/residential/services/${slug}` },
     };
   }
 
   if (slug === "move-out") {
     return {
-      title: "Move-In & Move-Out Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
+      title:
+        "Move-Out Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
       description:
         "Detailed move-in and move-out cleaning for empty homes in Portland and the metro area. Cabinets, oven, fridge, and more. Request a personalized quote online.",
+      alternates: { canonical: `/residential/services/${slug}` },
     };
   }
 
   return {
     title: `${service.title} | Golden Hour Cleaning Co.`,
     description: service.desc,
+    alternates: { canonical: `/residential/services/${slug}` },
   };
 }
 

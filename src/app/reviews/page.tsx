@@ -4,9 +4,10 @@ import GoogleReviews from "@/components/residential/GoogleReviews";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 
 export const metadata: Metadata = {
-  title: "Google Reviews | Golden Hour Cleaning Co.",
+  title: "Portland House Cleaning Reviews | Golden Hour Cleaning Co.",
   description:
-    "Read 5-star Google reviews from Golden Hour Cleaning Co. clients across the Portland metro area, then view all reviews on Google.",
+    "Read Google reviews from Golden Hour Cleaning Co. clients across Portland and the metro area, then view all reviews on Google.",
+  alternates: { canonical: "/reviews" },
 };
 
 export default function ReviewsPage() {

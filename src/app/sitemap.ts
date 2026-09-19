@@ -1,9 +1,7 @@
 import type { MetadataRoute } from "next";
 import { BLOG_POSTS } from "@/data/blogPosts";
 import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goldenhourcleaningco.com";
+import { SITE_URL } from "@/lib/site";
 
 /** Public marketing pages — excludes /book (post-schedule utility page). */
 const ROUTES: {
@@ -38,8 +36,10 @@ const ROUTES: {
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
   { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
   { path: "/portland-deep-cleaning", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/portland-move-out-cleaning", changeFrequency: "monthly", priority: 0.8 },
   { path: "/deep-clean/whats-included", changeFrequency: "monthly", priority: 0.7 },
   { path: "/move-out-clean/whats-included", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/satisfaction-guarantee", changeFrequency: "monthly", priority: 0.65 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -10,6 +10,7 @@ import {
   subscribeLeadWizardInView,
 } from "../../helpers/leadWizardVisibility";
 import { BTN_PRIMARY, BTN_SECONDARY, BTN_UPPER } from "../../helpers/typography.js";
+import { BUSINESS_PHONE_DISPLAY } from "../../lib/site";
 
 const NAV_LINKS = [
   { label: "Services & Pricing", href: SERVICES_PRICING_HREF },
@@ -197,11 +198,11 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
           <a
             href={`tel:${CONTACT.phone}`}
             className={callNowClass}
-            aria-label="Call us"
+            aria-label={`Call us at ${BUSINESS_PHONE_DISPLAY}`}
             data-call-source="header_nav_call_now"
           >
             <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            Call Us
+            {BUSINESS_PHONE_DISPLAY}
           </a>
         </li>
       </ul>

@@ -5,13 +5,14 @@ export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-5xl px-4 pt-14 pb-10">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className={`mt-0 text-3xl ${HEADING_UPPER}`}>
-          Residential Services & Pricing
-        </h2>
+        <h1 className={`mt-0 text-3xl ${HEADING_UPPER}`}>
+          House Cleaning Services in Portland, Oregon
+        </h1>
         <p className="mt-3 text-stone-700">
-          Thoughtful, detail-driven cleaning for every season of your home. From
-          consistent upkeep to comprehensive resets, each service is designed
-          around your space, your needs, and the level of care your home requires.
+          Thoughtful, detail-driven cleaning for homes throughout Portland and
+          the surrounding metro area. From consistent upkeep to comprehensive
+          resets, each service is designed around your space, your needs, and
+          the level of care your home requires.
         </p>
       </div>
 

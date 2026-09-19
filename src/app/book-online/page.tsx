@@ -5,9 +5,10 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
-  title: "Reserve Your Cleaning | Golden Hour Cleaning Co.",
+  title: "Reserve Your Cleaning in Portland, OR | Golden Hour Cleaning Co.",
   description:
-    "Reserve a residential cleaning appointment online with Golden Hour Cleaning Co. Tell us about your home, then choose an available cleaning time.",
+    "Reserve a residential cleaning appointment online with Golden Hour Cleaning Co. Serving Portland and the metro area — tell us about your home, then choose an available time.",
+  alternates: { canonical: "/book-online" },
 };
 
 export default function BookOnlinePage() {

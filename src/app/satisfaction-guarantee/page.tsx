@@ -6,7 +6,8 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 export const metadata: Metadata = {
   title: "Satisfaction Guarantee | Golden Hour Cleaning Co.",
   description:
-    "If something included in your Golden Hour cleaning was missed or wasn't completed to our standard, let us know within 24 hours and we'll come back to make it right.",
+    "If something included in your Golden Hour cleaning was missed or wasn't completed to our standard, let us know within 24 hours and we'll come back to make it right — for homes throughout Portland and the metro area.",
+  alternates: { canonical: "/satisfaction-guarantee" },
 };
 
 export default function SatisfactionGuaranteePage() {

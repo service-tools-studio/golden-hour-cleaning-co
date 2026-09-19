@@ -14,9 +14,10 @@ import Footer from "@/components/residential/Footer";
 import { BTN_PRIMARY, BTN_SECONDARY, SECTION_EYEBROW } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
-  title: "Commercial Cleaning | Golden Hour Cleaning Co.",
+  title: "Commercial Cleaning in Portland, OR | Golden Hour Cleaning Co.",
   description:
-    "Reliable, high-quality commercial cleaning for offices, studios, and boutique businesses in Portland.",
+    "Reliable commercial cleaning for offices, studios, and boutique businesses in Portland and the surrounding metro area from Golden Hour Cleaning Co.",
+  alternates: { canonical: "/commercial" },
 };
 
 const spaces = [
@@ -86,15 +87,16 @@ export default function CommercialPage() {
                 </div>
 
                 <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[0.95] tracking-tight">
-                  Commercial cleaning that feels{" "}
+                  Commercial cleaning in Portland that feels{" "}
                   <span className="text-amber-600">warm, polished,</span>{" "}
                   and dependable.
                 </h1>
 
                 <p className="mt-6 text-lg text-stone-700 max-w-xl leading-relaxed">
-                  Professional commercial cleaning that reflects the love and care
-                  you put into your business. Consistent, trustworthy, and
-                  detail-oriented service for spaces that deserve to shine.
+                  Professional commercial cleaning for offices, studios, and
+                  boutique businesses throughout Portland and the surrounding
+                  metro area. Consistent, trustworthy, and detail-oriented
+                  service for spaces that deserve to shine.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-4">

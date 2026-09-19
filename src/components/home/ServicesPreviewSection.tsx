@@ -50,8 +50,9 @@ export default function ServicesPreviewSection() {
           Our Services
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-sm text-stone-600 sm:text-base">
-          From recurring home care to move-out details and commercial spaces—every
-          service is designed with the same attention to quality.
+          From recurring home care to move-out details and commercial spaces —
+          professional cleaning for homes and businesses throughout Portland and
+          the surrounding metro area.
         </p>
 
         <ul className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -73,7 +74,7 @@ export default function ServicesPreviewSection() {
                   {desc}
                 </p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-stone-900">
-                  Learn more
+                  Explore {title.toLowerCase()}
                   <span
                     className="transition group-hover:translate-x-0.5"
                     aria-hidden

@@ -6,9 +6,11 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
-  title: "Deep Clean Checklist | What's Included | Golden Hour Cleaning Co.",
+  title:
+    "Deep Clean Checklist | What's Included in Portland | Golden Hour Cleaning Co.",
   description:
-    "See exactly what's included in a Golden Hour deep clean — kitchen, bathrooms, bedrooms, living areas, and detailed work throughout the home.",
+    "See exactly what's included in a Golden Hour deep clean in Portland and the metro area — kitchen, bathrooms, bedrooms, living areas, and detailed work throughout the home.",
+  alternates: { canonical: "/deep-clean/whats-included" },
 };
 
 export default function DeepCleanWhatsIncludedPage() {

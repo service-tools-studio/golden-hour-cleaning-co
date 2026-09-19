@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import ResidentialServicesClient from "./ResidentialServicesClient";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"] as const);
@@ -9,6 +10,13 @@ function coerceLevel(value: unknown): Level {
   }
   return "deep";
 }
+
+export const metadata: Metadata = {
+  title: "House Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
+  description:
+    "Compare residential cleaning services and starting prices from Golden Hour Cleaning Co. — standard, deep, and move-out cleaning for homes throughout Portland and the metro area.",
+  alternates: { canonical: "/residential/services" },
+};
 
 export default async function ResidentialServicesPage({
   searchParams,

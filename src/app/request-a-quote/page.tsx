@@ -4,9 +4,10 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import RequestQuoteClient from "./RequestQuoteClient";
 
 export const metadata: Metadata = {
-  title: "Request a Quote | Golden Hour Cleaning Co.",
+  title: "Request a House Cleaning Quote in Portland, OR | Golden Hour Cleaning Co.",
   description:
-    "Request a personalized residential cleaning quote from Golden Hour Cleaning Co. Tell us about your home and we'll follow up with pricing and next steps.",
+    "Request a personalized residential cleaning quote from Golden Hour Cleaning Co. for homes in Portland and the metro area. Tell us about your home and we'll follow up with next steps.",
+  alternates: { canonical: "/request-a-quote" },
 };
 
 export default function RequestAQuotePage() {

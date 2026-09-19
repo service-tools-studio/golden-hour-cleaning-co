@@ -5,9 +5,10 @@ import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 
 export const metadata: Metadata = {
-  title: "About Us | Golden Hour Cleaning Co.",
+  title: "About Golden Hour Cleaning Co. | Portland House Cleaners",
   description:
-    "Meet Kelsey Collins and Jasmin Heart, co-founders of Golden Hour Cleaning Co. — professional residential and commercial cleaning throughout the Portland metro area.",
+    "Meet Kelsey Collins and Jasmin Heart, co-founders of Golden Hour Cleaning Co. — a locally owned house cleaning company serving Portland, Oregon and the surrounding metro area.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

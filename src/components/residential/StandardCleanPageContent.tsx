@@ -24,8 +24,8 @@ export default function StandardCleanPageContent({
       <ServiceDetailHero
         serviceSlug="standard"
         tagline="Lighter upkeep"
-        title="Standard House Cleaning Services in Portland, OR"
-        intro="Our standard cleaning keeps a tidy home looking its best—ideal for recurring upkeep or homes professionally cleaned within the past 2–4 weeks."
+        title="Recurring House Cleaning in Portland, Oregon"
+        intro="Our standard cleaning keeps a tidy Portland-area home looking its best—ideal for recurring upkeep or homes professionally cleaned within the past 2–4 weeks."
         imageSrc="/assets/chateau-cleaning.webp"
         imageAlt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
         includedItems={service.items}
@@ -247,6 +247,12 @@ export default function StandardCleanPageContent({
           </Link>
           <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
+          </Link>
+          <Link href="/residential/services/deep" className={BTN_SECONDARY}>
+            Deep cleaning services
+          </Link>
+          <Link href="/residential/services/move-out" className={BTN_SECONDARY}>
+            Move-out cleaning
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">

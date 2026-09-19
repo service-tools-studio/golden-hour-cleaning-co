@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import PortlandMoveOutCleaningClient from "@/components/ppc/PortlandMoveOutCleaningClient";
 
 export const metadata: Metadata = {
-  title: "Move-Out Cleaning Services in Portland | Get a Quote or Call",
+  title: "Move-Out Cleaning Services in Portland, OR | Get a Quote or Call",
   description:
     "Portland move-out and move-in house cleaning with starting prices online. Call (503) 893-4795, request a personalized quote, or reserve your move-out clean. Licensed, insured, and locally owned.",
+  alternates: { canonical: "/portland-move-out-cleaning" },
 };
 
 const PLACES_API_FIELDS = "id,displayName,rating,userRatingCount";

@@ -7,9 +7,10 @@ import { HEADING_UPPER } from "@/helpers/typography.js";
 
 export const metadata: Metadata = {
   title:
-    "Move-Out Clean Checklist | What's Included | Golden Hour Cleaning Co.",
+    "Move-Out Clean Checklist | What's Included in Portland | Golden Hour Cleaning Co.",
   description:
-    "See exactly what's included in a Golden Hour move-in and move-out clean — kitchen, bathrooms, bedrooms, living areas, and detailed work throughout the home.",
+    "See exactly what's included in a Golden Hour move-in and move-out clean in Portland and the metro area — kitchen, bathrooms, bedrooms, living areas, and detailed work throughout the home.",
+  alternates: { canonical: "/move-out-clean/whats-included" },
 };
 
 export default function MoveOutCleanWhatsIncludedPage() {

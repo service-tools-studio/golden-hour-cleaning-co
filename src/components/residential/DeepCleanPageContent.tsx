@@ -33,8 +33,8 @@ export default function DeepCleanPageContent({
       <ServiceDetailHero
         serviceSlug="deep"
         tagline="Full-home reset"
-        title="Deep House Cleaning in Portland: What's Included & Pricing"
-        intro="Our deep cleaning service is perfect when your home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new. Explore what's included and typical pricing below — or get started with a quote when you're ready."
+        title="Deep Cleaning Services in Portland, Oregon"
+        intro="Our deep cleaning service is perfect when your Portland-area home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new. Explore what's included and typical pricing below — or get started with a quote when you're ready."
         imageSrc="/assets/vacuuming.PNG"
         imageAlt="A Golden Hour cleaner smiling while vacuuming a living room rug"
         imageClassName="object-cover object-center"
@@ -198,6 +198,12 @@ export default function DeepCleanPageContent({
           </Link>
           <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
+          </Link>
+          <Link href="/residential/services/standard" className={BTN_SECONDARY}>
+            Recurring house cleaning
+          </Link>
+          <Link href="/residential/services/move-out" className={BTN_SECONDARY}>
+            Move-out cleaning
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">

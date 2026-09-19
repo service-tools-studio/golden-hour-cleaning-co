@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 import { BulletList, Section } from "./servicePageParts";
 
@@ -19,7 +20,7 @@ export default function AboutPageContent() {
         </figure>
 
         <h1 className={`text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-          About Golden Hour Cleaning Co.
+          About Golden Hour Cleaning Co. — Portland House Cleaners
         </h1>
         <p className={`mt-3 text-lg text-stone-700 ${HEADING_UPPER}`}>
           A Partnership Built on Care, Quality, and Excellence
@@ -152,15 +153,29 @@ export default function AboutPageContent() {
           ]}
         />
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Whether you need recurring home cleaning, a deep clean, a move-in or
-          move-out cleaning, or commercial cleaning services, our goal is to
-          provide a level of care and professionalism that gives you complete
-          confidence in choosing Golden Hour Cleaning Co.
+          Whether you need{" "}
+          <Link
+            href="/residential/services"
+            className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+          >
+            residential cleaning services
+          </Link>
+          , a deep clean, a move-in or move-out cleaning, or commercial
+          cleaning, our goal is to provide a level of care and professionalism
+          that gives you complete confidence in choosing Golden Hour Cleaning
+          Co.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           We are proud to serve homeowners, renters, and businesses throughout
           Portland, Oregon, and the surrounding communities, and we look
-          forward to helping you enjoy a cleaner, more comfortable space.
+          forward to helping you enjoy a cleaner, more comfortable space.{" "}
+          <Link
+            href="/request-a-quote"
+            className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
+          >
+            Request a personalized quote
+          </Link>{" "}
+          to get started.
         </p>
       </Section>
     </>

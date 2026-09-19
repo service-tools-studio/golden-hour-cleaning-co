@@ -27,8 +27,8 @@ export default function MoveOutCleanPageContent({
       <ServiceDetailHero
         serviceSlug="move-out"
         tagline="Most intensive"
-        title="Move-In & Move-Out Cleaning Services in Portland, OR"
-        intro="Our move-in/out cleaning is a detailed empty-home reset—so you can hand over keys or settle in with a truly clean start."
+        title="Move-Out Cleaning Services in Portland, Oregon"
+        intro="Our move-in/out cleaning is a detailed empty-home reset for Portland and metro-area homes—so you can hand over keys or settle in with a truly clean start."
         imageSrc="/assets/move-out-shutters.jpg"
         imageAlt="A Golden Hour cleaner smiling while wiping white shutters during a move-out clean"
         imageClassName="object-cover object-center"
@@ -196,6 +196,12 @@ export default function MoveOutCleanPageContent({
           </Link>
           <Link href="/residential/services" className={BTN_SECONDARY}>
             Compare all services
+          </Link>
+          <Link href="/residential/services/deep" className={BTN_SECONDARY}>
+            Deep cleaning services
+          </Link>
+          <Link href="/residential/services/standard" className={BTN_SECONDARY}>
+            Recurring house cleaning
           </Link>
         </div>
         <p className="mt-4 text-xs text-stone-500">

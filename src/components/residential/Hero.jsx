@@ -36,14 +36,14 @@ export default function Hero() {
             <h1
               className={`text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >
-              Professional house cleaners with high standards, intentional care
-              & consistent results.
+              Professional house cleaning in Portland, Oregon — high standards,
+              intentional care & consistent results.
             </h1>
 
             <p className="mt-4 text-center text-sm leading-relaxed text-stone-700 sm:text-base lg:mt-5">
-              Meticulous, non-toxic cleaning for Portland-area homes. Thoughtful
-              service, consistent results, transparent pricing, and easy online
-              booking.
+              Meticulous, non-toxic cleaning for homes throughout Portland and
+              the surrounding metro area. Thoughtful service, consistent
+              results, transparent pricing, and easy online booking.
             </p>
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-6">
