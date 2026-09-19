@@ -53,16 +53,16 @@ export default function MarketingLandingClient({ pagePath }: Props) {
 
         <BeforeAfter />
 
-        <div className="pt-10 pb-14 md:pb-16" id="quote">
+        <div className="pt-14 pb-20 md:pt-16 md:pb-24" id="quote">
           <ResidentialPricingGuide />
         </div>
 
         <section
-          className="border-t border-amber-200/60 bg-white py-10 md:py-14"
+          className="border-t border-amber-200/60 bg-white py-16 md:py-20 lg:py-24"
           aria-label="Golden Hour cleaners at work"
         >
-          <div className="mx-auto max-w-6xl px-6">
-            <ul className="grid gap-4 sm:grid-cols-3">
+          <div className="mx-auto max-w-6xl px-6 lg:max-w-7xl">
+            <ul className="grid gap-6 sm:grid-cols-3">
               {DETAIL_PHOTOS.map(({ src, alt }) => (
                 <li key={src}>
                   <figure className="overflow-hidden rounded-2xl border border-amber-200 bg-stone-100 shadow-sm">

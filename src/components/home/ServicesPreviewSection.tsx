@@ -7,6 +7,7 @@ import { scrollToId } from "@/helpers/scrollToId";
 import {
   BTN_PRIMARY,
   SECTION_HEADING,
+  SECTION_INNER,
   SECTION_PAD,
 } from "@/helpers/typography.js";
 
@@ -44,27 +45,27 @@ export default function ServicesPreviewSection() {
       aria-labelledby="services-preview-heading"
       className={`border-t border-amber-200/60 bg-white ${SECTION_PAD}`}
     >
-      <div className="mx-auto max-w-6xl px-6">
+      <div className={SECTION_INNER}>
         <h2 id="services-preview-heading" className={SECTION_HEADING}>
           Our Services
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600">
+        <p className="mx-auto mt-5 max-w-2xl text-center text-sm text-stone-600 sm:text-base">
           From recurring home care to move-out details and commercial spaces—every
           service is designed with the same attention to quality.
         </p>
 
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2">
+        <ul className="mt-12 grid gap-6 sm:grid-cols-2">
           {SERVICES.map(({ icon: Icon, title, desc, href }) => (
             <li key={title}>
               <Link
                 href={href}
-                className="group flex h-full flex-col rounded-3xl border border-amber-200 bg-white p-7 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="group flex h-full flex-col rounded-2xl border border-amber-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 sm:rounded-3xl sm:p-7"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-800 sm:h-10 sm:w-10">
                   <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                 </span>
                 <h3
-                  className={`mt-4 text-xl font-semibold uppercase tracking-wide text-stone-900`}
+                  className={`mt-4 text-lg font-semibold uppercase tracking-wide text-stone-900 sm:text-xl`}
                 >
                   {title}
                 </h3>
@@ -85,7 +86,7 @@ export default function ServicesPreviewSection() {
           ))}
         </ul>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <button
             type="button"
             onClick={() => {

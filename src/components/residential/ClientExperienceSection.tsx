@@ -44,36 +44,38 @@ export default function ClientExperienceSection() {
         </div>
 
         <div
-          className={`relative px-5 md:px-10 lg:w-1/2 lg:px-10 xl:px-16 ${SECTION_PAD}`}
+          className={`relative flex flex-col justify-center px-5 md:px-10 lg:w-1/2 lg:px-10 xl:px-16 ${SECTION_PAD}`}
         >
-          <div className="mx-auto max-w-xl text-center lg:mx-0">
-            <p className={`mb-4 text-amber-700 ${QUOTE_SECTION_LABEL}`}>
+          <div className="mx-auto w-full max-w-2xl text-center">
+            <p className={`mb-5 text-amber-700 ${QUOTE_SECTION_LABEL}`}>
               The Golden Hour Difference
             </p>
 
             <h2
-              className={`text-3xl font-semibold leading-tight text-stone-900 sm:text-4xl ${HEADING_UPPER}`}
+              className={`text-2xl font-semibold leading-tight text-stone-900 sm:text-3xl ${HEADING_UPPER}`}
             >
               A Cleaning Experience Built Around You
             </h2>
 
-            <p className="mt-5 text-base leading-relaxed text-stone-700 sm:text-lg">
+            <p className="mt-5 text-sm leading-relaxed text-stone-700 sm:text-base">
               Your home isn&apos;t just another appointment on our schedule. We know
               inviting someone into your home requires trust, and we work hard to
               earn it every visit.
             </p>
 
-            <ul className="mt-8 grid gap-4 text-left sm:grid-cols-2">
+            <ul className="mt-10 grid gap-5 text-left sm:grid-cols-2">
               {POINTS.map(({ title, desc }) => (
                 <li
                   key={title}
-                  className="flex items-start gap-3 rounded-3xl border border-amber-200 bg-amber-50/60 px-5 py-5 shadow-sm"
+                  className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/60 px-4 py-4 shadow-sm sm:rounded-3xl sm:px-5 sm:py-5"
                 >
                   <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800">
                     <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-stone-900">{title}</h3>
+                    <h3 className="text-sm font-semibold text-stone-900 sm:text-base">
+                      {title}
+                    </h3>
                     <p className="mt-2 text-sm leading-relaxed text-stone-600">
                       {desc}
                     </p>
@@ -85,7 +87,7 @@ export default function ClientExperienceSection() {
             <button
               type="button"
               onClick={() => scrollToId("#services", 8)}
-              className={`${BTN_PRIMARY} mt-10`}
+              className={`${BTN_PRIMARY} mt-12`}
             >
               Explore Services
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />

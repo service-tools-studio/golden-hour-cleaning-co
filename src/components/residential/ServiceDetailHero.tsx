@@ -85,11 +85,11 @@ export default function ServiceDetailHero({
             {tagline}
           </p>
           <h1
-            className={`mt-2 text-3xl leading-tight text-stone-900 md:text-4xl lg:text-[2.75rem] ${HEADING_UPPER}`}
+            className={`mt-2 text-2xl leading-tight text-stone-900 md:text-3xl lg:text-[2.25rem] ${HEADING_UPPER}`}
           >
             {title}
           </h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-stone-700 md:text-lg">
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-stone-700 md:text-base">
             {intro}
           </p>
 

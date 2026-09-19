@@ -53,16 +53,16 @@ import {
 } from "@/lib/cleaningLead";
 
 const inputClass =
-  "mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-amber-300 focus:ring-2";
+  "mt-2 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-amber-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
 
 const inputErrorClass =
-  "mt-2 w-full rounded-2xl border border-red-300 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-red-300 focus:ring-2";
+  "mt-2 w-full rounded-xl border border-red-300 bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-red-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
 
 const selectClass =
-  "mt-2 w-full appearance-none rounded-2xl border border-stone-200 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-base text-stone-900 outline-none ring-amber-300 focus:ring-2";
+  "mt-2 w-full appearance-none rounded-xl border border-stone-200 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-amber-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
 
 const selectErrorClass =
-  "mt-2 w-full appearance-none rounded-2xl border border-red-300 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-4 py-3 text-base text-stone-900 outline-none ring-red-300 focus:ring-2";
+  "mt-2 w-full appearance-none rounded-xl border border-red-300 bg-white bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-red-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
 
 const selectStyle = {
   backgroundImage:

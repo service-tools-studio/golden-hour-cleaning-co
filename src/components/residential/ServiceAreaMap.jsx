@@ -169,13 +169,13 @@ export default function ServiceAreaMap({ title = 'Our service area' }) {
       className="w-full bg-amber-50/50"
       aria-label="Service area map"
     >
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-6 py-14 md:py-16 lg:py-20">
         <h2
-          className={`mb-4 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}
+          className={`mb-5 text-center text-xl font-semibold text-stone-800 sm:text-2xl ${HEADING_UPPER}`}
         >
           {title}
         </h2>
-        <p className="mb-6 text-center text-sm text-stone-600 sm:text-base">
+        <p className="mb-8 text-center text-sm text-stone-600 sm:text-base">
           {CITIES_LINE}
         </p>
         {shouldLoadMaps ? (

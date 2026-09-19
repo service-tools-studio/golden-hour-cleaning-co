@@ -4,9 +4,9 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
-import { SECTION_HEADING, SECTION_PAD } from "@/helpers/typography.js";
+import { SECTION_HEADING, SECTION_INNER, SECTION_PAD } from "@/helpers/typography.js";
 
-const CARD_GAP = 24;
+const CARD_GAP = 28;
 
 export default function BeforeAfterSlider() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -32,16 +32,16 @@ export default function BeforeAfterSlider() {
       aria-labelledby="before-after-heading"
       className={`border-t border-amber-200/60 bg-white ${SECTION_PAD}`}
     >
-      <div className="mx-auto max-w-6xl px-6">
+      <div className={SECTION_INNER}>
         <h2 id="before-after-heading" className={SECTION_HEADING}>
           Before &amp; After
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-stone-600">
+        <p className="mx-auto mt-5 max-w-2xl text-center text-sm text-stone-600 sm:text-base">
           Real results from Golden Hour visits — bathrooms, floors, kitchens,
           and more. Every photo is a side-by-side from the same home.
         </p>
 
-        <div className="relative mt-10">
+        <div className="relative mt-12">
           <div
             ref={scrollRef}
             className="flex overflow-x-auto scroll-smooth py-2 pb-4"

@@ -99,14 +99,14 @@ function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = fa
           What our clients say
         </TitleTag>
         {showPageIntro ? (
-          <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-stone-700">
+          <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-stone-700 sm:text-base">
             {PAGE_INTRO}
           </p>
         ) : null}
-        <p className={`${showPageIntro ? 'mt-4' : 'mt-2'} text-center text-sm text-stone-600`}>
+        <p className={`${showPageIntro ? 'mt-5' : 'mt-3'} text-center text-sm text-stone-600`}>
           {message || 'Read our reviews on Google'}
         </p>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-10 flex justify-center">
           <a
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"
@@ -231,12 +231,12 @@ export default function GoogleReviews({ variant = 'carousel' }) {
             What our clients say
           </TitleTag>
           {isPage ? (
-            <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-stone-700">
+            <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-stone-700 sm:text-base">
               {PAGE_INTRO}
             </p>
           ) : null}
           {/* Reserve carousel height so Chrome scroll-anchoring doesn't jump when reviews arrive */}
-          <div className="mt-8 flex min-h-[320px] items-center justify-center py-12">
+          <div className="mt-10 flex min-h-[320px] items-center justify-center py-12">
             <p className="text-stone-500">Loading reviews…</p>
           </div>
         </div>
@@ -262,14 +262,14 @@ export default function GoogleReviews({ variant = 'carousel' }) {
             What our clients say
           </TitleTag>
           {isPage ? (
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-700">
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-stone-700 sm:text-base">
               {PAGE_INTRO}
             </p>
           ) : (
-            <p className="mt-1 text-sm text-stone-600">Our reviews on Google</p>
+            <p className="mt-2 text-sm text-stone-600">Our reviews on Google</p>
           )}
           {(rating != null || totalRatings != null) && (
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-5 flex items-center justify-center gap-2">
               {rating != null && (
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
@@ -299,7 +299,7 @@ export default function GoogleReviews({ variant = 'carousel' }) {
             ))}
           </div>
         ) : (
-          <div className="mt-8 relative mx-auto w-full max-w-xl [container-type:inline-size]">
+          <div className="mt-10 relative mx-auto w-full max-w-xl [container-type:inline-size]">
             <div
               ref={scrollRef}
               className="flex overflow-x-auto overflow-y-hidden py-2 pb-4 scroll-smooth"
@@ -346,7 +346,7 @@ export default function GoogleReviews({ variant = 'carousel' }) {
           </div>
         )}
 
-        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <div className="mt-12 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <a
             href={GOOGLE_MAPS_REVIEWS_URL}
             target="_blank"

@@ -82,14 +82,14 @@ export default function PortlandMoveOutCleaningClient({
           id="hero"
           className="relative overflow-hidden border-b border-amber-200 bg-amber-50"
         >
-          <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-14">
+          <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 md:grid-cols-2 md:py-16 lg:max-w-7xl lg:gap-12 lg:py-20">
             <div>
               <h1
-                className={`text-center text-3xl leading-tight text-stone-900 md:text-left md:text-4xl ${HEADING_UPPER}`}
+                className={`text-center text-2xl leading-tight text-stone-900 md:text-left md:text-3xl lg:text-[2.15rem] ${HEADING_UPPER}`}
               >
                 Move-Out Cleaning Services in Portland
               </h1>
-              <p className="mt-4 text-center text-base leading-relaxed text-stone-700 md:text-left md:text-lg">
+              <p className="mt-4 text-center text-sm leading-relaxed text-stone-700 md:text-left md:text-base">
                 A detailed empty-home reset so you can hand over keys or settle
                 in with a truly clean start.
               </p>

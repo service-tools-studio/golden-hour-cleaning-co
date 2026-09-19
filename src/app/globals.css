@@ -43,6 +43,22 @@
 }
 
 /*
+ * Desktop/tablet visual scale (~80–85% browser-zoom feel) without zoom/transform.
+ * Unlayered so it wins over Tailwind preflight. Mobile stays at the browser default.
+ */
+@media (min-width: 768px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+/*
  * Chrome scroll-anchoring is NOT inherited. Disable on every element so late
  * content (reviews, images) doesn't nudge scrollY.
  */

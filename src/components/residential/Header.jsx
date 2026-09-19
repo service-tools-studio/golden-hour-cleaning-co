@@ -128,7 +128,7 @@ export default function Header() {
       </div>
 
       {/* Logo + nav */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5 sm:px-6 sm:py-3">
+      <div className="flex w-full items-center justify-between gap-3 px-4 py-1.5 sm:px-6 sm:py-3 lg:px-8">
         <Link
           href="/"
           aria-label="Go to homepage"
@@ -148,7 +148,7 @@ export default function Header() {
             width={200}
             height={100}
             priority
-            className="h-7 w-auto max-w-none object-contain sm:h-9 md:h-[45px]"
+            className="h-7 w-auto max-w-none object-contain sm:h-8 md:h-10"
             sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, 160px"
           />
         </Link>

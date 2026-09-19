@@ -553,7 +553,7 @@ export default function ResidentialPricingGuide({
     <section
       id="quote-calculator"
       aria-labelledby={showIntro ? "pricing-guide-heading" : undefined}
-      className={`mx-auto max-w-5xl px-4 ${className}`.trim()}
+      className={`mx-auto max-w-5xl px-4 lg:max-w-6xl ${className}`.trim()}
     >
       {showIntro ? (
         <header className="mx-auto max-w-2xl text-center">

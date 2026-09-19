@@ -17,7 +17,7 @@ export default function Footer() {
       aria-labelledby={footerBrandId}
       className="bg-amber-50 border-t border-amber-200 text-amber-900"
     >
-      <div className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid md:grid-cols-3 gap-8">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3 md:py-16 lg:max-w-7xl lg:py-20">
         <section aria-labelledby={footerBrandId}>
           <h2
             id={footerBrandId}

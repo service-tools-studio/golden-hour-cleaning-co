@@ -31,22 +31,22 @@ export default function Hero() {
           />
         </div>
 
-        <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-12 xl:px-16">
-          <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-xl">
+        <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-14 xl:px-16 xl:py-16">
+          <div className="mx-auto w-full max-w-6xl lg:mx-0 lg:max-w-lg xl:max-w-xl">
             <h1
-              className={`text-center text-xl sm:text-2xl lg:text-3xl lg:text-stone-900 leading-snug ${HEADING_UPPER}`}
+              className={`text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >
               Professional house cleaners with high standards, intentional care
               & consistent results.
             </h1>
 
-            <p className="mt-3 text-center text-stone-700 lg:text-base">
+            <p className="mt-4 text-center text-sm leading-relaxed text-stone-700 sm:text-base lg:mt-5">
               Meticulous, non-toxic cleaning for Portland-area homes. Thoughtful
               service, consistent results, transparent pricing, and easy online
               booking.
             </p>
 
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-6">
               <button
                 type="button"
                 onClick={(e) => {
@@ -59,7 +59,7 @@ export default function Hero() {
               </button>
             </div>
 
-            <div className="mt-3 text-center">
+            <div className="mt-4 text-center">
               <button
                 type="button"
                 onClick={(e) => {
@@ -72,7 +72,7 @@ export default function Hero() {
               </button>
             </div>
 
-            <div className="mt-6 grid w-full grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4 lg:mt-10 lg:grid-cols-2">
+            <div className="mt-8 grid w-full grid-cols-2 gap-2.5 text-sm text-stone-700 sm:grid-cols-4 sm:gap-3 lg:mt-12 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
               <Badge icon={<BadgeCheck />} label="Background-Checked" />
               <Badge icon={<Award />} label="Satisfaction Guarantee" />
