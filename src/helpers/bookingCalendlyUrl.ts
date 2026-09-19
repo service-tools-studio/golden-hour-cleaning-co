@@ -4,11 +4,13 @@
  * Prefills standard invitee fields plus custom answers (a1, a2, …) matching
  * the residential-cleaning event’s invitee question order.
  *
- * Verified via Calendly booking API (custom_fields positions):
+ * Custom invitee question order on the residential event:
  *   a1 = Phone Number
  *   a2 = Address of Service
- *   a3 = Payment walkthrough presence (not collected on site forms)
- *   a4 = Preferences / special requests (optional notes on quote form)
+ *   a4 = Number of Beds
+ *   a5 = Number of Baths
+ *   a6 = Square Footage
+ *   a7 = Anything you'd like us to know?
  *
  * Home details also go in utm_content for the internal calendar-details tool.
  *
@@ -38,7 +40,10 @@ export const CALENDLY_STANDARD_FIELD_MAP = {
 export const CALENDLY_CUSTOM_FIELD_MAP = {
   phone: "a1",
   address: "a2",
-  notes: "a4",
+  bedrooms: "a4",
+  bathrooms: "a5",
+  squareFootage: "a6",
+  notes: "a7",
 } as const;
 
 const CLICK_ID_KEYS = ["gclid", "gbraid", "wbraid"] as const;
@@ -86,6 +91,9 @@ export function buildBookingCalendlyUrl({
   const phone = form.mobilePhone.trim();
   const address = form.address.trim();
   const notes = form.notes.trim();
+  const bedrooms = form.bedrooms.trim();
+  const bathrooms = form.bathrooms.trim();
+  const squareFootage = form.homeSize.trim().replace(/,/g, "");
 
   // Event uses separated name format — set both full name and parts.
   if (name) params.set(CALENDLY_STANDARD_FIELD_MAP.name, name);
@@ -97,6 +105,9 @@ export function buildBookingCalendlyUrl({
     phone,
     address,
     notes,
+    bedrooms,
+    bathrooms,
+    squareFootage,
   };
 
   for (const [key, paramName] of Object.entries(CALENDLY_CUSTOM_FIELD_MAP)) {
@@ -121,9 +132,9 @@ export function buildBookingCalendlyUrl({
   const contentParts = [
     `lead=${leadPath === "Book Online" ? "book_online" : "personalized_quote"}`,
     `type=${form.cleaningType || ""}`,
-    `bed=${form.bedrooms || ""}`,
-    `ba=${form.bathrooms || ""}`,
-    `sf=${form.homeSize.trim() || ""}`,
+    `bed=${bedrooms}`,
+    `ba=${bathrooms}`,
+    `sf=${squareFootage}`,
     `cond=${compactCondition(form.condition)}`,
     address ? `addr=${compactUtmValue(address)}` : "",
     attrs.landing_path
