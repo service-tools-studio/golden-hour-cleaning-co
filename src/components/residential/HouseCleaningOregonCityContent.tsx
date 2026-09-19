@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
   BTN_SECONDARY,
@@ -34,28 +35,6 @@ const NEIGHBORHOODS = [
   "Beavercreek",
 ];
 
-const SERVICE_CARDS = [
-  {
-    title: "Recurring House Cleaning",
-    desc: "Weekly, bi-weekly, or every-four-weeks maintenance so you can come home to a consistently clean house—kitchens, bathrooms, bedrooms, living areas, dusting, vacuuming, mopping, and more.",
-    href: "/residential/services/standard",
-  },
-  {
-    title: "Deep House Cleaning",
-    desc: "A fuller reset that tackles overlooked areas like baseboards, doors and trim, light fixtures, ceiling fans, detailed bathrooms, kitchen detailing, and built-up dust and grime.",
-    href: "/residential/services/deep",
-  },
-  {
-    title: "Move-In & Move-Out Cleaning",
-    desc: "Thorough room-by-room cleaning whether you're preparing a home for new owners or settling into a new one—so you can focus on the move.",
-    href: "/residential/services/move-out",
-  },
-  {
-    title: "Post-Construction Cleaning",
-    desc: "Fine construction dust settles everywhere—even after contractors finish. We remove dust and debris throughout your home so it's ready to enjoy.",
-    href: "/residential/services",
-  },
-];
 
 const WHY_US = [
   "Friendly, professional cleaners",
@@ -184,7 +163,7 @@ export default function HouseCleaningOregonCityContent() {
                   href="#services"
                   className={`${BTN_SECONDARY} w-full sm:w-auto`}
                 >
-                  Explore Services
+                  Explore Services & Pricing
                 </a>
               </div>
             </div>
@@ -242,35 +221,9 @@ export default function HouseCleaningOregonCityContent() {
         </div>
       </section>
 
-      <section id="services" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <h2 className={`text-3xl ${HEADING_UPPER}`}>
-          Our House Cleaning Services in Oregon City
-        </h2>
-        <p className="mt-2 max-w-2xl text-stone-700">
-          From weekly upkeep to post-construction resets, choose the level of
-          care your Oregon City home needs.
-        </p>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {SERVICE_CARDS.map(({ title, desc, href }) => (
-            <div
-              key={title}
-              className="flex flex-col rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
-            >
-              <h3 className={`font-medium ${HEADING_UPPER}`}>{title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-700">
-                {desc}
-              </p>
-              <Link
-                href={href}
-                aria-label={`Learn more about ${title}`}
-                className={`${BTN_SECONDARY} mt-5 w-full`}
-              >
-                Learn more
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
+      <GoogleReviews />
+
+      <CityPagePricingSection city="Oregon City" />
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
         <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
@@ -310,8 +263,6 @@ export default function HouseCleaningOregonCityContent() {
           </TrackedInstantQuoteLink>
         </div>
       </section>
-
-      <GoogleReviews />
 
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
   BTN_SECONDARY,
@@ -35,28 +36,6 @@ const NEIGHBORHOODS = [
   "Portland",
 ];
 
-const SERVICE_CARDS = [
-  {
-    title: "Recurring House Cleaning",
-    desc: "Weekly, bi-weekly, or every-four-weeks cleanings that keep your home consistently fresh—perfect for busy professionals, growing families, retirees, and anyone who'd rather enjoy their weekends.",
-    href: "/residential/services/standard",
-  },
-  {
-    title: "Deep Cleaning Services",
-    desc: "Goes beyond routine maintenance with baseboards, window sills, doors and trim, light fixtures, cabinet fronts, detailed bathrooms, kitchen detailing, and built-up dust removal.",
-    href: "/residential/services/deep",
-  },
-  {
-    title: "Move-In & Move-Out Cleaning",
-    desc: "Whether you're buying, selling, or renting, we'll leave your home thoroughly cleaned and ready for its next chapter—so you can focus on the move.",
-    href: "/residential/services/move-out",
-  },
-  {
-    title: "Post-Construction Cleaning",
-    desc: "Construction dust settles everywhere. We remove fine dust, polish surfaces, and prepare your remodeled home so you can fully enjoy the finished project.",
-    href: "/residential/services",
-  },
-];
 
 const WHY_US = [
   "Consistent, dependable service",
@@ -185,7 +164,7 @@ export default function HouseCleaningHappyValleyContent() {
                   href="#services"
                   className={`${BTN_SECONDARY} w-full sm:w-auto`}
                 >
-                  Explore Services
+                  Explore Services & Pricing
                 </a>
               </div>
             </div>
@@ -242,35 +221,9 @@ export default function HouseCleaningHappyValleyContent() {
         </div>
       </section>
 
-      <section id="services" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <h2 className={`text-3xl ${HEADING_UPPER}`}>
-          Professional House Cleaning Services in Happy Valley
-        </h2>
-        <p className="mt-2 max-w-2xl text-stone-700">
-          Every home is different, which is why we tailor our cleaning services
-          to your home&apos;s unique needs.
-        </p>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {SERVICE_CARDS.map(({ title, desc, href }) => (
-            <div
-              key={title}
-              className="flex flex-col rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
-            >
-              <h3 className={`font-medium ${HEADING_UPPER}`}>{title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-700">
-                {desc}
-              </p>
-              <Link
-                href={href}
-                aria-label={`Learn more about ${title}`}
-                className={`${BTN_SECONDARY} mt-5 w-full`}
-              >
-                Learn more
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
+      <GoogleReviews />
+
+      <CityPagePricingSection city="Happy Valley" />
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
         <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
@@ -309,8 +262,6 @@ export default function HouseCleaningHappyValleyContent() {
           </TrackedInstantQuoteLink>
         </div>
       </section>
-
-      <GoogleReviews />
 
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">

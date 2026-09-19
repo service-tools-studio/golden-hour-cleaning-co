@@ -8,6 +8,10 @@ export const CITY_LANDING_PAGES = [
     href: "/cities/house-cleaning-beaverton",
   },
   {
+    label: "Hillsboro",
+    href: "/cities/house-cleaning-hillsboro",
+  },
+  {
     label: "Tigard",
     href: "/cities/house-cleaning-tigard",
   },

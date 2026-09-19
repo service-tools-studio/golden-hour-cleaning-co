@@ -3,7 +3,6 @@
 import Footer from "@/components/residential/Footer";
 import Header from "@/components/residential/Header";
 import HouseCleaningWestLinnContent from "@/components/residential/HouseCleaningWestLinnContent";
-import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 
 export default function HouseCleaningWestLinnClient() {
   return (
@@ -12,14 +11,10 @@ export default function HouseCleaningWestLinnClient() {
 
       <main
         id="content"
-        className="overflow-x-hidden"
+        className="overflow-x-clip"
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
         <HouseCleaningWestLinnContent />
-
-        <div className="pt-10 pb-16 md:pb-20" id="quote">
-          <ResidentialPricingGuide />
-        </div>
 
         <Footer />
       </main>

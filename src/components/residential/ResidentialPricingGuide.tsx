@@ -309,6 +309,8 @@ function ServicePricingCard({
 type ResidentialPricingGuideProps = {
   className?: string;
   showIntro?: boolean;
+  /** When set (e.g. city landings), intro refers to "your {homeLocation} home". */
+  homeLocation?: string;
 };
 
 const JUMP_NAV_ACTIVE_CLASS = {
@@ -553,7 +555,12 @@ export function ServicePagePricing({
 export default function ResidentialPricingGuide({
   className = "",
   showIntro = true,
+  homeLocation,
 }: ResidentialPricingGuideProps) {
+  const homePhrase = homeLocation
+    ? `your ${homeLocation} home`
+    : "your home";
+
   return (
     <section
       id="quote-calculator"
@@ -570,7 +577,7 @@ export default function ResidentialPricingGuide({
             Cleaning Services &amp; Pricing
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-stone-600 md:text-base">
-            Choose the level of care that fits your home. Explore our starting
+            Choose the level of care that fits {homePhrase}. Explore our starting
             prices and what&apos;s included, then book online or request a
             personalized quote when you&apos;re ready.
           </p>

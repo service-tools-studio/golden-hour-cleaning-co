@@ -3,7 +3,6 @@
 import Footer from "@/components/residential/Footer";
 import Header from "@/components/residential/Header";
 import HouseCleaningLakeOswegoContent from "@/components/residential/HouseCleaningLakeOswegoContent";
-import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 
 export default function HouseCleaningLakeOswegoClient() {
   return (
@@ -12,14 +11,10 @@ export default function HouseCleaningLakeOswegoClient() {
 
       <main
         id="content"
-        className="overflow-x-hidden"
+        className="overflow-x-clip"
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
         <HouseCleaningLakeOswegoContent />
-
-        <div className="pt-10 pb-16 md:pb-20" id="quote">
-          <ResidentialPricingGuide />
-        </div>
 
         <Footer />
       </main>

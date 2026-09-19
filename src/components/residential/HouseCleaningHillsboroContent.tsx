@@ -8,7 +8,6 @@ import {
   BTN_PRIMARY,
   HEADING_UPPER,
   SECTION_EYEBROW,
-  SECTION_EYEBROW_ON_DARK,
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import {
@@ -21,24 +20,24 @@ import {
 import { FaqItem, Section } from "./servicePageParts";
 
 const NEIGHBORHOODS = [
-  "Central Beaverton",
-  "Cedar Hills",
-  "Murrayhill",
-  "Cooper Mountain",
-  "Sexton Mountain",
-  "West Slope",
-  "Five Oaks",
-  "Highland",
-  "Greenway",
-  "Raleigh Hills",
-  "Garden Home",
-  "Progress Ridge",
-  "Aloha",
-  "Cedar Mill",
-  "Bonny Slope",
-  "Vose",
+  "Downtown Hillsboro",
+  "Orenco Station",
   "Tanasbourne",
-  "Beaverton",
+  "AmberGlen",
+  "Witch Hazel",
+  "South Hillsboro",
+  "Reed's Crossing",
+  "Quatama",
+  "Hawthorn Farm",
+  "Jackson School",
+  "Brookwood",
+  "Cornell Road",
+  "Aloha",
+  "Bethany",
+  "Cedar Mill",
+  "Cornelius",
+  "North Plains",
+  "Hillsboro",
 ];
 
 
@@ -62,13 +61,13 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   HOURLY_CHARGE_FAQ,
-  cityHouseCleaningCostFaq("Beaverton"),
+  cityHouseCleaningCostFaq("Hillsboro"),
   siteFaq("supplies", "Do you bring your own supplies?"),
-  cityRecurringFaq("Beaverton-area homes"),
-  cityApartmentsFaq("the Beaverton area"),
+  cityRecurringFaq("Hillsboro-area homes"),
+  cityApartmentsFaq("the Hillsboro area"),
 ];
 
-export default function HouseCleaningBeavertonContent() {
+export default function HouseCleaningHillsboroContent() {
   return (
     <>
       <section
@@ -79,8 +78,8 @@ export default function HouseCleaningBeavertonContent() {
 
         <div className="relative w-full bg-amber-50 lg:min-h-[46rem]">
           <Image
-            src="/assets/beaverton-living-room.png"
-            alt="Bright Beaverton living room after a professional Golden Hour house cleaning"
+            src="/assets/hillsboro.png"
+            alt="Sunlit, professionally cleaned Hillsboro kitchen with white marble counters and warm wood accents"
             width={1535}
             height={1024}
             className="block h-auto w-full lg:absolute lg:inset-0 lg:h-full lg:w-full lg:object-cover"
@@ -97,15 +96,21 @@ export default function HouseCleaningBeavertonContent() {
           <div className="mx-auto w-full max-w-6xl lg:pointer-events-auto">
             <div className="lg:max-w-4xl">
               <p className={`${SECTION_EYEBROW} lg:text-amber-200`}>
-                Beaverton Residential Cleaning Services
+                Hillsboro Residential Cleaning Services
               </p>
               <h1
                 className={`mt-3 text-3xl leading-tight md:text-4xl lg:text-3xl lg:text-white lg:drop-shadow-md ${HEADING_UPPER}`}
               >
-                House Cleaning in Beaverton, OR
+                House Cleaning in Hillsboro, OR
               </h1>
               <p className="mt-4 text-lg leading-8 text-stone-700 lg:text-base lg:leading-7 lg:text-white/95 lg:drop-shadow-md">
-                Whether you're commuting to Nike World Headquarters or Intel, juggling school pickups and youth sports, or simply trying to spend more quality time with your family, life in Beaverton doesn't leave much room for housework. Instead of spending your weekends cleaning, Golden Hour Cleaning Co. helps you come home to a space that feels fresh, peaceful, and truly cared for with one-time deep cleans, recurring house cleaning, and move-out cleaning tailored to your schedule.
+                Between Silicon Forest workdays, MAX rides from Orenco Station,
+                and everything else on a busy Hillsboro calendar, keeping your
+                home clean can feel like one more thing to manage. Golden Hour
+                Cleaning Co. helps Hillsboro homeowners enjoy cleaner, calmer
+                homes with recurring house cleaning, deep cleaning, and move-out
+                cleaning—delivered with clear communication and meticulous
+                attention to detail.
               </p>
               <div className="mt-6">
                 <a
@@ -120,7 +125,7 @@ export default function HouseCleaningBeavertonContent() {
             <div className="mt-8 flex w-screen max-w-[100vw] justify-center [margin-left:calc(50%-50vw)] [margin-right:calc(50%-50vw)]">
               <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-center text-sm font-medium text-stone-700 lg:border-white/25 lg:bg-white/10 lg:text-white/95 lg:drop-shadow-md">
                 <BadgeCheck className="h-4 w-4 shrink-0 text-amber-600 lg:text-amber-300" aria-hidden />
-                Trusted by Busy Beaverton Professionals and Families.
+                Trusted by Busy Hillsboro Professionals and Families.
               </p>
             </div>
           </div>
@@ -148,33 +153,42 @@ export default function HouseCleaningBeavertonContent() {
       <section className="bg-white px-5 py-16 md:px-10">
         <div className="mx-auto max-w-3xl">
           <p className={SECTION_EYEBROW}>
-            Thoughtfully Caring for Homes Across Beaverton
+            Thoughtfully Caring for Homes Across Hillsboro
           </p>
           <h2 className={`mt-3 text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
-            Helping Beaverton Homes Feel Their Best
+            Helping Hillsboro Homes Feel Their Best
           </h2>
           <p className="mt-5 text-base leading-relaxed text-stone-700">
-            Golden Hour Cleaning Co. was founded on the belief that house cleaning is an act of care. Every home reflects the people who live there, and every client is navigating a different season of life. Whether you're building a career, raising children, welcoming a new baby, preparing for guests, or simply trying to stay ahead of life's daily demands, we approach every home with compassion, respect, and meticulous attention to detail.
+            Golden Hour Cleaning Co. was founded on the belief that house
+            cleaning is an act of care. Every home reflects the people who live
+            there, and every client is navigating a different season of life.
+            Whether you&apos;re building a career in the Silicon Forest, raising
+            a family near Orenco or South Hillsboro, preparing for guests, or
+            simply trying to stay ahead of life&apos;s daily demands, we approach
+            every home with compassion, respect, and meticulous attention to
+            detail.
           </p>
         </div>
-
       </section>
 
       <GoogleReviews />
 
-      <CityPagePricingSection city="Beaverton" />
+      <CityPagePricingSection city="Hillsboro" />
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
         <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
           <p className={`${SECTION_EYEBROW} text-stone-900`}>
-            Why Beaverton homeowners choose us
+            Why Hillsboro homeowners choose us
           </p>
           <h2 className={`mt-3 text-2xl md:text-3xl ${HEADING_UPPER}`}>
             A 5-star experience from booking to final walkthrough.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-stone-700">
-            We combine meticulous cleaning standards with a nurturing, human approach. From your first quote to your final walkthrough, you'll experience responsive communication, seamless online booking, and a team that treats your home with the same care and respect we'd want for our own.
-
+            We combine meticulous cleaning standards with a nurturing, human
+            approach. From your first quote to your final walkthrough,
+            you&apos;ll experience responsive communication, seamless online
+            booking, and a team that treats your home with the same care and
+            respect we&apos;d want for our own.
           </p>
           <TrackedInstantQuoteLink
             href="#quote"
@@ -189,7 +203,7 @@ export default function HouseCleaningBeavertonContent() {
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
         <h2 className={`text-3xl ${HEADING_UPPER}`}>
-          Serving Beaverton and nearby neighborhoods
+          Serving Hillsboro and nearby neighborhoods
         </h2>
         <div className="mt-6 flex flex-wrap gap-3">
           {NEIGHBORHOODS.map((area) => (
@@ -204,7 +218,9 @@ export default function HouseCleaningBeavertonContent() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <h2 className={`text-3xl ${HEADING_UPPER}`}>Simple, seamless, and stress-free.</h2>
+        <h2 className={`text-3xl ${HEADING_UPPER}`}>
+          Simple, seamless, and stress-free.
+        </h2>
         <p className="mt-2 text-stone-700">How it works</p>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {PROCESS_STEPS.map(({ step, title, desc }) => (
@@ -213,7 +229,9 @@ export default function HouseCleaningBeavertonContent() {
               className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
             >
               <p className="text-2xl font-semibold text-amber-600">{step}</p>
-              <h3 className={`mt-2 text-lg font-semibold ${HEADING_UPPER}`}>{title}</h3>
+              <h3 className={`mt-2 text-lg font-semibold ${HEADING_UPPER}`}>
+                {title}
+              </h3>
               <p className="mt-3 text-sm leading-relaxed text-stone-700">{desc}</p>
             </div>
           ))}
@@ -226,22 +244,24 @@ export default function HouseCleaningBeavertonContent() {
             Ready for a cleaner, calmer home?
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-white/85">
-            Book your Beaverton house cleaning with Golden Hour Cleaning Co. today.
+            Book your Hillsboro house cleaning with Golden Hour Cleaning Co.
+            today.
           </p>
-          <Link
-            href="/residential/quote"
-            className={`${BTN_PRIMARY} mt-8`}
-          >
+          <Link href="/residential/quote" className={`${BTN_PRIMARY} mt-8`}>
             Get Your Quote
           </Link>
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-16 md:px-6">
-        <Section title="House Cleaning Beaverton FAQs">
+        <Section title="House Cleaning Hillsboro FAQs">
           <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
             {FAQS.map((faq) => (
-              <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
+              <FaqItem
+                key={faq.question}
+                question={faq.question}
+                answer={faq.answer}
+              />
             ))}
           </div>
         </Section>

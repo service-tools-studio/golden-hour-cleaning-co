@@ -6,6 +6,7 @@ import { useGooglePlaceSummary } from "../../helpers/useGooglePlaceSummary";
 import {
   BTN_PRIMARY_RESPONSIVE,
   HEADING_UPPER,
+  SECTION_EYEBROW,
 } from "../../helpers/typography.js";
 import { Badge } from "../../helpers/ui-elements.jsx";
 import Image from "next/image";
@@ -33,17 +34,19 @@ export default function Hero() {
 
         <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-14 xl:px-16 xl:py-16">
           <div className="mx-auto w-full max-w-6xl text-center lg:max-w-lg xl:max-w-xl">
+            <p className={`${SECTION_EYEBROW} text-center`}>
+              📍 We Serve All Of Portland-Metro Area
+            </p>
             <h1
-              className={`text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
+              className={`mt-3 text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >
               Professional house cleaning in Portland, Oregon — high standards,
               intentional care & consistent results.
             </h1>
 
             <p className="mt-4 text-center text-sm leading-relaxed text-stone-700 sm:text-base lg:mt-5">
-              Meticulous, non-toxic cleaning for homes throughout Portland and
-              the surrounding metro area. Thoughtful service, consistent
-              results, transparent pricing, and easy online booking.
+              Meticulous, non-toxic cleaning with thoughtful service, transparent
+              pricing, and easy online booking.
             </p>
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-6">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
   BTN_SECONDARY,
@@ -41,23 +42,6 @@ const NEIGHBORHOODS = [
   "Forest Heights",
 ];
 
-const SERVICE_CARDS = [
-  {
-    title: "Standard House Cleaning",
-    desc: "Maintenance cleaning for homes that need regular upkeep, including kitchens, bathrooms, dusting, floors, and surfaces.",
-    href: "/residential/services/standard",
-  },
-  {
-    title: "Deep Cleaning",
-    desc: "A more detailed reset for homes needing extra attention, buildup removal, baseboards, fixtures, and high-touch areas.",
-    href: "/residential/services/deep",
-  },
-  {
-    title: "Move-Out Cleaning",
-    desc: "Top-to-bottom cleaning for apartments, condos, and homes before move-out, move-in, or listing preparation.",
-    href: "/residential/services/move-out",
-  },
-];
 
 const PROCESS_STEPS = [
   {
@@ -132,7 +116,7 @@ export default function HouseCleaningPortlandContent() {
                   href="#services"
                   className={`${BTN_SECONDARY} w-full sm:w-auto`}
                 >
-                  Explore Services
+                  Explore Services & Pricing
                 </a>
               </div>
             </div>
@@ -172,31 +156,9 @@ export default function HouseCleaningPortlandContent() {
         </div>
       </section>
 
-      <section id="services" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <h2 className={`text-3xl ${HEADING_UPPER}`}>Our House Cleaning Services</h2>
-        <p className="mt-2 max-w-2xl text-stone-700">
-          Choose the level of care your Portland home needs — from recurring upkeep to
-          a full reset before a move.
-        </p>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {SERVICE_CARDS.map(({ title, desc, href }) => (
-            <div
-              key={title}
-              className="flex flex-col rounded-3xl border border-amber-200 bg-white p-6 shadow-sm"
-            >
-              <h3 className={`font-medium ${HEADING_UPPER}`}>{title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-700">{desc}</p>
-              <Link
-                href={href}
-                aria-label={`Learn more about ${title}`}
-                className={`${BTN_SECONDARY} mt-5 w-full`}
-              >
-                Learn more
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
+      <GoogleReviews />
+
+      <CityPagePricingSection city="Portland" />
 
       <section className="mx-auto my-4 max-w-6xl px-4 md:px-6">
         <div className="rounded-3xl border border-amber-200 bg-[#a7eff1] px-8 py-12 shadow-sm md:px-12">
@@ -222,8 +184,6 @@ export default function HouseCleaningPortlandContent() {
           </TrackedInstantQuoteLink>
         </div>
       </section>
-
-      <GoogleReviews />
 
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
         <h2 className={`text-3xl ${HEADING_UPPER}`}>

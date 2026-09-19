@@ -2,9 +2,9 @@
 
 import Footer from "@/components/residential/Footer";
 import Header from "@/components/residential/Header";
-import HouseCleaningHappyValleyContent from "@/components/residential/HouseCleaningHappyValleyContent";
+import HouseCleaningHillsboroContent from "@/components/residential/HouseCleaningHillsboroContent";
 
-export default function HouseCleaningHappyValleyClient() {
+export default function HouseCleaningHillsboroClient() {
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
       <Header />
@@ -14,7 +14,7 @@ export default function HouseCleaningHappyValleyClient() {
         className="overflow-x-clip"
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
-        <HouseCleaningHappyValleyContent />
+        <HouseCleaningHillsboroContent />
 
         <Footer />
       </main>
