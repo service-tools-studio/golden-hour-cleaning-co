@@ -35,8 +35,8 @@ export default function ClientExperienceSection() {
       <div className="lg:relative">
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-amber-50 lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-1/2">
           <Image
-            src="/assets/golden-hour-sweep-2.jpg"
-            alt="A Golden Hour cleaner smiling while holding a dust mop in a sunlit room"
+            src="/assets/windows-extended-height.PNG"
+            alt="A Golden Hour cleaner wiping a sunlit living room window"
             fill
             className="object-cover object-center"
             sizes="(min-width: 1024px) 50vw, 100vw"
