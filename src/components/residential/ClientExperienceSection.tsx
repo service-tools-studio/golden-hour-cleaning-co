@@ -38,7 +38,7 @@ export default function ClientExperienceSection() {
             src="/assets/windows-extended-height.PNG"
             alt="A Golden Hour cleaner wiping a sunlit living room window"
             fill
-            className="object-cover object-center"
+            className="object-cover object-top"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>
