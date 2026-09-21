@@ -115,8 +115,8 @@ export default function CommercialPage() {
 
                 <div className="relative overflow-hidden rounded-[3rem] border border-black/5 shadow-2xl">
                   <Image
-                    src="/assets/commercial-cleaning-office.png"
-                    alt="Commercial office cleaning"
+                    src="/assets/golden-hour-sweep-2.jpg"
+                    alt="A Golden Hour cleaner smiling while sweeping a bright commercial space"
                     width={1200}
                     height={800}
                     className="h-[560px] w-full object-cover"
