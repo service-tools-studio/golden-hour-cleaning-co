@@ -16,16 +16,17 @@ import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
 
 const DETAIL_PHOTOS = [
   {
-    src: "/assets/shutters.PNG",
-    alt: "A Golden Hour cleaner wiping white interior shutters by a sunlit window",
-  },
-  {
     src: "/assets/stove-hood.jpg",
     alt: "A Golden Hour cleaner wiping the underside of a stainless steel stove hood",
   },
   {
     src: "/assets/vacuuming.PNG",
     alt: "A Golden Hour cleaner smiling while vacuuming a living room rug",
+    imageClassName: "object-[22%_center]",
+  },
+  {
+    src: "/assets/shutters.PNG",
+    alt: "A Golden Hour cleaner wiping white interior shutters by a sunlit window",
   },
 ] as const;
 
@@ -74,7 +75,9 @@ export default function MarketingLandingClient({ pagePath }: Props) {
                     width={1086}
                     height={1448}
                     sizes="(max-width: 1024px) 24rem, 24rem"
-                    className="aspect-[3/4] h-auto w-full object-cover"
+                    className={`aspect-[3/4] h-auto w-full object-cover ${
+                      "imageClassName" in photo ? photo.imageClassName : ""
+                    }`}
                   />
                 </figure>
               ))}
