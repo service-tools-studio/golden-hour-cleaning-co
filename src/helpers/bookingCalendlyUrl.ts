@@ -7,10 +7,10 @@
  * Custom invitee question order on the residential event:
  *   a1 = Phone Number
  *   a2 = Address of Service
- *   a4 = Number of Beds
- *   a5 = Number of Baths
- *   a6 = Square Footage
- *   a7 = Anything you'd like us to know?
+ *   a3 = Number of Beds
+ *   a4 = Number of Baths
+ *   a5 = Square Footage
+ *   a6 = Anything you'd like us to know?
  *
  * Home details also go in utm_content for the internal calendar-details tool.
  *
@@ -40,10 +40,10 @@ export const CALENDLY_STANDARD_FIELD_MAP = {
 export const CALENDLY_CUSTOM_FIELD_MAP = {
   phone: "a1",
   address: "a2",
-  bedrooms: "a4",
-  bathrooms: "a5",
-  squareFootage: "a6",
-  notes: "a7",
+  bedrooms: "a3",
+  bathrooms: "a4",
+  squareFootage: "a5",
+  notes: "a6",
 } as const;
 
 const CLICK_ID_KEYS = ["gclid", "gbraid", "wbraid"] as const;
