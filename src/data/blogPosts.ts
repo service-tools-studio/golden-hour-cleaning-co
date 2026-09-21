@@ -50,6 +50,86 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "when-your-home-feels-overwhelming-compassionate-deep-cleaning-portland",
+    title:
+      "When Your Home Feels Overwhelming: A Compassionate Deep Cleaning Story in Portland",
+    author: "Kelsey Collins",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-09-21",
+    excerpt:
+      "A Portland client was embarrassed to ask for help. Here's what happened when she finally let us in—and why you never need to clean before the cleaner comes.",
+    heroImage: {
+      src: "/assets/shutters.PNG",
+      alt: "A Golden Hour cleaner wiping white interior shutters by a sunlit window",
+      orientation: "portrait",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Sometimes, asking for help with your home is harder than the cleaning itself.",
+          "Recently, we worked with a Portland-area client whose mom originally reached out to Golden Hour Cleaning Co. on her behalf. Her daughter worked as a physician assistant and had been struggling to keep up with her home. She wanted help, but anxiety and embarrassment about the condition of her space made it difficult to take that first step.",
+          "For nearly two months, we played phone tag.",
+          "There was never any pressure from us. We understood that letting someone into your home—especially when you're already feeling overwhelmed by it—can feel incredibly vulnerable.",
+          "Eventually, she was ready.",
+        ],
+      },
+      {
+        heading: '"Please Don\'t Judge My Home"',
+        paragraphs: [
+          "When we arrived for the cleaning, the emotions came immediately. Our client began crying as soon as we entered her home.",
+          "She was embarrassed.",
+          "We reassured her that she didn't need to be.",
+          "At Golden Hour Cleaning Co., we understand that homes can become overwhelming for all kinds of reasons. Busy careers, mental health, physical health, major life changes, grief, family responsibilities, exhaustion, or simply falling behind can turn into a situation that feels impossible to tackle alone.",
+          "Our job isn't to judge how your home got there.",
+          "Our job is to help you move forward.",
+          "We let her know that we approach these situations with compassion and care—and that there was nothing in her home that shocked us or made us think differently of her.",
+          "Then we got to work.",
+        ],
+      },
+      {
+        heading: "A Three-Hour Home Reset",
+        paragraphs: [
+          "Within about three hours, the space had changed.",
+          "What had felt overwhelming just a few hours earlier was clean, refreshed, and manageable again.",
+          "But the most meaningful part wasn't simply seeing the difference in the home. It was seeing the relief our client felt afterward.",
+          "She was incredibly grateful, and we were grateful that she trusted us enough to let us help.",
+        ],
+      },
+      {
+        heading: "You Don't Have to Clean Before the Cleaner Comes",
+        paragraphs: [
+          "One thing we hear surprisingly often is:",
+          '"I\'m embarrassed to have a cleaner see my house."',
+          "If that's what's stopping you from reaching out, please know that you do not need to clean your home before we arrive.",
+          "You don't need to apologize for it, either.",
+          "Professional cleaners see homes in all kinds of conditions. If you've fallen behind, you're overwhelmed, or you simply don't know where to begin, that's exactly when having some extra help can make the biggest difference.",
+          "We can start where things are today.",
+        ],
+      },
+      {
+        heading: "Compassionate Deep Cleaning in Portland",
+        paragraphs: [
+          "Golden Hour Cleaning Co. provides professional deep cleaning services throughout the Portland metro area. We believe a cleaning service can be thorough and professional while still treating the person behind the home with kindness and respect.",
+          "Whether your home needs a routine deep clean or you're dealing with significant buildup and need a more substantial reset, we'll talk through the condition of the space, the areas that matter most to you, and what it will take to get your home feeling manageable again.",
+          "There is no shame in needing help.",
+          "Sometimes a few hours of support is enough to give you the fresh start you've been trying to create on your own.",
+          "Need help resetting your home?",
+          "Contact Golden Hour Cleaning Co. to request an estimate for deep cleaning in the Portland area. You can tell us as much or as little about the situation as you're comfortable sharing. We'll take it from there—with compassion, professionalism, and no judgment.",
+        ],
+        link: {
+          href: "/request-a-quote",
+          label: "Request a deep cleaning estimate →",
+        },
+        links: [
+          {
+            href: "/residential/services/deep",
+            label: "Learn more about deep cleaning in Portland →",
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "this-business-is-more-than-cleaning",
     title: "This Business Is More Than Cleaning to Me",
     author: "Kelsey Collins",
