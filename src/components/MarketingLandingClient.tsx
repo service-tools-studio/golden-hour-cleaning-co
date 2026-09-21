@@ -14,10 +14,20 @@ import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
 
-const DETAIL_PHOTO = {
-  src: "/assets/vacuuming.PNG",
-  alt: "A Golden Hour cleaner smiling while vacuuming a living room rug",
-} as const;
+const DETAIL_PHOTOS = [
+  {
+    src: "/assets/shutters.PNG",
+    alt: "A Golden Hour cleaner wiping white interior shutters by a sunlit window",
+  },
+  {
+    src: "/assets/stove-hood.jpg",
+    alt: "A Golden Hour cleaner wiping the underside of a stainless steel stove hood",
+  },
+  {
+    src: "/assets/vacuuming.PNG",
+    alt: "A Golden Hour cleaner smiling while vacuuming a living room rug",
+  },
+] as const;
 
 type Props = {
   pagePath: "/" | "/residential";
@@ -52,16 +62,23 @@ export default function MarketingLandingClient({ pagePath }: Props) {
           aria-label="Golden Hour cleaners at work"
         >
           <div className="mx-auto max-w-5xl px-4 lg:max-w-6xl">
-            <figure className="overflow-hidden rounded-2xl border border-amber-200 bg-stone-100 shadow-sm">
-              <Image
-                src={DETAIL_PHOTO.src}
-                alt={DETAIL_PHOTO.alt}
-                width={1411}
-                height={1114}
-                sizes="(max-width: 1024px) 100vw, 72rem"
-                className="h-auto w-full object-contain"
-              />
-            </figure>
+            <div className="flex flex-col items-center gap-4 lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-6">
+              {DETAIL_PHOTOS.map((photo) => (
+                <figure
+                  key={photo.src}
+                  className="block w-full max-w-sm overflow-hidden rounded-2xl border border-amber-200 bg-stone-100 shadow-sm lg:max-w-none"
+                >
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={1086}
+                    height={1448}
+                    sizes="(max-width: 1024px) 24rem, 24rem"
+                    className="aspect-[3/4] h-auto w-full object-cover"
+                  />
+                </figure>
+              ))}
+            </div>
           </div>
         </section>
 
