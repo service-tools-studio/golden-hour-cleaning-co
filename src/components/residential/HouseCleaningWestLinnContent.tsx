@@ -126,7 +126,7 @@ export default function HouseCleaningWestLinnContent() {
           <div className="mx-auto hidden w-full max-w-7xl shrink-0 lg:block lg:pointer-events-auto">
             <div className="mx-auto grid w-full max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
               <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
-              <Badge icon={<BadgeCheck />} label="Background-Checked" />
+              <Badge icon={<BadgeCheck />} label="Locally Owned" />
               <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
               <Badge icon={<Stars />} label="5-Star Experience" />
             </div>
@@ -137,7 +137,7 @@ export default function HouseCleaningWestLinnContent() {
       <div className="mx-auto flex min-h-[8rem] max-w-7xl flex-col items-center justify-center px-6 pt-2 pb-4 lg:hidden">
         <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4">
           <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
-          <Badge icon={<BadgeCheck />} label="Background-Checked" />
+          <Badge icon={<BadgeCheck />} label="Locally Owned" />
           <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
           <Badge icon={<Stars />} label="5-Star Experience" />
         </div>

@@ -20,10 +20,7 @@ export const FAQ_ANSWERS = {
     "Not necessarily. Many clients provide secure access while they're away — for example a garage code, lockbox, or key. We'll coordinate access details with you before your appointment.",
 
   insured:
-    "Yes. Golden Hour Cleaning Co. is licensed and insured in Oregon, and our cleaners are background-checked.",
-
-  backgroundChecked:
-    "Yes. Golden Hour cleaners are background-checked, and the company is licensed and insured in Oregon.",
+    "Yes. Golden Hour Cleaning Co. is licensed and insured in Oregon.",
 
   deepPricing:
     "You can review starting prices by home size on this page, then request a personalized quote based on number of bedrooms, bathrooms, square footage, and any add-ons. For a typical Portland home, we'll send you a broad range quote rather than a single number because condition affects the work required. We confirm your final price after an in-person walkthrough, right before cleaning begins.",
@@ -112,11 +109,6 @@ export const BE_HOME_FAQ: SiteFaq = siteFaq(
 );
 
 export const INSURED_FAQ: SiteFaq = siteFaq("insured", "Are you insured?");
-
-export const BACKGROUND_CHECKED_FAQ: SiteFaq = siteFaq(
-  "backgroundChecked",
-  "Are your cleaners background-checked?",
-);
 
 export const DEEP_PRICING_FAQ: SiteFaq = siteFaq(
   "deepPricing",

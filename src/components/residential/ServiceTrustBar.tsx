@@ -11,7 +11,7 @@ export default function ServiceTrustBar() {
 
   const trustFeatures = [
     { icon: ShieldCheck, title: "Licensed & Insured" },
-    { icon: BadgeCheck, title: "Background-Checked" },
+    { icon: BadgeCheck, title: "Locally Owned" },
     {
       icon: Stars,
       title: googleRatingLabel,

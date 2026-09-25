@@ -64,7 +64,7 @@ export default function Footer() {
             </a>
           </address>
           <p className="text-xs mt-3 text-amber-800/70">
-            Licensed, insured, background-checked professionals
+            Licensed and insured professionals
           </p>
         </section>
 

@@ -22,7 +22,7 @@ export default function PpcLandingFooter() {
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-amber-800/80">
           Meticulous care and eco-friendly products for Portland homes. Licensed
-          in Oregon, insured, and background-checked.
+          in Oregon and insured.
         </p>
 
         <p className="mt-5 text-sm">
