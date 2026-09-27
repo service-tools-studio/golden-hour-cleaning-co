@@ -91,14 +91,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const calendlyUrl =
-    leadPath === "Personalized Quote"
-      ? buildBookingCalendlyUrl({
-          form: normalized,
-          leadPath,
-          attribution: normalized.attribution ?? null,
-        })
-      : undefined;
+  const calendlyUrl = buildBookingCalendlyUrl({
+    form: normalized,
+    leadPath,
+    attribution: normalized.attribution ?? null,
+  });
 
   try {
     const transporter = createGmailTransporter();

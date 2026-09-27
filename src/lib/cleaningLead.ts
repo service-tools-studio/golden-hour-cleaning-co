@@ -451,7 +451,7 @@ export function buildCleaningLeadEmailBody(
     lines.push("", "CUSTOMER NOTES", data.notes?.trim() || "(none)");
   }
 
-  if (isQuote && options?.calendlyUrl) {
+  if (options?.calendlyUrl) {
     lines.push("", "SCHEDULING", `Calendly link: ${options.calendlyUrl}`);
   }
 
