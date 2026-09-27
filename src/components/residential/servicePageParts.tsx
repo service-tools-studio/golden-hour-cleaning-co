@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
-export { HOURLY_CHARGE_FAQ } from "@/data/siteFaqs";
 export type { SiteFaq } from "@/data/siteFaqs";
 
 export function BackToServicesLink() {

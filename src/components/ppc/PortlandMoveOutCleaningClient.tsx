@@ -22,7 +22,6 @@ import { FaqItem, Section } from "@/components/residential/servicePageParts";
 import { BEFORE_AFTER_PHOTOS, beforeAfterSrc } from "@/data/beforeAfterPhotos";
 import {
   FAQ_ANSWERS,
-  HOURLY_CHARGE_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
 import { capturePpcAttribution } from "@/helpers/ppcAttribution";
@@ -33,7 +32,6 @@ import {
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 
 const FAQS = [
-  HOURLY_CHARGE_FAQ,
   siteFaq("moveOutPricing", "How much does move-out cleaning cost in Portland?"),
   siteFaq("finalPriceConfirmed", "When is my final price confirmed?"),
   siteFaq(

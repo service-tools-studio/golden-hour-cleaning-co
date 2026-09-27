@@ -15,7 +15,6 @@ import {
   cityApartmentsFaq,
   cityHouseCleaningCostFaq,
   cityRecurringFaq,
-  HOURLY_CHARGE_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
 import { FaqItem, Section } from "./servicePageParts";
@@ -59,7 +58,6 @@ const PROCESS_STEPS = [
 ];
 
 const FAQS = [
-  HOURLY_CHARGE_FAQ,
   cityHouseCleaningCostFaq("West Linn"),
   siteFaq("supplies", "Do you bring your own supplies?"),
   cityRecurringFaq("West Linn-area homes"),

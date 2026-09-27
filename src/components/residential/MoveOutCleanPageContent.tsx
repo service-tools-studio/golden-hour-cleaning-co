@@ -7,7 +7,6 @@ import ServiceDetailHero from "./ServiceDetailHero";
 import MoveOutCleanChecklist from "./MoveOutCleanChecklist";
 import ReviewStartingPricesFaqAnswer from "./ReviewStartingPricesFaqAnswer";
 import {
-  HOURLY_CHARGE_FAQ,
   MOVE_OUT_PRICING_FAQ,
   SUPPLIES_FAQ,
   siteFaq,
@@ -125,7 +124,6 @@ export default function MoveOutCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-          <FaqItem {...HOURLY_CHARGE_FAQ} />
           <FaqItem
             question={MOVE_OUT_PRICING_FAQ.question}
             answer={

@@ -4,7 +4,6 @@ import { CONTACT } from "@/constants.js";
 import {
   BE_HOME_FAQ,
   DEEP_PRICING_FAQ,
-  HOURLY_CHARGE_FAQ,
   SUPPLIES_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
@@ -142,7 +141,6 @@ export default function DeepCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-          <FaqItem {...HOURLY_CHARGE_FAQ} />
           <FaqItem
             question={DEEP_PRICING_FAQ.question}
             answer={

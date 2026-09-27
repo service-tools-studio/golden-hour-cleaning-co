@@ -14,7 +14,6 @@ import {
 import { Badge } from "@/helpers/ui-elements.jsx";
 import {
   BE_HOME_FAQ,
-  HOURLY_CHARGE_FAQ,
   INSURED_FAQ,
   SUPPLIES_FAQ,
   siteFaq,
@@ -101,7 +100,6 @@ const PRICING_FACTORS = [
 ];
 
 const FAQS = [
-  HOURLY_CHARGE_FAQ,
   BE_HOME_FAQ,
   SUPPLIES_FAQ,
   INSURED_FAQ,

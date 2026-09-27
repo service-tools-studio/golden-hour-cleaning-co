@@ -13,7 +13,6 @@ import {
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import {
-  HOURLY_CHARGE_FAQ,
   INSURED_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
@@ -102,7 +101,6 @@ const PRICING_FACTORS = [
 ];
 
 const FAQS = [
-  HOURLY_CHARGE_FAQ,
   siteFaq("beHome", "Do I need to be home?"),
   siteFaq("supplies", "Do you bring your own supplies?"),
   INSURED_FAQ,

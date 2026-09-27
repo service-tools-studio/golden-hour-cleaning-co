@@ -5,7 +5,6 @@ import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.
 import ReviewStartingPricesFaqAnswer from "./ReviewStartingPricesFaqAnswer";
 import ServiceDetailHero from "./ServiceDetailHero";
 import {
-  HOURLY_CHARGE_FAQ,
   STANDARD_PRICING_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
@@ -202,7 +201,6 @@ export default function StandardCleanPageContent({
 
       <Section title="Frequently Asked Questions">
         <div className="mt-4 space-y-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
-          <FaqItem {...HOURLY_CHARGE_FAQ} />
           <FaqItem
             question={STANDARD_PRICING_FAQ.question}
             answer={

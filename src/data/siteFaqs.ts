@@ -10,9 +10,6 @@ export type SiteFaq = {
 };
 
 export const FAQ_ANSWERS = {
-  hourly:
-    "We don't charge by the hour. Our pricing is based on the size, condition and scope of your home, so you're paying for the completed cleaning—not how long it takes us to get there.\n\nOur experienced team works efficiently, and we don't believe you should pay more simply because a cleaning takes longer—or that our team's efficiency should make the service worth less. Your quoted price reflects completion of the agreed-upon cleaning scope, regardless of the exact time required.",
-
   supplies:
     "Yes. We use eco-friendly products whenever possible. For heavy buildup, stronger conventional products may be used when needed. Our team arrives with professional-grade products and equipment. If you have product preferences, let us know.",
 
@@ -92,11 +89,6 @@ export function siteFaq(
 ): SiteFaq {
   return { question, answer: FAQ_ANSWERS[key] };
 }
-
-export const HOURLY_CHARGE_FAQ: SiteFaq = siteFaq(
-  "hourly",
-  "What do you charge hourly?",
-);
 
 export const SUPPLIES_FAQ: SiteFaq = siteFaq(
   "supplies",
