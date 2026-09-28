@@ -44,7 +44,7 @@ export default function BookOnlinePage() {
               Pick a time
             </p>
             <p className="mx-auto mt-5 max-w-md rounded-2xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-center text-sm font-semibold leading-snug text-amber-950 text-pretty sm:max-w-none sm:text-base sm:leading-normal">
-              Daily availability, including same-day{" "}
+              Almost daily availability, including same-day{" "}
               <span className="font-medium text-amber-800/80">
                 (submit by 12pm)
               </span>{" "}
