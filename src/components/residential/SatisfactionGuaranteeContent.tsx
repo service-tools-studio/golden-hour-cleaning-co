@@ -108,6 +108,15 @@ export default function SatisfactionGuaranteeContent() {
           cover areas or services that were excluded, inaccessible, or not part of
           the booked service.
         </p>
+        <div className="mt-4 rounded-2xl border border-amber-300 bg-amber-100 px-4 py-3 text-base leading-relaxed text-amber-950">
+          <p className="font-semibold">Post-construction cleaning</p>
+          <p className="mt-1">
+            Due to the nature of post-construction work, the 24-hour
+            Satisfaction Guarantee does not apply to post-construction
+            cleanings. Instead, we require a final walkthrough and sign-off
+            before we leave, and we do not return for re-cleans after sign-off.
+          </p>
+        </div>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Some permanent staining, damage, discoloration, wear, mineral buildup,
           mold, or other conditions may not be fully removable through
@@ -117,7 +126,9 @@ export default function SatisfactionGuaranteeContent() {
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           If you&apos;re not available for a walkthrough when your cleaning is
-          complete, <strong>your 24-hour Satisfaction Guarantee still applies.</strong>
+          complete, <strong>your 24-hour Satisfaction Guarantee still applies.</strong>{" "}
+          (Post-construction cleanings are the exception — a final walkthrough
+          and sign-off is required.)
         </p>
       </Section>
 
