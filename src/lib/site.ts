@@ -10,10 +10,10 @@ export const BUSINESS_PHONE_DISPLAY = "(503) 893-4795";
 
 /** Public mailing / business address already shown in the site footer. */
 export const BUSINESS_ADDRESS = {
-  streetAddress: "3400 NE John Olsen Avenue, Suite 200",
-  addressLocality: "Hillsboro",
+  streetAddress: "5441 S Macadam Ave. #4907",
+  addressLocality: "Portland",
   addressRegion: "OR",
-  postalCode: "97124",
+  postalCode: "97239",
   addressCountry: "US",
 } as const;
 

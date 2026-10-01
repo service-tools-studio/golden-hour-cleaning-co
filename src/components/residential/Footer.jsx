@@ -47,8 +47,8 @@ export default function Footer() {
             Contact
           </h3>
           <address className="not-italic text-sm text-amber-900">
-            <span className="block">3400 NE John Olsen Avenue, Suite 200</span>
-            <span className="block">Hillsboro, OR 97124</span>
+            <span className="block">5441 S Macadam Ave. #4907</span>
+            <span className="block">Portland, OR 97239</span>
             <a
               href="tel:+15038934795"
               data-call-source="footer_phone"
