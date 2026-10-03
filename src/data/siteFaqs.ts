@@ -16,9 +16,6 @@ export const FAQ_ANSWERS = {
   beHome:
     "Not necessarily. Many clients provide secure access while they're away — for example a garage code, lockbox, or key. We'll coordinate access details with you before your appointment.",
 
-  insured:
-    "Yes. Golden Hour Cleaning Co. is licensed and insured in Oregon.",
-
   deepPricing:
     "You can review starting prices by home size on this page, then request a personalized quote based on number of bedrooms, bathrooms, square footage, and any add-ons. For a typical Portland home, we'll send you a broad range quote rather than a single number because condition affects the work required. We confirm your final price after an in-person walkthrough, right before cleaning begins.",
 
@@ -99,8 +96,6 @@ export const BE_HOME_FAQ: SiteFaq = siteFaq(
   "beHome",
   "Do I need to be home during the cleaning?",
 );
-
-export const INSURED_FAQ: SiteFaq = siteFaq("insured", "Are you insured?");
 
 export const DEEP_PRICING_FAQ: SiteFaq = siteFaq(
   "deepPricing",

@@ -83,7 +83,7 @@ export default function InstantBookLanding() {
             </p> */}
 
             <div className="mt-6 grid w-full max-w-xl grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4">
-              <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+              <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
               <Badge icon={<BadgeCheck />} label="Locally Owned" />
               <Badge icon={<Leaf />} label="Non-Toxic Products" />
               {/* <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" /> */}

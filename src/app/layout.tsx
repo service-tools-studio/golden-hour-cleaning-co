@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Golden Hour Cleaning Co. | House Cleaning in Portland, OR",
   description:
-    "Professional house cleaning in Portland, Oregon and the surrounding metro area. Licensed, insured, and locally owned — deep cleans, recurring care, and move-out cleaning.",
+    "Professional house cleaning in Portland, Oregon and the surrounding metro area. Licensed and locally owned — deep cleans, recurring care, and move-out cleaning.",
 };
 
 /** Reduce iOS Chrome jumpiness when browser chrome shows/hides. */

@@ -4,7 +4,7 @@ import PortlandDeepCleaningClient from "@/components/ppc/PortlandDeepCleaningCli
 export const metadata: Metadata = {
   title: "Deep Cleaning Services in Portland, OR | Get a Quote or Call",
   description:
-    "Portland deep house cleaning with starting prices online. Call (503) 893-4795, request a personalized quote, or reserve your deep clean. Licensed, insured, and locally owned.",
+    "Portland deep house cleaning with starting prices online. Call (503) 893-4795, request a personalized quote, or reserve your deep clean. Licensed and locally owned.",
   alternates: { canonical: "/portland-deep-cleaning" },
 };
 

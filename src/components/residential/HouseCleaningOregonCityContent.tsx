@@ -14,7 +14,6 @@ import {
 import { Badge } from "@/helpers/ui-elements.jsx";
 import {
   BE_HOME_FAQ,
-  INSURED_FAQ,
   SUPPLIES_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
@@ -102,7 +101,6 @@ const PRICING_FACTORS = [
 const FAQS = [
   BE_HOME_FAQ,
   SUPPLIES_FAQ,
-  INSURED_FAQ,
   siteFaq("generalDuration", "How long does a house cleaning take?"),
 ];
 
@@ -179,7 +177,7 @@ export default function HouseCleaningOregonCityContent() {
 
           <div className="mx-auto hidden w-full max-w-7xl shrink-0 lg:block lg:pointer-events-auto">
             <div className="mx-auto grid w-full max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
-              <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+              <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
               <Badge icon={<BadgeCheck />} label="Locally Owned" />
               <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
               <Badge icon={<Stars />} label="5-Star Experience" />
@@ -190,7 +188,7 @@ export default function HouseCleaningOregonCityContent() {
 
       <div className="mx-auto flex min-h-[8rem] max-w-7xl flex-col items-center justify-center px-6 pt-2 pb-4 lg:hidden">
         <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4">
-          <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+          <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
           <Badge icon={<BadgeCheck />} label="Locally Owned" />
           <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
           <Badge icon={<Stars />} label="5-Star Experience" />

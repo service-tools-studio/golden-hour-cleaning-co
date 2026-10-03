@@ -554,6 +554,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
   },
+  /* Hidden for now — references insurance coverage.
   {
     slug: "what-happens-if-a-house-cleaner-damages-something-in-your-home",
     title:
@@ -788,6 +789,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
   },
+  */
   {
     slug: "what-to-look-for-in-a-professional-cleaning-company",
     title: "What to Look for in a Professional Cleaning Company",
@@ -795,7 +797,7 @@ export const BLOG_POSTS: BlogPost[] = [
     authorRole: "Co-Founder of Golden Hour Cleaning Co.",
     publishedAt: "2026-07-30",
     excerpt:
-      "Hiring a cleaning company means inviting people into your home. Here's what to look for—communication, pricing, reliability, insurance, and more—so you can choose a team you'll trust for years.",
+      "Hiring a cleaning company means inviting people into your home. Here's what to look for—communication, pricing, reliability, professionalism, and more—so you can choose a team you'll trust for years.",
     heroImage: {
       src: "/assets/chateau-cleaning.webp",
       alt: "A bright, professionally cleaned home interior after a Golden Hour cleaning",
@@ -893,11 +895,11 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
       },
       {
-        heading: "6. Insurance and Professional Standards",
+        heading: "6. Professional Standards",
         paragraphs: [
           "Accidents are rare, but they can happen.",
-          "A professional cleaning company should carry appropriate business insurance and operate with clear policies for handling unexpected situations.",
-          "Don't be afraid to ask whether the company is insured and how they handle accidental damage if it occurs.",
+          "A professional cleaning company should operate with clear policies for handling unexpected situations.",
+          "Don't be afraid to ask how they handle accidental damage if it occurs.",
         ],
       },
       {
@@ -1638,7 +1640,7 @@ export const BLOG_POSTS: BlogPost[] = [
           },
           {
             type: "paragraph",
-            text: "Others include more detailed cleaning, higher-quality supplies, employee wages, insurance, licensing, and quality guarantees.",
+            text: "Others include more detailed cleaning, higher-quality supplies, fair wages, licensing, and quality guarantees.",
           },
           {
             type: "paragraph",
@@ -1665,7 +1667,6 @@ export const BLOG_POSTS: BlogPost[] = [
             type: "bullets",
             items: [
               "What exactly is included?",
-              "Are they insured?",
               "Do they guarantee their work?",
               "Will the same areas always be cleaned?",
               "How are concerns handled if something is missed?",
@@ -2383,7 +2384,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "Don't just ask, \"Who's the cheapest?\"",
           "Ask questions like:",
           "How do they communicate with clients?",
-          "Are they licensed and insured?",
+          "Are they licensed?",
           "What happens if I'm not happy with the cleaning?",
           "Do they have consistent reviews?",
           "Do they take pride in their work?",

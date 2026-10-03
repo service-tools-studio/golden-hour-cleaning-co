@@ -10,7 +10,7 @@ export default function ServiceTrustBar() {
   const googleRatingLabel = `★★★★★ ${(rating ?? 5).toFixed(1)} Google Rating`;
 
   const trustFeatures = [
-    { icon: ShieldCheck, title: "Licensed & Insured" },
+    { icon: ShieldCheck, title: "Vetted Professionals" },
     { icon: BadgeCheck, title: "Locally Owned" },
     {
       icon: Stars,

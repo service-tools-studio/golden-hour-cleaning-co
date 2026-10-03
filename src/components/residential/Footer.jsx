@@ -1,8 +1,5 @@
-import { BTN_SECONDARY, HEADING_UPPER } from "../../helpers/typography.js";
+import { HEADING_UPPER } from "../../helpers/typography.js";
 import FooterCitiesMenu from "./FooterCitiesMenu";
-
-const COI_URL =
-  "https://portal.nextinsurance.com/public/certificates/live-certificate/4689e08f2c04efe155c98e6d5588048d";
 
 const footerBrandId = "footer-brand-heading";
 const footerContactId = "footer-contact-heading";
@@ -29,17 +26,8 @@ export default function Footer() {
             Meticulous care, mindful presence, and eco-friendly products —
             professional house cleaning for Portland, Oregon and the surrounding
             metro area. Golden Hour Cleaning Co is licensed in the State of
-            Oregon and carries general liability coverage up to $1 million.
+            Oregon.
           </p>
-          <a
-            href={COI_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View certificate of insurance (opens in new tab)"
-            className={`${BTN_SECONDARY} mt-4 px-4 py-2 text-xs`}
-          >
-            View Certificate of Insurance
-          </a>
         </section>
 
         <section aria-labelledby={footerContactId}>
@@ -64,7 +52,7 @@ export default function Footer() {
             </a>
           </address>
           <p className="text-xs mt-3 text-amber-800/70">
-            Licensed and insured professionals
+            Vetted cleaning professionals
           </p>
         </section>
 

@@ -12,7 +12,7 @@ const BANNER_H = 28;
 const bannerItems = [
   "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City",
   "We use eco-friendly products",
-  "Licensed & insured",
+  "Vetted professionals",
   "Flexible weekly • bi-weekly • monthly",
   "Same-week openings available",
   "Easy online booking",

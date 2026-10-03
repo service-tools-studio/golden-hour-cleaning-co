@@ -20,7 +20,7 @@ export const BUSINESS_ADDRESS = {
 export const SERVICE_AREA_CITIES = CITY_LANDING_PAGES.map(({ label }) => label);
 
 export const BUSINESS_DESCRIPTION =
-  "Professional residential and commercial cleaning serving Portland, Oregon and the surrounding Portland metro area. Licensed, insured, and locally owned.";
+  "Professional residential and commercial cleaning serving Portland, Oregon and the surrounding Portland metro area. Licensed and locally owned.";
 
 export const BUSINESS_LOGO_PATH = "/assets/Golden Hour - commercial.png";
 

@@ -13,7 +13,6 @@ import {
 } from "@/helpers/typography.js";
 import { Badge } from "@/helpers/ui-elements.jsx";
 import {
-  INSURED_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
 import { BulletList, FaqItem, Section } from "./servicePageParts";
@@ -103,7 +102,6 @@ const PRICING_FACTORS = [
 const FAQS = [
   siteFaq("beHome", "Do I need to be home?"),
   siteFaq("supplies", "Do you bring your own supplies?"),
-  INSURED_FAQ,
   siteFaq("generalDuration", "How long does a cleaning take?"),
 ];
 
@@ -180,7 +178,7 @@ export default function HouseCleaningHappyValleyContent() {
 
           <div className="mx-auto hidden w-full max-w-7xl shrink-0 lg:block lg:pointer-events-auto">
             <div className="mx-auto grid w-full max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
-              <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+              <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
               <Badge icon={<BadgeCheck />} label="Locally Owned" />
               <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
               <Badge icon={<Stars />} label="5-Star Experience" />
@@ -191,7 +189,7 @@ export default function HouseCleaningHappyValleyContent() {
 
       <div className="mx-auto flex min-h-[8rem] max-w-7xl flex-col items-center justify-center px-6 pt-2 pb-4 lg:hidden">
         <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 text-sm text-stone-700 sm:grid-cols-4">
-          <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+          <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
           <Badge icon={<BadgeCheck />} label="Locally Owned" />
           <Badge icon={<CalendarCheck2 />} label="Real-Time Booking" />
           <Badge icon={<Stars />} label="5-Star Experience" />

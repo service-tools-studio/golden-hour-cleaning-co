@@ -55,7 +55,7 @@ export default function Trust() {
                   <Row label="Personalized Quote" a="Yes" b="No" />
                   <Row label="Real-Time Online Booking" a="Yes" b="Contact form / Email" />
                   <Row label="Non-Toxic Products" a="Yes" b="Varies" />
-                  <Row label="Licensed & Insured" a="Yes" b="Often" />
+                  <Row label="Vetted Professionals" a="Yes" b="Varies" />
                 </tbody>
               </table>
             </div>

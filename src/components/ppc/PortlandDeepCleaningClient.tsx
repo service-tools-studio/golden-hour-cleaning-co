@@ -116,7 +116,7 @@ export default function PortlandDeepCleaningClient({
                 </Link>
               </p>
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-stone-700">
-                <Badge icon={<ShieldCheck />} label="Licensed & Insured" />
+                <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
                 <Badge icon={<Award />} label="Satisfaction Guarantee" />
                 <Badge icon={<Home />} label="Women-Owned & Local" />
                 <button

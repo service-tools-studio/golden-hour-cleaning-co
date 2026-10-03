@@ -2,9 +2,6 @@ import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
-const COI_URL =
-  "https://portal.nextinsurance.com/public/certificates/live-certificate/4689e08f2c04efe155c98e6d5588048d";
-
 /**
  * Compact footer for PPC landings — trust + contact, minimal exits.
  */
@@ -22,7 +19,7 @@ export default function PpcLandingFooter() {
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-amber-800/80">
           Meticulous care and eco-friendly products for Portland homes. Licensed
-          in Oregon and insured.
+          in Oregon.
         </p>
 
         <p className="mt-5 text-sm">
@@ -51,17 +48,6 @@ export default function PpcLandingFooter() {
           >
             Satisfaction Guarantee
           </Link>
-          <span className="text-amber-700/50" aria-hidden>
-            ·
-          </span>
-          <a
-            href={COI_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-          >
-            Certificate of Insurance
-          </a>
         </p>
 
         <p className="mt-4 text-sm text-amber-800/80">
