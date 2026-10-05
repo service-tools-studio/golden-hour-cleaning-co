@@ -266,7 +266,8 @@ function ServicePricingCard({
           ) : null}
 
           <p className="mt-4 text-sm leading-relaxed text-stone-600">
-            Final pricing depends on home size, condition and cleaning needs.
+            Starting rates shown are for homes in light condition. Final pricing
+            depends on home size, condition, scope, and cleaning needs.
           </p>
         </div>
 
