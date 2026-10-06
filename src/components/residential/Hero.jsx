@@ -4,12 +4,18 @@ import { BadgeCheck, Award, ShieldCheck, Stars } from "lucide-react";
 import { scrollToId } from "../../helpers/scrollToId";
 import { useGooglePlaceSummary } from "../../helpers/useGooglePlaceSummary";
 import {
-  BTN_PRIMARY_RESPONSIVE,
+  BTN_UPPER,
   HEADING_UPPER,
   SECTION_EYEBROW,
 } from "../../helpers/typography.js";
 import { Badge } from "../../helpers/ui-elements.jsx";
 import Image from "next/image";
+import Link from "next/link";
+
+/** Side-by-side hero CTAs — tighter padding on phones so both labels fit. */
+const HERO_BTN_BASE = `${BTN_UPPER} inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-2.5 py-2.5 text-center text-xs font-semibold leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 active:scale-[0.98] sm:min-h-0 sm:px-5 sm:text-sm`;
+const HERO_BTN_PRICING = `${HERO_BTN_BASE} border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50`;
+const HERO_BTN_RESERVE = `${HERO_BTN_BASE} border-stone-900 bg-stone-900 text-white shadow-sm hover:bg-stone-800 lg:border-amber-300 lg:bg-amber-400 lg:text-slate-900 lg:shadow-md lg:hover:bg-amber-300 lg:hover:shadow-lg`;
 
 export default function Hero() {
   const { rating } = useGooglePlaceSummary();
@@ -49,17 +55,23 @@ export default function Hero() {
               pricing, and easy online booking.
             </p>
 
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-6">
+            <div className="mt-5 flex gap-3 lg:mt-6">
               <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToId("#quote", 8);
                 }}
-                className={`${BTN_PRIMARY_RESPONSIVE} w-full sm:flex-1`}
+                className={HERO_BTN_PRICING}
               >
                 See Pricing
               </button>
+              <Link
+                href="/book-online"
+                className={HERO_BTN_RESERVE}
+              >
+                Reserve Your Cleaning
+              </Link>
             </div>
 
             <div className="mt-4 text-center">
@@ -77,7 +89,7 @@ export default function Hero() {
 
             <div className="mt-8 grid w-full grid-cols-2 gap-2.5 text-sm text-stone-700 sm:grid-cols-4 sm:gap-3 lg:mt-12 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
-              <Badge icon={<BadgeCheck />} label="Locally Owned" />
+              <Badge icon={<BadgeCheck />} label="Women Owned and Local" />
               <Badge icon={<Award />} label="Satisfaction Guarantee" />
               <Badge
                 icon={<Stars />}
