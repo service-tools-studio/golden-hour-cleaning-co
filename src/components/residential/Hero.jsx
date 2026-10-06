@@ -15,7 +15,7 @@ import Link from "next/link";
 /** Side-by-side hero CTAs — tighter padding on phones so both labels fit. */
 const HERO_BTN_BASE = `${BTN_UPPER} inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-2.5 py-2.5 text-center text-xs font-semibold leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 active:scale-[0.98] sm:min-h-0 sm:px-5 sm:text-sm`;
 const HERO_BTN_PRICING = `${HERO_BTN_BASE} border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50`;
-const HERO_BTN_RESERVE = `${HERO_BTN_BASE} border-[#DCCF6E] bg-[#F0E79A] text-stone-900 shadow-sm hover:bg-[#E6DB82]`;
+const HERO_BTN_RESERVE = `${HERO_BTN_BASE} border-amber-300 bg-amber-200 text-stone-900 shadow-sm hover:bg-amber-300`;
 
 export default function Hero() {
   const { rating } = useGooglePlaceSummary();

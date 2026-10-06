@@ -38,7 +38,7 @@ export default function BeforeAfterSlider() {
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-sm text-stone-600 sm:text-base">
           Real results from Golden Hour visits — bathrooms, floors, kitchens,
-          and more. Every photo is a side-by-side from the same home.
+          and more.
         </p>
 
         <div className="relative mt-12">

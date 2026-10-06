@@ -19,6 +19,7 @@ const CITY_NAMES = [
   'Clackamas',
   'Hillsboro',
   'Oregon City',
+  'Gresham',
 ];
 
 const BOUNDARIES_URL =
@@ -42,7 +43,7 @@ const FALLBACK_SERVICE_AREA = [
 ];
 
 const CITIES_LINE =
-  'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City';
+  'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City • Gresham';
 
 function MapCanvas() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';

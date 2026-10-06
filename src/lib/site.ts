@@ -17,7 +17,15 @@ export const BUSINESS_ADDRESS = {
   addressCountry: "US",
 } as const;
 
-export const SERVICE_AREA_CITIES = CITY_LANDING_PAGES.map(({ label }) => label);
+/** City pages plus served cities that don't have their own landing page yet. */
+const EXTRA_SERVICE_AREA_CITIES = ["Gresham"];
+
+export const SERVICE_AREA_CITIES = [
+  ...new Set([
+    ...CITY_LANDING_PAGES.map(({ label }) => label),
+    ...EXTRA_SERVICE_AREA_CITIES,
+  ]),
+];
 
 export const BUSINESS_DESCRIPTION =
   "Professional residential and commercial cleaning serving Portland, Oregon and the surrounding Portland metro area. Licensed and locally owned.";

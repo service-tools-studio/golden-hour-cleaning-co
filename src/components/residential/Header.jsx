@@ -10,7 +10,7 @@ import HeaderNav from "./HeaderNav.jsx";
 const BANNER_H = 28;
 
 const bannerItems = [
-  "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City",
+  "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City • Gresham",
   "We use eco-friendly products",
   "Vetted professionals",
   "Flexible weekly • bi-weekly • monthly",
