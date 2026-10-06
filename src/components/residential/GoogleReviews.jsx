@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { BTN_PRIMARY, SECTION_HEADING, SECTION_PAD } from '../../helpers/typography.js';
+import { SECTION_HEADING, SECTION_PAD } from '../../helpers/typography.js';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
@@ -142,10 +142,9 @@ function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = fa
           href={GOOGLE_MAPS_REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className={BTN_PRIMARY}
+          className="text-sm uppercase tracking-[0.02em] text-stone-600 underline underline-offset-4 hover:text-stone-900"
         >
-          <Star className="mr-2 h-5 w-5 fill-current" />
-          View all reviews on Google
+          View all reviews on Google →
         </a>
       </div>
     </>
@@ -395,10 +394,9 @@ export default function GoogleReviews({ variant = 'carousel' }) {
           href={GOOGLE_MAPS_REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className={BTN_PRIMARY}
+          className="text-sm uppercase tracking-[0.02em] text-stone-600 underline underline-offset-4 hover:text-stone-900"
         >
-          <Star className="mr-2 h-5 w-5 fill-current" />
-          View all reviews on Google
+          View all reviews on Google →
         </a>
       </div>
     </>
