@@ -50,6 +50,157 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "why-we-choose-eco-friendly-cleaning-products",
+    title:
+      "Why We Choose Eco-Friendly Cleaning Products at Golden Hour Cleaning Co.",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-10-01",
+    excerpt:
+      "A beautifully clean home shouldn't come at the expense of your health or the environment. Here's why we prioritize eco-friendly products like Method—and how we approach green cleaning in Portland homes.",
+    heroImage: {
+      src: "/assets/stove-hood.jpg",
+      alt: "A Golden Hour cleaner wiping a kitchen range hood while holding a Method spray bottle",
+      orientation: "portrait",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we believe a beautifully clean home shouldn't come at the expense of your health or the environment. That's why we prioritize eco-friendly cleaning products that deliver excellent results while being mindful of the ingredients we bring into your home.",
+          "As a professional house cleaning company serving Portland, Oregon, and surrounding communities, we're intentional about the products we use. One of our favorite brands is Method, known for its plant-based cleaning ingredients, thoughtfully designed formulas, and commitment to sustainability.",
+        ],
+      },
+      {
+        heading: "Why Eco-Friendly Cleaning Products Matter",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Traditional household cleaning products can contain harsh chemicals, strong fragrances, and ingredients that may irritate sensitive skin or respiratory systems.",
+          },
+          {
+            type: "paragraph",
+            text: "While not every conventional cleaner is harmful, choosing products with thoughtfully selected ingredients can help reduce unnecessary exposure to certain irritants.",
+          },
+          {
+            type: "paragraph",
+            text: "Here are a few reasons we prefer environmentally conscious cleaning products:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Gentler cleaning options: Many eco-friendly cleaners use plant-derived ingredients and offer alternatives to harsher formulations.",
+              "Reduced environmental impact: Biodegradable ingredients can break down through natural biological processes, helping reduce their persistence in the environment.",
+              "Thoughtful fragrance choices: Products made with essential oils or carefully selected fragrance ingredients offer alternatives to some conventional formulations.",
+              "Less unnecessary chemical exposure: Choosing appropriate cleaning products and using them correctly can help minimize exposure to irritating substances.",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "For us, eco-friendly cleaning is about making thoughtful choices without sacrificing cleaning quality.",
+          },
+        ],
+      },
+      {
+        heading: "Why We Love Method Cleaning Products",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., Method is one of our preferred cleaning brands.",
+          "Method has built its reputation around effective cleaning formulas, plant-based ingredients, and environmentally conscious product development.",
+        ],
+      },
+      {
+        heading: "1. Biodegradable Ingredients",
+        headingLevel: 3,
+        paragraphs: [
+          "One of the things we appreciate most about Method is its emphasis on biodegradable ingredients in many of its cleaning formulas.",
+          "Biodegradability means that an ingredient can be broken down by microorganisms under appropriate conditions. This is an important consideration when choosing products that eventually make their way into wastewater systems.",
+          "We believe the environmental impact of cleaning products matters just as much as how well they clean.",
+        ],
+      },
+      {
+        heading: "2. Plant-Based Cleaning Power",
+        headingLevel: 3,
+        paragraphs: [
+          "Method incorporates plant-derived cleaning ingredients into many of its products.",
+          "These ingredients can help remove everyday dirt, grease, and grime without requiring some of the harsher chemicals traditionally associated with household cleaning.",
+          "Of course, plant-based doesn't automatically mean harmless or non-irritating. That's why proper product selection, dilution when applicable, and safe cleaning practices remain important.",
+        ],
+      },
+      {
+        heading: "3. A Thoughtful Approach to Fragrance",
+        headingLevel: 3,
+        paragraphs: [
+          "We love a home that smells fresh and inviting, but we don't believe an overpowering chemical scent is necessary for a space to feel clean.",
+          "Method offers products with thoughtfully developed fragrances, including some that incorporate naturally derived fragrance ingredients.",
+          "It's important to note that Method products are not universally scented with essential oils, and some contain synthetic fragrance components. Essential oils can also cause sensitivities for certain people and pets.",
+          "Our goal is to create a pleasant cleaning experience while being considerate of individual fragrance preferences.",
+        ],
+      },
+      {
+        heading: "4. Sustainability Beyond the Ingredients",
+        headingLevel: 3,
+        paragraphs: [
+          "Method's sustainability efforts extend beyond its cleaning formulas.",
+          "The company has incorporated recycled plastic into various product packaging designs and emphasizes reducing the environmental footprint of its products.",
+          "We appreciate supporting brands that consider both the effectiveness of their products and their broader environmental impact.",
+        ],
+      },
+      {
+        heading: "Does Eco-Friendly Cleaning Actually Work?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Absolutely! Choosing environmentally conscious products doesn't mean compromising on cleanliness.",
+          },
+          {
+            type: "paragraph",
+            text: "For everyday residential cleaning, the right products and techniques can effectively tackle:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Kitchen grease and everyday buildup",
+              "Bathroom soap scum and grime",
+              "Dust and dirt on household surfaces",
+              "Fingerprints and smudges",
+              "Everyday spills and messes",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Professional cleaning is about more than the products themselves. Proper techniques, attention to detail, and knowing which products are appropriate for different surfaces are equally important.",
+          },
+          {
+            type: "paragraph",
+            text: "It's also worth understanding that cleaning and disinfecting are different processes. When disinfection is necessary, a product specifically registered and labeled for that purpose may be required.",
+          },
+        ],
+      },
+      {
+        heading: "Our Approach to Eco-Friendly House Cleaning in Portland",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we want our clients to feel comfortable with the products used in their homes.",
+          "We prioritize effective, environmentally conscious cleaning solutions whenever practical, with Method among our preferred brands.",
+          "We also recognize that every household is different. Some clients have fragrance sensitivities, allergies, pets, young children, or preferences about specific cleaning products.",
+          "We encourage clients to communicate those needs before their appointment so we can discuss appropriate cleaning options.",
+          "Whether we're performing a deep cleaning, move-out cleaning, or recurring house cleaning service, our goal remains the same: to leave your home beautifully clean while making thoughtful choices about the products and methods we use.",
+        ],
+      },
+      {
+        heading: "Looking for Eco-Friendly House Cleaning in Portland, Oregon?",
+        paragraphs: [
+          "If you're searching for an eco-friendly house cleaning service in Portland, Golden Hour Cleaning Co. would love to help.",
+          "We provide professional residential cleaning services throughout the Portland area, with a focus on thorough cleaning, reliable service, and attention to detail.",
+          "From one-time deep cleans to ongoing maintenance, we believe you deserve a clean, comfortable home and a cleaning team that cares about the details.",
+          "Ready for a beautifully clean home? Visit our Services page to learn more about our cleaning services and request your next cleaning.",
+        ],
+        link: {
+          href: "/residential/services",
+          label: "Explore Our Services →",
+        },
+      },
+    ],
+  },
+  {
     slug: "when-your-home-feels-overwhelming-compassionate-deep-cleaning-portland",
     title:
       "When Your Home Feels Overwhelming: A Compassionate Deep Cleaning Story in Portland",
