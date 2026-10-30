@@ -213,21 +213,30 @@ function BlogSections({ post }: { post: BlogPost }) {
 function PortraitHeroImage({
   src,
   alt,
+  caption,
 }: {
   src: string;
   alt: string;
+  caption?: string;
 }) {
   return (
-    <figure className="mx-auto mb-6 w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:float-right sm:mb-4 sm:ml-6 sm:w-[220px] md:w-[260px]">
-      <Image
-        src={src}
-        alt={alt}
-        width={1200}
-        height={1600}
-        sizes="(max-width: 639px) 220px, 260px"
-        className="h-auto w-full"
-        priority
-      />
+    <figure className="mx-auto mb-6 w-full max-w-[220px] sm:float-right sm:mb-4 sm:ml-6 sm:w-[220px] md:w-[260px]">
+      <div className="overflow-hidden rounded-3xl border border-amber-200 shadow-sm">
+        <Image
+          src={src}
+          alt={alt}
+          width={1200}
+          height={1600}
+          sizes="(max-width: 639px) 220px, 260px"
+          className="h-auto w-full"
+          priority
+        />
+      </div>
+      {caption ? (
+        <figcaption className="mt-2 px-0.5 text-center text-xs leading-snug text-stone-600 sm:text-left">
+          {caption}
+        </figcaption>
+      ) : null}
     </figure>
   );
 }
@@ -287,6 +296,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           <PortraitHeroImage
             src={post.heroImage.src}
             alt={post.heroImage.alt}
+            caption={post.heroImage.caption}
           />
           <div className="space-y-10">
             <BlogSections post={post} />

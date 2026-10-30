@@ -44,11 +44,683 @@ export type BlogPost = {
     alt: string;
     /** Portrait images float beside text; landscape images display full width above. */
     orientation?: "portrait" | "landscape";
+    caption?: string;
   };
   sections: BlogSection[];
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "house-cleaning-for-pet-owners-what-to-expect",
+    title:
+      "House Cleaning for Pet Owners: What to Expect From a Professional Cleaner",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-10-30",
+    excerpt:
+      "Dogs and cats mean extra fur, dander, and mess—and professional cleaning can help. Here's how Golden Hour works with pet owners in Portland, including scheduling, pricing, and keeping pets safe during visits.",
+    heroImage: {
+      src: "/assets/brody%20%26%20win.jpg",
+      alt: "A cream Persian cat and a small white dog resting together on a couch at home",
+      orientation: "portrait",
+      caption:
+        "Win (left) & Brody (right), official representatives of Golden Hour Cleaning Co.",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "Our pets bring so much joy into our homes. The companionship, the unconditional love, the little personalities that make us laugh every day—there's nothing quite like sharing your life with an animal.",
+          "Of course, sharing your home with furry family members also means sharing it with their fur, muddy paw prints, dander, and the occasional mess.",
+          "If you're a pet owner considering hiring a professional house cleaning service, you might wonder whether cleaners are comfortable around animals, how much pet hair they can remove, and what you should do with your pets during the appointment.",
+          "At Golden Hour Cleaning Co., we're animal lovers through and through. We understand that pets are family, and we're always happy to help pet owners throughout Portland and the surrounding areas maintain a clean, comfortable home.",
+          "Here's what to expect when hiring a professional cleaning service for a home with pets.",
+        ],
+      },
+      {
+        heading: "Can You Hire a Professional House Cleaner if You Have Pets?",
+        paragraphs: [
+          "Absolutely!",
+          "Having dogs, cats, or other household pets doesn't mean you can't enjoy the benefits of professional house cleaning. In fact, pet owners are often among the households that benefit most from regular cleaning services.",
+          "Pets naturally introduce additional dirt and debris into the home. Dogs track in soil from the yard, cats scatter litter outside their boxes, and shedding animals leave hair on floors, furniture, and other surfaces.",
+          "Even the most diligent pet owners can find it difficult to keep up with everything.",
+          "A professional house cleaning service can help manage the everyday accumulation of pet hair, dust, and dirt so you can spend less time cleaning and more time enjoying your animals.",
+        ],
+      },
+      {
+        heading: "How Professional House Cleaning Helps With Pet Hair and Dander",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "One of the biggest challenges of maintaining a home with pets is keeping up with shedding.",
+          },
+          {
+            type: "paragraph",
+            text: "Pet hair has a way of finding its way into every corner of the house. It collects along baseboards, settles underneath furniture, clings to rugs, and gathers in areas you might not notice until the sunlight hits just right.",
+          },
+          {
+            type: "paragraph",
+            text: "Professional cleaning can help reduce that buildup through regular attention to the surfaces where hair and dust accumulate.",
+          },
+          {
+            type: "paragraph",
+            text: "Depending on your cleaning service and the scope of your appointment, this may include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Vacuuming carpets and rugs",
+              "Sweeping and mopping hard floors",
+              "Removing loose pet hair from accessible floor surfaces",
+              "Dusting furniture and other accessible surfaces",
+              "Cleaning baseboards and corners where fur collects",
+              "Removing tracked-in dirt and paw prints from floors",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Regular cleaning can also help reduce the amount of loose pet dander and dust settling on household surfaces.",
+          },
+          {
+            type: "paragraph",
+            text: "However, it's important to understand that standard house cleaning doesn't eliminate pet allergens entirely. Allergens can remain in upholstery, carpets, bedding, and the air, and some situations may require specialized cleaning or filtration.",
+          },
+          {
+            type: "paragraph",
+            text: "For most pet-owning households, consistency is the key to keeping everyday shedding manageable.",
+          },
+        ],
+      },
+      {
+        heading: "How Often Should Pet Owners Schedule House Cleaning?",
+        paragraphs: [
+          "The ideal cleaning frequency depends on your pets, your household, and how much maintenance you're comfortable handling between appointments.",
+        ],
+      },
+      {
+        heading: "Weekly Cleaning",
+        headingLevel: 3,
+        paragraphs: [
+          "Weekly house cleaning can be especially helpful for households with multiple pets, heavy shedders, or dogs that spend a lot of time outdoors.",
+          "With weekly visits, pet hair and tracked-in dirt have less time to accumulate, making it easier to maintain a consistently clean home.",
+        ],
+      },
+      {
+        heading: "Biweekly Cleaning",
+        headingLevel: 3,
+        paragraphs: [
+          "Biweekly cleaning is a popular middle ground for pet owners.",
+          "It provides regular professional maintenance while allowing homeowners to handle smaller tasks, such as quick vacuuming or wiping up muddy paw prints, between appointments.",
+        ],
+      },
+      {
+        heading: "Monthly Cleaning",
+        headingLevel: 3,
+        paragraphs: [
+          "Monthly cleaning may work well for households with minimal shedding or owners who regularly maintain their homes themselves.",
+          "However, homes with multiple animals or substantial shedding may require more intensive work between visits. If buildup becomes significant, a deeper cleaning may be necessary.",
+          "The best schedule is one that keeps your home comfortable without allowing dirt and pet hair to become overwhelming.",
+        ],
+      },
+      {
+        heading: "Do Homes With Pets Cost More to Clean?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Not necessarily.",
+          },
+          {
+            type: "paragraph",
+            text: "Simply having a dog or cat doesn't automatically mean your cleaning will cost more.",
+          },
+          {
+            type: "paragraph",
+            text: "What matters is the actual condition of your home and the amount of labor required.",
+          },
+          {
+            type: "paragraph",
+            text: "For example, a household with two short-haired dogs that receives regular cleaning may require less work than a pet-free household that hasn't been thoroughly cleaned in several months.",
+          },
+          {
+            type: "paragraph",
+            text: "On the other hand, a home with several heavily shedding animals, substantial hair accumulation, and tracked-in dirt may require additional cleaning time.",
+          },
+          {
+            type: "paragraph",
+            text: "Factors that can influence the cost of professional cleaning include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Home size and layout",
+              "Number of pets and amount of shedding",
+              "Accumulated pet hair on floors and other surfaces",
+              "Tracked-in dirt or other buildup",
+              "Frequency of professional cleaning",
+              "Whether standard or deep cleaning is needed",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "At Golden Hour Cleaning Co., we evaluate your home's condition and cleaning needs rather than making assumptions based on pet ownership alone.",
+          },
+        ],
+      },
+      {
+        heading: "Should You Put Your Pets Away During a House Cleaning Appointment?",
+        paragraphs: [
+          "Yes! And this is something we kindly ask of all our clients.",
+          "At Golden Hour Cleaning Co., we absolutely adore animals. We're genuinely loving, animal-loving people, and we know how important your furry family members are to you.",
+          "We would happily admire every adorable dog and cat we meet!",
+          "However, for everyone's safety and comfort, we ask that all pets be securely kept in a separate room, crate, or another safe, enclosed area away from the cleaning team throughout the appointment.",
+          "This isn't because we don't enjoy animals. Quite the opposite! We care deeply about their well-being and want to make sure they feel safe and comfortable while we're working.",
+        ],
+      },
+      {
+        heading: "Why We Ask That Pets Be Secured",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "1. Cleaning equipment can be stressful for animals. Vacuums, unfamiliar sounds, and people moving throughout the home can make even normally relaxed pets anxious. A quiet, familiar space away from the activity can help them feel more comfortable.",
+          },
+          {
+            type: "paragraph",
+            text: "2. Cleaning products should be kept away from curious pets. Animals explore the world with their noses, mouths, and paws. Keeping pets separate from the cleaning area helps prevent accidental contact with products, wet surfaces, or cleaning equipment.",
+          },
+          {
+            type: "paragraph",
+            text: "3. We want to prevent accidental escapes. Our cleaning teams may need to open exterior doors while bringing supplies and equipment into the home. Even a well-trained pet can unexpectedly slip through an open doorway.",
+          },
+          {
+            type: "paragraph",
+            text: "4. It allows our cleaners to work safely and efficiently. A friendly dog following the vacuum or a curious cat investigating cleaning supplies might be adorable, but it can also create tripping hazards or interruptions. Keeping pets in a designated safe area allows our team to focus fully on delivering a thorough cleaning.",
+          },
+          {
+            type: "paragraph",
+            text: "5. Every animal has different comfort levels. Even the sweetest pet can feel uncertain around unfamiliar people in their home. Providing a separate, secure space removes the pressure of interacting with strangers.",
+          },
+        ],
+      },
+      {
+        heading: "How to Prepare Your Pets Before We Arrive",
+        headingLevel: 3,
+        paragraphs: [
+          "Before your appointment, please choose a comfortable, secure location where your pets can remain throughout the cleaning.",
+          "This might be a bedroom that won't be cleaned during the appointment, a secure crate if your pet is comfortable being crated, or another enclosed area with everything they need.",
+          "Make sure they have access to water and any necessary comforts, and let us know which room they're staying in so our team can avoid opening that door.",
+          "If you'd like that room cleaned as well, we can discuss a plan in advance, provided your pets can be safely relocated by you before the team enters.",
+          "Our goal is simple: a beautifully cleaned home and happy, safe animals.",
+        ],
+      },
+      {
+        heading: "Should You Choose Pet-Safe Cleaning Products?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "If you have animals, it's always worth considering the products used throughout your home.",
+          },
+          {
+            type: "paragraph",
+            text: "Some cleaning ingredients can irritate pets or be harmful if ingested, particularly when products are used incorrectly or animals come into contact with surfaces before they're ready for use.",
+          },
+          {
+            type: "paragraph",
+            text: "When booking a professional cleaning service, don't hesitate to ask about the products being used or share any particular sensitivities your animals may have.",
+          },
+          {
+            type: "paragraph",
+            text: "A few helpful precautions include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Keeping pets away from active cleaning areas",
+              "Allowing cleaned surfaces to dry according to product instructions before pets return",
+              "Storing cleaning products securely",
+              "Letting your cleaning company know about any known sensitivities",
+              "Discussing product preferences before your appointment",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "It's also important to remember that a product labeled \"natural\" isn't automatically safe for every animal. Certain essential oils and botanical ingredients, for example, can be harmful to cats and dogs.",
+          },
+          {
+            type: "paragraph",
+            text: "The safest approach is to use cleaning products according to their instructions and prevent pets from coming into contact with them during cleaning.",
+          },
+        ],
+      },
+      {
+        heading: "Should Pet Owners Start With a Deep Cleaning?",
+        paragraphs: [
+          "If your home has accumulated substantial pet hair, dust, or tracked-in dirt, starting with a deep cleaning can be a great option.",
+          "Deep cleaning focuses on areas that require additional attention beyond everyday maintenance.",
+          "For pet-owning households, this might include detailed cleaning of baseboards, corners, and other accessible surfaces where fur and dust have accumulated.",
+          "Once that buildup has been addressed, recurring standard cleaning can help maintain the results.",
+          "Not every home with pets requires deep cleaning, though. If you already maintain your home regularly and there's minimal buildup, standard cleaning may be perfectly appropriate.",
+          "The right service depends on your home's condition, not simply whether you have animals.",
+        ],
+      },
+      {
+        heading: "How to Prepare Your Home for a Pet-Friendly Cleaning Appointment",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A little preparation can help your cleaning appointment go smoothly.",
+          },
+          {
+            type: "paragraph",
+            text: "Before your cleaners arrive:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Secure your pets in a comfortable area away from the spaces being cleaned.",
+              "Pick up pet toys, leashes, and other belongings from floors that need cleaning.",
+              "Let your cleaning company know if there are areas with particularly heavy shedding or buildup.",
+              "Communicate any concerns about cleaning products or animal sensitivities.",
+              "Identify any rooms that should remain closed during the appointment.",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "You don't need to clean your entire house before your cleaners arrive. That's what you're hiring us for!",
+          },
+          {
+            type: "paragraph",
+            text: "Simply making the areas to be cleaned accessible helps your cleaning team spend more time on the cleaning itself.",
+          },
+        ],
+      },
+      {
+        heading: "Professional House Cleaning for Pet Owners in Portland, Oregon",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we believe you shouldn't have to choose between a home full of animals and a home that feels wonderfully clean.",
+          "We love pets, we love the people who love them, and we understand that a little extra fur is often part of a very happy household.",
+          "Our professional cleaning services are available throughout Portland, Beaverton, Lake Oswego, Happy Valley, Oregon City, and surrounding communities.",
+          "Whether you're looking for a one-time deep cleaning or ongoing weekly, biweekly, or monthly service, we're happy to help you find a cleaning plan that works for your home.",
+          "We offer an in-home walkthrough to discuss your cleaning priorities, assess the condition of your space, and confirm pricing before your cleaning begins.",
+          "And while we'd love to say hello to every furry friend, we kindly ask that your pets be safely secured away during your cleaning appointment so everyone stays comfortable and protected.",
+        ],
+      },
+      {
+        heading: "A Clean Home and Happy Pets? You Can Have Both.",
+        headingLevel: 3,
+        paragraphs: [
+          "Life with animals is full of love, laughter, and sometimes a surprising amount of fur.",
+          "We're here to help with the cleaning so you can enjoy more of the good stuff.",
+          "Visit our booking page to request your cleaning and discover how much easier maintaining your home can feel with a little professional help.",
+        ],
+        link: {
+          href: "/book-online",
+          label: "Reserve Your Cleaning →",
+        },
+      },
+    ],
+  },
+  {
+    slug: "deep-cleaning-vs-standard-cleaning-whats-the-difference",
+    title: "Deep Cleaning vs. Standard Cleaning: What's the Difference?",
+    author: "Jasmin Heart",
+    authorRole: "Co-Founder of Golden Hour Cleaning Co.",
+    publishedAt: "2026-10-20",
+    excerpt:
+      "Standard cleaning maintains a home that's already in good shape; deep cleaning tackles buildup that's accumulated over time. Here's how to tell which service your Portland-area home needs.",
+    heroImage: {
+      src: "/assets/chateau-cleaning.webp",
+      alt: "Bright, freshly cleaned home interior after a professional house cleaning",
+      orientation: "landscape",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "If you've ever looked into hiring a professional house cleaning service, you've probably come across two common options: standard cleaning and deep cleaning. But what's the difference, and how do you know which one your home actually needs?",
+          "While both services help keep your home clean and comfortable, they serve different purposes. Standard cleaning focuses on maintaining a home that's already in relatively good condition, while deep cleaning addresses the dirt, grime, and buildup that accumulate over time.",
+          "At Golden Hour Cleaning Co., we help homeowners throughout Portland and the surrounding areas choose the right level of cleaning for their space. Here's what you should know before booking.",
+        ],
+      },
+      {
+        heading: "What Is a Standard House Cleaning?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A standard cleaning, sometimes called a maintenance cleaning or regular cleaning, is designed to keep your home consistently clean.",
+          },
+          {
+            type: "paragraph",
+            text: "Think of it as the cleaning you'd do on a regular basis to maintain your space: wiping down surfaces, cleaning bathrooms, vacuuming floors, and keeping everyday dirt and dust under control.",
+          },
+          {
+            type: "paragraph",
+            text: "A typical standard cleaning may include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Dusting accessible surfaces and furniture",
+              "Wiping down countertops and exterior kitchen surfaces",
+              "Cleaning sinks, faucets, and mirrors",
+              "Cleaning toilets, showers, and bathtubs with minimal buildup",
+              "Wiping down appliance exteriors",
+              "Vacuuming carpets and rugs",
+              "Sweeping and mopping hard floors",
+              "Emptying trash bins",
+              "General tidying of accessible areas",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Standard cleaning is ideal for homes that receive regular attention and don't have significant accumulated grime.",
+          },
+          {
+            type: "paragraph",
+            text: "For example, if your bathrooms are cleaned routinely, your kitchen is generally maintained, and your floors are vacuumed regularly, a standard cleaning may be all you need to keep everything looking beautiful.",
+          },
+        ],
+      },
+      {
+        heading: "Who Is Standard Cleaning Best For?",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Standard cleaning is especially well suited for:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Homeowners who already maintain a regular cleaning routine",
+              "Households scheduling weekly or biweekly professional cleaning",
+              "Busy families who want help keeping up with everyday household tasks",
+              "People who recently had their home deep cleaned and want to maintain the results",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The key is consistency. When a home is cleaned regularly, dirt and grime have less opportunity to accumulate, making each maintenance visit more efficient.",
+          },
+        ],
+      },
+      {
+        heading: "What Is a Deep House Cleaning?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "A deep cleaning is a more thorough service that focuses on areas requiring additional time, attention, and effort.",
+          },
+          {
+            type: "paragraph",
+            text: "Over time, even well-kept homes develop buildup in places that aren't addressed during everyday cleaning. Soap scum accumulates in showers, grease settles onto kitchen surfaces, and dust collects along baseboards and other frequently overlooked areas.",
+          },
+          {
+            type: "paragraph",
+            text: "Deep cleaning is designed to tackle those issues.",
+          },
+          {
+            type: "paragraph",
+            text: "Depending on your home's condition and the agreed-upon scope of work, deep cleaning may include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Scrubbing showers, bathtubs, and sinks to remove accumulated soap scum and grime",
+              "Addressing grease and residue on kitchen surfaces",
+              "Detailed cleaning of cabinet exteriors",
+              "Cleaning baseboards and accessible trim",
+              "Detailed dusting of doors, frames, and other overlooked surfaces",
+              "Cleaning around fixtures and hard-to-reach areas",
+              "Removing buildup around faucets and bathroom fixtures",
+              "More intensive cleaning of floors and corners",
+              "Additional attention to areas with accumulated dirt or residue",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Some tasks, such as interior oven cleaning, interior refrigerator cleaning, or interior window cleaning, may be offered separately. It's always worth confirming what's included before your appointment.",
+          },
+        ],
+      },
+      {
+        heading: "Who Is Deep Cleaning Best For?",
+        headingLevel: 3,
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Deep cleaning is often the better choice if:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Your home hasn't been professionally cleaned in several months or longer",
+              "You've noticed soap scum, grease, or grime accumulating",
+              "You're preparing for guests or a special occasion",
+              "You're moving into or out of a home",
+              "You're starting a recurring cleaning service and want to establish a clean baseline",
+              "Your home has areas that require more intensive scrubbing than routine maintenance can provide",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Deep cleaning can also be helpful after a particularly busy season of life when household maintenance has fallen behind.",
+          },
+        ],
+      },
+      {
+        heading: "Deep Cleaning vs. Standard Cleaning: Side-by-Side Comparison",
+        blocks: [
+          {
+            type: "table",
+            headers: ["Feature", "Standard Cleaning", "Deep Cleaning"],
+            rows: [
+              [
+                "Primary purpose",
+                "Routine maintenance",
+                "Removing accumulated buildup",
+              ],
+              [
+                "Best for",
+                "Regularly maintained homes",
+                "Homes needing extra attention",
+              ],
+              [
+                "Bathroom cleaning",
+                "Routine cleaning of fixtures and surfaces",
+                "More intensive scrubbing of soap scum and grime",
+              ],
+              [
+                "Kitchen cleaning",
+                "Wiping surfaces and appliance exteriors",
+                "Detailed attention to grease and buildup",
+              ],
+              [
+                "Baseboards and trim",
+                "Light dusting as included",
+                "More detailed cleaning",
+              ],
+              ["Time required", "Generally shorter", "Generally longer"],
+              ["Cost", "Typically lower", "Typically higher"],
+              [
+                "Frequency",
+                "Weekly, biweekly, or monthly",
+                "As needed or before recurring service",
+              ],
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "The biggest difference isn't simply how many surfaces are cleaned. It's how much work those surfaces require.",
+          },
+          {
+            type: "paragraph",
+            text: "A shower with light water spots might take only a few minutes to clean. That same shower, after months of accumulated soap scum and mineral deposits, could require significantly more time and effort.",
+          },
+          {
+            type: "paragraph",
+            text: "That's why the condition of your home matters just as much as its size.",
+          },
+        ],
+      },
+      {
+        heading:
+          "Can You Book a Standard Cleaning if Your Home Needs a Deep Cleaning?",
+        paragraphs: [
+          "This is one of the most common misunderstandings when booking a house cleaning service.",
+          "A standard cleaning isn't simply a less expensive version of a deep cleaning. It's a different type of service intended for a different level of maintenance.",
+          "If a home has significant buildup, a cleaner can't necessarily achieve standard-cleaning results using standard-cleaning time.",
+          "For example, imagine two bathrooms of identical size.",
+          "The first bathroom is cleaned every week. Its shower has minimal residue, the fixtures are maintained, and the floors are regularly mopped.",
+          "The second bathroom hasn't received a thorough cleaning in six months. Soap scum has accumulated on the shower walls, grime has settled around the fixtures, and the floor edges need detailed scrubbing.",
+          "Although both bathrooms have the same square footage, the second will require considerably more labor.",
+          "Trying to complete both within the same amount of time would mean either rushing through the work or leaving some buildup behind.",
+          "At Golden Hour Cleaning Co., we believe in setting realistic expectations. We'd rather recommend the appropriate level of service upfront than promise results that aren't achievable within the allotted cleaning time.",
+        ],
+      },
+      {
+        heading: "Why Does Deep Cleaning Cost More?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Deep cleaning typically costs more because it requires more labor.",
+          },
+          {
+            type: "paragraph",
+            text: "Professional cleaning prices are influenced by several factors, including:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Square footage of the home",
+              "Number of bathrooms and kitchens",
+              "Amount of accumulated dirt and grime",
+              "Time since the home was last thoroughly cleaned",
+              "Pet hair and other household conditions",
+              "Specific cleaning tasks requested",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "A 1,500-square-foot home that's regularly maintained may take considerably less time to clean than a home of the same size with several months of buildup.",
+          },
+          {
+            type: "paragraph",
+            text: "That's why square footage alone doesn't tell the whole story.",
+          },
+          {
+            type: "paragraph",
+            text: "At Golden Hour Cleaning Co., we provide starting prices based on your home's size and finalize pricing after evaluating its condition and the scope of work.",
+          },
+          {
+            type: "paragraph",
+            text: "This approach helps ensure that the cleaning team has adequate time to do the job properly and that you understand the cost before cleaning begins.",
+          },
+        ],
+      },
+      {
+        heading: "Should You Deep Clean Before Starting Recurring Cleaning?",
+        paragraphs: [
+          "In many cases, yes.",
+          "If you're planning to hire a cleaning service weekly, biweekly, or monthly, beginning with a deep cleaning can make a significant difference.",
+          "Think of deep cleaning as establishing a baseline.",
+          "Once accumulated buildup has been addressed, recurring maintenance cleanings can focus on keeping your home in that condition rather than repeatedly trying to catch up.",
+          "For example, removing several months of soap scum from a shower might require substantial scrubbing during the first appointment. But once that buildup is removed, regular maintenance can help prevent it from returning.",
+          "The result is a more manageable cleaning routine and a consistently cleaner home.",
+          "Of course, not every home needs an initial deep cleaning. If your space is already well maintained, standard recurring service may be appropriate from the beginning.",
+        ],
+      },
+      {
+        heading: "How Often Should You Schedule a Deep Cleaning?",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "There's no universal schedule that works for every household.",
+          },
+          {
+            type: "paragraph",
+            text: "Some homeowners benefit from a deep cleaning every few months, while others may only need one or two per year if they consistently maintain their homes.",
+          },
+          {
+            type: "paragraph",
+            text: "Factors that can influence how often you need a deep cleaning include:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "How many people live in your home",
+              "Whether you have pets",
+              "How frequently you cook",
+              "How regularly bathrooms and kitchens are maintained",
+              "Whether you have recurring professional cleaning",
+              "Your personal cleanliness preferences",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "For many households, a combination of an initial deep cleaning followed by regular maintenance is an effective way to keep their home consistently clean without allowing buildup to become overwhelming.",
+          },
+        ],
+      },
+      {
+        heading: "What if You Have a Limited Cleaning Budget?",
+        paragraphs: [
+          "If your home needs deep cleaning but you're working within a specific budget, you don't necessarily have to address every room at once.",
+          "One option is to schedule a time-limited cleaning focused on your highest priorities.",
+          "For example, you might choose to concentrate on the kitchen and bathrooms first, then address bedrooms, living spaces, and other areas during a future visit.",
+          "The important thing is understanding what can realistically be accomplished within the time available.",
+          "A focused deep cleaning of a few areas may deliver better results than attempting a light cleaning of an entire home that requires more intensive work.",
+          "At Golden Hour Cleaning Co., we're happy to discuss your priorities and help determine an appropriate cleaning plan.",
+        ],
+      },
+      {
+        heading: "How to Know Which Cleaning Service Your Home Needs",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Still unsure whether to book standard cleaning or deep cleaning?",
+          },
+          {
+            type: "paragraph",
+            text: "Ask yourself a few simple questions:",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Has my home been thoroughly cleaned within the past few weeks?",
+              "Are my showers, sinks, and kitchen surfaces mostly free of buildup?",
+              "Am I looking to maintain my home's current condition or improve it significantly?",
+              "Are there areas that would require substantial scrubbing to get clean?",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "If your home is already in good condition and you simply want help maintaining it, standard cleaning is probably the right fit.",
+          },
+          {
+            type: "paragraph",
+            text: "If you're hoping to remove accumulated grime, restore neglected areas, or get your home back to a cleaner baseline, deep cleaning is likely the better choice.",
+          },
+          {
+            type: "paragraph",
+            text: "And if you're somewhere in between, a professional walkthrough can help determine the most appropriate service.",
+          },
+        ],
+      },
+      {
+        heading:
+          "Professional Deep Cleaning and Standard House Cleaning in Portland, Oregon",
+        paragraphs: [
+          "At Golden Hour Cleaning Co., we provide professional house cleaning services throughout Portland, Beaverton, Lake Oswego, Happy Valley, Oregon City, and surrounding communities.",
+          "Whether you need a one-time deep cleaning or ongoing help maintaining your home, our goal is to provide a cleaning experience that's thorough, dependable, and tailored to your space.",
+          "We offer an in-home walkthrough to assess your home's condition, discuss your priorities, and confirm pricing before cleaning begins.",
+          "That way, you know what to expect, and our cleaning team can arrive with a clear understanding of the work involved.",
+        ],
+        link: {
+          href: "/residential/services",
+          label: "Explore Services & Pricing →",
+        },
+      },
+    ],
+  },
   {
     slug: "is-professional-house-cleaning-worth-it",
     title: "Is Professional House Cleaning Worth It? Here's What to Consider",
