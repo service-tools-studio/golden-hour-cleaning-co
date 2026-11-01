@@ -7,7 +7,6 @@ import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
 import Services from "@/components/residential/Services";
 import BeforeAfter from "@/components/residential/BeforeAfter";
 import ServiceTrustBar from "@/components/residential/ServiceTrustBar";
-import GoogleMapsProvider from "@/components/residential/GoogleMapsProvider";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import { SERVICES_PRICING_HASH } from "@/helpers/ctaLabels.js";
 import { scrollToId } from "@/helpers/scrollToId";
@@ -47,9 +46,7 @@ export default function ResidentialServicesClient({
         <BeforeAfter />
         <ServiceTrustBar />
 
-        <GoogleMapsProvider>
-          <GoogleReviews />
-        </GoogleMapsProvider>
+        <GoogleReviews />
 
         <Footer />
       </main>

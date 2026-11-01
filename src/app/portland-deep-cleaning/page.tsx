@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/portland-deep-cleaning" },
 };
 
-const PLACES_API_FIELDS = "id,displayName,rating,userRatingCount";
+const PLACES_API_FIELDS = "rating,userRatingCount";
 
 async function getGooglePlaceSummary() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;

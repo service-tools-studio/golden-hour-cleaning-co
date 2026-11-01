@@ -21,7 +21,8 @@ const REVIEWS_SIDE_IMAGE = {
 // Or use: https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
 // Requires "Places API (New)" enabled in Google Cloud for per-review links.
 
-const PLACES_API_FIELDS = 'id,displayName,rating,userRatingCount,reviews';
+// Places API (New) — only this component should request `reviews` (Enterprise+ billing SKU).
+const PLACES_API_FIELDS = "rating,userRatingCount,reviews";
 
 function normalizeReview(r) {
   const textObj = r.text;
@@ -235,7 +236,9 @@ export default function GoogleReviews({ variant = 'carousel' }) {
       return;
     }
 
-    fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+    const id = placeId.startsWith("places/") ? placeId.slice(7) : placeId;
+
+    fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(id)}`, {
       headers: {
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': PLACES_API_FIELDS,

@@ -14,7 +14,6 @@ export default function GoogleMapsProvider({ children }) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey,
-    libraries: ['places'],
   });
 
   return (
