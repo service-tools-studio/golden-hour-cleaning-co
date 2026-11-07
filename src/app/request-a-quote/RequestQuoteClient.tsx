@@ -19,7 +19,12 @@ export default function RequestQuoteClient() {
           <p className="mt-3 text-base leading-relaxed text-stone-600 md:text-lg">
             Share a few details about your home and we&apos;ll help you find the
             right clean and price. We won&apos;t keep you waiting — we typically
-            respond within 1–2 business hours.
+            respond within{" "}
+            <strong className="font-semibold text-stone-800">
+              1–2 business{" "}
+              <span className="underline underline-offset-2">hours</span>
+            </strong>
+            .
           </p>
         </header>
       ) : null}

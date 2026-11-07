@@ -4,7 +4,11 @@ import { useEffect, useRef } from "react";
 
 const THRESHOLDS = [50, 75, 100] as const;
 
-type ScrollDepthPage = "/" | "/residential" | "/commercial";
+type ScrollDepthPage =
+  | "/"
+  | "/phoenix"
+  | "/commercial"
+  | "/phoenix/commercial";
 
 function trackScrollDepth(pagePath: ScrollDepthPage, percent: number) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;

@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import HomeClient from "./HomeClient";
+import MarketingLandingPage from "@/components/MarketingLandingPage";
+import { MARKETS, buildMarketMetadata } from "@/lib/markets";
 
-export const metadata: Metadata = {
-  title: "Golden Hour Cleaning Co. | House Cleaning in Portland, OR",
-  description:
-    "Golden Hour Cleaning Co. provides professional house cleaning in Portland, OR and the surrounding metro area — meticulous care, transparent pricing, and easy online booking.",
-  alternates: { canonical: "/" },
-};
+export const metadata: Metadata = buildMarketMetadata(MARKETS.portland);
 
 export default function HomePage() {
-  return <HomeClient />;
+  return <MarketingLandingPage marketId="portland" />;
 }

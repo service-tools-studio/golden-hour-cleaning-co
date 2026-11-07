@@ -10,6 +10,7 @@ import ServiceTrustBar from "@/components/residential/ServiceTrustBar";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import { SERVICES_PRICING_HASH } from "@/helpers/ctaLabels.js";
 import { scrollToId } from "@/helpers/scrollToId";
+import type { MarketConfig } from "@/lib/markets";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"]);
 type Level = "standard" | "deep" | "move_out";
@@ -19,9 +20,11 @@ function levelFromUrl(value: string | null): Level | null {
   return null;
 }
 
-export default function ResidentialServicesClient({
+export default function ServicesHubClient({
+  market,
   initialLevel,
 }: {
+  market: MarketConfig;
   initialLevel: Level;
 }) {
   const searchParams = useSearchParams();
@@ -39,16 +42,16 @@ export default function ResidentialServicesClient({
 
   return (
     <>
-      <ServicesPageHeader />
+      <ServicesPageHeader homeHref={market.path} />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
-        <Services />
+        <Services market={market} />
         <BeforeAfter />
         <ServiceTrustBar />
 
-        <GoogleReviews />
+        <GoogleReviews market={market} />
 
-        <Footer />
+        <Footer market={market} />
       </main>
     </>
   );

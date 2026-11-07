@@ -4,25 +4,24 @@ import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CONTACT } from "../../constants.js";
 import HeaderNav from "./HeaderNav.jsx";
+import { useMarketContact } from "@/helpers/useMarketContact";
+import { useMarketHomeHref } from "@/helpers/useMarketHomeHref";
+import { MARKETS } from "@/lib/markets";
 
 const BANNER_H = 28;
 
-const bannerItems = [
-  "Serving: Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City • Gresham",
-  "We use eco-friendly products",
-  "Vetted professionals",
-  "Flexible weekly • bi-weekly • monthly",
-  "Same-week openings available",
-  "Easy online booking",
-  "Locally owned & operated",
-  "Women owned & operated",
-  "Questions? Call or Text us: (503) 893-4795",
-];
-const phoneAnnouncement = "Questions? Call or Text us: (503) 893-4795";
-
-export default function Header() {
+/** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
+export default function Header({ market = MARKETS.portland }) {
+  const contact = useMarketContact(market.id);
+  const phoneAnnouncement = `Questions? Call or Text us: ${contact.phoneDisplay}`;
+  const bannerItems = [
+    ...market.headerMarqueeItems.filter(
+      (text) => !text.startsWith("Questions? Call or Text"),
+    ),
+    phoneAnnouncement,
+  ];
+  const homeHref = useMarketHomeHref(market.id);
   const headerRef = useRef(null);
   const pathname = usePathname();
 
@@ -64,11 +63,12 @@ export default function Header() {
 
       {/* Logo spans marquee + nav; sits above both. Marquee scrolls full-width behind it. */}
       <Link
-        href="/"
+        href={homeHref}
         aria-label="Go to homepage"
         className="absolute left-3 top-1 bottom-1 z-30 flex items-center sm:left-4 lg:left-6"
         onClick={(e) => {
-          if (pathname !== "/" && pathname !== "/residential") return;
+          const onMarketHome = pathname === homeHref;
+          if (!onMarketHome) return;
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: "smooth" });
           document
@@ -121,7 +121,7 @@ export default function Header() {
                 <>
                   Questions?{" "}
                   <a
-                    href={`tel:${CONTACT.phone}`}
+                    href={`tel:${contact.phoneE164}`}
                     data-call-source="header_banner_call"
                     className="underline underline-offset-2"
                   >
@@ -129,18 +129,18 @@ export default function Header() {
                   </a>{" "}
                   or{" "}
                   <a
-                    href={`sms:${CONTACT.sms}`}
+                    href={`sms:${contact.smsE164}`}
                     className="underline underline-offset-2"
                   >
                     Text
                   </a>{" "}
                   us:{" "}
                   <a
-                    href={`tel:${CONTACT.phone}`}
+                    href={`tel:${contact.phoneE164}`}
                     data-call-source="header_banner_phone"
                     className="underline underline-offset-2"
                   >
-                    (503) 893-4795
+                    {contact.phoneDisplay}
                   </a>
                 </>
               ) : (

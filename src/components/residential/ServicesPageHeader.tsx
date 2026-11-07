@@ -3,9 +3,14 @@
 import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMarketHomeHref } from "@/helpers/useMarketHomeHref";
+import { getMarketIdFromPath, type MarketId } from "@/lib/markets";
 import HeaderNav from "./HeaderNav";
 
 type ServicesPageHeaderProps = {
+  /** Market home — e.g. `/` or `/phoenix` */
+  homeHref?: string;
   backLabel?: string;
   backHref?: string;
   onBack?: () => void;
@@ -20,12 +25,19 @@ type ServicesPageHeaderProps = {
 };
 
 export default function ServicesPageHeader({
+  homeHref = "/",
   backLabel,
   backHref,
   onBack,
   showNav = true,
   logoScrollsToTop = false,
 }: ServicesPageHeaderProps) {
+  const pathname = usePathname();
+  const pageMarketId: MarketId =
+    getMarketIdFromPath(pathname ?? "") ??
+    (homeHref === "/phoenix" ? "phoenix" : "portland");
+  const logoHomeHref = useMarketHomeHref(pageMarketId);
+
   const headerRef = useRef<HTMLElement>(null);
   const backClassName =
     "uppercase tracking-wide mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline";
@@ -86,7 +98,7 @@ export default function ServicesPageHeader({
             </button>
           ) : (
             <Link
-              href="/"
+              href={logoHomeHref}
               aria-label="Go to homepage"
               className="inline-block shrink-0"
             >

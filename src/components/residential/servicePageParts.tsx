@@ -4,10 +4,14 @@ import { HEADING_UPPER } from "@/helpers/typography.js";
 
 export type { SiteFaq } from "@/data/siteFaqs";
 
-export function BackToServicesLink() {
+export function BackToServicesLink({
+  href = "/residential/services",
+}: {
+  href?: string;
+}) {
   return (
     <Link
-      href="/residential/services"
+      href={href}
       className="uppercase tracking-wide mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
     >
       ← See all services
@@ -86,17 +90,4 @@ export function FaqItem({
   );
 }
 
-export const PORTLAND_METRO_AREAS = [
-  "Portland",
-  "Beaverton",
-  "Hillsboro",
-  "Tigard",
-  "Lake Oswego",
-  "Tualatin",
-  "West Linn",
-  "Oregon City",
-  "Happy Valley",
-  "Milwaukie",
-  "Gresham",
-  "Surrounding Portland metro communities",
-];
+export { PORTLAND_METRO_AREAS, PHOENIX_METRO_AREAS } from "@/lib/serviceDetailRoutes";

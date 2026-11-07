@@ -5,7 +5,8 @@ import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
 import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import MobileStickyCallBar from "@/components/residential/MobileStickyCallBar";
-import LocalBusinessJsonLd from "@/components/seo/LocalBusinessJsonLd";
+import MarketPreferenceCookieSync from "@/components/markets/MarketPreferenceCookieSync";
+import LocalBusinessJsonLdGate from "@/components/seo/LocalBusinessJsonLdGate";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -46,7 +47,7 @@ export default function RootLayout({
               "try{if('scrollRestoration' in history)history.scrollRestoration='manual';var h=location.hash;if(!h||h==='#'||h.indexOf(':~:')!==-1){scrollTo(0,0);document.documentElement.scrollTop=0;}}catch(e){}",
           }}
         />
-        <LocalBusinessJsonLd />
+        <LocalBusinessJsonLdGate />
         {/* Google tag (gtag.js) — Google Ads */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17703846603"
@@ -67,6 +68,7 @@ export default function RootLayout({
         data-mobile-call-bar="1"
       >
         <ScrollToTopOnNavigate />
+        <MarketPreferenceCookieSync />
         <CalendlyClickTracker />
         <ClickToCallTracker />
         {children}

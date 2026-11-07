@@ -3,14 +3,20 @@ import { BLOG_POSTS } from "@/data/blogPosts";
 import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
 import { SITE_URL } from "@/lib/site";
 
-/** Public marketing pages — excludes /book (post-schedule utility page). */
+/** Public marketing pages — excludes internal tools and post-booking utility routes. */
 const ROUTES: {
   path: string;
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
   priority: number;
 }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/residential", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/phoenix", changeFrequency: "weekly", priority: 0.95 },
+  { path: "/phoenix/services", changeFrequency: "monthly", priority: 0.85 },
+  { path: "/phoenix/services/standard", changeFrequency: "monthly", priority: 0.72 },
+  { path: "/phoenix/services/deep", changeFrequency: "monthly", priority: 0.72 },
+  { path: "/phoenix/services/move-out", changeFrequency: "monthly", priority: 0.72 },
+  { path: "/phoenix/about", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/phoenix/commercial", changeFrequency: "monthly", priority: 0.85 },
   ...CITY_LANDING_PAGES.map(({ href }) => ({
     path: href,
     changeFrequency: "monthly" as const,
@@ -34,9 +40,10 @@ const ROUTES: {
   { path: "/request-a-quote", changeFrequency: "monthly", priority: 0.85 },
   { path: "/book-online", changeFrequency: "monthly", priority: 0.85 },
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
   { path: "/portland-deep-cleaning", changeFrequency: "monthly", priority: 0.8 },
   { path: "/portland-move-out-cleaning", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/phoenix-deep-cleaning", changeFrequency: "monthly", priority: 0.78 },
+  { path: "/phoenix-move-out-cleaning", changeFrequency: "monthly", priority: 0.78 },
   { path: "/deep-clean/whats-included", changeFrequency: "monthly", priority: 0.7 },
   { path: "/move-out-clean/whats-included", changeFrequency: "monthly", priority: 0.7 },
   { path: "/satisfaction-guarantee", changeFrequency: "monthly", priority: 0.65 },

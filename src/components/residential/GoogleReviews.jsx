@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SECTION_HEADING, SECTION_PAD } from '../../helpers/typography.js';
+import { MARKETS } from '@/lib/markets';
 
 // Link to your Google Business Profile (e.g. from Share on Google Maps)
 export const GOOGLE_MAPS_REVIEWS_URL = 'https://maps.app.goo.gl/E1sYk7tLv655F6om7';
@@ -124,13 +125,24 @@ function ReviewCard({ review, index, failedImageIndices, markImageFailed, fullTe
   );
 }
 
-function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = false }) {
+function ReviewsFallback({
+  titleAs: TitleTag = 'h2',
+  message,
+  showPageIntro = false,
+  sectionTitle = 'What our clients say',
+  portfolioAttributionNote,
+}) {
   const body = (
     <>
-      <TitleTag className={SECTION_HEADING}>What our clients say</TitleTag>
+      <TitleTag className={SECTION_HEADING}>{sectionTitle}</TitleTag>
       {showPageIntro ? (
         <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-stone-700 sm:text-base">
           {PAGE_INTRO}
+        </p>
+      ) : null}
+      {portfolioAttributionNote ? (
+        <p className="mx-auto mt-3 max-w-2xl text-center text-xs leading-relaxed text-stone-600">
+          {portfolioAttributionNote}
         </p>
       ) : null}
       <p
@@ -163,11 +175,15 @@ function ReviewsFallback({ titleAs: TitleTag = 'h2', message, showPageIntro = fa
 }
 
 /**
- * @param {{ variant?: "carousel" | "page" }} props
+ * @param {{ variant?: "carousel" | "page", market?: import('@/lib/markets').MarketConfig }} props
  */
-export default function GoogleReviews({ variant = 'carousel' }) {
+export default function GoogleReviews({ variant = 'carousel', market = MARKETS.portland }) {
   const isPage = variant === 'page';
   const TitleTag = isPage ? 'h1' : 'h2';
+  const sectionTitle = market.reviews.carouselTitle;
+  const showAggregate = market.reviews.showAggregateFromGoogle;
+  const portfolioAttributionNote = market.reviews.portfolioAttributionNote;
+  const carouselSubtitle = market.reviews.carouselSubtitle;
 
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(null);
@@ -262,13 +278,20 @@ export default function GoogleReviews({ variant = 'carousel' }) {
   }, [apiKey, placeId]);
 
   if (!placeId) {
-    return <ReviewsFallback titleAs={TitleTag} showPageIntro={isPage} />;
+    return (
+      <ReviewsFallback
+        titleAs={TitleTag}
+        showPageIntro={isPage}
+        sectionTitle={sectionTitle}
+        portfolioAttributionNote={portfolioAttributionNote}
+      />
+    );
   }
 
   if (loading) {
     const loadingBody = (
       <>
-        <TitleTag className={SECTION_HEADING}>What our clients say</TitleTag>
+        <TitleTag className={SECTION_HEADING}>{sectionTitle}</TitleTag>
         {isPage ? (
           <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-stone-700 sm:text-base">
             {PAGE_INTRO}
@@ -297,6 +320,8 @@ export default function GoogleReviews({ variant = 'carousel' }) {
         titleAs={TitleTag}
         message={error || 'No reviews to show yet.'}
         showPageIntro={isPage}
+        sectionTitle={sectionTitle}
+        portfolioAttributionNote={portfolioAttributionNote}
       />
     );
   }
@@ -304,15 +329,20 @@ export default function GoogleReviews({ variant = 'carousel' }) {
   const content = (
     <>
       <div className="text-center">
-        <TitleTag className={SECTION_HEADING}>What our clients say</TitleTag>
+        <TitleTag className={SECTION_HEADING}>{sectionTitle}</TitleTag>
         {isPage ? (
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-stone-700 sm:text-base">
             {PAGE_INTRO}
           </p>
-        ) : (
-          <p className="mt-2 text-sm text-stone-600">Our reviews on Google</p>
-        )}
-        {(rating != null || totalRatings != null) && (
+        ) : carouselSubtitle ? (
+          <p className="mt-2 text-sm text-stone-600">{carouselSubtitle}</p>
+        ) : null}
+        {portfolioAttributionNote ? (
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-stone-600">
+            {portfolioAttributionNote}
+          </p>
+        ) : null}
+        {showAggregate && (rating != null || totalRatings != null) ? (
           <div className="mt-5 flex items-center justify-center gap-2">
             {rating != null && (
               <div className="flex items-center gap-1">
@@ -328,7 +358,7 @@ export default function GoogleReviews({ variant = 'carousel' }) {
               </span>
             )}
           </div>
-        )}
+        ) : null}
       </div>
 
       {isPage ? (

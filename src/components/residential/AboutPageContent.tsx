@@ -92,7 +92,7 @@ export default function AboutPageContent() {
           <figure className="mx-auto mb-6 w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:float-left sm:mb-4 sm:mr-6 sm:w-[220px] md:w-[260px]">
             <Image
               src="/assets/jasmin-heart.JPG"
-              alt="Jasmin Heart, Co-Founder and Operations Director at Golden Hour Cleaning Co."
+              alt="Jasmin Heart, Co-Founder and Director of Business Operations at Golden Hour Cleaning Co."
               width={1200}
               height={1600}
               sizes="(max-width: 639px) 220px, 260px"

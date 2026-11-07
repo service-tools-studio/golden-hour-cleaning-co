@@ -1,13 +1,19 @@
+"use client";
+
+import Link from "next/link";
 import { HEADING_UPPER } from "../../helpers/typography.js";
 import FooterCitiesMenu from "./FooterCitiesMenu";
+import { MARKETS } from "@/lib/markets";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 
 const footerBrandId = "footer-brand-heading";
 const footerContactId = "footer-contact-heading";
 const footerExploreId = "footer-explore-heading";
 
-export default function Footer() {
+/** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
+export default function Footer({ market: pageMarket }) {
+  const market = useActiveMarket(pageMarket?.id);
   const year = new Date().getFullYear();
-
   return (
     <footer
       id="site-footer"
@@ -23,10 +29,7 @@ export default function Footer() {
             Golden Hour Cleaning Co.
           </h2>
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
-            Meticulous care, mindful presence, and eco-friendly products —
-            professional house cleaning for Portland, Oregon and the surrounding
-            metro area. Golden Hour Cleaning Co is licensed in the State of
-            Oregon.
+            {market.footer.blurb} {market.footer.licenseNote}
           </p>
         </section>
 
@@ -35,14 +38,14 @@ export default function Footer() {
             Contact
           </h3>
           <address className="not-italic text-sm text-amber-900">
-            <span className="block">5441 S Macadam Ave. #4907</span>
-            <span className="block">Portland, OR 97239</span>
+            <span className="block">{market.footer.mailingAddress.street}</span>
+            <span className="block">{market.footer.mailingAddress.cityStateZip}</span>
             <a
-              href="tel:+15038934795"
+              href={`tel:${market.contact.phoneE164}`}
               data-call-source="footer_phone"
               className="mt-1 inline-block hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
             >
-              (503) 893-4795
+              {market.contact.phoneDisplay}
             </a>
             <a
               href="mailto:golden.hour.cleaning.company@gmail.com"
@@ -61,14 +64,34 @@ export default function Footer() {
             Explore
           </h3>
           <ul className="space-y-1 text-sm">
-            <FooterCitiesMenu />
+            {market.id !== "portland" ? (
+              <>
+                <li>
+                  <Link
+                    href={MARKETS.portland.path}
+                    className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {MARKETS.portland.displayLabel} home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={MARKETS.phoenix.path}
+                    className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {MARKETS.phoenix.displayLabel} home
+                  </Link>
+                </li>
+              </>
+            ) : null}
+            {market.id === "portland" ? <FooterCitiesMenu /> : null}
             <li>
-              <a
-                href="/residential/services"
+              <Link
+                href={market.servicesHubPath}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Residential Services
-              </a>
+              </Link>
             </li>
             <li>
               <a
@@ -87,12 +110,12 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href="/about"
+              <Link
+                href={market.aboutPath}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
               <a
@@ -102,22 +125,26 @@ export default function Footer() {
                 Reviews
               </a>
             </li>
-            <li>
-              <a
-                href="/blog"
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
-                Blog
-              </a>
-            </li>
-            <li>
-              <a
-                href="/partnerships"
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
-                Partnerships
-              </a>
-            </li>
+            {market.id === "portland" ? (
+              <li>
+                <a
+                  href="/blog"
+                  className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                >
+                  Blog
+                </a>
+              </li>
+            ) : null}
+            {market.id === "portland" ? (
+              <li>
+                <a
+                  href="/partnerships"
+                  className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                >
+                  Partnerships
+                </a>
+              </li>
+            ) : null}
             <li>
               <a
                 href="/careers"

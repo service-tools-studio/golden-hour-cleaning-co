@@ -60,6 +60,8 @@ export function trackPpcDeepCleanEvent(
   }
 }
 
+import { PPC_DEEP_CLEAN_PATHS } from "@/lib/ppcLandingCopy";
+
 export function isPpcDeepCleanPath(pathname = window.location.pathname) {
-  return pathname === "/portland-deep-cleaning";
+  return PPC_DEEP_CLEAN_PATHS.has(pathname);
 }

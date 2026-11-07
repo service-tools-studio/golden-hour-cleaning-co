@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import ResidentialServicesClient from "./ResidentialServicesClient";
+import ServicesHubClient from "@/components/residential/ServicesHubClient";
+import { MARKETS } from "@/lib/markets";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"] as const);
 type Level = "standard" | "deep" | "move_out";
@@ -11,11 +12,12 @@ function coerceLevel(value: unknown): Level {
   return "deep";
 }
 
+const hub = MARKETS.portland.servicesHub;
+
 export const metadata: Metadata = {
-  title: "House Cleaning Services in Portland, OR | Golden Hour Cleaning Co.",
-  description:
-    "Compare residential cleaning services and starting prices from Golden Hour Cleaning Co. — standard, deep, and move-out cleaning for homes throughout Portland and the metro area.",
-  alternates: { canonical: "/residential/services" },
+  title: hub.seoTitle,
+  description: hub.seoDescription,
+  alternates: { canonical: MARKETS.portland.servicesHubPath },
 };
 
 export default async function ResidentialServicesPage({
@@ -27,5 +29,7 @@ export default async function ResidentialServicesPage({
   const sp = "then" in searchParams ? await searchParams : searchParams;
   const initialLevel = coerceLevel(sp?.level);
 
-  return <ResidentialServicesClient initialLevel={initialLevel} />;
+  return (
+    <ServicesHubClient market={MARKETS.portland} initialLevel={initialLevel} />
+  );
 }

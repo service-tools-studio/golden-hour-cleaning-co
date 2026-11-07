@@ -69,11 +69,13 @@ type DeepCleanChecklistProps = {
   /** When false, omit the standard-clean intro sentence (page can supply its own). */
   showIntro?: boolean;
   className?: string;
+  standardIncludedHref?: string;
 };
 
 export default function DeepCleanChecklist({
   showIntro = true,
   className = "",
+  standardIncludedHref = "/residential/services/standard#whats-included",
 }: DeepCleanChecklistProps) {
   return (
     <div className={className}>
@@ -81,7 +83,7 @@ export default function DeepCleanChecklist({
         <p className="text-base leading-relaxed text-stone-700">
           Our deep cleaning includes everything in a{" "}
           <Link
-            href="/residential/services/standard#whats-included"
+            href={standardIncludedHref}
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
             standard clean

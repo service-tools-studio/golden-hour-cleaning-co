@@ -11,13 +11,16 @@ import {
 import { Badge } from "../../helpers/ui-elements.jsx";
 import Image from "next/image";
 import Link from "next/link";
+import MarketLocationSelector from "@/components/markets/MarketLocationSelector";
+import { MARKETS } from "@/lib/markets";
 
 /** Side-by-side hero CTAs — tighter padding on phones so both labels fit. */
 const HERO_BTN_BASE = `${BTN_UPPER} inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-2.5 py-2.5 text-center text-xs font-semibold leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 active:scale-[0.98] sm:min-h-0 sm:px-5 sm:text-sm`;
 const HERO_BTN_PRICING = `${HERO_BTN_BASE} border-stone-300 bg-white text-stone-900 shadow-sm hover:bg-stone-50`;
 const HERO_BTN_RESERVE = `${HERO_BTN_BASE} border-amber-300 bg-amber-200 text-stone-900 shadow-sm hover:bg-amber-300`;
 
-export default function Hero() {
+/** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
+export default function Hero({ market = MARKETS.portland }) {
   const { rating } = useGooglePlaceSummary();
   const googleRatingLabel = `★★★★★ ${(rating ?? 5).toFixed(1)} Google Rating`;
 
@@ -40,19 +43,20 @@ export default function Hero() {
 
         <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-14 xl:px-16 xl:py-16">
           <div className="mx-auto w-full max-w-6xl text-center lg:max-w-lg xl:max-w-xl">
-            <p className={`${SECTION_EYEBROW} text-center`}>
-              📍 Portland-Metro Area
-            </p>
+            <div
+              className={`${SECTION_EYEBROW} flex items-center justify-center gap-1 text-center`}
+            >
+              <span aria-hidden>📍</span>
+              <MarketLocationSelector market={market} />
+            </div>
             <h1
               className={`mt-3 text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >
-              Professional house cleaning in Portland, Oregon — high standards,
-              intentional care & consistent results.
+              {market.hero.headline}
             </h1>
 
             <p className="mt-4 text-center text-sm leading-relaxed text-stone-700 sm:text-base lg:mt-5">
-              Meticulous, non-toxic cleaning with thoughtful service, transparent
-              pricing, and easy online booking.
+              {market.hero.supporting}
             </p>
 
             <div className="mt-5 flex gap-3 lg:mt-6">
@@ -89,7 +93,14 @@ export default function Hero() {
 
             <div className="mt-8 grid w-full grid-cols-2 gap-2.5 text-sm text-stone-700 sm:grid-cols-4 sm:gap-3 lg:mt-12 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
-              <Badge icon={<BadgeCheck />} label="Women Owned and Local" />
+              <Badge
+                icon={<BadgeCheck />}
+                label={
+                  market.id === "phoenix"
+                    ? "Women Owned"
+                    : "Women Owned and Local"
+                }
+              />
               <Badge icon={<Award />} label="Satisfaction Guarantee" />
               <Badge
                 icon={<Stars />}
