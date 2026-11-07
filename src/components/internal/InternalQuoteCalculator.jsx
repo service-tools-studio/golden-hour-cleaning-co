@@ -13,7 +13,6 @@ import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
 import {
   CFG,
-  CONTACT,
   LEVEL_COPY,
   WALKTHROUGH_ARRIVAL_HOURS,
 } from "./quote-calculator-lib/constants.js";
@@ -26,7 +25,7 @@ import { getInternalStartingAtTier } from "./quote-calculator-lib/internalStarti
 import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
 import { useQuoteResultsInView } from "../../helpers/useQuoteResultsInView";
 import Link from "next/link";
-import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
+import { HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 import {
   asFiniteNumber,
@@ -1224,26 +1223,7 @@ export default function InternalQuoteCalculator({
               </div>
             )}
 
-            {result.isLargeJob && (
-              <div className="mt-3 rounded-xl border border-stone-200 bg-white p-4 text-xs text-stone-700">
-                This is a larger project. For accurate scheduling, please call us
-                to book so we can plan enough time and team support.
-              </div>
-            )}
           </div>
-
-          {result.isLargeJob ? (
-            <div className="mt-4">
-              <a
-                href={`tel:${CONTACT.phone}`}
-                data-call-source="quote_call_to_book"
-                className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                aria-label={`Call to book this clean at ${CONTACT.phone}`}
-              >
-                Call to Book This Clean
-              </a>
-            </div>
-          ) : null}
         </section>
       </div>
     </section>
