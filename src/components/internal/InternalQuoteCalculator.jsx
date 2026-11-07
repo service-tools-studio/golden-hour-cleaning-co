@@ -9,7 +9,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Check } from "lucide-react";
 import { formatCurrency } from "../../helpers/contactHelpers.js";
-import ContactSheet from "../residential/ContactSheet";
 import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
 import {
@@ -19,17 +18,13 @@ import {
   WALKTHROUGH_ARRIVAL_HOURS,
 } from "./quote-calculator-lib/constants.js";
 import { sqftHeuristicForBedrooms } from "./quote-calculator-lib/quotePricing.js";
-import { buildCalendlyUrlWithUtm } from "./quote-calculator-lib/calendlyHelpers.js";
 import {
   formatStartingAt,
   typicalPhoneRangeHigh,
 } from "../../lib/startingAtPricing.js";
 import { getInternalStartingAtTier } from "./quote-calculator-lib/internalStartingAt.js";
-import { trackCalendlyClick } from "../../helpers/calendlyAnalytics";
-import { getPpcAttribution } from "../../helpers/ppcAttribution";
 import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
 import { useQuoteResultsInView } from "../../helpers/useQuoteResultsInView";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BTN_UPPER, HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
@@ -339,9 +334,6 @@ export default function InternalQuoteCalculator({
   initialLevel,
   hideHeader = false,
 }) {
-  const router = useRouter();
-  const quoteContactBtnRef = useRef(null);
-  const quoteScheduleBtnRef = useRef(null);
   const [bedrooms, setBedrooms] = useState(3);
   const [bathrooms, setBathrooms] = useState(2);
   const [sqft, setSqft] = useState(0);
@@ -853,49 +845,6 @@ export default function InternalQuoteCalculator({
   const quoteResultsDescId = "quote-results-a11y-desc";
   const quoteSummaryA11yId = "quote-summary-a11y";
 
-  function focusQuoteContactButton(e) {
-    if (e.key !== "Tab" || e.shiftKey) return;
-    const contactBtn = quoteContactBtnRef.current;
-    if (!contactBtn) return;
-    e.preventDefault();
-    contactBtn.focus();
-  }
-
-  function focusQuoteScheduleButton(e) {
-    if (e.key !== "Tab" || !e.shiftKey) return;
-    const scheduleBtn = quoteScheduleBtnRef.current;
-    if (!scheduleBtn) return;
-    e.preventDefault();
-    scheduleBtn.focus();
-  }
-
-  function onScheduleClick(e) {
-    e.preventDefault();
-
-    const attribution = getPpcAttribution();
-    const calendlyUrl = buildCalendlyUrlWithUtm(
-      CONTACT.bookingUrl,
-      result,
-      {
-        applied: promoValid,
-        code: promoCode.trim().toUpperCase(),
-        amount: promoValid ? 50 : 0,
-      },
-      attribution
-    );
-
-    trackCalendlyClick({
-      source: "quote_calculator",
-      url: calendlyUrl,
-      cleanType: cleanType,
-      attribution,
-    });
-
-    sessionStorage.setItem("calendlyUrl", calendlyUrl);
-    window.open(calendlyUrl, "_blank", "noopener,noreferrer");
-    router.push("/book");
-  }
-
   return (
     <section
       id="quote-calculator"
@@ -1283,112 +1232,18 @@ export default function InternalQuoteCalculator({
             )}
           </div>
 
-          {/* Dual CTA: Calendly for normal jobs, Call-to-book for large jobs */}
-          <div
-            role="group"
-            aria-label="Book or ask questions about your quote"
-            className="mt-4 flex flex-col gap-2 sm:flex-row"
-          >
-            {!result.isLargeJob ? (
-              <>
-                <button
-                  ref={quoteScheduleBtnRef}
-                  type="button"
-                  onClick={onScheduleClick}
-                  onKeyDown={focusQuoteContactButton}
-                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-2xl border border-amber-300 bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                  aria-label="Schedule this cleaning"
-                >
-                  Schedule This Cleaning
-                </button>
-
-                <ContactSheet
-                  ref={quoteContactBtnRef}
-                  className="min-w-0 flex-1"
-                  phone={CONTACT.phone}
-                  sms={CONTACT.sms}
-                  email={CONTACT.email}
-                  onKeyDown={focusQuoteScheduleButton}
-                  context={{
-                    level: cleanType,
-                    sqftLow: result.sqftLow,
-                    sqftHigh: result.sqftHigh,
-                    sqftInput: result.sqftInput,
-                    bedrooms,
-                    bathrooms,
-                    total: result.totalAfterPromo, // upper end
-                    totalLow: result.totalAfterPromoLow,
-                    ecoProducts: true,
-                    cleaners: result.time.cleaners,
-                    billableHoursLow: result.billableHoursLow,
-                    billableHours: result.billableHours,
-                    ratePerSqftLow: result.ratePerSqftLow,
-                    ratePerSqftHigh: result.ratePerSqftHigh,
-                    addons: {
-                      fridge: result.addonFridge,
-                      oven: result.addonOven,
-                      secondKitchen: result.addonSecondKitchen,
-                    },
-                    promo: promoValid
-                      ? {
-                        code: promoCode.trim().toUpperCase(),
-                        amount: result.promoDiscount,
-                      }
-                      : null,
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <a
-                  ref={quoteScheduleBtnRef}
-                  href={`tel:${CONTACT.phone}`}
-                  data-call-source="quote_call_to_book"
-                  onKeyDown={focusQuoteContactButton}
-                  className={`${BTN_UPPER} inline-flex w-full min-w-0 flex-1 items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
-                  aria-label={`Call to book this clean at ${CONTACT.phone}`}
-                >
-                  Call to Book This Clean
-                </a>
-
-                <ContactSheet
-                  ref={quoteContactBtnRef}
-                  className="min-w-0 flex-1"
-                  phone={CONTACT.phone}
-                  sms={CONTACT.sms}
-                  email={CONTACT.email}
-                  onKeyDown={focusQuoteScheduleButton}
-                  context={{
-                    level: cleanType,
-                    sqftLow: result.sqftLow,
-                    sqftHigh: result.sqftHigh,
-                    sqftInput: result.sqftInput,
-                    bedrooms,
-                    bathrooms,
-                    total: result.totalAfterPromo,
-                    totalLow: result.totalAfterPromoLow,
-                    ecoProducts: true,
-                    cleaners: result.time.cleaners,
-                    billableHoursLow: result.billableHoursLow,
-                    billableHours: result.billableHours,
-                    ratePerSqftLow: result.ratePerSqftLow,
-                    ratePerSqftHigh: result.ratePerSqftHigh,
-                    addons: {
-                      fridge: result.addonFridge,
-                      oven: result.addonOven,
-                      secondKitchen: result.addonSecondKitchen,
-                    },
-                    promo: promoValid
-                      ? {
-                        code: promoCode.trim().toUpperCase(),
-                        amount: result.promoDiscount,
-                      }
-                      : null,
-                  }}
-                />
-              </>
-            )}
-          </div>
+          {result.isLargeJob ? (
+            <div className="mt-4">
+              <a
+                href={`tel:${CONTACT.phone}`}
+                data-call-source="quote_call_to_book"
+                className={`${BTN_UPPER} inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-4 py-3 text-white text-sm font-medium hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-300`}
+                aria-label={`Call to book this clean at ${CONTACT.phone}`}
+              >
+                Call to Book This Clean
+              </a>
+            </div>
+          ) : null}
         </section>
       </div>
     </section>
