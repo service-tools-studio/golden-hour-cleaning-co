@@ -43,12 +43,12 @@ export default function Hero({ market = MARKETS.portland }) {
 
         <div className="relative flex items-center px-4 pt-4 pb-14 lg:ml-[50%] lg:w-1/2 lg:px-10 lg:py-14 xl:px-16 xl:py-16">
           <div className="mx-auto w-full max-w-6xl text-center lg:max-w-lg xl:max-w-xl">
-            <p
+            <div
               className={`${SECTION_EYEBROW} flex items-center justify-center gap-1 text-center`}
             >
               <span aria-hidden>📍</span>
               <MarketLocationSelector market={market} />
-            </p>
+            </div>
             <h1
               className={`mt-3 text-center text-xl leading-snug sm:text-2xl lg:text-[1.65rem] lg:leading-snug lg:text-stone-900 xl:text-3xl ${HEADING_UPPER}`}
             >
