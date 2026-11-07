@@ -7,7 +7,13 @@ import {
   SECTION_PAD,
 } from "@/helpers/typography.js";
 
-export default function MeetFoundersSection() {
+type Props = {
+  aboutHref?: string;
+};
+
+export default function MeetFoundersSection({
+  aboutHref = "/about",
+}: Props) {
   return (
     <section
       aria-labelledby="founders-heading"
@@ -38,7 +44,7 @@ export default function MeetFoundersSection() {
         </blockquote>
 
         <div className="mt-10 flex justify-center">
-          <Link href="/about" className={BTN_SECONDARY}>
+          <Link href={aboutHref} className={BTN_SECONDARY}>
             Learn More About Us
           </Link>
         </div>
