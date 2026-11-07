@@ -93,7 +93,14 @@ export default function Hero({ market = MARKETS.portland }) {
 
             <div className="mt-8 grid w-full grid-cols-2 gap-2.5 text-sm text-stone-700 sm:grid-cols-4 sm:gap-3 lg:mt-12 lg:grid-cols-2">
               <Badge icon={<ShieldCheck />} label="Vetted Professionals" />
-              <Badge icon={<BadgeCheck />} label="Women Owned and Local" />
+              <Badge
+                icon={<BadgeCheck />}
+                label={
+                  market.id === "phoenix"
+                    ? "Women Owned"
+                    : "Women Owned and Local"
+                }
+              />
               <Badge icon={<Award />} label="Satisfaction Guarantee" />
               <Badge
                 icon={<Stars />}

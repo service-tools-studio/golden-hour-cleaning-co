@@ -27,7 +27,8 @@ export default function CareersPageContent() {
         <div className="space-y-4 text-base leading-relaxed text-stone-700">
           <p>
             We&apos;re growing and looking for exceptional independent cleaning
-            contractors to join our team serving the Portland metro area.
+            contractors to join our team serving the Portland, Oregon and
+            Phoenix, Arizona metro areas.
           </p>
           <p>
             We&apos;re looking for people who are more than just great cleaners. We
