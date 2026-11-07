@@ -337,7 +337,7 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
     ],
     contact: PHOENIX_CONTACT,
     servicesPreviewSupporting:
-      "From recurring home care to move-out details and commercial spaces — we’re expanding our same residential and light commercial standards to homes and businesses across the Phoenix metro.",
+      "From recurring home care to move-out details and commercial spaces — professional cleaning for homes and businesses throughout Phoenix and the surrounding metro area.",
     reviews: {
       googlePlaceSource: "portland",
       carouselTitle: "What our clients say",
