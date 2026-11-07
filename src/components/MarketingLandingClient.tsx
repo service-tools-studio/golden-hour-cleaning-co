@@ -70,7 +70,7 @@ export default function MarketingLandingClient({
           supportingText={market.servicesPreviewSupporting}
         />
 
-        <MeetFoundersSection />
+        <MeetFoundersSection aboutHref={market.aboutPath} />
 
         <BeforeAfter />
 

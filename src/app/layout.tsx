@@ -6,6 +6,7 @@ import ClickToCallTracker from "@/components/analytics/ClickToCallTracker";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import MobileStickyCallBar from "@/components/residential/MobileStickyCallBar";
 import MarketPreferenceCookieSync from "@/components/markets/MarketPreferenceCookieSync";
+import MarketPreferenceFromPath from "@/components/markets/MarketPreferenceFromPath";
 import LocalBusinessJsonLdGate from "@/components/seo/LocalBusinessJsonLdGate";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -69,6 +70,7 @@ export default function RootLayout({
       >
         <ScrollToTopOnNavigate />
         <MarketPreferenceCookieSync />
+        <MarketPreferenceFromPath />
         <CalendlyClickTracker />
         <ClickToCallTracker />
         {children}

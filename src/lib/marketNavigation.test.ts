@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   resolveActiveMarketId,
+  resolveMarketAboutHref,
   resolveMarketHomeHref,
   resolveServicesHubHref,
 } from "@/lib/marketNavigation";
@@ -65,5 +66,20 @@ describe("resolveActiveMarketId", () => {
         pathname: "/phoenix-deep-cleaning",
       }),
     ).toBe("phoenix");
+  });
+
+  it("uses stored phoenix preference on market-neutral pages", () => {
+    expect(
+      resolveActiveMarketId({
+        preferredMarket: "phoenix",
+        pathname: "/book-online",
+      }),
+    ).toBe("phoenix");
+    expect(
+      resolveMarketAboutHref({
+        preferredMarket: "phoenix",
+        pathname: "/reviews",
+      }),
+    ).toBe("/phoenix/about");
   });
 });
