@@ -3,7 +3,7 @@ import { BLOG_POSTS } from "@/data/blogPosts";
 import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
 import { SITE_URL } from "@/lib/site";
 
-/** Public marketing pages — excludes /book (post-schedule utility page). */
+/** Public marketing pages — excludes internal tools and post-booking utility routes. */
 const ROUTES: {
   path: string;
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
@@ -40,7 +40,6 @@ const ROUTES: {
   { path: "/request-a-quote", changeFrequency: "monthly", priority: 0.85 },
   { path: "/book-online", changeFrequency: "monthly", priority: 0.85 },
   { path: "/residential/quote", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/residential/instant-quote", changeFrequency: "monthly", priority: 0.7 },
   { path: "/portland-deep-cleaning", changeFrequency: "monthly", priority: 0.8 },
   { path: "/portland-move-out-cleaning", changeFrequency: "monthly", priority: 0.8 },
   { path: "/phoenix-deep-cleaning", changeFrequency: "monthly", priority: 0.78 },

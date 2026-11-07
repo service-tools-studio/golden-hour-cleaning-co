@@ -64,22 +64,26 @@ export default function Footer({ market: pageMarket }) {
             Explore
           </h3>
           <ul className="space-y-1 text-sm">
-            <li>
-              <Link
-                href={MARKETS.portland.path}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
-                {MARKETS.portland.displayLabel} home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={MARKETS.phoenix.path}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
-                {MARKETS.phoenix.displayLabel} home
-              </Link>
-            </li>
+            {market.id !== "portland" ? (
+              <>
+                <li>
+                  <Link
+                    href={MARKETS.portland.path}
+                    className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {MARKETS.portland.displayLabel} home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={MARKETS.phoenix.path}
+                    className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {MARKETS.phoenix.displayLabel} home
+                  </Link>
+                </li>
+              </>
+            ) : null}
             {market.id === "portland" ? <FooterCitiesMenu /> : null}
             <li>
               <Link

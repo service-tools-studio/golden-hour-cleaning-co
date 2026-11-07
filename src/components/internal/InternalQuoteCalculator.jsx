@@ -13,7 +13,6 @@ import SelectField from "../Fields/SelectField.jsx";
 import NumberField from "../Fields/NumberField.jsx";
 import {
   CFG,
-  LEVEL_COPY,
   WALKTHROUGH_ARRIVAL_HOURS,
 } from "./quote-calculator-lib/constants.js";
 import { sqftHeuristicForBedrooms } from "./quote-calculator-lib/quotePricing.js";
