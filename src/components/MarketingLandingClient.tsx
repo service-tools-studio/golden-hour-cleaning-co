@@ -5,6 +5,7 @@ import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 import ScrollDebugOverlay from "@/components/ScrollDebugOverlay";
 import MeetFoundersSection from "@/components/home/MeetFoundersSection";
 import ServicesPreviewSection from "@/components/home/ServicesPreviewSection";
+import MarketGeoSuggestion from "@/components/markets/MarketGeoSuggestion";
 import BeforeAfter from "@/components/residential/BeforeAfter";
 import ClientExperienceSection from "@/components/residential/ClientExperienceSection";
 import Footer from "@/components/residential/Footer";
@@ -13,6 +14,7 @@ import Header from "@/components/residential/Header";
 import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
+import type { MarketConfig } from "@/lib/markets";
 
 const DETAIL_PHOTOS = [
   {
@@ -30,32 +32,55 @@ const DETAIL_PHOTOS = [
   },
 ] as const;
 
+type LandingPagePath = "/" | "/phoenix";
+
 type Props = {
-  pagePath: "/" | "/residential";
+  market: MarketConfig;
+  pagePath: LandingPagePath;
+  /** Vercel / middleware geo hint — used for optional Arizona suggestion on `/` */
+  visitorRegion?: string | null;
 };
 
-export default function MarketingLandingClient({ pagePath }: Props) {
+export default function MarketingLandingClient({
+  market,
+  pagePath,
+  visitorRegion,
+}: Props) {
   return (
     <div id="page-top" className="relative min-h-screen bg-amber-50 text-stone-900">
       <ScrollDebugOverlay />
       <ScrollDepthTracker pagePath={pagePath} />
-      <Header />
+      {market.id === "portland" ? (
+        <MarketGeoSuggestion visitorRegion={visitorRegion} />
+      ) : null}
+      <Header market={market} />
 
       <main id="content">
-        <Hero />
+        <Hero market={market} />
 
-        <GoogleReviews />
+        <GoogleReviews
+          variant="carousel"
+          market={market}
+        />
         <ClientExperienceSection />
-        <ServiceAreaMap />
+        <ServiceAreaMap market={market} />
 
-        <ServicesPreviewSection />
+        <ServicesPreviewSection
+          market={market}
+          supportingText={market.servicesPreviewSupporting}
+        />
 
         <MeetFoundersSection />
 
         <BeforeAfter />
 
         <div className="pt-14 pb-20 md:pt-16 md:pb-24" id="quote">
-          <ResidentialPricingGuide />
+          <ResidentialPricingGuide
+            market={market}
+            {...(market.pricingHomeDescriptor
+              ? { homeLocation: market.pricingHomeDescriptor }
+              : {})}
+          />
         </div>
 
         <section
@@ -85,7 +110,7 @@ export default function MarketingLandingClient({ pagePath }: Props) {
           </div>
         </section>
 
-        <Footer />
+        <Footer market={market} />
       </main>
     </div>
   );

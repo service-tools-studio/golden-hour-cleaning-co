@@ -57,6 +57,8 @@ export function trackPpcMoveOutEvent(
   }
 }
 
+import { PPC_MOVE_OUT_PATHS } from "@/lib/ppcLandingCopy";
+
 export function isPpcMoveOutPath(pathname = window.location.pathname) {
-  return pathname === "/portland-move-out-cleaning";
+  return PPC_MOVE_OUT_PATHS.has(pathname);
 }

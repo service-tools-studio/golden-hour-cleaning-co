@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { CONTACT } from "@/constants.js";
 import {
   BE_HOME_FAQ,
   DEEP_PRICING_FAQ,
@@ -12,28 +11,39 @@ import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import DeepCleanChecklist from "./DeepCleanChecklist";
 import ReviewStartingPricesFaqAnswer from "./ReviewStartingPricesFaqAnswer";
 import ServiceDetailHero from "./ServiceDetailHero";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
 import {
-  BulletList,
-  FaqItem,
-  PORTLAND_METRO_AREAS,
-  Section,
-} from "./servicePageParts";
+  metroAreasForMarket,
+  residentialServicePath,
+  serviceDetailLocale,
+} from "@/lib/serviceDetailRoutes";
+import { BulletList, FaqItem, Section } from "./servicePageParts";
 
 export default function DeepCleanPageContent({
   quoteHref,
+  market = MARKETS.portland,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
+  market?: MarketConfig;
 }) {
   const service = RESIDENTIAL_SERVICES.deep;
+  const locale = serviceDetailLocale(market);
+  const hub = market.servicesHubPath;
+  const standardHref = residentialServicePath(market, "standard");
+  const moveOutHref = residentialServicePath(market, "move-out");
+  const metroAreas = metroAreasForMarket(market);
+  const standardIncludedHref = `${standardHref}#whats-included`;
 
   return (
     <>
       <ServiceDetailHero
         serviceSlug="deep"
         tagline="Full-home reset"
-        title="Deep Cleaning Services in Portland, Oregon"
-        intro="Our deep cleaning service is perfect when your Portland-area home needs a fresh start. We get into the details so you can enjoy a clean that feels brand new. Explore what's included and typical pricing below — or get started with a quote when you're ready."
+        title={locale.hero.deep.title}
+        intro={locale.hero.deep.intro}
+        servicesHubHref={hub}
         imageSrc="/assets/vacuuming.PNG"
         imageAlt="A Golden Hour cleaner smiling while vacuuming a living room rug"
         imageClassName="object-cover object-center"
@@ -48,7 +58,7 @@ export default function DeepCleanPageContent({
           been a while since your last professional cleaning, you&apos;re
           preparing for guests, moving into a new home, or simply ready for a
           reset, Golden Hour Cleaning Co. provides thorough deep cleaning
-          services throughout Portland, OR and the surrounding communities.
+          services throughout {locale.communitiesPhrase}.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our deep cleaning service targets the buildup, dust, grime, and
@@ -65,9 +75,9 @@ export default function DeepCleanPageContent({
       </Section>
 
       <p className="mt-6 rounded-2xl border border-amber-200 bg-white px-4 py-3 text-sm leading-relaxed text-stone-700 shadow-sm">
-        Looking to get started in Portland?{" "}
+        Looking to get started in {locale.getStartedRegionLabel}?{" "}
         <Link
-          href="/portland-deep-cleaning"
+          href={locale.pricingLandingHref}
           className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
         >
           See pricing, request a quote, or call →
@@ -78,7 +88,7 @@ export default function DeepCleanPageContent({
         id="whats-included"
         title="What's Included in Our Deep Cleaning Service?"
       >
-        <DeepCleanChecklist />
+        <DeepCleanChecklist standardIncludedHref={standardIncludedHref} />
       </Section>
 
       <Section title="What Makes a Deep Clean Different from a Standard Clean?">
@@ -136,7 +146,7 @@ export default function DeepCleanPageContent({
           Golden Hour Cleaning Co. proudly provides deep house cleaning services
           throughout:
         </p>
-        <BulletList items={PORTLAND_METRO_AREAS} />
+        <BulletList items={metroAreas} />
       </Section>
 
       <Section title="Frequently Asked Questions">
@@ -175,11 +185,11 @@ export default function DeepCleanPageContent({
           team is happy to answer your questions, discuss your cleaning needs,
           and help you choose the service that&apos;s right for your home. Call{" "}
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${market.contact.phoneE164}`}
             data-call-source="deep_clean_page_phone"
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
-            (503) 893-4795
+            {market.contact.phoneDisplay}
           </a>
           .
         </p>
@@ -188,19 +198,19 @@ export default function DeepCleanPageContent({
           process simple, transparent, and stress-free.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Link href="/portland-deep-cleaning" className={BTN_PRIMARY}>
+          <Link href={locale.pricingLandingHref} className={BTN_PRIMARY}>
             See pricing &amp; get started
           </Link>
           <Link href={quoteHref} className={BTN_SECONDARY}>
             Get a quote for Deep Clean
           </Link>
-          <Link href="/residential/services" className={BTN_SECONDARY}>
+          <Link href={hub} className={BTN_SECONDARY}>
             Compare all services
           </Link>
-          <Link href="/residential/services/standard" className={BTN_SECONDARY}>
+          <Link href={standardHref} className={BTN_SECONDARY}>
             Recurring house cleaning
           </Link>
-          <Link href="/residential/services/move-out" className={BTN_SECONDARY}>
+          <Link href={moveOutHref} className={BTN_SECONDARY}>
             Move-out cleaning
           </Link>
         </div>

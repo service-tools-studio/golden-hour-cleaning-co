@@ -19,6 +19,9 @@ import {
 } from "@/lib/startingAtPricing.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 import { scrollToId } from "@/helpers/scrollToId";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
+import { residentialServicePathFromHub } from "@/lib/serviceDetailRoutes";
 
 type PricingTierRow = {
   sqftLabel: string;
@@ -167,6 +170,7 @@ function ServicePricingCard({
   onLearnMore,
   quoteHref = "/request-a-quote",
   onRequestQuote,
+  servicesHubPath = MARKETS.portland.servicesHubPath,
 }: {
   block: ServicePricingBlock;
   hideIncluded?: boolean;
@@ -174,6 +178,7 @@ function ServicePricingCard({
   onLearnMore?: () => void;
   quoteHref?: string;
   onRequestQuote?: () => void;
+  servicesHubPath?: MarketConfig["servicesHubPath"];
 }) {
   const service = RESIDENTIAL_SERVICES[block.serviceSlug];
   const theme = PRICING_CARD_THEMES[block.serviceSlug];
@@ -293,7 +298,10 @@ function ServicePricingCard({
               </button>
             ) : (
               <Link
-                href={`/residential/services/${block.serviceSlug}`}
+                href={residentialServicePathFromHub(
+                  servicesHubPath,
+                  block.serviceSlug,
+                )}
                 aria-label={`${learnMoreLabel} about ${service.title}`}
                 className={learnMoreClass}
               >
@@ -312,6 +320,7 @@ type ResidentialPricingGuideProps = {
   showIntro?: boolean;
   /** When set (e.g. city landings), intro refers to "your {homeLocation} home". */
   homeLocation?: string;
+  market?: MarketConfig;
 };
 
 const JUMP_NAV_ACTIVE_CLASS = {
@@ -328,6 +337,7 @@ export function ServicePricingCards({
   onLearnMore,
   quoteHref,
   onRequestQuote,
+  servicesHubPath = MARKETS.portland.servicesHubPath,
 }: {
   className?: string;
   serviceSlug?: ServiceSlug;
@@ -336,6 +346,7 @@ export function ServicePricingCards({
   onLearnMore?: () => void;
   quoteHref?: string;
   onRequestQuote?: () => void;
+  servicesHubPath?: MarketConfig["servicesHubPath"];
 }) {
   const blocks = serviceSlug
     ? PRICING_BLOCKS.filter((block) => block.serviceSlug === serviceSlug)
@@ -509,6 +520,7 @@ export function ServicePricingCards({
             onLearnMore={onLearnMore}
             quoteHref={quoteHref}
             onRequestQuote={onRequestQuote}
+            servicesHubPath={servicesHubPath}
           />
         ))}
       </div>
@@ -557,6 +569,7 @@ export default function ResidentialPricingGuide({
   className = "",
   showIntro = true,
   homeLocation,
+  market = MARKETS.portland,
 }: ResidentialPricingGuideProps) {
   const homePhrase = homeLocation
     ? `your ${homeLocation} home`
@@ -585,7 +598,10 @@ export default function ResidentialPricingGuide({
         </header>
       ) : null}
 
-      <ServicePricingCards className={showIntro ? "mt-10" : undefined} />
+      <ServicePricingCards
+        className={showIntro ? "mt-10" : undefined}
+        servicesHubPath={market.servicesHubPath}
+      />
     </section>
   );
 }

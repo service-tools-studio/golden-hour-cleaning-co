@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { CONTACT } from "@/constants.js";
 import { HEADING_UPPER } from "@/helpers/typography.js";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
 
 /**
  * Compact footer for PPC landings — trust + contact, minimal exits.
  */
-export default function PpcLandingFooter() {
+export default function PpcLandingFooter({
+  market = MARKETS.portland,
+}: {
+  market?: MarketConfig;
+}) {
   const year = new Date().getFullYear();
+  const contact = market.contact;
 
   return (
     <footer
@@ -18,17 +25,16 @@ export default function PpcLandingFooter() {
           Golden Hour Cleaning Co.
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-amber-800/80">
-          Meticulous care and eco-friendly products for Portland homes. Licensed
-          in Oregon.
+          {market.footer.blurb} {market.footer.licenseNote}
         </p>
 
         <p className="mt-5 text-sm">
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${contact.phoneE164}`}
             data-call-source="ppc_footer_phone"
             className="font-semibold text-amber-950 underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
           >
-            (503) 893-4795
+            {contact.phoneDisplay}
           </a>
           <span className="mx-2 text-amber-700/50" aria-hidden>
             ·
@@ -52,7 +58,7 @@ export default function PpcLandingFooter() {
 
         <p className="mt-4 text-sm text-amber-800/80">
           <Link
-            href="/residential/services"
+            href={market.servicesHubPath}
             className="underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
           >
             Compare residential cleaning services →

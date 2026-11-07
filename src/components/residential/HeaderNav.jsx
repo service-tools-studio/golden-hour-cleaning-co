@@ -4,19 +4,17 @@ import { createPortal } from "react-dom";
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
-import { CONTACT } from "../../constants.js";
-import { SERVICES_PRICING_HREF } from "../../helpers/ctaLabels.js";
+import { useMarketContact } from "@/helpers/useMarketContact";
+import { useMarketAboutHref } from "@/helpers/useMarketAboutHref";
+import { useServicesHubHref } from "@/helpers/useServicesHubHref";
 import {
   subscribeLeadWizardInView,
 } from "../../helpers/leadWizardVisibility";
 import { BTN_PRIMARY, BTN_SECONDARY, BTN_UPPER } from "../../helpers/typography.js";
-import { BUSINESS_PHONE_DISPLAY } from "../../lib/site";
 
-const NAV_LINKS = [
-  { label: "Services & Pricing", href: SERVICES_PRICING_HREF },
+const STATIC_NAV_LINKS_AFTER_ABOUT = [
   { label: "Reviews", href: "/reviews" },
   { label: "Our Guarantee", href: "/satisfaction-guarantee" },
-  { label: "About Us", href: "/about" },
   { label: "Request a Quote", href: "/request-a-quote" },
   { label: "Reserve Your Cleaning", href: "/book-online" },
 ];
@@ -41,6 +39,15 @@ function getMenuTop() {
 }
 
 export default function HeaderNav({ hamburgerOverlay = false } = {}) {
+  const contact = useMarketContact();
+  const servicesHref = useServicesHubHref();
+  const aboutHref = useMarketAboutHref();
+  const navLinks = [
+    { label: "Services & Pricing", href: servicesHref },
+    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(0, 2),
+    { label: "About Us", href: aboutHref },
+    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(2),
+  ];
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menuTop, setMenuTop] = useState(100);
@@ -113,7 +120,7 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
               style={{ top: menuTop }}
             >
               <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
-                {NAV_LINKS.map((link) => {
+                {navLinks.map((link) => {
                   const isPrimaryCta = link.href === "/request-a-quote";
                   const isSecondaryCta = link.href === "/book-online";
                   const isCta = isPrimaryCta || isSecondaryCta;
@@ -125,14 +132,14 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
                     return (
                       <li key={link.href} className="mt-2">
                         <a
-                          href={`tel:${CONTACT.phone}`}
+                          href={`tel:${contact.phoneE164}`}
                           className={mobileMenuCallClass}
-                          aria-label="Call us at (503) 893-4795"
+                          aria-label={`Call us at ${contact.phoneDisplay}`}
                           data-call-source="header_nav_mobile_menu_call_wizard"
                           onClick={closeMenu}
                         >
                           <Phone className="h-4 w-4 shrink-0" aria-hidden />
-                          Call (503) 893-4795
+                          Call {contact.phoneDisplay}
                         </a>
                       </li>
                     );
@@ -159,13 +166,13 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
                 {!wizardInView ? (
                   <li>
                     <a
-                      href={`tel:${CONTACT.phone}`}
+                      href={`tel:${contact.phoneE164}`}
                       className={`${linkClass} block rounded-xl px-3 py-3 hover:bg-amber-100/80`}
-                      aria-label="Call us at (503) 893-4795"
+                      aria-label={`Call us at ${contact.phoneDisplay}`}
                       data-call-source="header_nav_mobile_menu_call"
                       onClick={closeMenu}
                     >
-                      Call Us (503) 893-4795
+                      Call Us {contact.phoneDisplay}
                     </a>
                   </li>
                 ) : null}
@@ -182,7 +189,7 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
       className={hamburgerOverlay ? "shrink-0" : "relative shrink-0"}
     >
       <ul className="hidden xl:flex items-center">
-        {NAV_LINKS.map((link, index) => (
+        {navLinks.map((link, index) => (
           <li key={link.href} className="flex items-center">
             {index > 0 ? (
               <span className="px-2.5 text-slate-500 select-none" aria-hidden>
@@ -196,13 +203,13 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
         ))}
         <li className="flex items-center">
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${contact.phoneE164}`}
             className={callNowClass}
-            aria-label={`Call us at ${BUSINESS_PHONE_DISPLAY}`}
+            aria-label={`Call us at ${contact.phoneDisplay}`}
             data-call-source="header_nav_call_now"
           >
             <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            {BUSINESS_PHONE_DISPLAY}
+            {contact.phoneDisplay}
           </a>
         </li>
       </ul>

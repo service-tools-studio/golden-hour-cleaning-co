@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { readPreferredMarketFromStorage } from "@/lib/marketPreference";
+import { resolveMarketHomeHref } from "@/lib/marketNavigation";
 
 export default function BookPage() {
   const [calendlyUrl, setCalendlyUrl] = useState(null);
@@ -12,7 +14,9 @@ export default function BookPage() {
 
       // Tab already opened from button click; redirect back after brief message
       const timer = setTimeout(() => {
-        window.location.href = "/residential";
+        window.location.href = resolveMarketHomeHref({
+          preferredMarket: readPreferredMarketFromStorage(),
+        });
       }, 1500);
 
       return () => clearTimeout(timer);
@@ -31,7 +35,7 @@ export default function BookPage() {
     <div className="flex flex-col items-center justify-center min-h-[100vh] bg-white p-6 text-center">
       <h1 className="text-xl font-semibold mb-4">Calendly opened in a new tab</h1>
       <p className="mb-4 text-gray-700">
-        Taking you back to residential in a moment.
+        Taking you back to the site in a moment.
       </p>
       <p className="text-gray-500 text-sm">
         If it doesn't open automatically,{" "}

@@ -9,16 +9,19 @@ import DeepCleanPageContent from "@/components/residential/DeepCleanPageContent"
 import MoveOutCleanPageContent from "@/components/residential/MoveOutCleanPageContent";
 import ServiceDetailHero from "@/components/residential/ServiceDetailHero";
 import type { ResidentialService } from "@/data/residentialServices";
-import { SERVICES_PRICING_HREF } from "@/helpers/ctaLabels.js";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
 import { scrollToId } from "@/helpers/scrollToId";
 import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
 
 function GenericServiceContent({
   service,
   quoteHref,
+  servicesHubHref,
 }: {
   service: ResidentialService;
   quoteHref: string;
+  servicesHubHref: string;
 }) {
   return (
     <>
@@ -32,6 +35,7 @@ function GenericServiceContent({
         includedItems={service.items}
         checklistHref="#whats-included"
         quoteHref={quoteHref}
+        servicesHubHref={servicesHubHref}
       />
 
       <section
@@ -72,10 +76,13 @@ function GenericServiceContent({
 
 export default function ServiceDetailClient({
   service,
+  market = MARKETS.portland,
 }: {
   service: ResidentialService;
+  market?: MarketConfig;
 }) {
   const quoteHref = "/request-a-quote";
+  const servicesHubHref = market.servicesHubPath;
 
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -90,27 +97,34 @@ export default function ServiceDetailClient({
 
   const richContent =
     service.slug === "standard" ? (
-      <StandardCleanPageContent quoteHref={quoteHref} />
+      <StandardCleanPageContent quoteHref={quoteHref} market={market} />
     ) : service.slug === "deep" ? (
-      <DeepCleanPageContent quoteHref={quoteHref} />
+      <DeepCleanPageContent quoteHref={quoteHref} market={market} />
     ) : service.slug === "move-out" ? (
-      <MoveOutCleanPageContent quoteHref={quoteHref} />
+      <MoveOutCleanPageContent quoteHref={quoteHref} market={market} />
     ) : null;
 
   return (
     <>
-      <ServicesPageHeader quoteHref={SERVICES_PRICING_HREF} />
+      <ServicesPageHeader
+        homeHref={market.path}
+        quoteHref={market.servicesHubPath}
+      />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-6xl px-6 py-10 md:py-14">
           {richContent ?? (
             <>
-              <GenericServiceContent service={service} quoteHref={quoteHref} />
+              <GenericServiceContent
+                service={service}
+                quoteHref={quoteHref}
+                servicesHubHref={servicesHubHref}
+              />
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link href={quoteHref} className={BTN_PRIMARY}>
                   Get a quote for {service.title}
                 </Link>
-                <Link href="/residential/services" className={BTN_SECONDARY}>
+                <Link href={servicesHubHref} className={BTN_SECONDARY}>
                   Compare all services
                 </Link>
               </div>
@@ -118,7 +132,7 @@ export default function ServiceDetailClient({
           )}
         </article>
 
-        <Footer />
+        <Footer market={market} />
       </main>
     </>
   );

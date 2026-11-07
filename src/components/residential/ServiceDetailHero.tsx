@@ -49,6 +49,7 @@ export type ServiceDetailHeroProps = {
   includedLeadIn?: string;
   checklistHref: string;
   quoteHref?: string;
+  servicesHubHref?: string;
 };
 
 export default function ServiceDetailHero({
@@ -63,6 +64,7 @@ export default function ServiceDetailHero({
   includedLeadIn,
   checklistHref,
   quoteHref = "/request-a-quote",
+  servicesHubHref = "/residential/services",
 }: ServiceDetailHeroProps) {
   const theme = SERVICE_THEMES[serviceSlug];
   const tiers = STARTING_AT_TIERS[pricingKeyForSlug(serviceSlug)];
@@ -80,7 +82,7 @@ export default function ServiceDetailHero({
       <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-16">
         {/* Left column */}
         <div>
-          <BackToServicesLink />
+          <BackToServicesLink href={servicesHubHref} />
           <p className={`mt-2 text-sm font-semibold ${HEADING_UPPER} ${theme.tagline}`}>
             {tagline}
           </p>

@@ -4,7 +4,7 @@ import { HEADING_UPPER } from "@/helpers/typography.js";
 
 const MAIN_SITE_LINKS = [
   { href: "/", label: "Homepage" },
-  { href: "/residential", label: "Residential cleaning" },
+  { href: "/", label: "Residential cleaning" },
   { href: "/residential/services", label: "Services & quote" },
   { href: "/about", label: "About us" },
 ] as const;

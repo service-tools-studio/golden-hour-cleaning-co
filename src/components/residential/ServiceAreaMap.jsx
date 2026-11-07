@@ -4,34 +4,34 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import GoogleMapsProvider, { useGoogleMaps } from './GoogleMapsProvider.jsx';
 import { HEADING_UPPER } from '../../helpers/typography.js';
+import { MARKETS } from '@/lib/markets';
 
-// Exact CITYNAME values from Portland Metro City Boundaries (PDX::city-boundaries).
-// Bethany and Garden Home are unincorporated and not in this dataset.
-const CITY_NAMES = [
-  'Portland',
-  'Beaverton',
-  'Tigard',
-  'Lake Oswego',
-  'West Linn',
-  'Milwaukie',
-  'Tualatin',
-  'Happy Valley',
-  'Clackamas',
-  'Hillsboro',
-  'Oregon City',
-  'Gresham',
-];
-
-const BOUNDARIES_URL =
-  'https://gis-pdx.opendata.arcgis.com/datasets/PDX::city-boundaries.geojson?outSR=4326';
-
-const MAP_CONTAINER_STYLE = {
-  width: '100%',
-  height: '320px',
+const MAP_LAYOUT_PRESETS = {
+  compact: {
+    wrapperClass:
+      'mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md',
+    mapHeightPx: 320,
+    fitPadding: 40,
+    placeholderClass: 'mx-auto h-[320px] max-w-[50%]',
+  },
+  portrait: {
+    wrapperClass:
+      'mx-auto w-full max-w-xs overflow-hidden rounded-2xl border border-amber-200 shadow-md sm:max-w-sm md:max-w-md',
+    mapHeightPx: 520,
+    fitPadding: 36,
+    placeholderClass: 'mx-auto h-[min(520px,72vh)] w-full max-w-md',
+  },
 };
-const DEFAULT_CENTER = { lat: 45.48, lng: -122.68 };
 
-const FALLBACK_SERVICE_AREA = [
+const MAP_POLYGON_STYLE = {
+  fillColor: '#f59e0b',
+  fillOpacity: 0.35,
+  strokeColor: '#d97706',
+  strokeWeight: 2,
+};
+
+/** Rough Portland metro outline if city-boundary fetch fails. */
+const PORTLAND_FALLBACK_POLYGON = [
   { lat: 45.54, lng: -122.62 },
   { lat: 45.52, lng: -122.82 },
   { lat: 45.44, lng: -122.8 },
@@ -42,69 +42,87 @@ const FALLBACK_SERVICE_AREA = [
   { lat: 45.54, lng: -122.62 },
 ];
 
-const CITIES_LINE =
-  'Portland • Beaverton • Tigard • Lake Oswego • West Linn • Milwaukie • Tualatin • Happy Valley • Clackamas • Hillsboro • Oregon City • Gresham';
-
-function MapCanvas() {
+/**
+ * @param {{
+ *   mapConfig: NonNullable<import('@/lib/markets').MarketConfig['serviceArea']['map']>;
+ *   mapLayout?: 'compact' | 'portrait';
+ * }} props
+ */
+function MapCanvas({ mapConfig, mapLayout = 'compact' }) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded, loadError } = useGoogleMaps();
+  const { geoJsonUrl, center, initialZoom, cityNames } = mapConfig;
+  const useFallbackPolygon = Boolean(cityNames?.length);
+  const layout = MAP_LAYOUT_PRESETS[mapLayout] ?? MAP_LAYOUT_PRESETS.compact;
+  const mapHeight = `${layout.mapHeightPx}px`;
 
-  const onLoad = useCallback((mapInstance) => {
-    const preserveWindowScroll = (fn) => {
-      const y = window.scrollY;
-      const x = window.scrollX;
-      fn();
-      requestAnimationFrame(() => {
-        window.scrollTo(x, y);
-        requestAnimationFrame(() => window.scrollTo(x, y));
-      });
-    };
-
-    async function loadCityBoundaries() {
-      try {
-        const res = await fetch(BOUNDARIES_URL);
-        if (!res.ok) throw new Error('Boundaries fetch failed');
-        const json = await res.json();
-        const features = (json.features || []).filter((f) =>
-          CITY_NAMES.includes(f.properties?.CITYNAME)
-        );
-        if (features.length === 0) throw new Error('No matching cities');
-
-        const collection = { type: 'FeatureCollection', features };
-        mapInstance.data.addGeoJson(collection);
-        mapInstance.data.setStyle({
-          fillColor: '#f59e0b',
-          fillOpacity: 0.35,
-          strokeColor: '#d97706',
-          strokeWeight: 2,
+  const onLoad = useCallback(
+    (mapInstance) => {
+      const preserveWindowScroll = (fn) => {
+        const y = window.scrollY;
+        const x = window.scrollX;
+        fn();
+        requestAnimationFrame(() => {
+          window.scrollTo(x, y);
+          requestAnimationFrame(() => window.scrollTo(x, y));
         });
+      };
 
+      function fitDataLayer(map) {
+        map.data.setStyle(MAP_POLYGON_STYLE);
         const bounds = new window.google.maps.LatLngBounds();
-        mapInstance.data.forEach((feature) => {
+        map.data.forEach((feature) => {
           feature.getGeometry().forEachLatLng((latLng) => bounds.extend(latLng));
         });
-        preserveWindowScroll(() => mapInstance.fitBounds(bounds, 40));
-      } catch {
-        const fallback = new window.google.maps.Polygon({
-          paths: FALLBACK_SERVICE_AREA,
-          fillColor: '#f59e0b',
-          fillOpacity: 0.35,
-          strokeColor: '#d97706',
-          strokeWeight: 2,
-        });
-        fallback.setMap(mapInstance);
-        const b = new window.google.maps.LatLngBounds();
-        FALLBACK_SERVICE_AREA.forEach((p) => b.extend(p));
-        preserveWindowScroll(() => mapInstance.fitBounds(b, 40));
+        preserveWindowScroll(() => map.fitBounds(bounds, layout.fitPadding));
       }
-    }
 
-    loadCityBoundaries();
-  }, []);
+      function drawFallbackPolygon(map) {
+        const fallback = new window.google.maps.Polygon({
+          paths: PORTLAND_FALLBACK_POLYGON,
+          ...MAP_POLYGON_STYLE,
+        });
+        fallback.setMap(map);
+        const bounds = new window.google.maps.LatLngBounds();
+        PORTLAND_FALLBACK_POLYGON.forEach((p) => bounds.extend(p));
+        preserveWindowScroll(() => map.fitBounds(bounds, layout.fitPadding));
+      }
+
+      async function loadBoundaries() {
+        try {
+          const res = await fetch(geoJsonUrl);
+          if (!res.ok) throw new Error('Boundaries fetch failed');
+          const json = await res.json();
+          let features = json.features || [];
+          if (cityNames?.length) {
+            features = features.filter((f) =>
+              cityNames.includes(f.properties?.CITYNAME),
+            );
+          }
+          if (features.length === 0) throw new Error('No matching features');
+
+          mapInstance.data.addGeoJson({
+            type: 'FeatureCollection',
+            features,
+          });
+          fitDataLayer(mapInstance);
+        } catch {
+          if (useFallbackPolygon) {
+            drawFallbackPolygon(mapInstance);
+          }
+        }
+      }
+
+      loadBoundaries();
+    },
+    [geoJsonUrl, cityNames, useFallbackPolygon, layout.fitPadding],
+  );
+
+  const loadingShellClass = `flex items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600 ${layout.placeholderClass}`;
 
   if (loadError) {
     return (
-      <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
+      <div className={loadingShellClass}>
         Unable to load the map. Check your connection.
       </div>
     );
@@ -112,7 +130,7 @@ function MapCanvas() {
 
   if (!isLoaded) {
     return (
-      <div className="flex h-[320px] items-center justify-center rounded-2xl border border-amber-200 bg-amber-100/50 text-stone-600">
+      <div className={loadingShellClass}>
         {apiKey
           ? 'Loading map…'
           : 'Map unavailable. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable.'}
@@ -121,11 +139,11 @@ function MapCanvas() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[50%] overflow-hidden rounded-2xl border border-amber-200 shadow-md">
+    <div className={layout.wrapperClass}>
       <GoogleMap
-        mapContainerStyle={{ ...MAP_CONTAINER_STYLE, minHeight: 320 }}
-        center={DEFAULT_CENTER}
-        zoom={10}
+        mapContainerStyle={{ width: '100%', height: mapHeight, minHeight: mapHeight }}
+        center={center}
+        zoom={initialZoom}
         onLoad={onLoad}
         options={{
           scrollwheel: true,
@@ -139,11 +157,15 @@ function MapCanvas() {
   );
 }
 
-export default function ServiceAreaMap({ title = 'Our service area' }) {
+/** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
+export default function ServiceAreaMap({ market = MARKETS.portland }) {
+  const title = market.serviceArea.mapTitle;
+  const citiesLine = market.serviceArea.citiesLine;
+  const zipCodesLine = market.serviceArea.zipCodesLine;
+  const mapConfig = market.serviceArea.map;
   const [shouldLoadMaps, setShouldLoadMaps] = useState(false);
   const sectionRef = useRef(null);
 
-  // Only load the Maps JS API when the section is near the viewport.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
@@ -158,7 +180,7 @@ export default function ServiceAreaMap({ title = 'Our service area' }) {
           io.disconnect();
         }
       },
-      { rootMargin: '240px 0px', threshold: 0.01 }
+      { rootMargin: '240px 0px', threshold: 0.01 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -176,16 +198,31 @@ export default function ServiceAreaMap({ title = 'Our service area' }) {
         >
           {title}
         </h2>
-        <p className="mb-8 text-center text-sm text-stone-600 sm:text-base">
-          {CITIES_LINE}
+        <p className="mb-4 text-center text-sm text-stone-600 sm:text-base">
+          {citiesLine}
         </p>
-        {shouldLoadMaps ? (
-          <GoogleMapsProvider>
-            <MapCanvas />
-          </GoogleMapsProvider>
+        {zipCodesLine ? (
+          <p className="mb-8 text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
+            ZIP codes: {zipCodesLine}
+          </p>
         ) : (
-          <div className="h-[320px] rounded-2xl border border-amber-200 bg-amber-100/40" aria-hidden />
+          <div className="mb-8" aria-hidden />
         )}
+        {mapConfig ? (
+          shouldLoadMaps ? (
+            <GoogleMapsProvider>
+              <MapCanvas
+                mapConfig={mapConfig}
+                mapLayout={market.id === 'phoenix' ? 'portrait' : 'compact'}
+              />
+            </GoogleMapsProvider>
+          ) : (
+            <div
+              className={`rounded-2xl border border-amber-200 bg-amber-100/40 ${MAP_LAYOUT_PRESETS[market.id === 'phoenix' ? 'portrait' : 'compact'].placeholderClass}`}
+              aria-hidden
+            />
+          )
+        ) : null}
       </div>
     </section>
   );

@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "parse-utm": "node scripts/parse-utm-content.mjs"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "parse-utm": "node scripts/parse-utm-content.mjs",
+    "geo:phoenix-zips": "node scripts/generate-phoenix-service-zips.mjs"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.8",
@@ -28,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

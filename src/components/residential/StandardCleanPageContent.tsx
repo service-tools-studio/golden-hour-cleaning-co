@@ -8,23 +8,38 @@ import {
   STANDARD_PRICING_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
-import { BulletList, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
+import {
+  metroAreasForMarket,
+  residentialServicePath,
+  serviceDetailLocale,
+} from "@/lib/serviceDetailRoutes";
+import { BulletList, FaqItem, Section } from "./servicePageParts";
 
 export default function StandardCleanPageContent({
   quoteHref,
+  market = MARKETS.portland,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
+  market?: MarketConfig;
 }) {
   const service = RESIDENTIAL_SERVICES.standard;
+  const locale = serviceDetailLocale(market);
+  const hub = market.servicesHubPath;
+  const deepHref = residentialServicePath(market, "deep");
+  const moveOutHref = residentialServicePath(market, "move-out");
+  const metroAreas = metroAreasForMarket(market);
 
   return (
     <>
       <ServiceDetailHero
         serviceSlug="standard"
         tagline="Lighter upkeep"
-        title="Recurring House Cleaning in Portland, Oregon"
-        intro="Our standard cleaning keeps a tidy Portland-area home looking its best—ideal for recurring upkeep or homes professionally cleaned within the past 2–4 weeks."
+        title={locale.hero.standard.title}
+        intro={locale.hero.standard.intro}
+        servicesHubHref={hub}
         imageSrc="/assets/chateau-cleaning.webp"
         imageAlt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
         includedItems={service.items}
@@ -36,8 +51,8 @@ export default function StandardCleanPageContent({
         <p className="text-base leading-relaxed text-stone-700">
           Life gets busy, and keeping up with routine cleaning isn&apos;t always
           easy. At Golden Hour Cleaning Co., we provide
-          dependable standard house cleaning services throughout Portland and the
-          surrounding communities, helping you enjoy a consistently clean,
+          dependable standard house cleaning services throughout{" "}
+          {locale.communitiesPhrase}, helping you enjoy a consistently clean,
           comfortable home without sacrificing your valuable time.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
@@ -160,7 +175,7 @@ export default function StandardCleanPageContent({
           buildup, or you&apos;re starting service for the first time, we recommend
           a{" "}
           <Link
-            href="/residential/services/deep"
+            href={deepHref}
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
             Deep Clean
@@ -196,7 +211,7 @@ export default function StandardCleanPageContent({
           Golden Hour Cleaning Co. proudly provides standard house cleaning
           services throughout:
         </p>
-        <BulletList items={PORTLAND_METRO_AREAS} />
+        <BulletList items={metroAreas} />
       </Section>
 
       <Section title="Frequently Asked Questions">
@@ -234,8 +249,9 @@ export default function StandardCleanPageContent({
           Ready to spend less time cleaning and more time enjoying your home?
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Golden Hour Cleaning Co. proudly serves homeowners throughout Portland,
-          OR, with dependable, detail-oriented standard house cleaning services.
+          Golden Hour Cleaning Co. proudly serves homeowners throughout{" "}
+          {locale.closingServiceAreaPhrase}, with dependable, detail-oriented
+          standard house cleaning services.
           Contact us today for a free, no-obligation quote and discover why so
           many homeowners trust us to keep their homes beautifully maintained.
         </p>
@@ -243,13 +259,13 @@ export default function StandardCleanPageContent({
           <Link href={quoteHref} className={BTN_PRIMARY}>
             Get a quote for Standard Clean
           </Link>
-          <Link href="/residential/services" className={BTN_SECONDARY}>
+          <Link href={hub} className={BTN_SECONDARY}>
             Compare all services
           </Link>
-          <Link href="/residential/services/deep" className={BTN_SECONDARY}>
+          <Link href={deepHref} className={BTN_SECONDARY}>
             Deep cleaning services
           </Link>
-          <Link href="/residential/services/move-out" className={BTN_SECONDARY}>
+          <Link href={moveOutHref} className={BTN_SECONDARY}>
             Move-out cleaning
           </Link>
         </div>

@@ -10,35 +10,60 @@ import {
   SECTION_INNER,
   SECTION_PAD,
 } from "@/helpers/typography.js";
+import { useCommercialHref } from "@/helpers/useCommercialHref";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
 
-const SERVICES = [
-  {
-    icon: Home,
-    title: "Standard Cleaning",
-    desc: "Recurring upkeep for tidy homes — or homes professionally cleaned within the past 2–4 weeks.",
-    href: "/residential/services/standard",
-  },
-  {
-    icon: Sparkles,
-    title: "Deep Cleaning",
-    desc: "A full-home reset when dust, grime, or life has built up.",
-    href: "/residential/services/deep",
-  },
-  {
-    icon: PackageOpen,
-    title: "Move In / Move Out",
-    desc: "Detailed cleaning for empty homes before keys change hands.",
-    href: "/residential/services/move-out",
-  },
-  {
-    icon: Building2,
-    title: "Commercial",
-    desc: "Reliable cleaning for offices, studios, and boutique businesses.",
-    href: "/commercial",
-  },
-];
+type ServiceSlug = "standard" | "deep" | "move-out";
 
-export default function ServicesPreviewSection() {
+function serviceExploreHref(market: MarketConfig, slug: ServiceSlug): string {
+  return `${market.servicesHubPath}/${slug}`;
+}
+
+function buildServices(market: MarketConfig, commercialHref: string) {
+  return [
+    {
+      icon: Home,
+      title: "Standard Cleaning",
+      desc: "Recurring upkeep for tidy homes — or homes professionally cleaned within the past 2–4 weeks.",
+      href: serviceExploreHref(market, "standard"),
+    },
+    {
+      icon: Sparkles,
+      title: "Deep Cleaning",
+      desc: "A full-home reset when dust, grime, or life has built up.",
+      href: serviceExploreHref(market, "deep"),
+    },
+    {
+      icon: PackageOpen,
+      title: "Move In / Move Out",
+      desc: "Detailed cleaning for empty homes before keys change hands.",
+      href: serviceExploreHref(market, "move-out"),
+    },
+    {
+      icon: Building2,
+      title: "Commercial",
+      desc: "Reliable cleaning for offices, studios, and boutique businesses.",
+      href: commercialHref,
+    },
+  ] as const;
+}
+
+type Props = {
+  market?: MarketConfig;
+  supportingText?: string;
+};
+
+const DEFAULT_SUPPORTING =
+  "From recurring home care to move-out details and commercial spaces — professional cleaning for homes and businesses throughout Portland and the surrounding metro area.";
+
+export default function ServicesPreviewSection({
+  market = MARKETS.portland,
+  supportingText = DEFAULT_SUPPORTING,
+}: Props) {
+  const commercialHref = useCommercialHref(market.id);
+  const services = buildServices(market, commercialHref);
+
   return (
     <section
       id="services"
@@ -50,13 +75,11 @@ export default function ServicesPreviewSection() {
           Our Services
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-sm text-stone-600 sm:text-base">
-          From recurring home care to move-out details and commercial spaces —
-          professional cleaning for homes and businesses throughout Portland and
-          the surrounding metro area.
+          {supportingText}
         </p>
 
         <ul className="mt-12 grid gap-6 sm:grid-cols-2">
-          {SERVICES.map(({ icon: Icon, title, desc, href }) => (
+          {services.map(({ icon: Icon, title, desc, href }) => (
             <li key={title}>
               <Link
                 href={href}

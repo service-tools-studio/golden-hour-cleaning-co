@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
-import { CONTACT } from "@/constants.js";
+import { useMarketContact } from "@/helpers/useMarketContact";
 import {
   subscribeLeadWizardInView,
   type LeadWizardMode,
@@ -11,9 +11,14 @@ import {
 import { BTN_PRIMARY } from "@/helpers/typography.js";
 import { syncFixedToVisualViewport } from "@/helpers/syncFixedToVisualViewport";
 
+import {
+  PPC_DEEP_CLEAN_PATHS,
+  PPC_MOVE_OUT_PATHS,
+} from "@/lib/ppcLandingCopy";
+
 const PPC_LANDING_PATHS = new Set([
-  "/portland-deep-cleaning",
-  "/portland-move-out-cleaning",
+  ...PPC_DEEP_CLEAN_PATHS,
+  ...PPC_MOVE_OUT_PATHS,
 ]);
 
 /** In-page Call buttons that should suppress the sticky bar while visible. */
@@ -41,6 +46,7 @@ function isElementInViewport(el: Element) {
  * any primary in-page Call CTA is visible.
  */
 export default function MobileStickyCallBar() {
+  const contact = useMarketContact();
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
   const isPpcLanding = PPC_LANDING_PATHS.has(pathname);
@@ -123,14 +129,14 @@ export default function MobileStickyCallBar() {
       style={{ position: "fixed", left: 0, right: 0, bottom: 0 }}
     >
       <a
-        href={`tel:${CONTACT.phone}`}
+        href={`tel:${contact.phoneE164}`}
         className={`${BTN_PRIMARY} w-full gap-2`}
-        aria-label="Call us at (503) 893-4795"
+        aria-label={`Call us at ${contact.phoneDisplay}`}
         data-call-source="header_nav_mobile_call_now"
       >
         <Phone className="h-4 w-4 shrink-0" aria-hidden />
         <span className="md:hidden">Call Us</span>
-        <span className="hidden md:inline">Call (503) 893-4795</span>
+        <span className="hidden md:inline">Call {contact.phoneDisplay}</span>
       </a>
     </div>
   );

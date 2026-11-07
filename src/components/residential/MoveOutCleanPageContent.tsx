@@ -1,7 +1,13 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { CONTACT } from "@/constants.js";
 import { RESIDENTIAL_SERVICES } from "@/data/residentialServices";
+import type { MarketConfig } from "@/lib/markets";
+import { MARKETS } from "@/lib/markets";
+import {
+  metroAreasForMarket,
+  residentialServicePath,
+  serviceDetailLocale,
+} from "@/lib/serviceDetailRoutes";
 import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 import ServiceDetailHero from "./ServiceDetailHero";
 import MoveOutCleanChecklist from "./MoveOutCleanChecklist";
@@ -11,23 +17,31 @@ import {
   SUPPLIES_FAQ,
   siteFaq,
 } from "@/data/siteFaqs";
-import { BulletList, FaqItem, PORTLAND_METRO_AREAS, Section } from "./servicePageParts";
+import { BulletList, FaqItem, Section } from "./servicePageParts";
 
 export default function MoveOutCleanPageContent({
   quoteHref,
+  market = MARKETS.portland,
 }: {
   quoteHref: string;
   afterHero?: ReactNode;
+  market?: MarketConfig;
 }) {
   const service = RESIDENTIAL_SERVICES["move-out"];
+  const locale = serviceDetailLocale(market);
+  const hub = market.servicesHubPath;
+  const deepHref = residentialServicePath(market, "deep");
+  const standardHref = residentialServicePath(market, "standard");
+  const metroAreas = metroAreasForMarket(market);
 
   return (
     <>
       <ServiceDetailHero
         serviceSlug="move-out"
         tagline="Most intensive"
-        title="Move-Out Cleaning Services in Portland, Oregon"
-        intro="Our move-in/out cleaning is a detailed empty-home reset for Portland and metro-area homes—so you can hand over keys or settle in with a truly clean start."
+        title={locale.hero["move-out"].title}
+        intro={locale.hero["move-out"].intro}
+        servicesHubHref={hub}
         imageSrc="/assets/move-out-shutters.jpg"
         imageAlt="A Golden Hour cleaner smiling while wiping white shutters during a move-out clean"
         imageClassName="object-cover object-center"
@@ -41,8 +55,8 @@ export default function MoveOutCleanPageContent({
           Moving is stressful enough without having to worry about cleaning.
           Whether you&apos;re preparing to leave your current home or getting
           ready to settle into a new one, Golden Hour Cleaning Co. provides
-          thorough move-in and move-out cleaning services throughout Portland,
-          OR and the surrounding communities.
+          thorough move-in and move-out cleaning services throughout{" "}
+          {locale.communitiesPhrase}.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
           Our detailed cleaning service helps leave your home fresh, clean, and
@@ -119,7 +133,7 @@ export default function MoveOutCleanPageContent({
           Golden Hour Cleaning Co. proudly provides move-in and move-out cleaning
           services throughout:
         </p>
-        <BulletList items={PORTLAND_METRO_AREAS} />
+        <BulletList items={metroAreas} />
       </Section>
 
       <Section title="Frequently Asked Questions">
@@ -171,11 +185,11 @@ export default function MoveOutCleanPageContent({
           representatives are happy to answer your questions, discuss your
           cleaning needs, and help you schedule the right service. Call{" "}
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${market.contact.phoneE164}`}
             data-call-source="move_out_page_phone"
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
-            (503) 893-4795
+            {market.contact.phoneDisplay}
           </a>
           .
         </p>
@@ -185,20 +199,20 @@ export default function MoveOutCleanPageContent({
           attention to detail from start to finish.
         </p>
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Proudly serving Portland, OR and the surrounding Portland metro area
-          with professional move-in and move-out cleaning services.
+          Proudly serving {locale.closingServiceAreaPhrase} with professional
+          move-in and move-out cleaning services.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link href={quoteHref} className={BTN_PRIMARY}>
             Get a quote for Move-In &amp; Move-Out
           </Link>
-          <Link href="/residential/services" className={BTN_SECONDARY}>
+          <Link href={hub} className={BTN_SECONDARY}>
             Compare all services
           </Link>
-          <Link href="/residential/services/deep" className={BTN_SECONDARY}>
+          <Link href={deepHref} className={BTN_SECONDARY}>
             Deep cleaning services
           </Link>
-          <Link href="/residential/services/standard" className={BTN_SECONDARY}>
+          <Link href={standardHref} className={BTN_SECONDARY}>
             Recurring house cleaning
           </Link>
         </div>
