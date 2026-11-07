@@ -102,13 +102,13 @@ export default function AboutPageContentPhoenix() {
 
       <Section title="Meet Jasmin Heart">
         <p className="mb-4 text-sm italic text-stone-600">
-          Co-Founder and Operations Director
+          Co-Founder and Director of Business Operations
         </p>
         <div className="sm:overflow-hidden">
           <figure className="mx-auto mb-6 w-full max-w-[220px] overflow-hidden rounded-3xl border border-amber-200 shadow-sm sm:float-left sm:mb-4 sm:mr-6 sm:w-[220px] md:w-[260px]">
             <Image
               src="/assets/jasmin-heart.JPG"
-              alt="Jasmin Heart, Co-Founder and Operations Director at Golden Hour Cleaning Co."
+              alt="Jasmin Heart, Co-Founder and Director of Business Operations at Golden Hour Cleaning Co."
               width={1200}
               height={1600}
               sizes="(max-width: 639px) 220px, 260px"
