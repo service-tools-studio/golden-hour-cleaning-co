@@ -23,7 +23,6 @@ import {
 import { getInternalStartingAtTier } from "./quote-calculator-lib/internalStartingAt.js";
 import { trackQuoteViewed } from "../../helpers/quoteViewAnalytics";
 import { useQuoteResultsInView } from "../../helpers/useQuoteResultsInView";
-import Link from "next/link";
 import { HEADING_UPPER, QUOTE_FIELD_LABEL, QUOTE_SECTION_LABEL } from "../../helpers/typography.js";
 import { quoteFieldId } from "../../helpers/fieldIds.js";
 import {

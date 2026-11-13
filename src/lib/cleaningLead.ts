@@ -380,7 +380,9 @@ export function buildCleaningLeadEmailSubject(
   return `New Personalized Estimate — ${name} — ${data.cleaningType} — ${size} sq ft`;
 }
 
-function attributionLines(attrs?: CleaningLeadAttribution): string[] {
+export function buildCleaningLeadAttributionLines(
+  attrs?: CleaningLeadAttribution,
+): string[] {
   if (!attrs) return [];
   const rows: [string, string | undefined][] = [
     ["Lead path", undefined], // filled by caller
@@ -455,7 +457,7 @@ export function buildCleaningLeadEmailBody(
     lines.push("", "SCHEDULING", `Calendly link: ${options.calendlyUrl}`);
   }
 
-  const attrBody = attributionLines(data.attribution);
+  const attrBody = buildCleaningLeadAttributionLines(data.attribution);
   lines.push("", "ATTRIBUTION", `Lead path: ${data.leadPath}`);
   if (attrBody.length) {
     lines.push(...attrBody);
