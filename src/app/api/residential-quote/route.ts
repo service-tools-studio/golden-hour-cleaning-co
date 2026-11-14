@@ -11,6 +11,7 @@ import {
   type CleaningLeadMode,
   type CleaningLeadPayload,
 } from "@/lib/cleaningLead";
+import { buildCleaningLeadEmailHtml } from "@/lib/leadEmailHtml";
 import { buildBookingCalendlyUrl } from "@/helpers/bookingCalendlyUrl";
 import {
   createGmailTransporter,
@@ -107,6 +108,7 @@ export async function POST(request: Request) {
       replyTo: normalized.email,
       subject: buildCleaningLeadEmailSubject(normalized),
       text: buildCleaningLeadEmailBody(normalized, { calendlyUrl }),
+      html: buildCleaningLeadEmailHtml(normalized, { calendlyUrl }),
     });
 
     return NextResponse.json({ ok: true });
