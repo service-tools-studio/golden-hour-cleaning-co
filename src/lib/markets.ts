@@ -15,9 +15,9 @@ const PORTLAND_CONTACT: MarketContact = {
 };
 
 const PHOENIX_CONTACT: MarketContact = {
-  phoneDisplay: "(928) 610-1311",
-  phoneE164: "+19286101311",
-  smsE164: "+19286101311",
+  phoneDisplay: "(602) 480-9998",
+  phoneE164: "+16024809998",
+  smsE164: "+16024809998",
 };
 
 export const MARKET_IDS = ["portland", "phoenix"] as const;
@@ -363,14 +363,14 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
         seoTitle:
           "Deep Cleaning Services in Phoenix & Scottsdale AZ | Get a Quote or Call",
         seoDescription:
-          "Phoenix-metro deep house cleaning with starting prices online. Call (928) 610-1311, request a personalized quote, or reserve your deep clean.",
+          "Phoenix-metro deep house cleaning with starting prices online. Call (602) 480-9998, request a personalized quote, or reserve your deep clean.",
       },
       moveOut: {
         path: "/phoenix-move-out-cleaning",
         seoTitle:
           "Move-Out Cleaning Services in Phoenix & Scottsdale AZ | Get a Quote or Call",
         seoDescription:
-          "Phoenix-metro move-out and move-in house cleaning with starting prices online. Call (928) 610-1311, request a personalized quote, or reserve your move-out clean.",
+          "Phoenix-metro move-out and move-in house cleaning with starting prices online. Call (602) 480-9998, request a personalized quote, or reserve your move-out clean.",
       },
     },
   },

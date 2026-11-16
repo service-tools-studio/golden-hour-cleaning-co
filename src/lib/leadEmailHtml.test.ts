@@ -20,8 +20,8 @@ describe("map search urls", () => {
 
 describe("formatPhoneForEmailHtml", () => {
   it("includes a tel anchor only", () => {
-    const html = formatPhoneForEmailHtml("(928) 610-1311");
-    expect(html).toContain('href="tel:+19286101311"');
+    const html = formatPhoneForEmailHtml("(602) 480-9998");
+    expect(html).toContain('href="tel:+16024809998"');
     expect(html).not.toContain("Text");
     expect(html).not.toContain("/go/sms");
   });
