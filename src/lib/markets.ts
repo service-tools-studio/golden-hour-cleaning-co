@@ -323,7 +323,7 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
     },
     serviceArea: {
       citiesLine: PHOENIX_CITIES_LINE,
-      mapTitle: "Where we’re scheduling in the Phoenix area",
+      mapTitle: "Our service area",
       zipCodesLine: PHOENIX_ZIP_CODES_LINE,
       map: {
         geoJsonUrl: "/geo/phoenix-service-zips.geojson",
