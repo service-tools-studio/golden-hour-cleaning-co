@@ -19,6 +19,30 @@ export function isMarketId(value: string | null | undefined): value is MarketId 
   return value === "portland" || value === "phoenix";
 }
 
+/** Parses `?market=phoenix` / `?market=portland` (case-insensitive). */
+export function marketIdFromQueryParam(
+  value: string | null | undefined,
+): MarketId | null {
+  const raw = value?.trim().toLowerCase();
+  return isMarketId(raw) ? raw : null;
+}
+
+export const LEAD_FUNNEL_MARKET_PATHS = [
+  "/book-online",
+  "/request-a-quote",
+] as const;
+
+export function isLeadFunnelMarketPath(pathname: string): boolean {
+  return (LEAD_FUNNEL_MARKET_PATHS as readonly string[]).includes(pathname);
+}
+
+/** Lead funnels default to Portland when `?market=` is missing or invalid. */
+export function resolveLeadFunnelMarketPreference(
+  marketParam: string | null | undefined,
+): MarketId {
+  return marketIdFromQueryParam(marketParam) ?? "portland";
+}
+
 export function readPreferredMarketFromStorage(): MarketId | null {
   if (typeof window === "undefined") return null;
   try {

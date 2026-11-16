@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Josefin_Sans } from "next/font/google";
 import Script from "next/script";
 import CalendlyClickTracker from "@/components/analytics/CalendlyClickTracker";
@@ -70,7 +71,9 @@ export default function RootLayout({
       >
         <ScrollToTopOnNavigate />
         <MarketPreferenceCookieSync />
-        <MarketPreferenceFromPath />
+        <Suspense fallback={null}>
+          <MarketPreferenceFromPath />
+        </Suspense>
         <CalendlyClickTracker />
         <ClickToCallTracker />
         {children}

@@ -1,16 +1,33 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { getMarketIdFromPath } from "@/lib/markets";
+import { usePathname, useSearchParams } from "next/navigation";
+import { getMarketIdFromPath, type MarketId } from "@/lib/markets";
+import {
+  isLeadFunnelMarketPath,
+  resolveLeadFunnelMarketPreference,
+} from "@/lib/marketPreference";
 import { usePersistPreferredMarket } from "@/helpers/usePersistPreferredMarket";
 
+function resolveMarketToPersist(
+  pathname: string | null,
+  marketParam: string | null,
+): MarketId | null {
+  if (!pathname) return null;
+  if (isLeadFunnelMarketPath(pathname)) {
+    return resolveLeadFunnelMarketPreference(marketParam);
+  }
+  return getMarketIdFromPath(pathname);
+}
+
 /**
- * Treat visiting `/phoenix` (or Portland home / city / hub paths) as an explicit
- * market choice — same storage key as the header location selector.
+ * Persists market choice from URL path (e.g. `/phoenix`) or lead funnels
+ * (`/book-online?market=phoenix` → Phoenix; no param → Portland).
  */
 export default function MarketPreferenceFromPath() {
   const pathname = usePathname();
-  const marketId = pathname ? getMarketIdFromPath(pathname) : null;
+  const searchParams = useSearchParams();
+  const marketParam = searchParams.get("market");
+  const marketId = resolveMarketToPersist(pathname, marketParam);
   usePersistPreferredMarket(marketId);
   return null;
 }
