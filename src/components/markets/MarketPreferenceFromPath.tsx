@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { getMarketIdFromPath, type MarketId } from "@/lib/markets";
 import {
-  isLeadFunnelMarketPath,
+  isMarketQueryParamPath,
   resolveLeadFunnelMarketPreference,
 } from "@/lib/marketPreference";
 import { usePersistPreferredMarket } from "@/helpers/usePersistPreferredMarket";
@@ -13,7 +13,7 @@ function resolveMarketToPersist(
   marketParam: string | null,
 ): MarketId | null {
   if (!pathname) return null;
-  if (isLeadFunnelMarketPath(pathname)) {
+  if (isMarketQueryParamPath(pathname)) {
     return resolveLeadFunnelMarketPreference(marketParam);
   }
   return getMarketIdFromPath(pathname);
@@ -21,7 +21,7 @@ function resolveMarketToPersist(
 
 /**
  * Persists market choice from URL path (e.g. `/phoenix`) or lead funnels
- * (`/book-online?market=phoenix` → Phoenix; no param → Portland).
+ * (`/reviews?market=phoenix`, `/book-online`, `/request-a-quote` — no param → Portland).
  */
 export default function MarketPreferenceFromPath() {
   const pathname = usePathname();

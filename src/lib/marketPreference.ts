@@ -27,16 +27,18 @@ export function marketIdFromQueryParam(
   return isMarketId(raw) ? raw : null;
 }
 
-export const LEAD_FUNNEL_MARKET_PATHS = [
+/** Paths that accept `?market=phoenix|portland` (default Portland when omitted). */
+export const MARKET_QUERY_PARAM_PATHS = [
   "/book-online",
   "/request-a-quote",
+  "/reviews",
 ] as const;
 
-export function isLeadFunnelMarketPath(pathname: string): boolean {
-  return (LEAD_FUNNEL_MARKET_PATHS as readonly string[]).includes(pathname);
+export function isMarketQueryParamPath(pathname: string): boolean {
+  return (MARKET_QUERY_PARAM_PATHS as readonly string[]).includes(pathname);
 }
 
-/** Lead funnels default to Portland when `?market=` is missing or invalid. */
+/** Neutral pages with `?market=` default to Portland when the param is missing or invalid. */
 export function resolveLeadFunnelMarketPreference(
   marketParam: string | null | undefined,
 ): MarketId {
