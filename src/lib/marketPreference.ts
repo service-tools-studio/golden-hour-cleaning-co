@@ -27,19 +27,26 @@ export function marketIdFromQueryParam(
   return isMarketId(raw) ? raw : null;
 }
 
-/**
- * Market-neutral paths: with no valid `?market=` and no path market, persist Portland
- * (legacy funnel / shared pages).
- */
-export const PORTLAND_DEFAULT_MARKET_PATHS = [
+/** Shared funnel pages — UI defaults to Portland when no preference; do not overwrite storage. */
+export const MARKET_NEUTRAL_PATHS = [
   "/book-online",
   "/request-a-quote",
   "/reviews",
   "/satisfaction-guarantee",
 ] as const;
 
-export function isPortlandDefaultMarketPath(pathname: string): boolean {
-  return (PORTLAND_DEFAULT_MARKET_PATHS as readonly string[]).includes(pathname);
+export function isMarketNeutralPath(pathname: string): boolean {
+  return (MARKET_NEUTRAL_PATHS as readonly string[]).includes(pathname);
+}
+
+/** Append `?market=` on neutral paths when the active market is not Portland. */
+export function withMarketQueryForNeutralPath(
+  pathname: string,
+  marketId: MarketId,
+): string {
+  if (marketId === "portland") return pathname;
+  if (!isMarketNeutralPath(pathname)) return pathname;
+  return `${pathname}?market=${marketId}`;
 }
 
 /** Path-based persistence only on market homes — not `/residential` or city pages. */
@@ -64,8 +71,6 @@ export function resolveMarketPreferenceToPersist(
 
   const fromHomePath = getMarketIdToPersistFromPath(pathname);
   if (fromHomePath) return fromHomePath;
-
-  if (isPortlandDefaultMarketPath(pathname)) return "portland";
 
   return null;
 }

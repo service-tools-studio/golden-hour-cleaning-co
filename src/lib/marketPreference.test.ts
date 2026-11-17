@@ -4,6 +4,7 @@ import {
   marketIdFromQueryParam,
   resolveMarketPreferenceToPersist,
   resolveResidentialLegacyHomeRedirect,
+  withMarketQueryForNeutralPath,
 } from "@/lib/marketPreference";
 
 describe("marketPreference", () => {
@@ -36,11 +37,21 @@ describe("marketPreference", () => {
     ).toBe("portland");
   });
 
-  it("defaults neutral funnel paths to Portland without query", () => {
-    expect(resolveMarketPreferenceToPersist("/book-online", null)).toBe(
-      "portland",
+  it("does not overwrite preference on neutral funnel paths without query", () => {
+    expect(resolveMarketPreferenceToPersist("/book-online", null)).toBe(null);
+    expect(resolveMarketPreferenceToPersist("/request-a-quote", null)).toBe(
+      null,
     );
     expect(resolveMarketPreferenceToPersist("/about", null)).toBe(null);
+  });
+
+  it("appends market query for non-Portland neutral paths", () => {
+    expect(
+      withMarketQueryForNeutralPath("/book-online", "phoenix"),
+    ).toBe("/book-online?market=phoenix");
+    expect(
+      withMarketQueryForNeutralPath("/book-online", "portland"),
+    ).toBe("/book-online");
   });
 
   it("does not overwrite stored market when browsing shared Portland URLs", () => {

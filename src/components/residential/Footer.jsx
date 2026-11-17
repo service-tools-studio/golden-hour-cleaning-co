@@ -5,6 +5,7 @@ import { HEADING_UPPER } from "../../helpers/typography.js";
 import FooterCitiesMenu from "./FooterCitiesMenu";
 import { MARKETS } from "@/lib/markets";
 import { useActiveMarket } from "@/helpers/useActiveMarket";
+import { useMarketPaths } from "@/helpers/useMarketPaths";
 
 const footerBrandId = "footer-brand-heading";
 const footerContactId = "footer-contact-heading";
@@ -13,6 +14,8 @@ const footerExploreId = "footer-explore-heading";
 /** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
 export default function Footer({ market: pageMarket }) {
   const market = useActiveMarket(pageMarket?.id);
+  const { requestQuoteHref, satisfactionGuaranteeHref, reviewsHref } =
+    useMarketPaths(pageMarket?.id);
   const year = new Date().getFullYear();
   return (
     <footer
@@ -94,20 +97,20 @@ export default function Footer({ market: pageMarket }) {
               </Link>
             </li>
             <li>
-              <a
-                href="/request-a-quote"
+              <Link
+                href={requestQuoteHref}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Get a residential quote
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/satisfaction-guarantee"
+              <Link
+                href={satisfactionGuaranteeHref}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Satisfaction Guarantee
-              </a>
+              </Link>
             </li>
             <li>
               <Link
@@ -118,12 +121,12 @@ export default function Footer({ market: pageMarket }) {
               </Link>
             </li>
             <li>
-              <a
-                href="/reviews"
+              <Link
+                href={reviewsHref}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Reviews
-              </a>
+              </Link>
             </li>
             {market.id === "portland" ? (
               <li>

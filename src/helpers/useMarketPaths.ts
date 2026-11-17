@@ -2,6 +2,7 @@
 
 import type { MarketId } from "@/lib/markets";
 import { useActiveMarket } from "@/helpers/useActiveMarket";
+import { withMarketQueryForNeutralPath } from "@/lib/marketPreference";
 
 /** Services hub, about, commercial, and home — honors `?market=` + stored preference. */
 export function useMarketPaths(pageMarketId?: MarketId) {
@@ -15,5 +16,15 @@ export function useMarketPaths(pageMarketId?: MarketId) {
     /** Portland `/residential/quote` vs Phoenix home pricing section */
     pricingEntryHref:
       market.id === "phoenix" ? "/phoenix#quote" : "/residential/quote",
+    bookOnlineHref: withMarketQueryForNeutralPath("/book-online", market.id),
+    requestQuoteHref: withMarketQueryForNeutralPath(
+      "/request-a-quote",
+      market.id,
+    ),
+    reviewsHref: withMarketQueryForNeutralPath("/reviews", market.id),
+    satisfactionGuaranteeHref: withMarketQueryForNeutralPath(
+      "/satisfaction-guarantee",
+      market.id,
+    ),
   };
 }

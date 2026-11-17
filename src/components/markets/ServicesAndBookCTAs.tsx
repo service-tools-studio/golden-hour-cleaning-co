@@ -24,7 +24,7 @@ export default function ServicesAndBookCTAs({
   className = "mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap",
   primaryExtra,
 }: Props) {
-  const { servicesHubPath } = useMarketPaths();
+  const { servicesHubPath, bookOnlineHref } = useMarketPaths();
 
   return (
     <div className={className}>
@@ -32,7 +32,7 @@ export default function ServicesAndBookCTAs({
         {primaryLabel}
         {primaryExtra}
       </Link>
-      <Link href="/book-online" className={secondaryClassName}>
+      <Link href={bookOnlineHref} className={secondaryClassName}>
         {secondaryLabel}
       </Link>
     </div>

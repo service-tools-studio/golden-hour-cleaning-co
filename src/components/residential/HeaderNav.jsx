@@ -4,19 +4,29 @@ import { createPortal } from "react-dom";
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 import { useMarketContact } from "@/helpers/useMarketContact";
 import { useMarketAboutHref } from "@/helpers/useMarketAboutHref";
 import { useServicesHubHref } from "@/helpers/useServicesHubHref";
+import { withMarketQueryForNeutralPath } from "@/lib/marketPreference";
 import {
   subscribeLeadWizardInView,
 } from "../../helpers/leadWizardVisibility";
 import { BTN_PRIMARY, BTN_SECONDARY, BTN_UPPER } from "../../helpers/typography.js";
 
 const STATIC_NAV_LINKS_AFTER_ABOUT = [
-  { label: "Reviews", href: "/reviews" },
-  { label: "Our Guarantee", href: "/satisfaction-guarantee" },
-  { label: "Request a Quote", href: "/request-a-quote" },
-  { label: "Reserve Your Cleaning", href: "/book-online" },
+  { label: "Reviews", path: "/reviews" },
+  { label: "Our Guarantee", path: "/satisfaction-guarantee" },
+  {
+    label: "Request a Quote",
+    path: "/request-a-quote",
+    mobileCta: "primary",
+  },
+  {
+    label: "Reserve Your Cleaning",
+    path: "/book-online",
+    mobileCta: "secondary",
+  },
 ];
 
 const linkClass = `${BTN_UPPER} text-sm font-semibold text-slate-900 underline-offset-4 hover:text-slate-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm`;
@@ -42,11 +52,23 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
   const contact = useMarketContact();
   const servicesHref = useServicesHubHref();
   const aboutHref = useMarketAboutHref();
+  const marketId = useActiveMarket().id;
+  const neutralHref = (path) =>
+    withMarketQueryForNeutralPath(path, marketId);
+
   const navLinks = [
-    { label: "Services & Pricing", href: servicesHref },
-    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(0, 2),
-    { label: "About Us", href: aboutHref },
-    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(2),
+    { label: "Services & Pricing", href: servicesHref, key: "services" },
+    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(0, 2).map((item) => ({
+      ...item,
+      key: item.path,
+      href: neutralHref(item.path),
+    })),
+    { label: "About Us", href: aboutHref, key: "about" },
+    ...STATIC_NAV_LINKS_AFTER_ABOUT.slice(2).map((item) => ({
+      ...item,
+      key: item.path,
+      href: neutralHref(item.path),
+    })),
   ];
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -121,8 +143,8 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
             >
               <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
                 {navLinks.map((link) => {
-                  const isPrimaryCta = link.href === "/request-a-quote";
-                  const isSecondaryCta = link.href === "/book-online";
+                  const isPrimaryCta = link.mobileCta === "primary";
+                  const isSecondaryCta = link.mobileCta === "secondary";
                   const isCta = isPrimaryCta || isSecondaryCta;
                   const replaceWithCall =
                     (isPrimaryCta && wizardInView === "quote") ||
@@ -130,7 +152,7 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
 
                   if (replaceWithCall) {
                     return (
-                      <li key={link.href} className="mt-2">
+                      <li key={link.key} className="mt-2">
                         <a
                           href={`tel:${contact.phoneE164}`}
                           className={mobileMenuCallClass}
@@ -146,7 +168,7 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
                   }
 
                   return (
-                    <li key={link.href} className={isCta ? "mt-2" : undefined}>
+                    <li key={link.key} className={isCta ? "mt-2" : undefined}>
                       <Link
                         href={link.href}
                         className={
@@ -190,7 +212,7 @@ export default function HeaderNav({ hamburgerOverlay = false } = {}) {
     >
       <ul className="hidden xl:flex items-center">
         {navLinks.map((link, index) => (
-          <li key={link.href} className="flex items-center">
+          <li key={link.key} className="flex items-center">
             {index > 0 ? (
               <span className="px-2.5 text-slate-500 select-none" aria-hidden>
                 ·

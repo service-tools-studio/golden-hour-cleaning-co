@@ -17,6 +17,7 @@ import {
 import type { ServiceSlug } from "@/data/residentialServices";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 import { SERVICE_THEMES } from "./serviceCardTheme";
+import { useMarketPaths } from "@/helpers/useMarketPaths";
 import { useServicesHubHref } from "@/helpers/useServicesHubHref";
 import { BackToServicesLink } from "./servicePageParts";
 import { BTN_PRIMARY, BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
@@ -66,6 +67,7 @@ export default function ServiceDetailHero({
   quoteHref = "/request-a-quote",
 }: ServiceDetailHeroProps) {
   const servicesHubHref = useServicesHubHref();
+  const { bookOnlineHref } = useMarketPaths();
   const theme = SERVICE_THEMES[serviceSlug];
   const tiers = STARTING_AT_TIERS[pricingKeyForSlug(serviceSlug)];
   const { rating } = useGooglePlaceSummary();
@@ -125,12 +127,12 @@ export default function ServiceDetailHero({
                   time online.
                 </p>
               </div>
-              <a
-                href="/book-online"
+              <Link
+                href={bookOnlineHref}
                 className={`${BTN_PRIMARY} shrink-0 px-5`}
               >
                 Book Online →
-              </a>
+              </Link>
             </div>
           </div>
           <p className="mt-2 text-xs text-stone-500">

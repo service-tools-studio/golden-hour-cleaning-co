@@ -11,7 +11,11 @@ import {
   type ReactNode,
 } from "react";
 import { AlertTriangle } from "lucide-react";
-import { formatPhoneInput } from "@/helpers/contactHelpers.js";
+import {
+  formatPhoneInput,
+  phoneInputPlaceholderForMarket,
+} from "@/helpers/contactHelpers.js";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 import { buildBookingCalendlyUrl } from "@/helpers/bookingCalendlyUrl";
 import { getPpcAttribution } from "@/helpers/ppcAttribution";
 import { trackCalendlyClick } from "@/helpers/calendlyAnalytics";
@@ -82,6 +86,8 @@ export default function CleaningLeadForm({
   onSuccess,
   initialCleaningType,
 }: Props) {
+  const activeMarket = useActiveMarket();
+  const phonePlaceholder = phoneInputPlaceholderForMarket(activeMarket.id);
   const isQuote = mode === "quote";
   const steps = getLeadFormSteps(mode);
   const [form, setForm] = useState<CleaningLeadFormState>(() => ({
@@ -544,7 +550,7 @@ export default function CleaningLeadForm({
                 className={
                   fieldErrors.mobilePhone ? inputErrorClass : inputClass
                 }
-                placeholder="(503) 555-1234"
+                placeholder={phonePlaceholder}
                 aria-invalid={Boolean(fieldErrors.mobilePhone)}
                 required
               />

@@ -12,6 +12,7 @@ import { Badge } from "../../helpers/ui-elements.jsx";
 import Image from "next/image";
 import Link from "next/link";
 import MarketLocationSelector from "@/components/markets/MarketLocationSelector";
+import { useMarketPaths } from "@/helpers/useMarketPaths";
 import { MARKETS } from "@/lib/markets";
 
 /** Side-by-side hero CTAs — tighter padding on phones so both labels fit. */
@@ -21,6 +22,7 @@ const HERO_BTN_RESERVE = `${HERO_BTN_BASE} border-amber-300 bg-amber-200 text-st
 
 /** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
 export default function Hero({ market = MARKETS.portland }) {
+  const { bookOnlineHref } = useMarketPaths(market.id);
   const { rating } = useGooglePlaceSummary();
   const googleRatingLabel = `★★★★★ ${(rating ?? 5).toFixed(1)} Google Rating`;
 
@@ -70,10 +72,7 @@ export default function Hero({ market = MARKETS.portland }) {
               >
                 See Pricing
               </button>
-              <Link
-                href="/book-online"
-                className={HERO_BTN_RESERVE}
-              >
+              <Link href={bookOnlineHref} className={HERO_BTN_RESERVE}>
                 Reserve Your Cleaning
               </Link>
             </div>

@@ -17,6 +17,11 @@ export function formatPhone(e164) {
   return m ? `(${m[1]}) ${m[2]}-${m[3]}` : e164;
 }
 
+/** Example tel placeholder — area code matches active market (602 Phoenix, 503 Portland). */
+export function phoneInputPlaceholderForMarket(marketId) {
+  return marketId === "phoenix" ? "(602) 555-1234" : "(503) 555-1234";
+}
+
 /** Progressive US phone formatting for text inputs: (503) 555-1234 */
 export function formatPhoneInput(value) {
   const digits = String(value || "")

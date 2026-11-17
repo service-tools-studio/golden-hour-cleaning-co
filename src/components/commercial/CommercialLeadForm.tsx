@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { phoneInputPlaceholderForMarket } from "@/helpers/contactHelpers.js";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 import { BTN_UPPER } from "@/helpers/typography.js";
 
 type FormState = {
@@ -32,6 +34,9 @@ const initialState: FormState = {
 };
 
 export default function CommercialLeadForm() {
+  const phonePlaceholder = phoneInputPlaceholderForMarket(
+    useActiveMarket().id,
+  );
   const [form, setForm] = useState<FormState>(initialState);
   const formLoadedAtRef = useRef(Date.now());
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -143,7 +148,7 @@ export default function CommercialLeadForm() {
             value={form.phone}
             onChange={(e) => update("phone", e.target.value)}
             className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base text-stone-900 outline-none ring-stone-300 focus:ring-2"
-            placeholder="(503) 555-1234"
+            placeholder={phonePlaceholder}
             required
           />
         </Field>
