@@ -41,7 +41,6 @@ export default function MoveOutCleanPageContent({
         tagline="Most intensive"
         title={locale.hero["move-out"].title}
         intro={locale.hero["move-out"].intro}
-        servicesHubHref={hub}
         imageSrc="/assets/move-out-shutters.jpg"
         imageAlt="A Golden Hour cleaner smiling while wiping white shutters during a move-out clean"
         imageClassName="object-cover object-center"

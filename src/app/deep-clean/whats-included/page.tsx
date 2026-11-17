@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import MarketAwareServiceDetailLink from "@/components/markets/MarketAwareServiceDetailLink";
 import DeepCleanChecklist from "@/components/residential/DeepCleanChecklist";
 import Footer from "@/components/residential/Footer";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
@@ -20,12 +20,12 @@ export default function DeepCleanWhatsIncludedPage() {
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-          <Link
-            href="/residential/services/deep"
+          <MarketAwareServiceDetailLink
+            serviceSlug="deep"
             className="uppercase tracking-wide mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
           >
             ← Deep clean service
-          </Link>
+          </MarketAwareServiceDetailLink>
 
           <h1 className={`text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
             What&apos;s Included in a Deep Clean

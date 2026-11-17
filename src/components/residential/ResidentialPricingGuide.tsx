@@ -19,9 +19,10 @@ import {
 } from "@/lib/startingAtPricing.js";
 import { BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 import { scrollToId } from "@/helpers/scrollToId";
-import type { MarketConfig } from "@/lib/markets";
+import type { MarketConfig, MarketId } from "@/lib/markets";
 import { MARKETS } from "@/lib/markets";
 import { residentialServicePathFromHub } from "@/lib/serviceDetailRoutes";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 
 type PricingTierRow = {
   sqftLabel: string;
@@ -335,9 +336,9 @@ export function ServicePricingCards({
   hideIncluded = false,
   learnMoreLabel,
   onLearnMore,
-  quoteHref,
+  quoteHref = "/request-a-quote",
   onRequestQuote,
-  servicesHubPath = MARKETS.portland.servicesHubPath,
+  pageMarketId,
 }: {
   className?: string;
   serviceSlug?: ServiceSlug;
@@ -346,8 +347,10 @@ export function ServicePricingCards({
   onLearnMore?: () => void;
   quoteHref?: string;
   onRequestQuote?: () => void;
-  servicesHubPath?: MarketConfig["servicesHubPath"];
+  /** Page’s market when not inferrable from URL alone (e.g. PPC embed). */
+  pageMarketId?: MarketId;
 }) {
+  const servicesHubPath = useActiveMarket(pageMarketId).servicesHubPath;
   const blocks = serviceSlug
     ? PRICING_BLOCKS.filter((block) => block.serviceSlug === serviceSlug)
     : PRICING_BLOCKS;
@@ -600,7 +603,7 @@ export default function ResidentialPricingGuide({
 
       <ServicePricingCards
         className={showIntro ? "mt-10" : undefined}
-        servicesHubPath={market.servicesHubPath}
+        pageMarketId={market.id}
       />
     </section>
   );

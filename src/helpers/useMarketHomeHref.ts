@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
+import { useMarketSearchParam } from "@/helpers/useMarketSearchParam";
 import type { MarketId } from "@/lib/markets";
 import {
   getPreferredMarketSnapshot,
@@ -12,6 +13,7 @@ import {
 /** Logo / market home — prefers `ghc_preferred_market`, then the page’s market. */
 export function useMarketHomeHref(pageMarketId: MarketId): "/" | "/phoenix" {
   const pathname = usePathname();
+  const marketQueryParam = useMarketSearchParam();
   const preferredMarket = useSyncExternalStore(
     subscribeToPreferredMarket,
     getPreferredMarketSnapshot,
@@ -19,6 +21,7 @@ export function useMarketHomeHref(pageMarketId: MarketId): "/" | "/phoenix" {
   );
 
   return resolveMarketHomeHref({
+    marketQueryParam,
     pathname,
     preferredMarket,
     pageMarketId,

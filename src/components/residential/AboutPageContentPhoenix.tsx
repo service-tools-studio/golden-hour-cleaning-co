@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import AboutCommitmentServicesLink from "@/components/markets/AboutCommitmentServicesLink";
 import { HEADING_UPPER } from "@/helpers/typography.js";
-import { MARKETS } from "@/lib/markets";
 import { BulletList, Section } from "./servicePageParts";
 
 export default function AboutPageContentPhoenix() {
-  const servicesHref = MARKETS.phoenix.servicesHubPath;
-
   return (
     <>
       <div className="sm:overflow-hidden">
@@ -220,13 +218,7 @@ export default function AboutPageContentPhoenix() {
           ]}
         />
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Whether you need{" "}
-          <Link
-            href={servicesHref}
-            className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
-          >
-            residential cleaning services
-          </Link>
+          Whether you need <AboutCommitmentServicesLink />
           , a detailed deep clean, move-in or move-out cleaning, or commercial
           cleaning, our goal is to provide a level of care and professionalism
           that gives you complete confidence in choosing Golden Hour Cleaning

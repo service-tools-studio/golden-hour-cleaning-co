@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   resolveActiveMarketId,
   resolveMarketAboutHref,
+  resolveMarketingHrefForMarket,
   resolveMarketHomeHref,
   resolveServicesHubHref,
 } from "@/lib/marketNavigation";
@@ -81,5 +82,42 @@ describe("resolveActiveMarketId", () => {
         pathname: "/reviews",
       }),
     ).toBe("/phoenix/about");
+  });
+
+  it("prefers market query param over storage", () => {
+    expect(
+      resolveActiveMarketId({
+        marketQueryParam: "phoenix",
+        preferredMarket: "portland",
+        pathname: "/about",
+      }),
+    ).toBe("phoenix");
+    expect(
+      resolveServicesHubHref({
+        marketQueryParam: "phoenix",
+        preferredMarket: "portland",
+        pathname: "/about",
+      }),
+    ).toBe("/phoenix/services");
+  });
+});
+
+describe("resolveMarketingHrefForMarket", () => {
+  it("rewrites Portland service paths for Phoenix", () => {
+    expect(
+      resolveMarketingHrefForMarket("/residential/services/deep", "phoenix"),
+    ).toBe("/phoenix/services/deep");
+    expect(resolveMarketingHrefForMarket("/residential/quote", "phoenix")).toBe(
+      "/phoenix#quote",
+    );
+    expect(resolveMarketingHrefForMarket("/about", "phoenix")).toBe(
+      "/phoenix/about",
+    );
+  });
+
+  it("leaves paths unchanged for Portland", () => {
+    expect(
+      resolveMarketingHrefForMarket("/residential/services", "portland"),
+    ).toBe("/residential/services");
   });
 });

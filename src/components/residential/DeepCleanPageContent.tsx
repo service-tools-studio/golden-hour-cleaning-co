@@ -43,7 +43,6 @@ export default function DeepCleanPageContent({
         tagline="Full-home reset"
         title={locale.hero.deep.title}
         intro={locale.hero.deep.intro}
-        servicesHubHref={hub}
         imageSrc="/assets/vacuuming.PNG"
         imageAlt="A Golden Hour cleaner smiling while vacuuming a living room rug"
         imageClassName="object-cover object-center"

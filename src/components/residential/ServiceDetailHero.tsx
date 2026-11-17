@@ -17,6 +17,7 @@ import {
 import type { ServiceSlug } from "@/data/residentialServices";
 import { useGooglePlaceSummary } from "@/helpers/useGooglePlaceSummary";
 import { SERVICE_THEMES } from "./serviceCardTheme";
+import { useServicesHubHref } from "@/helpers/useServicesHubHref";
 import { BackToServicesLink } from "./servicePageParts";
 import { BTN_PRIMARY, BTN_UPPER, HEADING_UPPER } from "@/helpers/typography.js";
 
@@ -49,7 +50,6 @@ export type ServiceDetailHeroProps = {
   includedLeadIn?: string;
   checklistHref: string;
   quoteHref?: string;
-  servicesHubHref?: string;
 };
 
 export default function ServiceDetailHero({
@@ -64,8 +64,8 @@ export default function ServiceDetailHero({
   includedLeadIn,
   checklistHref,
   quoteHref = "/request-a-quote",
-  servicesHubHref = "/residential/services",
 }: ServiceDetailHeroProps) {
+  const servicesHubHref = useServicesHubHref();
   const theme = SERVICE_THEMES[serviceSlug];
   const tiers = STARTING_AT_TIERS[pricingKeyForSlug(serviceSlug)];
   const { rating } = useGooglePlaceSummary();

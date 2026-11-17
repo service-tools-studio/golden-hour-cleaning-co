@@ -1,5 +1,7 @@
-import Link from "next/link";
+"use client";
+
 import { ArrowRight } from "lucide-react";
+import ServicesAndBookCTAs from "@/components/markets/ServicesAndBookCTAs";
 import { BTN_PRIMARY, BTN_SECONDARY } from "@/helpers/typography.js";
 
 export default function BlogCTA() {
@@ -24,16 +26,13 @@ export default function BlogCTA() {
           enjoying your home.
         </p>
 
-        <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-          <Link href="/residential/services" className={BTN_PRIMARY}>
-            Explore Residential Services &amp; Pricing
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-
-          <Link href="/book-online" className={BTN_SECONDARY}>
-            Reserve Your Cleaning
-          </Link>
-        </div>
+        <ServicesAndBookCTAs
+          primaryLabel="Explore Residential Services & Pricing"
+          primaryClassName={`${BTN_PRIMARY} inline-flex items-center justify-center`}
+          secondaryClassName={`${BTN_SECONDARY} inline-flex items-center justify-center`}
+          className="mt-10 flex flex-col justify-center gap-4 sm:flex-row"
+          primaryExtra={<ArrowRight className="ml-2 h-4 w-4" />}
+        />
       </div>
     </section>
   );

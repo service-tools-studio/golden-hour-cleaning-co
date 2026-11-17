@@ -14,7 +14,7 @@ export default function Services({ market = MARKETS.portland }) {
       </div>
 
       <div className="mt-6 md:mt-8">
-        <ServicePricingCards servicesHubPath={market.servicesHubPath} />
+        <ServicePricingCards pageMarketId={market.id} />
       </div>
     </section>
   );

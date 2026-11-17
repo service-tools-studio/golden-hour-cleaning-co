@@ -1,4 +1,4 @@
-import Link from "next/link";
+import MarketAwareMarketingLink from "@/components/markets/MarketAwareMarketingLink";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 import { BulletList } from "@/components/residential/servicePageParts";
 
@@ -82,12 +82,12 @@ export default function DeepCleanChecklist({
       {showIntro ? (
         <p className="text-base leading-relaxed text-stone-700">
           Our deep cleaning includes everything in a{" "}
-          <Link
+          <MarketAwareMarketingLink
             href={standardIncludedHref}
             className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
           >
             standard clean
-          </Link>
+          </MarketAwareMarketingLink>
           , plus additional detailed attention throughout your home.
         </p>
       ) : null}

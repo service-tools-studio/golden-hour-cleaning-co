@@ -11,17 +11,16 @@ import ServiceDetailHero from "@/components/residential/ServiceDetailHero";
 import type { ResidentialService } from "@/data/residentialServices";
 import type { MarketConfig } from "@/lib/markets";
 import { MARKETS } from "@/lib/markets";
+import { useActiveMarket } from "@/helpers/useActiveMarket";
 import { scrollToId } from "@/helpers/scrollToId";
 import { BTN_PRIMARY, BTN_SECONDARY, HEADING_UPPER } from "@/helpers/typography.js";
 
 function GenericServiceContent({
   service,
   quoteHref,
-  servicesHubHref,
 }: {
   service: ResidentialService;
   quoteHref: string;
-  servicesHubHref: string;
 }) {
   return (
     <>
@@ -35,7 +34,6 @@ function GenericServiceContent({
         includedItems={service.items}
         checklistHref="#whats-included"
         quoteHref={quoteHref}
-        servicesHubHref={servicesHubHref}
       />
 
       <section
@@ -81,8 +79,9 @@ export default function ServiceDetailClient({
   service: ResidentialService;
   market?: MarketConfig;
 }) {
+  const activeMarket = useActiveMarket(market.id);
   const quoteHref = "/request-a-quote";
-  const servicesHubHref = market.servicesHubPath;
+  const servicesHubHref = activeMarket.servicesHubPath;
 
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -97,29 +96,25 @@ export default function ServiceDetailClient({
 
   const richContent =
     service.slug === "standard" ? (
-      <StandardCleanPageContent quoteHref={quoteHref} market={market} />
+      <StandardCleanPageContent quoteHref={quoteHref} market={activeMarket} />
     ) : service.slug === "deep" ? (
-      <DeepCleanPageContent quoteHref={quoteHref} market={market} />
+      <DeepCleanPageContent quoteHref={quoteHref} market={activeMarket} />
     ) : service.slug === "move-out" ? (
-      <MoveOutCleanPageContent quoteHref={quoteHref} market={market} />
+      <MoveOutCleanPageContent quoteHref={quoteHref} market={activeMarket} />
     ) : null;
 
   return (
     <>
       <ServicesPageHeader
-        homeHref={market.path}
-        quoteHref={market.servicesHubPath}
+        homeHref={activeMarket.path}
+        quoteHref={activeMarket.servicesHubPath}
       />
 
       <main className="min-h-screen bg-amber-50 text-stone-900">
         <article className="mx-auto max-w-6xl px-6 py-10 md:py-14">
           {richContent ?? (
             <>
-              <GenericServiceContent
-                service={service}
-                quoteHref={quoteHref}
-                servicesHubHref={servicesHubHref}
-              />
+              <GenericServiceContent service={service} quoteHref={quoteHref} />
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link href={quoteHref} className={BTN_PRIMARY}>
                   Get a quote for {service.title}
@@ -132,7 +127,7 @@ export default function ServiceDetailClient({
           )}
         </article>
 
-        <Footer market={market} />
+        <Footer market={activeMarket} />
       </main>
     </>
   );

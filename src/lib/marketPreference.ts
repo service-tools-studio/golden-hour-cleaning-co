@@ -27,23 +27,47 @@ export function marketIdFromQueryParam(
   return isMarketId(raw) ? raw : null;
 }
 
-/** Paths that accept `?market=phoenix|portland` (default Portland when omitted). */
-export const MARKET_QUERY_PARAM_PATHS = [
+/**
+ * Market-neutral paths: with no valid `?market=` and no path market, persist Portland
+ * (legacy funnel / shared pages).
+ */
+export const PORTLAND_DEFAULT_MARKET_PATHS = [
   "/book-online",
   "/request-a-quote",
   "/reviews",
   "/satisfaction-guarantee",
 ] as const;
 
-export function isMarketQueryParamPath(pathname: string): boolean {
-  return (MARKET_QUERY_PARAM_PATHS as readonly string[]).includes(pathname);
+export function isPortlandDefaultMarketPath(pathname: string): boolean {
+  return (PORTLAND_DEFAULT_MARKET_PATHS as readonly string[]).includes(pathname);
 }
 
-/** Neutral pages with `?market=` default to Portland when the param is missing or invalid. */
-export function resolveLeadFunnelMarketPreference(
+/** Path-based persistence only on market homes — not `/residential` or city pages. */
+export function getMarketIdToPersistFromPath(pathname: string): MarketId | null {
+  if (pathname.startsWith("/phoenix")) return "phoenix";
+  if (pathname === "/" || pathname === "") return "portland";
+  return null;
+}
+
+/**
+ * What to write to `ghc_preferred_market` from the current URL.
+ * Valid `?market=` on **any** path is saved and sticks site-wide until changed.
+ */
+export function resolveMarketPreferenceToPersist(
+  pathname: string | null,
   marketParam: string | null | undefined,
-): MarketId {
-  return marketIdFromQueryParam(marketParam) ?? "portland";
+): MarketId | null {
+  if (!pathname) return null;
+
+  const fromQuery = marketIdFromQueryParam(marketParam);
+  if (fromQuery) return fromQuery;
+
+  const fromHomePath = getMarketIdToPersistFromPath(pathname);
+  if (fromHomePath) return fromHomePath;
+
+  if (isPortlandDefaultMarketPath(pathname)) return "portland";
+
+  return null;
 }
 
 export function readPreferredMarketFromStorage(): MarketId | null {

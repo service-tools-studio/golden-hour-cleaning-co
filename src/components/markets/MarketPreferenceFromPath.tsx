@@ -1,33 +1,20 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { getMarketIdFromPath, type MarketId } from "@/lib/markets";
-import {
-  isMarketQueryParamPath,
-  resolveLeadFunnelMarketPreference,
-} from "@/lib/marketPreference";
+import { resolveMarketPreferenceToPersist } from "@/lib/marketPreference";
 import { usePersistPreferredMarket } from "@/helpers/usePersistPreferredMarket";
 
-function resolveMarketToPersist(
-  pathname: string | null,
-  marketParam: string | null,
-): MarketId | null {
-  if (!pathname) return null;
-  if (isMarketQueryParamPath(pathname)) {
-    return resolveLeadFunnelMarketPreference(marketParam);
-  }
-  return getMarketIdFromPath(pathname);
-}
-
 /**
- * Persists market choice from URL path (e.g. `/phoenix`) or lead funnels
- * (`/reviews?market=phoenix`, `/book-online`, `/request-a-quote` — no param → Portland).
+ * Saves `ghc_preferred_market` from `?market=` on any URL (sticky site-wide),
+ * or from `/` / `/phoenix…` without a query param.
  */
 export default function MarketPreferenceFromPath() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const marketParam = searchParams.get("market");
-  const marketId = resolveMarketToPersist(pathname, marketParam);
+  const marketId = resolveMarketPreferenceToPersist(
+    pathname,
+    searchParams.get("market"),
+  );
   usePersistPreferredMarket(marketId);
   return null;
 }

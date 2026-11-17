@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import AboutCommitmentServicesLink from "@/components/markets/AboutCommitmentServicesLink";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 import { BulletList, Section } from "./servicePageParts";
 
@@ -153,13 +154,7 @@ export default function AboutPageContent() {
           ]}
         />
         <p className="mt-4 text-base leading-relaxed text-stone-700">
-          Whether you need{" "}
-          <Link
-            href="/residential/services"
-            className="font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-700"
-          >
-            residential cleaning services
-          </Link>
+          Whether you need <AboutCommitmentServicesLink />
           , a deep clean, a move-in or move-out cleaning, or commercial
           cleaning, our goal is to provide a level of care and professionalism
           that gives you complete confidence in choosing Golden Hour Cleaning

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import MarketAwareMarketingLink from "@/components/markets/MarketAwareMarketingLink";
 import { Star } from "lucide-react";
 import { BulletList } from "@/components/residential/servicePageParts";
 import { HEADING_UPPER } from "@/helpers/typography.js";
@@ -179,24 +180,24 @@ function BlogSections({ post }: { post: BlogPost }) {
                 ) : null}
                 {section.link ? (
                   <p className="mt-4">
-                    <Link
+                    <MarketAwareMarketingLink
                       href={section.link.href}
                       className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
                     >
                       {section.link.label}
-                    </Link>
+                    </MarketAwareMarketingLink>
                   </p>
                 ) : null}
                 {section.links?.length ? (
                   <ul className="mt-4 space-y-3">
                     {section.links.map((item) => (
                       <li key={item.href}>
-                        <Link
+                        <MarketAwareMarketingLink
                           href={item.href}
                           className="text-base font-semibold text-amber-800 underline underline-offset-4 hover:text-amber-900"
                         >
                           {item.label}
-                        </Link>
+                        </MarketAwareMarketingLink>
                       </li>
                     ))}
                   </ul>

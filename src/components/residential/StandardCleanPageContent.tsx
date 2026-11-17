@@ -39,7 +39,6 @@ export default function StandardCleanPageContent({
         tagline="Lighter upkeep"
         title={locale.hero.standard.title}
         intro={locale.hero.standard.intro}
-        servicesHubHref={hub}
         imageSrc="/assets/chateau-cleaning.webp"
         imageAlt="Bright, freshly cleaned home interior after a Golden Hour standard cleaning"
         includedItems={service.items}

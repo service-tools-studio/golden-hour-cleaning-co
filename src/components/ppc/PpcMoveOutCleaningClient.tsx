@@ -232,7 +232,7 @@ export default function PpcMoveOutCleaningClient({
               serviceSlug="move-out"
               className="mt-10"
               learnMoreLabel="See full checklist"
-              servicesHubPath={market.servicesHubPath}
+              pageMarketId={market.id}
             />
 
             <div className="mt-8 flex flex-col items-center gap-3">

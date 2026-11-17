@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MarketAwareResidentialQuoteLink from "@/components/markets/MarketAwareResidentialQuoteLink";
 import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
@@ -224,12 +225,9 @@ export default function HouseCleaningTigardContent() {
           <p className="mt-4 text-lg leading-relaxed text-white/85">
             Book your Tigard house cleaning with Golden Hour Cleaning Co. today.
           </p>
-          <Link
-            href="/residential/quote"
-            className={`${BTN_PRIMARY} mt-8`}
-          >
+          <MarketAwareResidentialQuoteLink className={`${BTN_PRIMARY} mt-8`}>
             Get Your Quote
-          </Link>
+          </MarketAwareResidentialQuoteLink>
         </div>
       </section>
 
