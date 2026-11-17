@@ -1,9 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useMarketQueryParamFromContext } from "@/components/markets/MarketQueryParamProvider";
 
 /** Raw `market` query value from the current URL (any page). */
 export function useMarketSearchParam(): string | null {
-  const searchParams = useSearchParams();
-  return searchParams.get("market");
+  return useMarketQueryParamFromContext();
 }

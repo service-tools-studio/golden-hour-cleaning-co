@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import InternalQuoteCalculatorClient from "./InternalQuoteCalculatorClient";
 
 export const metadata: Metadata = {
@@ -27,5 +28,9 @@ export default async function InternalQuoteCalculatorPage({
   const sp = "then" in searchParams ? await searchParams : searchParams;
   const initialLevel = coerceLevel(sp?.level);
 
-  return <InternalQuoteCalculatorClient initialLevel={initialLevel} />;
+  return (
+    <Suspense fallback={null}>
+      <InternalQuoteCalculatorClient initialLevel={initialLevel} />
+    </Suspense>
+  );
 }

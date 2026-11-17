@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ServicesHubClient from "@/components/residential/ServicesHubClient";
 import { MARKETS } from "@/lib/markets";
 
@@ -30,6 +31,8 @@ export default async function ResidentialServicesPage({
   const initialLevel = coerceLevel(sp?.level);
 
   return (
-    <ServicesHubClient market={MARKETS.portland} initialLevel={initialLevel} />
+    <Suspense fallback={null}>
+      <ServicesHubClient market={MARKETS.portland} initialLevel={initialLevel} />
+    </Suspense>
   );
 }
