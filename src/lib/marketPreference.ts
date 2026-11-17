@@ -32,6 +32,7 @@ export const MARKET_QUERY_PARAM_PATHS = [
   "/book-online",
   "/request-a-quote",
   "/reviews",
+  "/satisfaction-guarantee",
 ] as const;
 
 export function isMarketQueryParamPath(pathname: string): boolean {
