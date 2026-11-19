@@ -55,7 +55,7 @@ export default function FooterCitiesMenu() {
         onClick={() => setOpen((value) => !value)}
         className="inline-flex items-center gap-1 hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
       >
-        Cities
+        Portland-Metro Cities
         <ChevronDown
           className={`h-3.5 w-3.5 transition ${open ? "rotate-180" : ""}`}
           aria-hidden
