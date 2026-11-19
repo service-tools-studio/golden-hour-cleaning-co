@@ -51,6 +51,91 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "expanding-to-phoenix-scottsdale-arizona",
+    title:
+      "A New Chapter for Golden Hour Cleaning Co.: Expanding to Phoenix & Scottsdale, Arizona",
+    author: "Jasmin Heart & Kelsey Collins",
+    authorRole: "Co-Founders of Golden Hour Cleaning Co.",
+    publishedAt: "2026-11-14",
+    excerpt:
+      "Golden Hour Cleaning Co. is expanding to the Phoenix metro—Scottsdale, Phoenix, Tempe, and surrounding communities—while continuing to serve Portland. Co-founders Jasmin Heart and Kelsey Collins share why Arizona is our next chapter.",
+    heroImage: {
+      src: "/assets/kelsey-and-jasmin.JPG",
+      alt: "Jasmin Heart and Kelsey Collins, co-owners of Golden Hour Cleaning Co.",
+      orientation: "portrait",
+    },
+    sections: [
+      {
+        paragraphs: [
+          "We're excited to share some big news: Golden Hour Cleaning Co. is expanding to the Phoenix metropolitan area, bringing our professional home cleaning services to Scottsdale, Phoenix, and surrounding communities.",
+          "What started as a cleaning company in Portland, Oregon, has grown into something we're incredibly proud of. And now, we're beginning a new chapter in the Southwest.",
+        ],
+      },
+      {
+        heading: "From Portland to the Arizona Desert",
+        paragraphs: [
+          "When we started Golden Hour Cleaning Co., our goal was simple: build a cleaning company that people could genuinely trust. We wanted to provide exceptional service, communicate clearly, and make the entire experience of having your home professionally cleaned feel easy and personal.",
+          "Over time, we've built a wonderful team of cleaning professionals and developed systems that allow our Portland operations to run smoothly, even when we're not physically there.",
+          "Reaching that milestone has been especially meaningful for us. As business owners, we've put a tremendous amount of care into building Golden Hour, and creating a company that can operate beyond our day-to-day physical presence has opened the door to new possibilities.",
+          "One of those possibilities? A little more sunshine.",
+          "With the Pacific Northwest heading into its rainy season, we decided it was the perfect opportunity to spend some time in Scottsdale and explore bringing Golden Hour to Arizona.",
+          "So we packed up Kelsey's 4Runner with our belongings, our two Persian cats, and our little dog, and headed south.",
+          "Three days, countless miles, and a very full car later, we arrived in the beautiful Sonoran Desert.",
+          "It was a big change of scenery, and exactly the kind of adventure we were ready for.",
+        ],
+      },
+      {
+        heading: "Why Phoenix and Scottsdale?",
+        paragraphs: [
+          "We've always been drawn to the sunshine, desert landscapes, and energy of the Southwest. But beyond the appeal of warmer weather, we also see an exciting opportunity to grow Golden Hour in a community where homeowners value quality, reliability, and attention to detail.",
+          "The Phoenix metropolitan area is home to a wonderful mix of established neighborhoods, growing communities, seasonal residents, and busy households. We believe our approach to professional home cleaning is a natural fit.",
+          "We're beginning our Arizona expansion with a focus on Scottsdale, Phoenix, Tempe, and surrounding neighborhoods.",
+          "And while we're excited to establish ourselves in a new market, we're equally committed to continuing to serve our clients back home in Portland.",
+        ],
+      },
+      {
+        heading: "Growing With Purpose",
+        paragraphs: [
+          "At the heart of Golden Hour is something that goes beyond cleaning homes. We genuinely love taking care of people.",
+          "We believe that a clean, comfortable home can make a meaningful difference in someone's life. It can offer a sense of calm after a long day, give a busy family more time together, or simply take one more responsibility off someone's shoulders. There's something deeply rewarding about knowing that the work we do helps make everyday life a little easier for someone else.",
+          "That spirit of care is what inspired Golden Hour in the first place, and it's what continues to guide us as we grow.",
+          "We also want to create meaningful opportunities for the people who work alongside us. Building a company where cleaning professionals feel respected, supported, and proud of their work is just as important to us as the experience we provide our clients.",
+          "Ultimately, our vision is to grow a business that nurtures people on both sides of the service: the families who welcome us into their homes and the dedicated professionals who care for them.",
+        ],
+      },
+      {
+        heading: "Growing Without Forgetting Where We Started",
+        paragraphs: [
+          "Portland will always be a special part of Golden Hour's story.",
+          "It's where we took our first steps as business owners, welcomed our earliest clients, learned countless lessons, and built relationships that have meant so much to us.",
+          "Those clients have become people we genuinely look forward to seeing and hearing from. Their trust and support have helped us grow into the company we are today.",
+          "Our expansion into Arizona wouldn't be possible without them, or without the dedicated cleaning professionals who continue to care for our Portland clients.",
+          "We're grateful to have reached a place where we can continue nurturing what we've built in Oregon while creating something new in Arizona.",
+          "For us, growth isn't just about reaching more customers. It's about extending the care and thoughtfulness behind Golden Hour to more homes, more communities, and more people.",
+        ],
+      },
+      {
+        heading: "Hello, Scottsdale!",
+        paragraphs: [
+          "We're still getting settled, learning our way around, and enjoying the beautiful desert scenery. But we're also excited to begin meeting homeowners and building relationships in our new Arizona community.",
+          "If you're looking for professional house cleaning in Scottsdale, Phoenix, or the surrounding area, we'd love the opportunity to introduce ourselves.",
+          "You can learn more about our services, request an estimate, or schedule an in-person walkthrough:",
+          "To our Portland clients, thank you for helping us get here.",
+          "And to our new neighbors in Arizona, hello! We're so happy to be here.",
+          "This expansion is just the beginning of what we envision for Golden Hour. We're excited to continue growing, bringing our services to many more cities and communities in the years ahead. Wherever we go, our purpose will remain the same: to care for people, make their lives a little easier, and bring a little more warmth into the places they call home.",
+          "Here's to new beginnings, a little more sunshine, and many more golden hours ahead.",
+          "With gratitude,",
+          "Jasmin & Kelsey",
+          "Co-Owners, Golden Hour Cleaning Co.",
+        ],
+        link: {
+          href: "/phoenix/services",
+          label: "Phoenix cleaning services page",
+        },
+      },
+    ],
+  },
+  {
     slug: "house-cleaning-for-pet-owners-what-to-expect",
     title:
       "House Cleaning for Pet Owners: What to Expect From a Professional Cleaner",
