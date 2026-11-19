@@ -125,22 +125,20 @@ export default function Footer({ market: pageMarket }) {
             </li>
             <li>
               <Link
+                href="/blog"
+                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+              >
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link
                 href={reviewsHref}
                 className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
               >
                 Reviews
               </Link>
             </li>
-            {market.id === "portland" ? (
-              <li>
-                <a
-                  href="/blog"
-                  className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-                >
-                  Blog
-                </a>
-              </li>
-            ) : null}
             {market.id === "portland" ? (
               <li>
                 <a
