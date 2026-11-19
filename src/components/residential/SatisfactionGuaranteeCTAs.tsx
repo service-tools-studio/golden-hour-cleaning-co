@@ -1,7 +1,9 @@
 "use client";
 
-import ServicesAndBookCTAs from "@/components/markets/ServicesAndBookCTAs";
+import ServicesAndBookCTAsWithPicker from "@/components/markets/ServicesAndBookCTAsWithPicker";
 
 export default function SatisfactionGuaranteeCTAs() {
-  return <ServicesAndBookCTAs />;
+  return (
+    <ServicesAndBookCTAsWithPicker pickerClassName="mt-6" className="mt-4" />
+  );
 }

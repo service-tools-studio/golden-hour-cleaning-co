@@ -5,26 +5,49 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import type { MarketConfig, MarketId } from "@/lib/markets";
-import { MARKETS } from "@/lib/markets";
+import { MARKET_IDS, MARKETS } from "@/lib/markets";
 import { writePreferredMarketToStorage } from "@/lib/marketPreference";
 import { SECTION_EYEBROW } from "@/helpers/typography.js";
 
-const OPTIONS: { id: MarketId; href: string; label: string }[] = [
-  { id: "portland", href: "/", label: MARKETS.portland.displayLabel },
-  { id: "phoenix", href: "/phoenix", label: MARKETS.phoenix.displayLabel },
-];
+function hrefForMarket(id: MarketId, linkTarget: "home" | "servicesHub"): string {
+  return linkTarget === "servicesHub"
+    ? MARKETS[id].servicesHubPath
+    : MARKETS[id].path;
+}
+
+function isLocationOptionSelected(
+  pathname: string | null,
+  href: string,
+): boolean {
+  if (!pathname) return false;
+  if (href === "/" || href === "") {
+    return pathname === "/" || pathname === "";
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 type Props = {
   market: MarketConfig;
+  /** Dropdown link destination per market — default is each market home. */
+  linkTarget?: "home" | "servicesHub";
 };
 
-export default function MarketLocationSelector({ market }: Props) {
+export default function MarketLocationSelector({
+  market,
+  linkTarget = "home",
+}: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const listId = useId();
 
-  const current = OPTIONS.find((o) => o.id === market.id) ?? OPTIONS[0];
+  const options = MARKET_IDS.map((id) => ({
+    id,
+    href: hrefForMarket(id, linkTarget),
+    label: MARKETS[id].displayLabel,
+  }));
+
+  const current = options.find((o) => o.id === market.id) ?? options[0];
 
   useEffect(() => {
     if (!open) return;
@@ -76,11 +99,8 @@ export default function MarketLocationSelector({ market }: Props) {
           aria-labelledby={`${listId}-trigger`}
           className="absolute left-1/2 top-full z-50 mt-2 min-w-[14rem] -translate-x-1/2 rounded-xl border border-amber-200 bg-white p-2 text-left shadow-lg"
         >
-          {OPTIONS.map((option) => {
-            const selected =
-              pathname === option.href ||
-              (option.href === "/" && pathname === "") ||
-              (option.href !== "/" && pathname?.startsWith(option.href));
+          {options.map((option) => {
+            const selected = isLocationOptionSelected(pathname, option.href);
             return (
               <li key={option.id} role="presentation">
                 <Link
