@@ -78,8 +78,6 @@ export type MarketConfig = {
       /** When set, keep ArcGIS `CITYNAME` features only (Portland). */
       cityNames?: string[];
     };
-    /** Optional second line under cities (e.g. ZIP list). */
-    zipCodesLine?: string;
   };
   headerMarqueeItems: string[];
   servicesPreviewSupporting: string;
@@ -159,8 +157,6 @@ export const PHOENIX_SERVICE_ZIP_CODES = [
   "85281",
   "85288",
 ] as const;
-
-const PHOENIX_ZIP_CODES_LINE = PHOENIX_SERVICE_ZIP_CODES.join(" · ");
 
 const PORTLAND_MAP_CITY_NAMES = [
   "Portland",
@@ -324,7 +320,6 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
     serviceArea: {
       citiesLine: PHOENIX_CITIES_LINE,
       mapTitle: "Our service area",
-      zipCodesLine: PHOENIX_ZIP_CODES_LINE,
       map: {
         geoJsonUrl: "/geo/phoenix-service-zips.geojson",
         center: { lat: 33.48, lng: -112.05 },

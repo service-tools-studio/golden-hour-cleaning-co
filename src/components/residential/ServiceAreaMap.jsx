@@ -161,7 +161,6 @@ function MapCanvas({ mapConfig, mapLayout = 'compact' }) {
 export default function ServiceAreaMap({ market = MARKETS.portland }) {
   const title = market.serviceArea.mapTitle;
   const citiesLine = market.serviceArea.citiesLine;
-  const zipCodesLine = market.serviceArea.zipCodesLine;
   const mapConfig = market.serviceArea.map;
   const [shouldLoadMaps, setShouldLoadMaps] = useState(false);
   const sectionRef = useRef(null);
@@ -198,16 +197,9 @@ export default function ServiceAreaMap({ market = MARKETS.portland }) {
         >
           {title}
         </h2>
-        <p className="mb-4 text-center text-sm text-stone-600 sm:text-base">
+        <p className="mb-8 text-center text-sm text-stone-600 sm:text-base">
           {citiesLine}
         </p>
-        {zipCodesLine ? (
-          <p className="mb-8 text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
-            ZIP codes: {zipCodesLine}
-          </p>
-        ) : (
-          <div className="mb-8" aria-hidden />
-        )}
         {mapConfig ? (
           shouldLoadMaps ? (
             <GoogleMapsProvider>

@@ -42,7 +42,6 @@ describe("markets", () => {
     expect(MARKETS.phoenix.serviceArea.map?.geoJsonUrl).toBe(
       "/geo/phoenix-service-zips.geojson",
     );
-    expect(MARKETS.phoenix.serviceArea.zipCodesLine).toContain("85016");
   });
 
   it("does not show Portland aggregate rating on Phoenix reviews config", () => {
