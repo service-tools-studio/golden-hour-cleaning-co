@@ -8,34 +8,40 @@ import {
 } from "@/lib/marketNavigation";
 
 describe("resolveServicesHubHref", () => {
-  it("prefers stored market when set", () => {
+  it("prefers stored market on neutral paths", () => {
     expect(
       resolveServicesHubHref({
-        pathname: "/",
+        pathname: "/about",
         preferredMarket: "phoenix",
       }),
     ).toBe("/phoenix/services");
     expect(
       resolveServicesHubHref({
-        pathname: "/phoenix",
-        preferredMarket: "portland",
+        pathname: "/",
+        preferredMarket: "phoenix",
       }),
     ).toBe("/residential/services");
   });
 
-  it("resolves market home from preference", () => {
+  it("resolves canonical homes from pathname", () => {
     expect(
       resolveMarketHomeHref({
         pathname: "/",
         preferredMarket: "phoenix",
       }),
-    ).toBe("/phoenix");
+    ).toBe("/");
     expect(
       resolveMarketHomeHref({
         pathname: "/phoenix",
         preferredMarket: "portland",
       }),
-    ).toBe("/");
+    ).toBe("/phoenix");
+    expect(
+      resolveMarketHomeHref({
+        pathname: "/about",
+        preferredMarket: "phoenix",
+      }),
+    ).toBe("/phoenix");
   });
 
   it("uses pathname when no preference", () => {
@@ -65,6 +71,22 @@ describe("resolveActiveMarketId", () => {
     expect(
       resolveActiveMarketId({
         pathname: "/phoenix-deep-cleaning",
+      }),
+    ).toBe("phoenix");
+  });
+
+  it("treats bare / as Portland even when Phoenix is stored", () => {
+    expect(
+      resolveActiveMarketId({
+        preferredMarket: "phoenix",
+        pathname: "/",
+      }),
+    ).toBe("portland");
+    expect(
+      resolveActiveMarketId({
+        marketQueryParam: "phoenix",
+        preferredMarket: "portland",
+        pathname: "/",
       }),
     ).toBe("phoenix");
   });

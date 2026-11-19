@@ -27,6 +27,15 @@ export function marketIdFromQueryParam(
   return isMarketId(raw) ? raw : null;
 }
 
+/** Market home `/` — `?market=` wins; bare `/` is always Portland (canonical OR home). */
+export function resolveMarketIdForHomePage(
+  marketParam: string | null | undefined,
+): MarketId {
+  const fromQuery = marketIdFromQueryParam(marketParam);
+  if (fromQuery) return fromQuery;
+  return "portland";
+}
+
 /** Shared funnel pages — UI defaults to Portland when no preference; do not overwrite storage. */
 export const MARKET_NEUTRAL_PATHS = [
   "/book-online",

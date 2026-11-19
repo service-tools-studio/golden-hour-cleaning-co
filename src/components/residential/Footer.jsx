@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HEADING_UPPER } from "../../helpers/typography.js";
 import FooterCitiesMenu from "./FooterCitiesMenu";
 import { MARKETS } from "@/lib/markets";
+import { writePreferredMarketToStorage } from "@/lib/marketPreference";
 import { useActiveMarket } from "@/helpers/useActiveMarket";
 import { useMarketPaths } from "@/helpers/useMarketPaths";
 
@@ -73,6 +74,7 @@ export default function Footer({ market: pageMarket }) {
                   <Link
                     href={MARKETS.portland.path}
                     className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                    onClick={() => writePreferredMarketToStorage("portland")}
                   >
                     {MARKETS.portland.displayLabel} home
                   </Link>
@@ -81,6 +83,7 @@ export default function Footer({ market: pageMarket }) {
                   <Link
                     href={MARKETS.phoenix.path}
                     className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                    onClick={() => writePreferredMarketToStorage("phoenix")}
                   >
                     {MARKETS.phoenix.displayLabel} home
                   </Link>

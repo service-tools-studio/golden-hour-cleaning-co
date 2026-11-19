@@ -4,5 +4,5 @@ import MarketingLandingPage from "@/components/MarketingLandingPage";
 export const metadata = buildMarketMetadata(MARKETS.phoenix);
 
 export default function PhoenixHomePage() {
-  return <MarketingLandingPage marketId="phoenix" />;
+  return <MarketingLandingPage marketId="phoenix" pagePath="/phoenix" />;
 }

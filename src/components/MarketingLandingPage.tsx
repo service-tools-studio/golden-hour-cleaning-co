@@ -4,9 +4,14 @@ import { getMarketById, type MarketId } from "@/lib/markets";
 
 type Props = {
   marketId: MarketId;
+  /** Analytics path — defaults to the market’s canonical home (`/` or `/phoenix`). */
+  pagePath?: "/" | "/phoenix";
 };
 
-export default async function MarketingLandingPage({ marketId }: Props) {
+export default async function MarketingLandingPage({
+  marketId,
+  pagePath,
+}: Props) {
   const headerList = await headers();
   const visitorRegion =
     headerList.get("x-geo-region") ??
@@ -16,7 +21,7 @@ export default async function MarketingLandingPage({ marketId }: Props) {
   return (
     <MarketingLandingClient
       market={market}
-      pagePath={market.path}
+      pagePath={pagePath ?? market.path}
       visitorRegion={visitorRegion}
     />
   );

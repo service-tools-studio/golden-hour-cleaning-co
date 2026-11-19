@@ -14,16 +14,23 @@ type MarketResolutionInput = {
   pageMarketId?: MarketId;
 };
 
-/** Active market for UI: `?market=` → storage → URL path → page hint → Portland. */
+/** Active market for UI: `?market=` → canonical homes (`/` Portland, `/phoenix…`) → storage → path → page hint → Portland. */
 export function resolveMarketIdFromContext(
   options: MarketResolutionInput,
 ): MarketId {
   const fromQuery = marketIdFromQueryParam(options.marketQueryParam);
   if (fromQuery) return fromQuery;
+
+  const pathname = options.pathname ?? "";
+  if (pathname === "/" || pathname === "") {
+    return "portland";
+  }
+  if (pathname.startsWith("/phoenix")) {
+    return "phoenix";
+  }
+
   if (options.preferredMarket) return options.preferredMarket;
-  const fromPath = options.pathname
-    ? getMarketIdFromPath(options.pathname)
-    : null;
+  const fromPath = getMarketIdFromPath(pathname);
   if (fromPath) return fromPath;
   if (options.pageMarketId) return options.pageMarketId;
   return "portland";

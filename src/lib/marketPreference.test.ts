@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isMarketId,
   marketIdFromQueryParam,
+  resolveMarketIdForHomePage,
   resolveMarketPreferenceToPersist,
   resolveResidentialLegacyHomeRedirect,
   withMarketQueryForNeutralPath,
@@ -28,7 +29,16 @@ describe("marketPreference", () => {
     expect(marketIdFromQueryParam("seattle")).toBe(null);
   });
 
+  it("resolves / home from query only (bare / is Portland)", () => {
+    expect(resolveMarketIdForHomePage("phoenix")).toBe("phoenix");
+    expect(resolveMarketIdForHomePage("portland")).toBe("portland");
+    expect(resolveMarketIdForHomePage(null)).toBe("portland");
+  });
+
   it("persists market from query on any path", () => {
+    expect(
+      resolveMarketPreferenceToPersist("/", "phoenix"),
+    ).toBe("phoenix");
     expect(
       resolveMarketPreferenceToPersist("/about", "phoenix"),
     ).toBe("phoenix");
