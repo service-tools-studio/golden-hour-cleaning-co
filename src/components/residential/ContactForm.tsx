@@ -15,11 +15,12 @@ import {
 import { HONEYPOT_FIELD } from "@/lib/formHoneypot";
 import { BTN_PRIMARY, QUOTE_FIELD_LABEL } from "@/helpers/typography.js";
 
+/** `text-base` (16px) on mobile avoids iOS Safari focus zoom. */
 const inputClass =
-  "mt-2 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-amber-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
+  "mt-2 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-base text-stone-900 outline-none ring-amber-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3";
 
 const inputErrorClass =
-  "mt-2 w-full rounded-xl border border-red-300 bg-white px-3.5 py-2.5 text-sm text-stone-900 outline-none ring-red-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base";
+  "mt-2 w-full rounded-xl border border-red-300 bg-white px-3.5 py-2.5 text-base text-stone-900 outline-none ring-red-300 focus:ring-2 sm:rounded-2xl sm:px-4 sm:py-3";
 
 type FormState = {
   name: string;
