@@ -10,6 +10,7 @@ import {
   type ContactTopic,
 } from "@/lib/contactPage";
 import { HONEYPOT_FIELD, isHoneypotTripped } from "@/lib/formHoneypot";
+import { contactSubmissionLooksLikePitch } from "@/lib/contactSolicitorFilter";
 import { buildContactEmailHtml } from "@/lib/contactEmailHtml";
 import {
   createGmailTransporter,
@@ -109,6 +110,10 @@ export async function POST(request: Request) {
       { error: "Enter a valid email address." },
       { status: 400 },
     );
+  }
+
+  if (contactSubmissionLooksLikePitch({ name, message })) {
+    return NextResponse.json({ ok: true });
   }
 
   try {
