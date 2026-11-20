@@ -15,6 +15,8 @@ type Props = {
   value: MarketId;
   onChange: (marketId: MarketId) => void;
   className?: string;
+  /** Dropdown alignment under the trigger — default centers like the hero. */
+  menuAlign?: "center" | "start";
 };
 
 /** Same look as hero `MarketLocationSelector`, without navigating away. */
@@ -22,6 +24,7 @@ export default function InlineMarketLocationPicker({
   value,
   onChange,
   className = "",
+  menuAlign = "center",
 }: Props) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +84,11 @@ export default function InlineMarketLocationPicker({
             id={listId}
             role="listbox"
             aria-labelledby={`${listId}-trigger`}
-            className="absolute left-1/2 top-full z-50 mt-2 min-w-[14rem] -translate-x-1/2 rounded-xl border border-amber-200 bg-white p-2 text-left shadow-lg"
+            className={`absolute top-full z-50 mt-2 min-w-[14rem] rounded-xl border border-amber-200 bg-white p-2 text-left shadow-lg ${
+              menuAlign === "start"
+                ? "left-0"
+                : "left-1/2 -translate-x-1/2"
+            }`}
           >
             {OPTIONS.map((option) => (
               <li key={option.id} role="presentation">

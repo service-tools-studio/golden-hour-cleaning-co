@@ -26,5 +26,6 @@ export function useMarketPaths(pageMarketId?: MarketId) {
       "/satisfaction-guarantee",
       market.id,
     ),
+    contactHref: withMarketQueryForNeutralPath("/contact", market.id),
   };
 }

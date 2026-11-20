@@ -1,16 +1,15 @@
 import nodemailer from "nodemailer";
 import type Transporter from "nodemailer/lib/mailer";
+import { getContactInboxEmail } from "@/lib/contactInbox";
 
 export function getGmailCredentials() {
   const user = process.env.GMAIL_USER?.trim();
   const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
-  const to =
-    process.env.COMMERCIAL_QUOTE_TO?.trim() ??
-    "golden.hour.cleaning.company@gmail.com";
-
   if (!user || !pass) {
     return null;
   }
+
+  const to = getContactInboxEmail();
 
   return { user, pass, to };
 }

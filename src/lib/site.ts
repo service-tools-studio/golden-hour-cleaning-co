@@ -33,4 +33,3 @@ export const BUSINESS_DESCRIPTION =
 export const BUSINESS_LOGO_PATH = "/assets/Golden Hour - commercial.png";
 
 export const CONTACT_PHONE_E164 = CONTACT.phone as string;
-export const CONTACT_EMAIL = CONTACT.email as string;

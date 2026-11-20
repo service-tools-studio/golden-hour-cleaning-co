@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { BTN_PRIMARY, HEADING_UPPER } from "@/helpers/typography.js";
-import { buildMailto } from "@/helpers/contactHelpers";
+import { buildContactPageHref } from "@/lib/contactPage";
 import { BulletList, Section } from "./servicePageParts";
-
-const EMAIL = "golden.hour.cleaning.company@gmail.com";
 
 const PARTNERS = [
   {
@@ -36,12 +34,6 @@ const SERVICES = [
 ];
 
 export default function PartnershipsPageContent() {
-  const inquiryMailto = buildMailto({
-    email: EMAIL,
-    subject: "Partnership Inquiry",
-    body: "Hi Golden Hour Cleaning Co.,\n\nI'm interested in learning more about partnering with you for property cleaning services.\n\n",
-  });
-
   return (
     <>
       <h1 className={`text-3xl leading-tight md:text-4xl ${HEADING_UPPER}`}>
@@ -105,7 +97,10 @@ export default function PartnershipsPageContent() {
           can support you.
         </p>
         <div className="mt-8">
-          <Link href={inquiryMailto} className={BTN_PRIMARY}>
+          <Link
+            href={buildContactPageHref("portland", "partnerships")}
+            className={BTN_PRIMARY}
+          >
             Inquire About Working With Us
           </Link>
         </div>

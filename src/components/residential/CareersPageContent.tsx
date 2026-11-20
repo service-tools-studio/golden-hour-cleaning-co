@@ -1,8 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { HEADING_UPPER } from "@/helpers/typography.js";
+import { buildContactPageHref } from "@/lib/contactPage";
 import { BulletList, Section } from "./servicePageParts";
-
-const EMAIL = "golden.hour.cleaning.company@gmail.com";
 
 export default function CareersPageContent() {
   return (
@@ -77,13 +77,13 @@ export default function CareersPageContent() {
             love to hear from you.
           </p>
           <p>
-            If this sounds like a good fit, send your resume to{" "}
-            <a
-              href={`mailto:${EMAIL}`}
+            If this sounds like a good fit,{" "}
+            <Link
+              href={buildContactPageHref("portland", "careers")}
               className="font-medium text-stone-900 underline underline-offset-2 hover:text-stone-700"
             >
-              {EMAIL}
-            </a>
+              send your resume through our contact form
+            </Link>
             .
           </p>
           <p>We can&apos;t wait to meet you!</p>

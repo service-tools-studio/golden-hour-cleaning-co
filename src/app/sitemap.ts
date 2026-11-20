@@ -27,6 +27,7 @@ const ROUTES: {
   { path: "/reviews", changeFrequency: "weekly", priority: 0.75 },
   { path: "/partnerships", changeFrequency: "monthly", priority: 0.7 },
   { path: "/careers", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/contact", changeFrequency: "monthly", priority: 0.75 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
   ...BLOG_POSTS.map((post) => ({
     path: `/blog/${post.slug}`,

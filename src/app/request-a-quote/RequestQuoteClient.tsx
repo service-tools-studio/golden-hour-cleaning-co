@@ -1,16 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import InlineMarketLocationPicker from "@/components/markets/InlineMarketLocationPicker";
 import CleaningLeadForm from "@/components/residential/CleaningLeadForm";
+import { useSelectPreferredMarket } from "@/helpers/useSelectPreferredMarket";
 import { HEADING_UPPER } from "@/helpers/typography.js";
 
 export default function RequestQuoteClient() {
   const [submitted, setSubmitted] = useState(false);
+  const { market, selectMarket } = useSelectPreferredMarket();
 
   return (
     <>
       {!submitted ? (
         <header className="mx-auto max-w-2xl text-center">
+          <InlineMarketLocationPicker
+            value={market.id}
+            onChange={selectMarket}
+            className="mb-3"
+          />
           <h1
             className={`text-3xl leading-tight text-stone-900 md:text-4xl ${HEADING_UPPER}`}
           >

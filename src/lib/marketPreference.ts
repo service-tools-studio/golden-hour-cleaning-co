@@ -42,6 +42,7 @@ export const MARKET_NEUTRAL_PATHS = [
   "/request-a-quote",
   "/reviews",
   "/satisfaction-guarantee",
+  "/contact",
 ] as const;
 
 export function isMarketNeutralPath(pathname: string): boolean {

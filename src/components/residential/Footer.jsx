@@ -1,21 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { HEADING_UPPER } from "../../helpers/typography.js";
+import InlineMarketLocationPicker from "@/components/markets/InlineMarketLocationPicker";
 import FooterCitiesMenu from "./FooterCitiesMenu";
-import { MARKETS } from "@/lib/markets";
-import { writePreferredMarketToStorage } from "@/lib/marketPreference";
-import { useActiveMarket } from "@/helpers/useActiveMarket";
+import FooterNavLink from "./FooterNavLink";
+import { useSelectPreferredMarket } from "@/helpers/useSelectPreferredMarket";
 import { useMarketPaths } from "@/helpers/useMarketPaths";
 
 const footerBrandId = "footer-brand-heading";
 const footerContactId = "footer-contact-heading";
 const footerExploreId = "footer-explore-heading";
 
+const footerLinkClass =
+  "hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm";
+
 /** @param {{ market?: import('@/lib/markets').MarketConfig }} props */
 export default function Footer({ market: pageMarket }) {
-  const market = useActiveMarket(pageMarket?.id);
-  const { requestQuoteHref, satisfactionGuaranteeHref, reviewsHref } =
+  const { market, selectMarket } = useSelectPreferredMarket(pageMarket?.id);
+  const { requestQuoteHref, satisfactionGuaranteeHref, reviewsHref, contactHref } =
     useMarketPaths(pageMarket?.id);
   const year = new Date().getFullYear();
   return (
@@ -35,6 +37,12 @@ export default function Footer({ market: pageMarket }) {
           <p className="mt-2 text-sm text-amber-800/80 leading-relaxed">
             {market.footer.blurb} {market.footer.licenseNote}
           </p>
+          <InlineMarketLocationPicker
+            value={market.id}
+            onChange={selectMarket}
+            className="mt-3 justify-start text-left"
+            menuAlign="start"
+          />
         </section>
 
         <section aria-labelledby={footerContactId}>
@@ -51,12 +59,12 @@ export default function Footer({ market: pageMarket }) {
             >
               {market.contact.phoneDisplay}
             </a>
-            <a
-              href="mailto:golden.hour.cleaning.company@gmail.com"
-              className="mt-1 block break-all hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+            <FooterNavLink
+              href={contactHref}
+              className={`mt-2 block ${footerLinkClass}`}
             >
-              golden.hour.cleaning.company@gmail.com
-            </a>
+              💌 Contact Form
+            </FooterNavLink>
           </address>
           <p className="text-xs mt-3 text-amber-800/70">
             Vetted cleaning professionals
@@ -68,88 +76,55 @@ export default function Footer({ market: pageMarket }) {
             Explore
           </h3>
           <ul className="space-y-1 text-sm">
-            <li>
-              <Link
-                href={MARKETS.portland.path}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-                onClick={() => writePreferredMarketToStorage("portland")}
-              >
-                {MARKETS.portland.displayLabel} home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={MARKETS.phoenix.path}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-                onClick={() => writePreferredMarketToStorage("phoenix")}
-              >
-                {MARKETS.phoenix.displayLabel} home
-              </Link>
-            </li>
             {market.id === "portland" ? <FooterCitiesMenu /> : null}
             <li>
-              <Link
+              <FooterNavLink
                 href={market.servicesHubPath}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                className={footerLinkClass}
               >
                 Residential Services
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
+              <FooterNavLink
                 href={requestQuoteHref}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                className={footerLinkClass}
               >
                 Get a residential quote
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
+              <FooterNavLink
                 href={satisfactionGuaranteeHref}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
+                className={footerLinkClass}
               >
                 Satisfaction Guarantee
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
-                href={market.aboutPath}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
+              <FooterNavLink href={market.aboutPath} className={footerLinkClass}>
                 About Us
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
-                href="/blog"
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
+              <FooterNavLink href="/blog" className={footerLinkClass}>
                 Blog
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
-                href={reviewsHref}
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
+              <FooterNavLink href={reviewsHref} className={footerLinkClass}>
                 Reviews
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
-                href="/partnerships"
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
+              <FooterNavLink href="/partnerships" className={footerLinkClass}>
                 Partnerships
-              </Link>
+              </FooterNavLink>
             </li>
             <li>
-              <Link
-                href="/careers"
-                className="hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-sm"
-              >
+              <FooterNavLink href="/careers" className={footerLinkClass}>
                 Careers
-              </Link>
+              </FooterNavLink>
             </li>
           </ul>
         </nav>

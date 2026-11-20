@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { CITY_LANDING_PAGES } from "@/data/cityLandingPages";
+import FooterNavLink from "./FooterNavLink";
 
 export default function FooterCitiesMenu() {
   const [open, setOpen] = useState(false);
@@ -70,13 +70,13 @@ export default function FooterCitiesMenu() {
         >
           {CITY_LANDING_PAGES.map(({ label, href }) => (
             <li key={href}>
-              <Link
+              <FooterNavLink
                 href={href}
                 className="block rounded-md px-2 py-1.5 hover:bg-amber-50 hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                onClick={() => setOpen(false)}
+                onNavigate={() => setOpen(false)}
               >
                 {label}
-              </Link>
+              </FooterNavLink>
             </li>
           ))}
         </ul>
