@@ -21,6 +21,9 @@ const PPC_LANDING_PATHS = new Set([
   ...PPC_MOVE_OUT_PATHS,
 ]);
 
+/** Funnel pages where a fixed call bar competes with the primary action. */
+const HIDE_STICKY_CALL_PATHS = new Set(["/contact"]);
+
 /** In-page Call buttons that should suppress the sticky bar while visible. */
 const PAGE_CALL_SELECTOR = [
   '[data-call-source="ppc_deep_clean_hero_call"]',
@@ -50,11 +53,12 @@ export default function MobileStickyCallBar() {
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
   const isPpcLanding = PPC_LANDING_PATHS.has(pathname);
+  const hideOnPath = HIDE_STICKY_CALL_PATHS.has(pathname ?? "");
   const [pageCallInView, setPageCallInView] = useState(isPpcLanding);
   const [wizardInView, setWizardInView] = useState<LeadWizardMode | null>(null);
 
   const visible =
-    !wizardInView && (!isPpcLanding || !pageCallInView);
+    !hideOnPath && !wizardInView && (!isPpcLanding || !pageCallInView);
 
   useEffect(() => subscribeLeadWizardInView(setWizardInView), [pathname]);
 
