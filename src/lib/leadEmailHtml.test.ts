@@ -28,9 +28,12 @@ describe("formatPhoneForEmailHtml", () => {
 });
 
 describe("formatAddressForEmailHtml", () => {
-  it("includes Google and Apple map links", () => {
+  it("uses plain address text plus separate map links", () => {
     const html = formatAddressForEmailHtml("Scottsdale, AZ");
-    expect(html).toContain("google.com/maps/search/");
+    expect(html).toContain(">Scottsdale, AZ</span>");
+    expect(html).not.toMatch(/<a[^>]*>Scottsdale, AZ<\/a>/);
+    expect(html).toContain("Open in Google Maps");
+    expect(html).toContain('href="https://www.google.com/maps/search/');
     expect(html).toContain("maps.apple.com");
     expect(html).toContain("Apple Maps");
   });

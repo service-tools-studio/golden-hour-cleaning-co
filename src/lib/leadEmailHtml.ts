@@ -4,7 +4,6 @@ import {
   formatHomeSizeLabel,
   fullNameFromLead,
 } from "@/lib/cleaningLead";
-
 const LINK_STYLE =
   "color:#b45309;text-decoration:underline;text-underline-offset:2px;";
 
@@ -49,15 +48,27 @@ export function formatPhoneForEmailHtml(phone: string): string {
   return `<a href="${escapeAttr(tel)}" style="${LINK_STYLE}">${display}</a>`;
 }
 
+/** Plain address line (not linked) so Mail/Safari data detectors offer Copy / Open in Maps on long-press. */
+const ADDRESS_PLAIN_STYLE = [
+  "display:block",
+  "margin:4px 0 10px",
+  "font-family:system-ui,-apple-system,sans-serif",
+  "font-size:16px",
+  "line-height:1.5",
+  "color:#1c1917",
+].join(";");
+
 export function formatAddressForEmailHtml(address: string): string {
   const trimmed = address.trim();
   const display = escapeHtml(trimmed);
   const google = googleMapsSearchUrl(trimmed);
   const apple = appleMapsSearchUrl(trimmed);
   return [
-    `<a href="${escapeAttr(google)}" style="${LINK_STYLE}">${display}</a>`,
+    `<span style="${ADDRESS_PLAIN_STYLE}">${display}</span>`,
+    `<a href="${escapeAttr(google)}" style="${LINK_STYLE}">Open in Google Maps</a>`,
+    ' <span style="color:#78716c;">·</span> ',
     `<a href="${escapeAttr(apple)}" style="${LINK_STYLE}">Apple Maps</a>`,
-  ].join(' <span style="color:#78716c;">·</span> ');
+  ].join("");
 }
 
 function paragraph(label: string, valueHtml: string): string {
