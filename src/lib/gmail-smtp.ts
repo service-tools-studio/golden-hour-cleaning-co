@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 import type Transporter from "nodemailer/lib/mailer";
-import { getContactInboxEmail } from "@/lib/contactInbox";
 
 export function getGmailCredentials() {
   const user = process.env.GMAIL_USER?.trim();
@@ -9,9 +8,7 @@ export function getGmailCredentials() {
     return null;
   }
 
-  const to = getContactInboxEmail();
-
-  return { user, pass, to };
+  return { user, pass, to: user };
 }
 
 export function createGmailTransporter(): Transporter {
