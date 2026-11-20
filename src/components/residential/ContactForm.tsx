@@ -142,13 +142,14 @@ export default function ContactForm() {
         className="absolute -left-[9999px] h-px w-px overflow-hidden"
         aria-hidden="true"
       >
-        <label htmlFor="contact-company-website">Company website</label>
+        <label htmlFor="contact-ghc-hp">Leave blank</label>
         <input
-          id="contact-company-website"
+          id="contact-ghc-hp"
           type="text"
           name={HONEYPOT_FIELD}
           tabIndex={-1}
-          autoComplete="off"
+          autoComplete="nope"
+          inputMode="none"
           value={form[HONEYPOT_FIELD]}
           onChange={(e) => update(HONEYPOT_FIELD, e.target.value)}
         />
