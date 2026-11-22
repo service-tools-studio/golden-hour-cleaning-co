@@ -38,6 +38,15 @@ describe("markets", () => {
     );
   });
 
+  it("uses distinct Calendly booking URLs per market", () => {
+    expect(MARKETS.portland.bookingCalendlyUrl).toContain(
+      "golden-hour-cleaning-company",
+    );
+    expect(MARKETS.phoenix.bookingCalendlyUrl).toBe(
+      "https://calendly.com/golden-hour-cleaning-co-phx/residential-cleaning",
+    );
+  });
+
   it("configures Phoenix shaded ZIP map", () => {
     expect(MARKETS.phoenix.serviceArea.map?.geoJsonUrl).toBe(
       "/geo/phoenix-service-zips.geojson",

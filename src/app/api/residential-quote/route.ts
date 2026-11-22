@@ -12,7 +12,10 @@ import {
   type CleaningLeadPayload,
 } from "@/lib/cleaningLead";
 import { buildCleaningLeadEmailHtml } from "@/lib/leadEmailHtml";
-import { buildBookingCalendlyUrl } from "@/helpers/bookingCalendlyUrl";
+import {
+  buildBookingCalendlyUrl,
+  resolveLeadMarketIdForCalendly,
+} from "@/helpers/bookingCalendlyUrl";
 import {
   createGmailTransporter,
   formatSmtpError,
@@ -82,6 +85,7 @@ export async function POST(request: Request) {
     notes: data.notes?.trim() ?? "",
     leadPath,
     attribution: data.attribution,
+    marketId: data.marketId,
   };
 
   const errors = validateCleaningLeadForm(normalized, mode);
@@ -92,10 +96,15 @@ export async function POST(request: Request) {
     );
   }
 
+  const leadMarketId = resolveLeadMarketIdForCalendly(
+    normalized.marketId,
+    normalized.attribution ?? null,
+  );
   const calendlyUrl = buildBookingCalendlyUrl({
     form: normalized,
     leadPath,
     attribution: normalized.attribution ?? null,
+    marketId: leadMarketId,
   });
 
   try {

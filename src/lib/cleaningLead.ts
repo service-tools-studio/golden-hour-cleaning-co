@@ -3,6 +3,8 @@
  * Used by CleaningLeadForm (client) and /api/residential-quote (server).
  */
 
+import type { MarketId } from "@/lib/markets";
+
 export const CLEANING_TYPES = [
   "Deep Cleaning",
   "Move-in/out Cleaning",
@@ -111,6 +113,8 @@ export type CleaningLeadPayload = CleaningLeadFormState & {
   leadPath: "Personalized Quote" | "Book Online";
   formLoadedAt?: number;
   attribution?: CleaningLeadAttribution;
+  /** Active market when the form was submitted — drives Phoenix vs Portland Calendly. */
+  marketId?: MarketId;
 };
 
 export type FieldErrors = Partial<Record<keyof CleaningLeadFormState, string>>;

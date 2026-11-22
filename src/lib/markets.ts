@@ -20,6 +20,11 @@ const PHOENIX_CONTACT: MarketContact = {
   smsE164: "+16024809998",
 };
 
+const PORTLAND_BOOKING_CALENDLY_URL = CONTACT.bookingUrl;
+
+const PHOENIX_BOOKING_CALENDLY_URL =
+  "https://calendly.com/golden-hour-cleaning-co-phx/residential-cleaning";
+
 export const MARKET_IDS = ["portland", "phoenix"] as const;
 export type MarketId = (typeof MARKET_IDS)[number];
 
@@ -102,6 +107,8 @@ export type MarketConfig = {
     };
   };
   contact: MarketContact;
+  /** Residential Calendly event — same custom questions (a1–a6) per market. */
+  bookingCalendlyUrl: string;
   ppcLandings: {
     deepCleaning: {
       path: string;
@@ -237,6 +244,7 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
       ...SHARED_MARQUEE_TAIL,
     ],
     contact: PORTLAND_CONTACT,
+    bookingCalendlyUrl: PORTLAND_BOOKING_CALENDLY_URL,
     servicesPreviewSupporting:
       "From recurring home care to move-out details and commercial spaces — professional cleaning for homes and businesses throughout Portland and the surrounding metro area.",
     reviews: {
@@ -331,6 +339,7 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
       ...SHARED_MARQUEE_TAIL,
     ],
     contact: PHOENIX_CONTACT,
+    bookingCalendlyUrl: PHOENIX_BOOKING_CALENDLY_URL,
     servicesPreviewSupporting:
       "From recurring home care to move-out details and commercial spaces — professional cleaning for homes and businesses throughout Phoenix and the surrounding metro area.",
     reviews: {
@@ -373,6 +382,10 @@ export const MARKETS: Record<MarketId, MarketConfig> = {
 
 export function getMarketById(id: MarketId): MarketConfig {
   return MARKETS[id];
+}
+
+export function bookingCalendlyUrlForMarket(marketId: MarketId): string {
+  return MARKETS[marketId].bookingCalendlyUrl;
 }
 
 export function getMarketIdFromPath(pathname: string): MarketId | null {

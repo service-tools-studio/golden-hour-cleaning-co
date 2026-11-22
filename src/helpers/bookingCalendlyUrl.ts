@@ -17,12 +17,17 @@
  * Safe for client and server (API email) use.
  */
 
-import { CONTACT } from "@/constants.js";
 import {
   fullNameFromLead,
   type CleaningLeadAttribution,
   type CleaningLeadFormState,
 } from "@/lib/cleaningLead";
+import {
+  bookingCalendlyUrlForMarket,
+  getMarketIdFromPath,
+  type MarketId,
+} from "@/lib/markets";
+import { isMarketId } from "@/lib/marketPreference";
 
 /** Standard Calendly invitee query params. */
 export const CALENDLY_STANDARD_FIELD_MAP = {
@@ -33,9 +38,8 @@ export const CALENDLY_STANDARD_FIELD_MAP = {
 } as const;
 
 /**
- * Custom invitee questions on the residential Calendly event
- * (https://calendly.com/golden-hour-cleaning-company/residential-cleaning).
- * Positions are 0-based in Calendly → a1, a2, …
+ * Custom invitee questions on each market’s residential Calendly event
+ * (Portland + Phoenix use the same a1–a6 order). Positions are 0-based → a1, a2, …
  */
 export const CALENDLY_CUSTOM_FIELD_MAP = {
   phone: "a1",
@@ -53,7 +57,29 @@ export type BookingCalendlyInput = {
   leadPath: "Personalized Quote" | "Book Online";
   baseUrl?: string;
   attribution?: CleaningLeadAttribution | null;
+  marketId?: MarketId;
 };
+
+/** Resolve market for Calendly base URL (explicit id → landing path → Portland). */
+export function resolveLeadMarketIdForCalendly(
+  marketId: unknown,
+  attribution?: CleaningLeadAttribution | null,
+): MarketId {
+  const raw =
+    typeof marketId === "string" ? marketId : undefined;
+  if (isMarketId(raw)) return raw;
+  const landing = attribution?.landing_path?.trim() ?? "";
+  if (landing) {
+    const fromPath = getMarketIdFromPath(landing.split("?")[0] ?? landing);
+    if (fromPath === "phoenix") return "phoenix";
+  }
+  if (
+    /phoenix-deep-cleaning|phoenix-move-out-cleaning/i.test(landing)
+  ) {
+    return "phoenix";
+  }
+  return "portland";
+}
 
 function compactCondition(condition: string): string {
   const head = condition.split("—")[0]?.trim();
@@ -72,15 +98,19 @@ function compactUtmValue(value: string): string {
 export function buildBookingCalendlyUrl({
   form,
   leadPath,
-  baseUrl = CONTACT.bookingUrl,
+  baseUrl,
   attribution = null,
+  marketId,
 }: BookingCalendlyInput): string {
+  const resolvedMarket = resolveLeadMarketIdForCalendly(marketId, attribution);
+  const calendlyBase =
+    baseUrl ?? bookingCalendlyUrlForMarket(resolvedMarket);
   let url: URL;
   try {
-    url = new URL(baseUrl);
+    url = new URL(calendlyBase);
   } catch {
-    console.error("Invalid Calendly baseUrl:", baseUrl);
-    return baseUrl;
+    console.error("Invalid Calendly baseUrl:", calendlyBase);
+    return calendlyBase;
   }
 
   const params = url.searchParams;

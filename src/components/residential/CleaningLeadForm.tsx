@@ -199,6 +199,7 @@ export default function CleaningLeadForm({
         ...snapshot,
         leadPath: isQuote ? "Personalized Quote" : "Book Online",
         formLoadedAt: formLoadedAtRef.current,
+        marketId: activeMarket.id,
         attribution: {
           utm_source: attribution.utm_source,
           utm_medium: attribution.utm_medium,
@@ -300,6 +301,7 @@ export default function CleaningLeadForm({
         form: snapshot,
         leadPath: "Book Online",
         attribution,
+        marketId: activeMarket.id,
       });
 
       trackBookingWizardCompleted({
@@ -371,6 +373,7 @@ export default function CleaningLeadForm({
       form: submittedSnapshot,
       leadPath: isQuote ? "Personalized Quote" : "Book Online",
       attribution,
+      marketId: activeMarket.id,
     });
     trackCalendlyClick({
       source: ppcSourcePrefix
