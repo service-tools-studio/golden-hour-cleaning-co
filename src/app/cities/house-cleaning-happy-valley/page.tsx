@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getGoogleReviews } from "@/lib/googleReviewsServer";
 import HouseCleaningHappyValleyClient from "./HouseCleaningHappyValleyClient";
 
 export const metadata: Metadata = {
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
     "Trusted house cleaning in Happy Valley, OR — recurring, deep, move-out, and post-construction cleaning with free quotes and dependable, detail-oriented service.",
 };
 
-export default function HouseCleaningHappyValleyPage() {
-  return <HouseCleaningHappyValleyClient />;
+export default async function HouseCleaningHappyValleyPage() {
+  const googleReviews = await getGoogleReviews();
+  return <HouseCleaningHappyValleyClient googleReviews={googleReviews} />;
 }

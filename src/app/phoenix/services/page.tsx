@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ServicesHubClient from "@/components/residential/ServicesHubClient";
+import { getGoogleReviews } from "@/lib/googleReviewsServer";
 import { MARKETS } from "@/lib/markets";
 
 const VALID_LEVELS = new Set(["standard", "deep", "move_out"] as const);
@@ -28,10 +29,15 @@ export default async function PhoenixServicesPage({
 }) {
   const sp = "then" in searchParams ? await searchParams : searchParams;
   const initialLevel = coerceLevel(sp?.level);
+  const googleReviews = await getGoogleReviews();
 
   return (
     <Suspense fallback={null}>
-      <ServicesHubClient market={MARKETS.phoenix} initialLevel={initialLevel} />
+      <ServicesHubClient
+        market={MARKETS.phoenix}
+        initialLevel={initialLevel}
+        googleReviews={googleReviews}
+      />
     </Suspense>
   );
 }

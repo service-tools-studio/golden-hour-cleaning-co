@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PortlandDeepCleaningClient from "@/components/ppc/PortlandDeepCleaningClient";
 import { getGooglePlaceSummary } from "@/lib/googlePlaceSummaryServer";
+import { getGoogleReviews } from "@/lib/googleReviewsServer";
 import { MARKETS } from "@/lib/markets";
 
 const ppc = MARKETS.portland.ppcLandings.deepCleaning;
@@ -12,12 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default async function PortlandDeepCleaningPage() {
-  const { rating, reviewCount } = await getGooglePlaceSummary();
+  const [{ rating, reviewCount }, googleReviews] = await Promise.all([
+    getGooglePlaceSummary(),
+    getGoogleReviews(),
+  ]);
 
   return (
     <PortlandDeepCleaningClient
       initialRating={rating}
       initialReviewCount={reviewCount}
+      googleReviews={googleReviews}
     />
   );
 }

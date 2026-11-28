@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import MarketingLandingClient from "@/components/MarketingLandingClient";
+import { getGoogleReviews } from "@/lib/googleReviewsServer";
 import { getMarketById, type MarketId } from "@/lib/markets";
 
 type Props = {
@@ -17,12 +18,14 @@ export default async function MarketingLandingPage({
     headerList.get("x-geo-region") ??
     headerList.get("x-vercel-ip-country-region");
   const market = getMarketById(marketId);
+  const googleReviews = await getGoogleReviews();
 
   return (
     <MarketingLandingClient
       market={market}
       pagePath={pagePath ?? market.path}
       visitorRegion={visitorRegion}
+      googleReviews={googleReviews}
     />
   );
 }

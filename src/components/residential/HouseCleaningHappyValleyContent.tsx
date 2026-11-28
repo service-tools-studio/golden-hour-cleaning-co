@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
@@ -105,7 +106,11 @@ const FAQS = [
   siteFaq("generalDuration", "How long does a cleaning take?"),
 ];
 
-export default function HouseCleaningHappyValleyContent() {
+export default function HouseCleaningHappyValleyContent({
+  googleReviews,
+}: {
+  googleReviews: GoogleReviewsCache;
+}) {
   return (
     <>
       <section
@@ -217,7 +222,7 @@ export default function HouseCleaningHappyValleyContent() {
         </div>
       </section>
 
-      <GoogleReviews />
+      <GoogleReviews googleReviews={googleReviews} />
 
       <CityPagePricingSection city="Happy Valley" />
 

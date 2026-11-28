@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getGoogleReviews } from "@/lib/googleReviewsServer";
 import HouseCleaningHillsboroClient from "./HouseCleaningHillsboroClient";
 
 export const metadata: Metadata = {
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/cities/house-cleaning-hillsboro" },
 };
 
-export default function HouseCleaningHillsboroPage() {
-  return <HouseCleaningHillsboroClient />;
+export default async function HouseCleaningHillsboroPage() {
+  const googleReviews = await getGoogleReviews();
+  return <HouseCleaningHillsboroClient googleReviews={googleReviews} />;
 }

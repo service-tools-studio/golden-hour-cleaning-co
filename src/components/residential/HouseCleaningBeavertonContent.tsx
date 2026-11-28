@@ -4,6 +4,7 @@ import MarketAwareResidentialQuoteLink from "@/components/markets/MarketAwareRes
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
@@ -67,7 +68,11 @@ const FAQS = [
   cityApartmentsFaq("the Beaverton area"),
 ];
 
-export default function HouseCleaningBeavertonContent() {
+export default function HouseCleaningBeavertonContent({
+  googleReviews,
+}: {
+  googleReviews: GoogleReviewsCache;
+}) {
   return (
     <>
       <section
@@ -159,7 +164,7 @@ export default function HouseCleaningBeavertonContent() {
 
       </section>
 
-      <GoogleReviews />
+      <GoogleReviews googleReviews={googleReviews} />
 
       <CityPagePricingSection city="Beaverton" />
 

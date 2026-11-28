@@ -4,6 +4,7 @@ import Image from "next/image";
 import { BadgeCheck, CalendarCheck2, ShieldCheck, Stars } from "lucide-react";
 import TrackedInstantQuoteLink from "@/components/analytics/TrackedInstantQuoteLink";
 import GoogleReviews from "@/components/residential/GoogleReviews";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 import CityPagePricingSection from "./CityPagePricingSection";
 import {
   BTN_PRIMARY,
@@ -65,7 +66,11 @@ const FAQS = [
   cityApartmentsFaq("the West Linn area"),
 ];
 
-export default function HouseCleaningWestLinnContent() {
+export default function HouseCleaningWestLinnContent({
+  googleReviews,
+}: {
+  googleReviews: GoogleReviewsCache;
+}) {
   return (
     <>
       <section
@@ -156,7 +161,7 @@ export default function HouseCleaningWestLinnContent() {
         </div>
       </section>
 
-      <GoogleReviews />
+      <GoogleReviews googleReviews={googleReviews} />
 
       <CityPagePricingSection city="West Linn" />
 

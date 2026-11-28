@@ -17,30 +17,7 @@ const REVIEWS_SIDE_IMAGE = {
   alt: 'A Golden Hour cleaner wiping a sunlit living room window',
 };
 
-// Set in .env.local: NEXT_PUBLIC_GOOGLE_PLACE_ID
-// To get it: open your place on Google Maps → Share → copy link; Place ID is in the URL (ChIJ...)
-// Or use: https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
-// Requires "Places API (New)" enabled in Google Cloud for per-review links.
-
-// Places API (New) — only this component should request `reviews` (Enterprise+ billing SKU).
-const PLACES_API_FIELDS = "rating,userRatingCount,reviews";
-
-function normalizeReview(r) {
-  const textObj = r.text;
-  const author = r.authorAttribution;
-  return {
-    author_name: author?.displayName ?? '',
-    text: typeof textObj === 'string' ? textObj : textObj?.text ?? '',
-    rating: r.rating ?? null,
-    relative_time_description: r.relativePublishTimeDescription ?? null,
-    profile_photo_url: author?.photoUri ?? null,
-    reviewUrl: r.googleMapsUri || null,
-  };
-}
-
-function isFiveStarReview(review) {
-  return Number(review?.rating) === 5;
-}
+// Review bodies are loaded via `getGoogleReviews()` on the server (72h ISR) — not in the browser.
 
 function ReviewsSideImage() {
   return (
@@ -175,9 +152,17 @@ function ReviewsFallback({
 }
 
 /**
- * @param {{ variant?: "carousel" | "page", market?: import('@/lib/markets').MarketConfig }} props
+ * @param {{
+ *   variant?: "carousel" | "page",
+ *   market?: import('@/lib/markets').MarketConfig,
+ *   googleReviews: import('@/lib/googleReviewsServer').GoogleReviewsCache,
+ * }} props
  */
-export default function GoogleReviews({ variant = 'carousel', market = MARKETS.portland }) {
+export default function GoogleReviews({
+  variant = 'carousel',
+  market = MARKETS.portland,
+  googleReviews,
+}) {
   const isPage = variant === 'page';
   const TitleTag = isPage ? 'h1' : 'h2';
   const sectionTitle = market.reviews.carouselTitle;
@@ -185,11 +170,10 @@ export default function GoogleReviews({ variant = 'carousel', market = MARKETS.p
   const portfolioAttributionNote = market.reviews.portfolioAttributionNote;
   const carouselSubtitle = market.reviews.carouselSubtitle;
 
-  const [reviews, setReviews] = useState([]);
-  const [rating, setRating] = useState(null);
-  const [totalRatings, setTotalRatings] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const reviews = googleReviews.reviews;
+  const rating = googleReviews.rating;
+  const totalRatings = googleReviews.totalRatings;
+  const error = googleReviews.error;
   const [failedImageIndices, setFailedImageIndices] = useState(() => new Set());
   const scrollRef = useRef(null);
   const autoScrollRef = useRef(null);
@@ -238,44 +222,7 @@ export default function GoogleReviews({ variant = 'carousel', market = MARKETS.p
     });
   };
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
   const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID || '';
-
-  useEffect(() => {
-    if (!placeId) {
-      setLoading(false);
-      return;
-    }
-    if (!apiKey) {
-      setError('Could not load reviews');
-      setLoading(false);
-      return;
-    }
-
-    const id = placeId.startsWith("places/") ? placeId.slice(7) : placeId;
-
-    fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(id)}`, {
-      headers: {
-        'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask': PLACES_API_FIELDS,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Could not load reviews');
-        return res.json();
-      })
-      .then((place) => {
-        setRating(place.rating ?? null);
-        setTotalRatings(place.userRatingCount ?? null);
-        setReviews(
-          (place.reviews || [])
-            .map(normalizeReview)
-            .filter(isFiveStarReview)
-        );
-      })
-      .catch(() => setError('Could not load reviews'))
-      .finally(() => setLoading(false));
-  }, [apiKey, placeId]);
 
   if (!placeId) {
     return (
@@ -285,32 +232,6 @@ export default function GoogleReviews({ variant = 'carousel', market = MARKETS.p
         sectionTitle={sectionTitle}
         portfolioAttributionNote={portfolioAttributionNote}
       />
-    );
-  }
-
-  if (loading) {
-    const loadingBody = (
-      <>
-        <TitleTag className={SECTION_HEADING}>{sectionTitle}</TitleTag>
-        {isPage ? (
-          <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-stone-700 sm:text-base">
-            {PAGE_INTRO}
-          </p>
-        ) : null}
-        <div className="mt-10 flex min-h-[320px] items-center justify-center py-12">
-          <p className="text-stone-500">Loading reviews…</p>
-        </div>
-      </>
-    );
-
-    if (isPage) {
-      return <ReviewsPageShell>{loadingBody}</ReviewsPageShell>;
-    }
-
-    return (
-      <section id="reviews" className="bg-amber-50/50">
-        <div className={`mx-auto max-w-7xl px-6 ${SECTION_PAD}`}>{loadingBody}</div>
-      </section>
     );
   }
 

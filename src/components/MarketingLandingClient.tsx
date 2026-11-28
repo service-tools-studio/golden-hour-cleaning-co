@@ -14,6 +14,7 @@ import Header from "@/components/residential/Header";
 import Hero from "@/components/residential/Hero";
 import ResidentialPricingGuide from "@/components/residential/ResidentialPricingGuide";
 import ServiceAreaMap from "@/components/residential/ServiceAreaMap";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 import type { MarketConfig } from "@/lib/markets";
 
 const DETAIL_PHOTOS = [
@@ -39,12 +40,14 @@ type Props = {
   pagePath: LandingPagePath;
   /** Vercel / middleware geo hint — used for optional Arizona suggestion on `/` */
   visitorRegion?: string | null;
+  googleReviews: GoogleReviewsCache;
 };
 
 export default function MarketingLandingClient({
   market,
   pagePath,
   visitorRegion,
+  googleReviews,
 }: Props) {
   return (
     <div id="page-top" className="relative min-h-screen bg-amber-50 text-stone-900">
@@ -61,6 +64,7 @@ export default function MarketingLandingClient({
         <GoogleReviews
           variant="carousel"
           market={market}
+          googleReviews={googleReviews}
         />
         <ClientExperienceSection />
         <ServiceAreaMap market={market} />

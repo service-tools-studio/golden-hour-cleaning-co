@@ -9,6 +9,7 @@ import PpcLandingFooter from "@/components/ppc/PpcLandingFooter";
 import GoogleReviews from "@/components/residential/GoogleReviews";
 import { ServicePricingCards } from "@/components/residential/ResidentialPricingGuide";
 import ServicesPageHeader from "@/components/residential/ServicesPageHeader";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 import type { MarketConfig } from "@/lib/markets";
 import { MARKETS } from "@/lib/markets";
 import { usePersistMarketFromPpc } from "@/helpers/usePersistMarketFromPpc";
@@ -51,10 +52,12 @@ export default function PpcDeepCleaningClient({
   market = MARKETS.portland,
   initialRating = null,
   initialReviewCount = null,
+  googleReviews,
 }: {
   market?: MarketConfig;
   initialRating?: number | null;
   initialReviewCount?: number | null;
+  googleReviews: GoogleReviewsCache;
 }) {
   const copy = ppcDeepCleanCopy(market);
   const contact = market.contact;
@@ -170,7 +173,7 @@ export default function PpcDeepCleaningClient({
           </div>
         </section>
 
-        <GoogleReviews market={market} />
+        <GoogleReviews market={market} googleReviews={googleReviews} />
 
         <section
           className="border-t border-amber-200/60 bg-white py-10"

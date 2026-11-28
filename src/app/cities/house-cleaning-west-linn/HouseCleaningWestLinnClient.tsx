@@ -3,8 +3,13 @@
 import Footer from "@/components/residential/Footer";
 import Header from "@/components/residential/Header";
 import HouseCleaningWestLinnContent from "@/components/residential/HouseCleaningWestLinnContent";
+import type { GoogleReviewsCache } from "@/lib/googleReviewsServer";
 
-export default function HouseCleaningWestLinnClient() {
+export default function HouseCleaningWestLinnClient({
+  googleReviews,
+}: {
+  googleReviews: GoogleReviewsCache;
+}) {
   return (
     <div className="min-h-screen bg-amber-50 text-stone-900 relative">
       <Header />
@@ -14,7 +19,7 @@ export default function HouseCleaningWestLinnClient() {
         className="overflow-x-clip"
         style={{ scrollPaddingTop: "var(--header-height, 120px)" }}
       >
-        <HouseCleaningWestLinnContent />
+        <HouseCleaningWestLinnContent googleReviews={googleReviews} />
 
         <Footer />
       </main>

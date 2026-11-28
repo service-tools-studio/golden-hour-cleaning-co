@@ -1,3 +1,5 @@
+import { GOOGLE_PLACES_REVALIDATE_SECONDS } from "@/lib/googlePlacesRevalidate";
+
 const PLACES_API_FIELDS = "rating,userRatingCount";
 
 export type GooglePlaceSummary = {
@@ -19,7 +21,7 @@ export async function getGooglePlaceSummary(): Promise<GooglePlaceSummary> {
         "X-Goog-Api-Key": apiKey,
         "X-Goog-FieldMask": PLACES_API_FIELDS,
       },
-      next: { revalidate: 3600 },
+      next: { revalidate: GOOGLE_PLACES_REVALIDATE_SECONDS },
     });
     if (!res.ok) return { rating: null, reviewCount: null };
     const place = await res.json();
